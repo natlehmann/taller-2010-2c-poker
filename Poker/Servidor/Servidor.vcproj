@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="&quot;..\Comun&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				WarningLevel="3"
@@ -57,11 +58,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(NoInherit)"
+				IgnoreImportLibrary="false"
+				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
+				SubSystem="1"
 				TargetMachine="1"
+				FixedBaseAddress="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
