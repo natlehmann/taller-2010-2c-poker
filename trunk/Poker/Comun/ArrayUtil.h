@@ -14,7 +14,7 @@ using namespace std;
 class ArrayUtil
 {
 public:
-	static set<char*>* charArrayToSet(char* charArray[]);
+	static set<string*>* charArrayToSet(char* charArray[]);
 	static char* stringToCharArray(string texto);
 };
 

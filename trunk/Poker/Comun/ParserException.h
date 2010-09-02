@@ -10,12 +10,14 @@ using namespace std;
 class ParserException : public exception
 {
 private:
-	char* mensaje;
+	string mensaje;
 
 public:
-	ParserException(char* mensaje);   
+	ParserException(string mensaje);   
 	virtual ~ParserException(void);
-	const char* getMensaje() const throw();
+	const string getMensaje() const throw();
+	virtual const char* what() const throw();
+
 };
 
 #endif

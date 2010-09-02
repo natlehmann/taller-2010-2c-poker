@@ -5,10 +5,10 @@
 #include "DomTreeFactory.h"
 
 
-Elemento::Elemento(char* nombre)
+Elemento::Elemento(string nombre)
 {
 	this->nombre = nombre;
-	this->atributos = new map<char*,char*>();
+	this->atributos = new map<string,string>();
 	this->hijos = new list<Elemento*>();
 	this->texto = "";
 }
@@ -34,46 +34,43 @@ Elemento::~Elemento(void)
 	delete(this->hijos);
 }
 
-void Elemento::setAtributosPermitidos(set<char*>* atributosPermitidos) {
+void Elemento::setAtributosPermitidos(set<string*>* atributosPermitidos) {
 	this->atributosPermitidos = atributosPermitidos;
 }
 
-void Elemento::setHijosPermitidos(set<char*>* hijosPermitidos) {
+void Elemento::setHijosPermitidos(set<string*>* hijosPermitidos) {
 	this->hijosPermitidos = hijosPermitidos;
 }
 
-char* Elemento::getNombre(){
+string Elemento::getNombre(){
 	return this->nombre;
 }
 
-map<char*,char*>* Elemento::getAtributos(){
+map<string,string>* Elemento::getAtributos(){
 	return this->atributos;
 }
 
-void Elemento::agregarAtributo(char* clave, char* valor){	
-	
-	set<char*>::iterator it = atributosPermitidos->find(clave);
+void Elemento::agregarAtributo(string clave, string valor){	
 
 	// si la clave existe en el conjunto de atributos permitidos
-	if (it != this->atributosPermitidos->end()) {
+	if (esAtributoPermitido(clave)) {
 
-		map<char*,char*>::iterator itMapa = this->atributos->find(clave);
+		map<string,string>::iterator itMapa = this->atributos->find(clave);
 
 		// si ya existia la clave, borramos su valor anterior
 		if (itMapa != this->atributos->end()) {
 			this->atributos->erase(itMapa);
 		}
-		this->atributos->insert(pair<char*,char*>(clave, valor));
+		this->atributos->insert(pair<string,string>(clave, valor));
 	
 	} else {
-		char* partes [] = {"El atributo ", clave, " no esta permitido en el elemento ", this->nombre, "\0"};
-		char* msg = MensajesUtil::concatMensaje(partes);
+		string msg = "El atributo " + clave + " no esta permitido en el elemento " + this->nombre;
 		throw ParserException(msg);
 	}
 }
 
-char* Elemento::getAtributo(char* clave) {
-	map<char*,char*>::iterator it = this->atributos->find(clave);
+string Elemento::getAtributo(string clave) {
+	map<string,string>::iterator it = this->atributos->find(clave);
 
 	if (it != this->atributos->end()) {
 		return it->second;
@@ -83,11 +80,11 @@ char* Elemento::getAtributo(char* clave) {
 	}
 }
 
-void Elemento::setTexto(char* texto){
+void Elemento::setTexto(string texto){
 	this->texto = texto;
 }
 
-char* Elemento::getTexto(){
+string Elemento::getTexto(){
 	return this->texto;
 }
 
@@ -103,12 +100,10 @@ bool Elemento::isRaiz() {
 	return (this->padre != NULL);
 }
 
-Elemento* Elemento::agregarHijo(char* nombreHijo) {
-
-	set<char*>::iterator it = hijosPermitidos->find(nombreHijo);
+Elemento* Elemento::agregarHijo(string nombreHijo) {
 
 	// si el hijo esta permitido
-	if (it != this->hijosPermitidos->end()) {
+	if (esHijoPermitido(nombreHijo)) {
 
 		Elemento* hijo = DomTreeFactory::crearElemento(nombreHijo);
 		hijo->setPadre(this);
@@ -117,9 +112,8 @@ Elemento* Elemento::agregarHijo(char* nombreHijo) {
 		return hijo;
 	
 	} else {
-		char* partes [] = {"El elemento ", nombreHijo, 
-			" no puede anidarse dentro del elemento ", this->nombre, "\0"};
-		char* msg = MensajesUtil::concatMensaje(partes);
+		string msg = "El elemento " + nombreHijo + 
+			" no puede anidarse dentro del elemento " + this->nombre;
 		throw ParserException(msg);
 	}
 }
@@ -128,3 +122,20 @@ list<Elemento*>* Elemento::getHijos() {
 	return this->hijos;
 }
 
+bool Elemento::esHijoPermitido(string nombreHijo) {
+	return esPermitido(nombreHijo, this->hijosPermitidos);
+}
+
+bool Elemento::esAtributoPermitido(string atributo) {
+	return esPermitido(atributo, this->atributosPermitidos);
+}
+
+bool Elemento::esPermitido(string nombre, set<string*>* conjunto) {
+	bool encontrado = false;
+	for (set<string*>::iterator it = conjunto->begin(); it != conjunto->end(); it++) {
+		if (MensajesUtil::sonIguales(nombre, *(*it))) {
+			encontrado = true;
+		}
+	}
+	return encontrado;
+}

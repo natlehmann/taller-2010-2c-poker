@@ -1,14 +1,15 @@
 #include "MensajesUtil.h"
 
 
-char* MensajesUtil::concatMensaje(char* partes[]){
+string MensajesUtil::concatMensaje(char* partes[]){
 
 	int longitud = 0;
 	bool terminado = false;
 	int i = 0;
 
 	while(!terminado) {
-		if (partes[i] == "\0") {
+
+		if (strcmp(partes[i], "\0") == 0) {
 			terminado = true;
 		} else {
 			longitud += strlen(partes[i]);
@@ -23,7 +24,7 @@ char* MensajesUtil::concatMensaje(char* partes[]){
 	i = 1;
 
 	while(!terminado) {
-		if (partes[i] == "\0") {
+		if (strcmp(partes[i], "\0") == 0) {
 			terminado = true;
 		} 
 		strcat(resultado, partes[i]);
@@ -31,6 +32,14 @@ char* MensajesUtil::concatMensaje(char* partes[]){
 	}
 
 	return resultado;
+}
+
+bool MensajesUtil::sonIguales(string primero, string segundo) {
+	bool iguales = false;
+	if (primero.size() == segundo.size()) {
+		iguales = equal(primero.begin(), primero.end(), segundo.begin());
+	}
+	return iguales;
 }
 
 
