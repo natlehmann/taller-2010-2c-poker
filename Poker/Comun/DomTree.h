@@ -24,7 +24,7 @@ public:
 	/**
 	* Agrega un elemento al nivel de la raiz del arbol
 	*/
-	Elemento* agregarElemento(char* nombre);
+	Elemento* agregarElemento(string nombre);
 
 	Elemento* getRaiz();
 };

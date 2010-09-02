@@ -13,7 +13,7 @@ DomTree::~DomTree(void)
 	delete(this->raiz);
 }
 
-Elemento* DomTree::agregarElemento(char* nombre){
+Elemento* DomTree::agregarElemento(string nombre){
 	Elemento* hijo = this->raiz->agregarHijo(nombre);
 	return hijo;
 }

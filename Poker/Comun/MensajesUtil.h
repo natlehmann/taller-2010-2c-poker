@@ -19,7 +19,8 @@ using namespace std;
 class MensajesUtil{
 
 public:
-	static char* concatMensaje(char* partes[]);
+	static string concatMensaje(char* partes[]);
+	static bool sonIguales(string primero, string segundo);
 
 	template < class T >
 	static char* toString(const T &arg);

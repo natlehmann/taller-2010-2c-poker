@@ -43,7 +43,7 @@ string XmlParser::abrirNodo(Elemento* elemento, string indent) {
 	string resultado = indent + XML_OPEN + string(elemento->getNombre());
 
 	// procesar atributos
-	for(map<char*,char*>::iterator itAtt = elemento->getAtributos()->begin();
+	for(map<string,string>::iterator itAtt = elemento->getAtributos()->begin();
 		itAtt != elemento->getAtributos()->end(); itAtt++) {
 			resultado += " " + string(itAtt->first) + "=\"" + string(itAtt->second) + "\"";
 	}

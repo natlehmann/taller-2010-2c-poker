@@ -14,84 +14,82 @@ DomTreeFactory::~DomTreeFactory(void)
 {
 }
 
-Elemento* DomTreeFactory::crearElemento(char* nombre) {
+Elemento* DomTreeFactory::crearElemento(string nombre) {
 
 	Elemento* elemento;
-	char* nombreMin = _strlwr(nombre);
 
 	//TODO: Se podrìa reemplazar por configuraciòn de un archivo
-	if (nombreMin == "raiz") {
+	if (MensajesUtil::sonIguales(nombre, string("raiz"))) {
 		char* hijos[] = {"pedido","respuesta","\0"};
 		char* atributos[] = {"\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (nombreMin == "pedido") {
+	if (MensajesUtil::sonIguales(nombre, string("pedido"))) {
 		char* hijos[] = {"operacion","parametros","\0"};
 		char* atributos[] = {"\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (nombreMin == "operacion") {
+	if (MensajesUtil::sonIguales(nombre, string("operacion"))) {
 		char* hijos[] = {"\0"};
 		char* atributos[] = {"id","\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (nombreMin == "parametros") {
+	if (MensajesUtil::sonIguales(nombre, string("parametros"))) {
 		char* hijos[] = {"parametro", "\0"};
 		char* atributos[] = {"\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (nombreMin == "parametro") {
+	if (MensajesUtil::sonIguales(nombre, string("parametro"))) {
 		char* hijos[] = {"\0"};
 		char* atributos[] = {"nombre", "\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (nombreMin == "respuesta") {
+	if (MensajesUtil::sonIguales(nombre, string("respuesta"))) {
 		char* hijos[] = {"operacion", "resultados", "errores", "\0"};
 		char* atributos[] = {"\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (nombreMin == "resultados") {
+	if (MensajesUtil::sonIguales(nombre, string("resultados"))) {
 		char* hijos[] = {"resultado", "\0"};
 		char* atributos[] = {"\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (nombreMin == "resultado") {
+	if (MensajesUtil::sonIguales(nombre, string("resultado"))) {
 		char* hijos[] = {"\0"};
 		char* atributos[] = {"nombre", "\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (nombreMin == "errores") {
+	if (MensajesUtil::sonIguales(nombre, string("errores"))) {
 		char* hijos[] = {"error", "\0"};
 		char* atributos[] = {"\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (nombreMin == "error") {
+	if (MensajesUtil::sonIguales(nombre, string("error"))) {
 		char* hijos[] = {"\0"};
 		char* atributos[] = {"tipo", "\0"};
-		elemento = configurarNodo(nombreMin, hijos, atributos);
+		elemento = configurarNodo(nombre, hijos, atributos);
 	}
 
-	if (elemento!= NULL) {		
+	if (elemento != NULL) {		
 		return elemento;
 
 	} else {
-		char* partes [] = {"El elemento ", nombre, " no esta permitido.", "\0"};
-		char* msg = MensajesUtil::concatMensaje(partes);
+		string msg = "El elemento " + nombre + " no esta permitido.";
 		throw ParserException(msg);
 	}
 	
 }
 
-Elemento* DomTreeFactory::configurarNodo(char* nombre, char* hijos[], char* atributos[]){
+Elemento* DomTreeFactory::configurarNodo(string nombre, char* hijos[], char* atributos[]){
 
 	Elemento* elemento = new Elemento(nombre);
 	elemento->setHijosPermitidos(ArrayUtil::charArrayToSet(hijos));

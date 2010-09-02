@@ -1,15 +1,16 @@
 
 #include "ArrayUtil.h"
 
-set<char*>* ArrayUtil::charArrayToSet(char* charArray[]){
-	
-	set<char*>* conjunto = new set<char*>();
+set<string*>* ArrayUtil::charArrayToSet(char* charArray[]) {
+
+	set<string*>* conjunto = new set<string*>();
 	bool terminado = false;
 	int i = 0;
 
 	while (!terminado) {
-		if (charArray[i] != "\0"){
-			conjunto->insert(charArray[i]);
+		if (strcmp(charArray[i], "\0") != 0){
+			string* elem = new string(charArray[i]);
+			conjunto->insert(elem);
 			i++;
 
 		} else {

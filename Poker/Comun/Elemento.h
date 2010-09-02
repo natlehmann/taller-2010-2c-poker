@@ -16,38 +16,42 @@ using namespace std;
 class Elemento
 {
 private:
-	char* nombre;
-	char* texto;
-	map<char*,char*>* atributos;
-	set<char*>* atributosPermitidos;
-	set<char*>* hijosPermitidos;
+	string nombre;
+	string texto;
+	map<string,string>* atributos;
+	set<string*>* atributosPermitidos;
+	set<string*>* hijosPermitidos;
 
 	list<Elemento*>* hijos;
 	Elemento* padre;
 
 	void setPadre(Elemento* padre);
+	bool esPermitido(string nombre, set<string*>* conjunto);
 
 public:
-	Elemento(char* nombre);
+	Elemento(string nombre);
 	virtual ~Elemento(void);
 
-	void setHijosPermitidos(set<char*>* hijosPermitidos);
-	void setAtributosPermitidos(set<char*>* atributosPermitidos);
+	void setHijosPermitidos(set<string*>* hijosPermitidos);
+	void setAtributosPermitidos(set<string*>* atributosPermitidos);
 
-	void agregarAtributo(char* clave, char* valor);
-	char* getAtributo(char* clave);
-	map<char*,char*>* getAtributos();
+	void agregarAtributo(string clave, string valor);
+	string getAtributo(string clave);
+	map<string,string>* getAtributos();
 	
-	void setTexto(char* texto);
-	char* getTexto();
+	void setTexto(string texto);
+	string getTexto();
 
-	char* getNombre();
+	string getNombre();
 
 	Elemento* getPadre();
 	bool isRaiz();
 
-	Elemento* agregarHijo(char* nombreHijo);
+	Elemento* agregarHijo(string nombreHijo);
 	list<Elemento*>* getHijos();
+
+	bool esHijoPermitido(string nombreHijo);
+	bool esAtributoPermitido(string atributo);
 
 };
 

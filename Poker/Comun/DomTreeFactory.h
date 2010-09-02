@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
+//#include <algorithm>
+//#include <cctype>
 #include <set>
 #include <map>
 
@@ -17,13 +19,13 @@ using namespace std;
 class DomTreeFactory
 {
 private:
-	static Elemento* configurarNodo(char* nombre, char* hijos[], char* atributos[]);
+	static Elemento* configurarNodo(string nombre, char* hijos[], char* atributos[]);
 
 public:
 	DomTreeFactory(void);
 	virtual ~DomTreeFactory(void);
 
-	static Elemento* crearElemento(char* nombre);
+	static Elemento* crearElemento(string nombre);
 };
 
 #endif
