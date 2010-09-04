@@ -178,12 +178,44 @@
 				RelativePath=".\client_mainCliente.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Comun\common_Cliente.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\common_Mensajes.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\common_Socket.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Archivos de encabezado"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\Comun\common_Cliente.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\common_General.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\common_Mensajes.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\common_Parametros.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\common_Socket.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Archivos de recursos"
