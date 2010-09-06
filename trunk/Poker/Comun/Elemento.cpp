@@ -18,12 +18,20 @@ Elemento::~Elemento(void)
 	this->atributos->clear();
 	delete(this->atributos);
 
-	if (this->atributosPermitidos != NULL) {
+	if (this->atributosPermitidos != NULL) {;
+		for (set<string*>::iterator it = this->atributosPermitidos->begin(); 
+			it != this->atributosPermitidos->end(); it++) {
+				delete(*it);
+		}
 		this->atributosPermitidos->clear();
 		delete(this->atributosPermitidos);
 	}
 
 	if (this->hijosPermitidos != NULL) {
+		for (set<string*>::iterator it = this->hijosPermitidos->begin(); 
+			it != this->hijosPermitidos->end(); it++) {
+				delete(*it);
+		}
 		this->hijosPermitidos->clear();
 		delete(this->hijosPermitidos);
 	}
