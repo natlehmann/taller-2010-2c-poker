@@ -21,7 +21,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
-			ManagedExtensions="1"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -42,7 +42,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG"
-				RuntimeLibrary="3"
+				GeneratePreprocessedFile="0"
+				RuntimeLibrary="1"
+				EnableFunctionLevelLinking="true"
+				ObjectFile="$(IntDir)\"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -60,6 +63,7 @@
 				IgnoreImportLibrary="false"
 				AdditionalDependencies="ws2_32.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				SubSystem="1"
@@ -222,6 +226,30 @@
 				RelativePath=".\XmlParser.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\XmlParserEstado.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoAbriendoTag.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoCerrandoInline.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoDentroTag.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoInicial.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoProcesandoAtt.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Archivos de encabezado"
@@ -277,7 +305,35 @@
 				>
 			</File>
 			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
 				RelativePath=".\XmlParser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstado.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoAbriendoTag.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoCerrandoInline.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoDentroTag.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoInicial.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoProcesandoAtt.h"
 				>
 			</File>
 		</Filter>
@@ -286,6 +342,10 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\Comun.rc"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
