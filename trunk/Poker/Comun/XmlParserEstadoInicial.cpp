@@ -1,9 +1,6 @@
 
 #include "XmlParserEstadoInicial.h"
-#include "XmlParserEstado.h"
-#include "XmlParser.h"
-#include "MensajesUtil.h"
-#include "ParserException.h"
+
 
 XmlParserEstadoInicial::XmlParserEstadoInicial(deque<string*>* nodosProcesados) 
 	: XmlParserEstado(nodosProcesados)

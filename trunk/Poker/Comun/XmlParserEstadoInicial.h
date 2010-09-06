@@ -13,6 +13,8 @@
 #include "Elemento.h"
 #include "XmlParserEstado.h"
 #include "XmlParserEstadoAbriendoTag.h"
+#include "MensajesUtil.h"
+#include "ParserException.h"
 
 using namespace std;
 
