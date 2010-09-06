@@ -2,26 +2,88 @@
 #include "XmlParser.h"
 #include "DomTree.h"
 #include "Elemento.h"
+#include "XmlParserEstado.h"
+#include "XmlParserEstadoInicial.h"
+#include "ParserException.h"
 
 XmlParser::XmlParser(void)
 {
+	this->nodosProcesados = new deque<string*>();
+	this->estadoInicial = new XmlParserEstadoInicial(this->nodosProcesados);
+	this->estadoActual = this->estadoInicial;
 }
 
 XmlParser::~XmlParser(void)
-{
+{	/*
+	for(deque<string*>::iterator it = this->nodosProcesados->begin();
+		it != this->nodosProcesados->end(); it++) {
+			delete (*it);
+	}
+	*/
+
+	this->nodosProcesados->clear();
+	delete(this->nodosProcesados);
+
+	delete (this->estadoInicial);
 }
 
 DomTree* XmlParser::toDom(string texto) {
-	DomTree* tree = new DomTree();
-/*
-	int contadorLinea = 1;
-	char* indice = strstr(texto,"\n");
 
-	if (indice) {
-		linea = texto.substr(0
-*/
+	DomTree* tree = new DomTree();
+	this->estadoActual->setElementoActual(tree->getRaiz());
+
+	unsigned int contadorLinea = 1;
+	unsigned int inicio = 0;
+
+	try {
+		procesarLineaALinea(texto, inicio, contadorLinea);
+
+	} catch(ParserException& ex ) {
+		delete(tree);
+		throw ex;
+	}
+
 	return tree;
 }
+
+
+void XmlParser::procesarLineaALinea(string textoAProcesar, 
+						 unsigned int inicio, unsigned int contadorLinea) {
+
+	unsigned int fin = textoAProcesar.find("\n",inicio);
+	// si no se encuentra un retorno de linea pero todavia 
+	// no llegue al fin del string
+	if (fin > textoAProcesar.size()) {
+		if (inicio < (textoAProcesar.size() - 1)){
+			fin = textoAProcesar.size();
+		}
+	} else {
+		fin += string("\n").size();
+	}
+
+	if (fin <= textoAProcesar.size() && fin > inicio) {
+		string linea = textoAProcesar.substr(inicio, fin);
+cout << "Procesando LINEA " << contadorLinea << ": " << linea << endl;
+
+		this->estadoActual->setNumeroLinea(contadorLinea);
+		this->estadoActual->setTextoAProcesar(linea);
+		while (!this->estadoActual->terminado()) {
+			try {
+				this->estadoActual = this->estadoActual->procesarFragmento();
+			} catch(ParserException& ex ) {
+					throw ex;
+			}
+		}
+
+		inicio = fin;
+		contadorLinea++;
+
+		procesarLineaALinea(textoAProcesar, inicio, contadorLinea);
+	}
+}
+
+
+
 
 string XmlParser::toString(DomTree* domTree) {
 
