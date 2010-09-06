@@ -6,6 +6,8 @@
 #include <string.h>
 
 #include <set>
+#include <stack>
+
 #include "Elemento.h"
 #include "ParserException.h"
 #include "MensajesUtil.h"
@@ -164,8 +166,70 @@ cout << "ok <otro    " << endl;
 delete(otroArbol);
 
 } catch(ParserException& ex13 ) {
-	cout<< ex13.getMensaje() <<endl;
-	//delete(ex13);
+	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
+}
+
+try {
+DomTree* otroArbol = parser->toDom("<pedido id>");
+cout << "ok <pedido id>" << endl;
+delete(otroArbol);
+
+} catch(ParserException& ex13 ) {
+	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
+}
+
+try {
+DomTree* otroArbol = parser->toDom("<pedido =\">");
+cout << "ok <pedido =\">" << endl;
+delete(otroArbol);
+
+} catch(ParserException& ex13 ) {
+	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
+}
+
+try {
+DomTree* otroArbol = parser->toDom("<pedido =\"\">");
+cout << "ok <pedido =\"\">" << endl;
+delete(otroArbol);
+
+} catch(ParserException& ex13 ) {
+	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
+}
+
+try {
+DomTree* otroArbol = parser->toDom("<pedido id=>");
+cout << "ok <pedido id=>" << endl;
+delete(otroArbol);
+
+} catch(ParserException& ex13 ) {
+	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
+}
+
+try {
+DomTree* otroArbol = parser->toDom("<pedido id=\">");
+cout << "ok <pedido id=\">" << endl;
+delete(otroArbol);
+
+} catch(ParserException& ex13 ) {
+	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
+}
+
+try {
+DomTree* otroArbol = parser->toDom("<pedido id=\"S>");
+cout << "ok <pedido id=\"S>" << endl;
+delete(otroArbol);
+
+} catch(ParserException& ex13 ) {
+	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
+}
+
+try {
+DomTree* otroArbol = parser->toDom("<pedido id=\"S\">");
+cout << "ok <pedido id=\"S\">" << endl;
+delete(otroArbol);
+
+} catch(ParserException& ex13 ) {
+	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
 }
 
 
@@ -177,6 +241,14 @@ cout << "1 espacio " << MensajesUtil::esVacio(" ") << endl;
 cout << "0 espacios " << MensajesUtil::esVacio("") << endl;
 string prueba = "0123456789";
 cout << prueba.substr(0,3) << endl;
+
+cout << "1 caracter : x --" << MensajesUtil::trim("x") << "--" << endl;
+cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim(" x") << "--" << endl;
+cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x ") << "--" << endl;
+cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim(" x ") << "--" << endl;
+cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim("    x") << "--" << endl;
+cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x     ") << "--" << endl;
+cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("    x ") << "--" << endl;
 
 		
 		
