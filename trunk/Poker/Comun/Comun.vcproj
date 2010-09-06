@@ -329,6 +329,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\XmlParserEstadoIncludes.h"
+				>
+			</File>
+			<File
 				RelativePath=".\XmlParserEstadoInicial.h"
 				>
 			</File>
