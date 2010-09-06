@@ -17,18 +17,27 @@
 #include <list>
 #include <set>
 #include <map>
+#include <deque>
 
 #include "DomTree.h"
 #include "Parser.h"
+#include "XmlParserEstado.h"
 
 using namespace std;
 
 class XmlParser : public Parser
 {
 private:
+	XmlParserEstado* estadoInicial;
+	XmlParserEstado* estadoActual;
+	deque<string*>* nodosProcesados;
+
 	string abrirNodo(Elemento* elemento, string indent);
 	string cerrarNodo(Elemento* elemento, string indent);
 	string procesarNodo(Elemento* elemento, string indent);
+
+	void procesarLineaALinea(string textoAProcesar, 
+						 unsigned int inicio, unsigned int contadorLinea);
 
 public:
 	XmlParser(void);
