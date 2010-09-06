@@ -8,6 +8,8 @@
 #define XML_CLOSE_TAG "</"
 #define XML_CLOSE_TAG_INLINE "/>"
 #define XML_INDENT "   "
+#define XML_OPEN_ATTR "=\""
+#define XML_CLOSE_ATTR "\""
 
 #include <stdio.h>
 #include <stdlib.h>
