@@ -50,3 +50,13 @@ char* MensajesUtil::toString(const T &arg)
 	out << arg;
 	return(out.str());
 }
+
+bool MensajesUtil::esVacio(string texto) {
+	bool vacio = true;
+	for (unsigned int i = 0; i < texto.size(); i++) {
+		if (texto.at(i) != ' ') {
+			vacio = false;
+		}
+	}
+	return vacio;
+}
