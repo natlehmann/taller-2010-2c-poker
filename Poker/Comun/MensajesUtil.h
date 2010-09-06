@@ -21,6 +21,7 @@ class MensajesUtil{
 public:
 	static string concatMensaje(char* partes[]);
 	static bool sonIguales(string primero, string segundo);
+	static bool esVacio(string texto);
 
 	template < class T >
 	static char* toString(const T &arg);
