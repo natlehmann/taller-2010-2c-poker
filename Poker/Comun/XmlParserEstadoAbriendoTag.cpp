@@ -1,9 +1,6 @@
 
 #include "XmlParserEstadoAbriendoTag.h"
-#include "XmlParserEstadoCerrandoInline.h"
-#include "XmlParserEstadoDentroTag.h"
-#include "XmlParserEstadoProcesandoAtt.h"
-#include "XmlParser.h"
+
 
 
 XmlParserEstadoAbriendoTag::XmlParserEstadoAbriendoTag(deque<string*>* nodosProcesados) 
@@ -36,11 +33,11 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 				XML_CLOSE_TAG_INLINE, indiceInicial);
 
 		if (indClose < indiceFinal) {
-			indiceFinal = indClose - 1;
+			indiceFinal = indClose;
 		}
 
 		if (indCloseInline < indiceFinal) {
-			indiceFinal = indCloseInline - 1;
+			indiceFinal = indCloseInline;
 		}
 
 		if (indiceFinal > this->getTextoAProcesar().size()) {
@@ -48,38 +45,45 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 		}
 
 		string nombreElemento = this->getTextoAProcesar().substr(indiceInicial, indiceFinal);
+		nombreElemento.erase(indiceFinal - indiceInicial);
 
-		this->setElementoActual(this->getElementoActual()->agregarHijo(nombreElemento));
-		this->getNodosProcesados()->insert(this->getNodosProcesados()->end(), &nombreElemento);
+		try {
+			this->setElementoActual(this->getElementoActual()->agregarHijo(nombreElemento));
+			this->getNodosProcesados()->insert(
+				this->getNodosProcesados()->end(), new string(nombreElemento));
 
-		XmlParserEstado* siguienteEstado = this->procesandoAtt;
+			XmlParserEstado* siguienteEstado = this->procesandoAtt;
 
-		this->setInicioTexto(indiceFinal + 1);
+			this->setInicioTexto(indiceFinal + 1);
 
-		if (!this->terminado()) {
+			if (!this->terminado()) {
 
-			unsigned int indAnyChar = this->getTextoAProcesar().find_first_not_of(
-				" ", indiceFinal + 1);			
+				unsigned int indAnyChar = this->getTextoAProcesar().find_first_not_of(
+					" ", indiceFinal + 1);			
 
-			if ((indClose < indCloseInline) && (indClose <= indAnyChar) 
-				&& (indClose < this->getTextoAProcesar().size())) {
-				siguienteEstado = this->dentroTag;
+				if ((indClose < indCloseInline) && (indClose <= indAnyChar) 
+					&& (indClose < this->getTextoAProcesar().size())) {
+					siguienteEstado = this->dentroTag;
 
-			} else {
+				} else {
 
-				if ((indCloseInline < indClose) && (indCloseInline <= indAnyChar)
-					&& (indCloseInline < this->getTextoAProcesar().size())) {
-					siguienteEstado = this->cerrandoInline;				
-				} 
+					if ((indCloseInline < indClose) && (indCloseInline <= indAnyChar)
+						&& (indCloseInline < this->getTextoAProcesar().size())) {
+						siguienteEstado = this->cerrandoInline;				
+					} 
+				}
 			}
+
+			siguienteEstado->setElementoActual(this->getElementoActual());
+			siguienteEstado->setTextoAProcesar(this->getTextoAProcesar());
+			siguienteEstado->setNumeroLinea(this->getNumeroLinea());
+			siguienteEstado->setInicioTexto(this->getInicioTexto());
+
+			return siguienteEstado;
+
+		} catch(ParserException& e) {
+			throw ParserException("Error en linea XX. " + e.getMensaje());
 		}
-
-		siguienteEstado->setElementoActual(this->getElementoActual());
-		siguienteEstado->setTextoAProcesar(this->getTextoAProcesar());
-		siguienteEstado->setNumeroLinea(this->getNumeroLinea());
-		siguienteEstado->setInicioTexto(this->getInicioTexto());
-
-		return siguienteEstado;
 
 	} else {
 		//no encontre ningun caracter distinto de espacio
