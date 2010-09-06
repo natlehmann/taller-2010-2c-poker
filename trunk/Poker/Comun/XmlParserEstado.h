@@ -11,6 +11,7 @@
 #include <deque>
 
 #include "Elemento.h"
+#include "MensajesUtil.h"
 
 using namespace std;
 
