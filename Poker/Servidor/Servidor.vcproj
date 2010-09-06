@@ -21,7 +21,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
-			ManagedExtensions="1"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -43,7 +43,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;..\Comun&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -175,11 +175,63 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\Comun\ArrayUtil.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\common_Mensajes.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Comun\common_Socket.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Division.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\DomTree.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\DomTreeFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Elemento.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FabricaOperaciones.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\MensajesUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Multiplicacion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Operacion.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Parser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\ParserException.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Resta.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Resultado.cpp"
 				>
 			</File>
 			<File
@@ -194,12 +246,56 @@
 				RelativePath=".\server_Thread.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Suma.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\testFabricaOperaciones.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UtilTiposDatos.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstado.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoAbriendoTag.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoCerrandoInline.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoDentroTag.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoInicial.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoProcesandoAtt.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Archivos de encabezado"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\Comun\ArrayUtil.h"
+				>
+			</File>
 			<File
 				RelativePath="..\Comun\common_General.h"
 				>
@@ -214,6 +310,54 @@
 			</File>
 			<File
 				RelativePath="..\Comun\common_Socket.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Division.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\DomTree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\DomTreeFactory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Elemento.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FabricaOperaciones.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\MensajesUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Multiplicacion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Operacion.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Parser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\ParserException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resta.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Resultado.h"
 				>
 			</File>
 			<File
@@ -238,6 +382,42 @@
 			</File>
 			<File
 				RelativePath=".\server_Thread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Suma.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UtilTiposDatos.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstado.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoAbriendoTag.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoCerrandoInline.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoDentroTag.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoInicial.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoProcesandoAtt.h"
 				>
 			</File>
 		</Filter>
