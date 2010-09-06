@@ -21,7 +21,16 @@ class MensajesUtil{
 public:
 	static string concatMensaje(char* partes[]);
 	static bool sonIguales(string primero, string segundo);
+
+	/**
+	* Devuelve true si el texto recibido tiene tamaño 0 o està formado por espacios
+	*/
 	static bool esVacio(string texto);
+
+	/**
+	* Elimina espacios en blanco antes y despues del texto recibido
+	*/
+	static string trim(string texto);
 
 	template < class T >
 	static char* toString(const T &arg);

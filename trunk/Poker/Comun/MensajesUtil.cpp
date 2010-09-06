@@ -60,3 +60,19 @@ bool MensajesUtil::esVacio(string texto) {
 	}
 	return vacio;
 }
+
+string MensajesUtil::trim(string texto) {
+
+	if (!MensajesUtil::esVacio(texto)) {
+		unsigned int inicio = texto.find_first_not_of(" ");
+		unsigned int fin = texto.find_last_not_of(" ");
+
+		string resultado = texto.substr(inicio, fin +1);
+		resultado.erase((fin + 1) - inicio);
+
+		return resultado;
+
+	} else {
+		return "";
+	}
+}
