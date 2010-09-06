@@ -11,11 +11,21 @@
 #include <deque>
 
 #include "XmlParserEstado.h"
+#include "XmlParserEstadoDentroTag.h"
+#include "XmlParserEstadoCerrandoInline.h"
+#include "XmlParser.h"
+#include "ParserException.h"
+#include "MensajesUtil.h"
+
 
 using namespace std;
 
 class XmlParserEstadoProcesandoAtt : public XmlParserEstado
 {
+private:
+	XmlParserEstadoCerrandoInline* cerrandoInline;
+	XmlParserEstadoDentroTag* dentroTag;
+
 public:
 	XmlParserEstadoProcesandoAtt(deque<string*>* nodosProcesados);
 	virtual ~XmlParserEstadoProcesandoAtt(void);
