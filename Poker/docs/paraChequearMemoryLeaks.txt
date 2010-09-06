@@ -1,0 +1,30 @@
+PARA HABILITAR CHEQUEOS DE MEMORY LEAKS CON VISUAL LEAK DETECTOR
+___________________________________________________________________
+
+1) Copiar las librerias que estan en la carpeta "lib" a {DIRECTORIO_INSTALACION_VISUAL_STUDIO}\VC\lib
+Estas librerias fueron generadas desde el còdigo fuente para VisualStudio 2005 siguiendo las instrucciones 
+de instalaciòn del paquete de VLD.
+
+2) Copiar los dos archivos .h que estan en la carpeta "include" a {DIRECTORIO_INSTALACION_VISUAL_STUDIO}\VC\include
+
+3) En el proyecto configurar las properties (para la configuraciòn de Debug):
+Propiedades de Configuraciòn -> General -> Compatibilidad con Common Language Runtime = "No es compatible con CLR"
+Propiedades de Configuraciòn -> C/C++ -> Generaciòn de Còdigo -> Biblioteca en tiempo de ejecuciòn = "Depuraciòn Multiproceso"
+
+4) Si se ejecuta sobre un Windows2000 o anterior, copiar la dll que se encuentra en la carpeta "dll" al
+directorio donde VisualStudio genera el ejecutable.
+
+5) Agregar a la clase que tiene el mètodo main:
+
+#include <vld.h>
+preferentemente antes de cualquier otro include
+
+6) Compilar el proyecto con la configuraciòn de Debug y ejecutar un debug (F5). 
+
+Esta librerìa no se procesa en caso de que el proyecto se ejecute normalmente.
+
+
+
+
+
+
