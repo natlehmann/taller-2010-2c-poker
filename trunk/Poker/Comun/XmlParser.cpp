@@ -14,12 +14,12 @@ XmlParser::XmlParser(void)
 }
 
 XmlParser::~XmlParser(void)
-{	/*
+{	
 	for(deque<string*>::iterator it = this->nodosProcesados->begin();
 		it != this->nodosProcesados->end(); it++) {
 			delete (*it);
 	}
-	*/
+	
 
 	this->nodosProcesados->clear();
 	delete(this->nodosProcesados);
@@ -30,6 +30,7 @@ XmlParser::~XmlParser(void)
 DomTree* XmlParser::toDom(string texto) {
 
 	DomTree* tree = new DomTree();
+	this->estadoActual = this->estadoInicial;
 	this->estadoActual->setElementoActual(tree->getRaiz());
 
 	unsigned int contadorLinea = 1;
@@ -107,7 +108,8 @@ string XmlParser::abrirNodo(Elemento* elemento, string indent) {
 	// procesar atributos
 	for(map<string,string>::iterator itAtt = elemento->getAtributos()->begin();
 		itAtt != elemento->getAtributos()->end(); itAtt++) {
-			resultado += " " + string(itAtt->first) + "=\"" + string(itAtt->second) + "\"";
+			resultado += " " + string(itAtt->first) + XML_OPEN_ATTR 
+				+ string(itAtt->second) + XML_CLOSE_ATTR;
 	}
 
 	// cierre de tag
