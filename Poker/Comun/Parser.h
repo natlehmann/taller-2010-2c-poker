@@ -14,6 +14,7 @@ class Parser {
 
 public:
 
+	virtual ~Parser(void);
 	virtual DomTree* toDom(string texto) = 0;
 	virtual string toString(DomTree* domTree) = 0;
 };
