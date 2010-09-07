@@ -175,19 +175,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\client_mainCliente.cpp"
+				RelativePath=".\Cliente.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\common_Cliente.cpp"
+				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\common_Mensajes.cpp"
+				RelativePath="..\Comun\Socket.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\common_Socket.cpp"
+				RelativePath=".\UICliente.cpp"
 				>
 			</File>
 		</Filter>
@@ -197,23 +197,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\Comun\common_Cliente.h"
+				RelativePath=".\Cliente.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\common_General.h"
+				RelativePath="..\Comun\General.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\common_Mensajes.h"
+				RelativePath="..\Comun\Socket.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\common_Parametros.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Comun\common_Socket.h"
+				RelativePath=".\UICliente.h"
 				>
 			</File>
 		</Filter>
