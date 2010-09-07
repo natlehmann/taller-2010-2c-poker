@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\FormatException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -220,6 +224,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\ParserException.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\PokerException.cpp"
 				>
 			</File>
 			<File
@@ -275,6 +283,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\XmlParserEstadoCerrandoTag.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\XmlParserEstadoDentroTag.cpp"
 				>
 			</File>
@@ -284,6 +296,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\XmlParserEstadoProcesandoAtt.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoProcesandoTxt.cpp"
 				>
 			</File>
 		</Filter>
@@ -317,6 +333,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\FormatException.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\General.h"
 				>
 			</File>
@@ -338,6 +358,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\ParserException.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\PokerException.h"
 				>
 			</File>
 			<File
@@ -397,6 +421,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\XmlParserEstadoCerrandoTag.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\XmlParserEstadoDentroTag.h"
 				>
 			</File>
@@ -406,6 +434,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\XmlParserEstadoProcesandoAtt.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoProcesandoTxt.h"
 				>
 			</File>
 		</Filter>
