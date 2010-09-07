@@ -179,14 +179,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\common_Mensajes.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\Comun\common_Socket.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Division.cpp"
 				>
 			</File>
@@ -204,6 +196,10 @@
 			</File>
 			<File
 				RelativePath=".\FabricaOperaciones.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
@@ -235,15 +231,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\server_mainServidor.cpp"
+				RelativePath=".\Servidor.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\server_Servidor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\server_Thread.cpp"
+				RelativePath="..\Comun\Socket.cpp"
 				>
 			</File>
 			<File
@@ -252,6 +244,14 @@
 			</File>
 			<File
 				RelativePath=".\testFabricaOperaciones.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Thread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UIServidor.cpp"
 				>
 			</File>
 			<File
@@ -297,22 +297,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\common_General.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Comun\common_Mensajes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Comun\common_Parametros.h"
-				>
-			</File>
-			<File
-				RelativePath="..\Comun\common_Socket.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Division.h"
 				>
 			</File>
@@ -330,6 +314,10 @@
 			</File>
 			<File
 				RelativePath=".\FabricaOperaciones.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\General.h"
 				>
 			</File>
 			<File
@@ -361,31 +349,31 @@
 				>
 			</File>
 			<File
-				RelativePath=".\server_Lock.h"
+				RelativePath=".\Servidor.h"
 				>
 			</File>
 			<File
-				RelativePath=".\server_mutex.h"
-				>
-			</File>
-			<File
-				RelativePath=".\server_Servidor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\server_ThrAceptCliente.h"
-				>
-			</File>
-			<File
-				RelativePath=".\server_ThrCliente.h"
-				>
-			</File>
-			<File
-				RelativePath=".\server_Thread.h"
+				RelativePath="..\Comun\Socket.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Suma.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ThrAceptCliente.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ThrCliente.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Thread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UIServidor.h"
 				>
 			</File>
 			<File
