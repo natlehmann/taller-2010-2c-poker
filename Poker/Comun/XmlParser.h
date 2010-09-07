@@ -24,6 +24,7 @@
 #include "DomTree.h"
 #include "Parser.h"
 #include "XmlParserEstado.h"
+#include "PokerException.h"
 
 using namespace std;
 

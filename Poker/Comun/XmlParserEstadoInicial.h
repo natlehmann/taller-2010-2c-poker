@@ -22,6 +22,7 @@ class XmlParserEstadoInicial : public XmlParserEstado
 {
 private:
 	XmlParserEstadoAbriendoTag* abriendoTag;
+	XmlParserEstadoAbriendoTag* getAbriendoTag();
 
 public:
 	XmlParserEstadoInicial(deque<string*>* nodosProcesados);

@@ -4,19 +4,17 @@
 #include <iostream>
 #include <cstdlib>
 #include <exception>
+
+#include "PokerException.h"
  
 using namespace std;
  
-class ParserException : public exception
+class ParserException : public PokerException
 {
-private:
-	string mensaje;
 
 public:
 	ParserException(string mensaje);   
 	virtual ~ParserException(void);
-	const string getMensaje() const throw();
-	virtual const char* what() const throw();
 
 };
 
