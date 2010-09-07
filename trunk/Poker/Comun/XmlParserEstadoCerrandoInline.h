@@ -11,19 +11,18 @@
 #include <deque>
 
 #include "XmlParserEstado.h"
-
-#ifdef _XMLPARSERESTADO_INICIAL_H__
-//#include "XmlParserEstadoInicial.h"
-#endif
-
+#include "XmlParser.h"
 
 
 using namespace std;
 
+class XmlParserEstadoInicial;
+
 class XmlParserEstadoCerrandoInline : public XmlParserEstado
 {
 private:
-	//XmlParserEstadoInicial* inicial;
+	XmlParserEstadoInicial* inicial;
+	XmlParserEstadoInicial* getInicial();
 
 public:
 	XmlParserEstadoCerrandoInline(deque<string*>* nodosProcesados);

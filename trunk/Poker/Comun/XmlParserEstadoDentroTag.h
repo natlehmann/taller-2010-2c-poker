@@ -11,12 +11,26 @@
 #include <deque>
 
 #include "XmlParserEstado.h"
+#include "XmlParser.h"
+#include "XmlParserEstadoProcesandoTxt.h"
+#include "XmlParserEstadoCerrandoTag.h"
 
 
 using namespace std;
 
+class XmlParserEstadoInicial;
+
 class XmlParserEstadoDentroTag : public XmlParserEstado
 {
+private:
+	XmlParserEstadoProcesandoTxt* procesandoTexto;
+	XmlParserEstadoCerrandoTag* cerrandoTag;
+	XmlParserEstadoInicial* inicial;
+
+	XmlParserEstadoProcesandoTxt* getProcesandoTexto();
+	XmlParserEstadoCerrandoTag* getCerrandoTag();
+	XmlParserEstadoInicial* getInicial();
+
 public:
 	XmlParserEstadoDentroTag(deque<string*>* nodosProcesados);
 	virtual ~XmlParserEstadoDentroTag(void);

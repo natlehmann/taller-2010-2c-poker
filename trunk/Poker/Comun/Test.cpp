@@ -66,7 +66,7 @@ int main (int argc, char** argv)
 		
 		cout << parser->toString(tree) << endl;
 
-
+/*
 try {
 DomTree* otroArbol = parser->toDom("ESTA ES LA PRIMER LINEA.\nEsta es la segunda.\n");
 cout << "ANTES DEL DELETE DEL OTRO ARBOL" << endl;
@@ -119,7 +119,7 @@ delete(otroArbol);
 	cout<< ex8.getMensaje() <<endl;
 	//delete(ex8);
 }
-
+*/
 try {
 DomTree* otroArbol = parser->toDom("            <pedido/>");
 cout << "ok <pedido/>" << endl;
@@ -127,7 +127,6 @@ delete(otroArbol);
 
 } catch(ParserException& ex9 ) {
 	cout<< ex9.getMensaje() <<endl;
-	//delete(ex9);
 }
 
 try {
@@ -137,9 +136,8 @@ delete(otroArbol);
 
 } catch(ParserException& ex10 ) {
 	cout<< ex10.getMensaje() <<endl;
-	//delete(ex10);
 }
-
+/*
 try {
 DomTree* otroArbol = parser->toDom("            <pedido  >");
 cout << "ok <pedido  >" << endl;
@@ -231,7 +229,7 @@ delete(otroArbol);
 } catch(ParserException& ex13 ) {
 	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
 }
-
+*/
 
 
 

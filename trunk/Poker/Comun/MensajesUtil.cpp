@@ -1,4 +1,5 @@
 #include "MensajesUtil.h"
+#include "FormatException.h"
 
 
 string MensajesUtil::concatMensaje(char* partes[]){
@@ -44,11 +45,11 @@ bool MensajesUtil::sonIguales(string primero, string segundo) {
 
 
 template < class T >
-char* MensajesUtil::toString(const T &arg)
+string MensajesUtil::toString(const T &arg)
 {
 	ostringstream	out;
 	out << arg;
-	return(out.str());
+	return(string(out.str()));
 }
 
 bool MensajesUtil::esVacio(string texto) {
@@ -76,3 +77,14 @@ string MensajesUtil::trim(string texto) {
 		return "";
 	}
 }
+
+
+string MensajesUtil::intToString(int value) {
+	char buffer[50];
+	int resultado = sprintf(buffer,"%d",value);
+	if (resultado <= 0) {
+		throw FormatException("No se puede convertir el valor a string.");
+	}
+	 return string(buffer);
+}
+

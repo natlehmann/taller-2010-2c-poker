@@ -48,6 +48,7 @@
 				ObjectFile="$(IntDir)\"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -195,6 +196,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FormatException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MensajesUtil.cpp"
 				>
 			</File>
@@ -204,6 +209,10 @@
 			</File>
 			<File
 				RelativePath=".\ParserException.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PokerException.cpp"
 				>
 			</File>
 			<File
@@ -231,6 +240,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\XmlParserEstadoCerrandoTag.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\XmlParserEstadoDentroTag.cpp"
 				>
 			</File>
@@ -240,6 +253,10 @@
 			</File>
 			<File
 				RelativePath=".\XmlParserEstadoProcesandoAtt.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoProcesandoTxt.cpp"
 				>
 			</File>
 		</Filter>
@@ -265,6 +282,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FormatException.h"
+				>
+			</File>
+			<File
 				RelativePath=".\General.h"
 				>
 			</File>
@@ -278,6 +299,10 @@
 			</File>
 			<File
 				RelativePath=".\ParserException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PokerException.h"
 				>
 			</File>
 			<File
@@ -305,11 +330,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\XmlParserEstadoDentroTag.h"
+				RelativePath=".\XmlParserEstadoCerrandoTag.h"
 				>
 			</File>
 			<File
-				RelativePath=".\XmlParserEstadoIncludes.h"
+				RelativePath=".\XmlParserEstadoDentroTag.h"
 				>
 			</File>
 			<File
@@ -318,6 +343,10 @@
 			</File>
 			<File
 				RelativePath=".\XmlParserEstadoProcesandoAtt.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserEstadoProcesandoTxt.h"
 				>
 			</File>
 		</Filter>

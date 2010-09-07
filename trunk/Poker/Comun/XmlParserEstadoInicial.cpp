@@ -1,16 +1,19 @@
 
 #include "XmlParserEstadoInicial.h"
+#include "MensajesUtil.h"
 
 
 XmlParserEstadoInicial::XmlParserEstadoInicial(deque<string*>* nodosProcesados) 
 	: XmlParserEstado(nodosProcesados)
 {
-	this->abriendoTag = new XmlParserEstadoAbriendoTag(nodosProcesados);
+	this->abriendoTag = NULL;
 }
 
 XmlParserEstadoInicial::~XmlParserEstadoInicial(void)
 {
-	delete(this->abriendoTag);
+	if (this->abriendoTag != NULL) {
+		delete(this->abriendoTag);
+	}
 }
 
 XmlParserEstado* XmlParserEstadoInicial::procesarFragmento() {
@@ -23,20 +26,20 @@ XmlParserEstado* XmlParserEstadoInicial::procesarFragmento() {
 			this->getTextoAProcesar().substr(this->getInicioTexto(),indice));
 
 		if (!esVacio) {
-			//string msg = "Se encontraron caracteres invalidos antes del inicio de un tag en la linea " 
-			//	+ this->getNumeroLinea();
-			string msg = "Se encontraron caracteres invalidos antes del inicio de un tag en la linea ";
+			string msg = "Se encontraron caracteres invalidos antes del inicio de un tag en la linea " 
+				+ MensajesUtil::intToString(this->getNumeroLinea()); 
+			//string msg = "Se encontraron caracteres invalidos antes del inicio de un tag en la linea ";
 			string invalido = this->getTextoAProcesar().substr(this->getInicioTexto(),indice);
 			string msg2= msg + ". Caracteres: " + invalido;
 			throw ParserException(msg2);
 		}
 
-		this->abriendoTag->setInicioTexto(indice + 1);
-		this->abriendoTag->setTextoAProcesar(this->getTextoAProcesar());
-		this->abriendoTag->setNumeroLinea(this->getNumeroLinea());
-		this->abriendoTag->setElementoActual(this->getElementoActual());
+		this->getAbriendoTag()->setInicioTexto(indice + 1);
+		this->getAbriendoTag()->setTextoAProcesar(this->getTextoAProcesar());
+		this->getAbriendoTag()->setNumeroLinea(this->getNumeroLinea());
+		this->getAbriendoTag()->setElementoActual(this->getElementoActual());
 
-		return this->abriendoTag;
+		return this->getAbriendoTag();
 	
 	} else {
 		// si no encontre la apertura de tag y la linea no esta vacia
@@ -44,10 +47,10 @@ XmlParserEstado* XmlParserEstadoInicial::procesarFragmento() {
 			this->getTextoAProcesar().substr(this->getInicioTexto()));
 
 		if (!esVacio) {
-			string msg = "Se encontraron caracteres invalidos en la linea " ;
+			string msg = "Se encontraron caracteres invalidos en la linea " 
+				+ MensajesUtil::intToString(this->getNumeroLinea());
 			string msg2 = msg + ". Se esperaba inicio de tag.";
 			throw ParserException(msg2);
-			//throw new ParserException(msg);
 
 		} else {
 			this->setInicioTexto(this->getTextoAProcesar().size() + 1);
@@ -56,4 +59,14 @@ XmlParserEstado* XmlParserEstadoInicial::procesarFragmento() {
 
 	return this;
 
+}
+
+
+XmlParserEstadoAbriendoTag* XmlParserEstadoInicial::getAbriendoTag() {
+	
+	if (this->abriendoTag == NULL) {
+		this->abriendoTag = new XmlParserEstadoAbriendoTag(this->getNodosProcesados());
+	}
+
+	return this->abriendoTag;
 }

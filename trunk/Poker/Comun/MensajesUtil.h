@@ -32,8 +32,10 @@ public:
 	*/
 	static string trim(string texto);
 
+	static string intToString(int value);
+
 	template < class T >
-	static char* toString(const T &arg);
+	static string toString(const T &arg);
 
 };
 

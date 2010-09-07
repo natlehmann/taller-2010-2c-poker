@@ -6,16 +6,24 @@
 XmlParserEstadoAbriendoTag::XmlParserEstadoAbriendoTag(deque<string*>* nodosProcesados) 
 	: XmlParserEstado(nodosProcesados)
 {
-	this->cerrandoInline = new XmlParserEstadoCerrandoInline(nodosProcesados);
-	this->dentroTag = new XmlParserEstadoDentroTag(nodosProcesados);
-	this->procesandoAtt = new XmlParserEstadoProcesandoAtt(nodosProcesados);
+	this->cerrandoInline = NULL;
+	this->dentroTag = NULL;
+	this->procesandoAtt = NULL;
 }
 
 XmlParserEstadoAbriendoTag::~XmlParserEstadoAbriendoTag(void)
 {
-	delete(this->cerrandoInline);
-	delete(this->dentroTag);
-	delete(this->procesandoAtt);
+	if (this->cerrandoInline != NULL) {
+		delete(this->cerrandoInline);
+	}
+
+	if (this->dentroTag != NULL) {
+		delete(this->dentroTag);
+	}
+
+	if (this->procesandoAtt != NULL) {
+		delete(this->procesandoAtt);
+	}
 }
 
 XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
@@ -52,7 +60,7 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 			this->getNodosProcesados()->insert(
 				this->getNodosProcesados()->end(), new string(nombreElemento));
 
-			XmlParserEstado* siguienteEstado = this->procesandoAtt;
+			XmlParserEstado* siguienteEstado = this->getProcesandoAtt();
 
 			this->setInicioTexto(indiceFinal + 1);
 
@@ -63,13 +71,13 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 
 				if ((indClose < indCloseInline) && (indClose <= indAnyChar) 
 					&& (indClose < this->getTextoAProcesar().size())) {
-					siguienteEstado = this->dentroTag;
+					siguienteEstado = this->getDentroTag();
 
 				} else {
 
 					if ((indCloseInline < indClose) && (indCloseInline <= indAnyChar)
 						&& (indCloseInline < this->getTextoAProcesar().size())) {
-						siguienteEstado = this->cerrandoInline;				
+						siguienteEstado = this->getCerrandoInline();				
 					} 
 				}
 			}
@@ -82,7 +90,8 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 			return siguienteEstado;
 
 		} catch(ParserException& e) {
-			throw ParserException("Error en linea XX. " + e.getMensaje());
+			throw ParserException("Error en linea " 
+				+ MensajesUtil::intToString(this->getNumeroLinea()) + ". " + e.getMensaje());
 		}
 
 	} else {
@@ -90,6 +99,33 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 		this->setInicioTexto(this->getTextoAProcesar().size());
 		return this;
 	}
+}
+
+XmlParserEstadoCerrandoInline* XmlParserEstadoAbriendoTag::getCerrandoInline() {
+	
+	if (this->cerrandoInline == NULL) {
+		this->cerrandoInline = new XmlParserEstadoCerrandoInline(this->getNodosProcesados());
+	}
+
+	return this->cerrandoInline;
+}
+
+XmlParserEstadoDentroTag* XmlParserEstadoAbriendoTag::getDentroTag() {
+	
+	if (this->dentroTag == NULL) {
+		this->dentroTag = new XmlParserEstadoDentroTag(this->getNodosProcesados());
+	}
+
+	return this->dentroTag;
+}
+
+XmlParserEstadoProcesandoAtt* XmlParserEstadoAbriendoTag::getProcesandoAtt() {
+	
+	if (this->procesandoAtt == NULL) {
+		this->procesandoAtt = new XmlParserEstadoProcesandoAtt(this->getNodosProcesados());
+	}
+
+	return this->procesandoAtt;
 }
 
 

@@ -27,6 +27,10 @@ private:
 	XmlParserEstadoDentroTag* dentroTag;
 	XmlParserEstadoProcesandoAtt* procesandoAtt;
 
+	XmlParserEstadoCerrandoInline* getCerrandoInline();
+	XmlParserEstadoDentroTag* getDentroTag();
+	XmlParserEstadoProcesandoAtt* getProcesandoAtt();
+
 public:
 	XmlParserEstadoAbriendoTag(deque<string*>* nodosProcesados);
 	virtual ~XmlParserEstadoAbriendoTag(void);

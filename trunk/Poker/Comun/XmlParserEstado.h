@@ -12,6 +12,7 @@
 
 #include "Elemento.h"
 #include "MensajesUtil.h"
+#include "PokerException.h"
 
 using namespace std;
 

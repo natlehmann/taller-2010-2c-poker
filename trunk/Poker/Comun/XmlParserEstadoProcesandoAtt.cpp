@@ -5,14 +5,18 @@
 XmlParserEstadoProcesandoAtt::XmlParserEstadoProcesandoAtt(deque<string*>* nodosProcesados) 
 	: XmlParserEstado(nodosProcesados)
 {
-	this->cerrandoInline = new XmlParserEstadoCerrandoInline(nodosProcesados);
-	this->dentroTag = new XmlParserEstadoDentroTag(nodosProcesados);
+	this->cerrandoInline = NULL;
+	this->dentroTag = NULL;
 }
 
 XmlParserEstadoProcesandoAtt::~XmlParserEstadoProcesandoAtt(void)
 {
-	delete(this->cerrandoInline);
-	delete(this->dentroTag);
+	if (this->cerrandoInline != NULL) {
+		delete(this->cerrandoInline);
+	}
+	if (this->dentroTag != NULL) {
+		delete(this->dentroTag);
+	}
 }
 
 XmlParserEstado* XmlParserEstadoProcesandoAtt::procesarFragmento() {
@@ -28,7 +32,8 @@ XmlParserEstado* XmlParserEstadoProcesandoAtt::procesarFragmento() {
 
 		if (indiceIgual == string::npos) {
 			throw ParserException(
-				"Error en linea XX. Se esperaba el signo '=' y comillas en el valor de un atributo.");
+				"Error en linea " + MensajesUtil::intToString(this->getNumeroLinea()) 
+				+ ". Se esperaba el signo '=' y comillas en el valor de un atributo.");
 		}
 
 		unsigned int indiceFinal = this->getTextoAProcesar().find(
@@ -36,7 +41,8 @@ XmlParserEstado* XmlParserEstadoProcesandoAtt::procesarFragmento() {
 
 		if (indiceFinal == string::npos) {
 			throw ParserException(
-				"Error en linea XX. Faltan comillas de cierre en el valor de un atributo.");
+				"Error en linea " + MensajesUtil::intToString(this->getNumeroLinea()) 
+				+ ". Faltan comillas de cierre en el valor de un atributo.");
 		}
 
 		string clave = this->getTextoAProcesar().substr(indiceInicial);
@@ -66,13 +72,13 @@ XmlParserEstado* XmlParserEstadoProcesandoAtt::procesarFragmento() {
 
 				if ((indClose < indCloseInline) && (indClose <= indAnyChar) 
 					&& (indClose < this->getTextoAProcesar().size())) {
-					siguienteEstado = this->dentroTag;
+					siguienteEstado = this->getDentroTag();
 
 				} else {
 
 					if ((indCloseInline < indClose) && (indCloseInline <= indAnyChar)
 						&& (indCloseInline < this->getTextoAProcesar().size())) {
-						siguienteEstado = this->cerrandoInline;				
+						siguienteEstado = this->getCerrandoInline();				
 					} 
 				}
 			}
@@ -85,7 +91,8 @@ XmlParserEstado* XmlParserEstadoProcesandoAtt::procesarFragmento() {
 			return siguienteEstado;
 
 		} catch(ParserException& e) {
-			throw ParserException("Error en linea XX. " + e.getMensaje());
+			throw ParserException("Error en linea " + MensajesUtil::intToString(this->getNumeroLinea()) 
+				+ ". " + e.getMensaje());
 		}
 
 	} else {
@@ -96,3 +103,20 @@ XmlParserEstado* XmlParserEstadoProcesandoAtt::procesarFragmento() {
 }
 
 
+XmlParserEstadoCerrandoInline* XmlParserEstadoProcesandoAtt::getCerrandoInline() {
+	
+	if (this->cerrandoInline == NULL) {
+		this->cerrandoInline = new XmlParserEstadoCerrandoInline(this->getNodosProcesados());
+	}
+
+	return this->cerrandoInline;
+}
+
+XmlParserEstadoDentroTag* XmlParserEstadoProcesandoAtt::getDentroTag() {
+	
+	if (this->dentroTag == NULL) {
+		this->dentroTag = new XmlParserEstadoDentroTag(this->getNodosProcesados());
+	}
+
+	return this->dentroTag;
+}
