@@ -7,6 +7,7 @@
 
 #include <set>
 #include <stack>
+#include <map>
 
 #include "Elemento.h"
 #include "ParserException.h"
@@ -15,6 +16,7 @@
 #include "DomTreeFactory.h"
 #include "XmlParser.h"
 #include "Parser.h"
+#include "PokerException.h"
 
 
 
@@ -23,10 +25,70 @@ using namespace std;
 
 int main (int argc, char** argv)
 {
-	DomTree* tree = new DomTree();
 	Parser* parser = new XmlParser();
+	DomTree* tree;
+	map<string,bool> pruebas;
 
 
+	string xml01 = string("<pedido>\n</pedido>");
+	string xml02 = string("<pedido>\n<parametros>\n</parametros>\n</pedido>");
+	string xml03 = string("<pedido>\n<operacion id=\"S\"/>\n<parametros>\n<parametro nombre=\"sum\">\n3\n</parametro>")
+		+ string("\n<parametro nombre=\"sum\">\n21\n</parametro>\n</parametros>\n</pedido>");
+	string xml04 = string("<pedido>\n<operacion \n id=\"S\" \n/>\n</pedido>");
+
+	// el valor booleano representa si el string se debe procesar bien (true) 
+	// o lanzar una excepcion (false)
+	pruebas.insert(pair<string,bool>(xml01, true));
+	pruebas.insert(pair<string,bool>(xml02, true));
+	pruebas.insert(pair<string,bool>(xml03, true));
+	pruebas.insert(pair<string,bool>(xml04, true));
+
+	int contador = 1;
+	for (map<string,bool>::iterator it = pruebas.begin(); it != pruebas.end(); it++) {
+
+		cout << "TEST NUMERO " << contador++ << endl;
+		bool resReal = true;
+		tree = NULL;
+
+		try {
+			tree = parser->toDom((*it).first);
+
+		} catch (PokerException& e){
+			resReal = false;
+			cout << e.getMensaje() << endl;
+		}
+
+		if (resReal == (*it).second) {
+			cout << "resultado: OK" << endl;
+
+		} else {
+			cout << "resultado: ERROR!!!!!" << endl;
+		}
+
+		if (tree != NULL) {
+			cout << parser->toString(tree);
+			delete(tree);
+		}
+
+		cout << endl;
+	}
+
+	
+
+	delete (parser);
+
+
+
+
+cout << "1 caracter : x --" << MensajesUtil::trim("x") << "--" << endl;
+cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim(" \nx") << "--" << endl;
+cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x ") << "--" << endl;
+cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("\nx ") << "--" << endl;
+cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim("    x\n") << "--" << endl;
+cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x    \n") << "--" << endl;
+cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("\n    x ") << "--" << endl;
+
+/*
 		cout << "arbol creado" << endl;
 
 		Elemento* e = tree->agregarElemento("pedido");
@@ -66,7 +128,7 @@ int main (int argc, char** argv)
 		
 		cout << parser->toString(tree) << endl;
 
-/*
+
 try {
 DomTree* otroArbol = parser->toDom("ESTA ES LA PRIMER LINEA.\nEsta es la segunda.\n");
 cout << "ANTES DEL DELETE DEL OTRO ARBOL" << endl;
@@ -119,7 +181,8 @@ delete(otroArbol);
 	cout<< ex8.getMensaje() <<endl;
 	//delete(ex8);
 }
-*/
+
+
 try {
 DomTree* otroArbol = parser->toDom("            <pedido/>");
 cout << "ok <pedido/>" << endl;
@@ -129,6 +192,7 @@ delete(otroArbol);
 	cout<< ex9.getMensaje() <<endl;
 }
 
+
 try {
 DomTree* otroArbol = parser->toDom("            <pedido  />");
 cout << "ok <pedido  />" << endl;
@@ -137,7 +201,8 @@ delete(otroArbol);
 } catch(ParserException& ex10 ) {
 	cout<< ex10.getMensaje() <<endl;
 }
-/*
+
+
 try {
 DomTree* otroArbol = parser->toDom("            <pedido  >");
 cout << "ok <pedido  >" << endl;
@@ -229,7 +294,7 @@ delete(otroArbol);
 } catch(ParserException& ex13 ) {
 	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
 }
-*/
+
 
 
 
@@ -248,13 +313,9 @@ cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim("    x") << "--"
 cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x     ") << "--" << endl;
 cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("    x ") << "--" << endl;
 
-		
-		
-
-	
-
 	delete(tree);
 	delete(parser);
+*/	
 
 	return 0;
 

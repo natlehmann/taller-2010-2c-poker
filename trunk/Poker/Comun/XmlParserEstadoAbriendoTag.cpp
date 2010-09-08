@@ -57,27 +57,29 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 
 		try {
 			this->setElementoActual(this->getElementoActual()->agregarHijo(nombreElemento));
-			this->getNodosProcesados()->insert(
-				this->getNodosProcesados()->end(), new string(nombreElemento));
+			this->getNodosProcesados()->push_back(new string(nombreElemento));
 
 			XmlParserEstado* siguienteEstado = this->getProcesandoAtt();
-
-			this->setInicioTexto(indiceFinal + 1);
+			this->setInicioTexto(indiceFinal);
 
 			if (!this->terminado()) {
 
 				unsigned int indAnyChar = this->getTextoAProcesar().find_first_not_of(
-					" ", indiceFinal + 1);			
+					" ", this->getInicioTexto());			
 
 				if ((indClose < indCloseInline) && (indClose <= indAnyChar) 
 					&& (indClose < this->getTextoAProcesar().size())) {
+
 					siguienteEstado = this->getDentroTag();
+					this->setInicioTexto(indClose + string(XML_CLOSE).size());
 
 				} else {
 
 					if ((indCloseInline < indClose) && (indCloseInline <= indAnyChar)
 						&& (indCloseInline < this->getTextoAProcesar().size())) {
-						siguienteEstado = this->getCerrandoInline();				
+
+						siguienteEstado = this->getCerrandoInline();	
+						this->setInicioTexto(indCloseInline + string(XML_CLOSE_TAG_INLINE).size());
 					} 
 				}
 			}

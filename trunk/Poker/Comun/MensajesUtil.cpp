@@ -65,8 +65,8 @@ bool MensajesUtil::esVacio(string texto) {
 string MensajesUtil::trim(string texto) {
 
 	if (!MensajesUtil::esVacio(texto)) {
-		unsigned int inicio = texto.find_first_not_of(" ");
-		unsigned int fin = texto.find_last_not_of(" ");
+		unsigned int inicio = texto.find_first_not_of(" \t\n");
+		unsigned int fin = texto.find_last_not_of(" \t\n");
 
 		string resultado = texto.substr(inicio, fin +1);
 		resultado.erase((fin + 1) - inicio);

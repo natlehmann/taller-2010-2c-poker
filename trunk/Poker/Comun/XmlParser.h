@@ -41,6 +41,7 @@ private:
 
 	void procesarLineaALinea(string textoAProcesar, 
 						 unsigned int inicio, unsigned int contadorLinea);
+	void validarFinal();
 
 public:
 	XmlParser(void);

@@ -16,8 +16,14 @@
 
 using namespace std;
 
+class XmlParserEstadoInicial;
+
 class XmlParserEstadoCerrandoTag : public XmlParserEstado
 {
+private:
+	XmlParserEstadoInicial* inicial;
+	XmlParserEstadoInicial* getInicial();
+
 public:
 	XmlParserEstadoCerrandoTag(deque<string*>* nodosProcesados);
 	virtual ~XmlParserEstadoCerrandoTag(void);
