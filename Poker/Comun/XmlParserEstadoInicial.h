@@ -13,6 +13,7 @@
 #include "Elemento.h"
 #include "XmlParserEstado.h"
 #include "XmlParserEstadoAbriendoTag.h"
+#include "XmlParserEstadoCerrandoTag.h"
 #include "MensajesUtil.h"
 #include "ParserException.h"
 
@@ -22,7 +23,10 @@ class XmlParserEstadoInicial : public XmlParserEstado
 {
 private:
 	XmlParserEstadoAbriendoTag* abriendoTag;
+	XmlParserEstadoCerrandoTag* cerrandoTag;
+
 	XmlParserEstadoAbriendoTag* getAbriendoTag();
+	XmlParserEstadoCerrandoTag* getCerrandoTag();
 
 public:
 	XmlParserEstadoInicial(deque<string*>* nodosProcesados);

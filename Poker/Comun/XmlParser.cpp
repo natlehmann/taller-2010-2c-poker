@@ -19,7 +19,6 @@ XmlParser::~XmlParser(void)
 		it != this->nodosProcesados->end(); it++) {
 			delete (*it);
 	}
-	
 
 	this->nodosProcesados->clear();
 	delete(this->nodosProcesados);
@@ -38,9 +37,18 @@ DomTree* XmlParser::toDom(string texto) {
 
 	try {
 		procesarLineaALinea(texto, inicio, contadorLinea);
+		validarFinal();
 
 	} catch(ParserException& ex ) {
+
 		delete(tree);
+
+		for(deque<string*>::iterator it = this->nodosProcesados->begin();
+			it != this->nodosProcesados->end(); it++) {
+				delete (*it);
+		}
+		this->nodosProcesados->clear();
+
 		throw ex;
 	}
 
@@ -54,7 +62,7 @@ void XmlParser::procesarLineaALinea(string textoAProcesar,
 	unsigned int fin = textoAProcesar.find("\n",inicio);
 	// si no se encuentra un retorno de linea pero todavia 
 	// no llegue al fin del string
-	if (fin > textoAProcesar.size()) {
+	if (fin == string::npos) {
 		if (inicio < (textoAProcesar.size() - 1)){
 			fin = textoAProcesar.size();
 		}
@@ -64,10 +72,13 @@ void XmlParser::procesarLineaALinea(string textoAProcesar,
 
 	if (fin <= textoAProcesar.size() && fin > inicio) {
 		string linea = textoAProcesar.substr(inicio, fin);
-cout << "Procesando LINEA " << contadorLinea << ": " << linea << endl;
+		linea.erase(fin - inicio);
+		linea = MensajesUtil::trim(linea);
 
 		this->estadoActual->setNumeroLinea(contadorLinea);
 		this->estadoActual->setTextoAProcesar(linea);
+		this->estadoActual->setInicioTexto(0);
+
 		while (!this->estadoActual->terminado()) {
 			try {
 				this->estadoActual = this->estadoActual->procesarFragmento();
@@ -75,15 +86,35 @@ cout << "Procesando LINEA " << contadorLinea << ": " << linea << endl;
 					throw ex;
 			}
 		}
-
-		inicio = fin;
+/*
+		if (fin < linea.size()) {
+			inicio = fin;
+		} else {
+			inicio = 0;
+		}
+		*/
+inicio = fin;
 		contadorLinea++;
 
 		procesarLineaALinea(textoAProcesar, inicio, contadorLinea);
 	}
 }
 
+void XmlParser::validarFinal() {
+	
+	if (!this->nodosProcesados->empty()) {
 
+		string nodosInvalidos = "";
+		for (deque<string*>::iterator it = this->nodosProcesados->begin();
+			it != this->nodosProcesados->end(); it++) {
+				nodosInvalidos = nodosInvalidos + *(*it) + " ";
+		}
+
+		throw ParserException(
+			"Error de validacion en archivo. Los siguientes tags nunca fueron cerrados: " 
+			+ nodosInvalidos);
+	}
+}
 
 
 string XmlParser::toString(DomTree* domTree) {

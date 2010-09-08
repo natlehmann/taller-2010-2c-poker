@@ -18,9 +18,8 @@ XmlParserEstadoCerrandoInline::~XmlParserEstadoCerrandoInline(void)
 
 XmlParserEstado* XmlParserEstadoCerrandoInline::procesarFragmento() {
 
-	this->setInicioTexto(this->getInicioTexto() + string(XML_CLOSE_TAG_INLINE).size());
-
 	// sacamos el elemento de la pila de control
+	delete(this->getNodosProcesados()->back());
 	this->getNodosProcesados()->pop_back();
 
 	// subo un nivel en el arbol

@@ -12,8 +12,8 @@
 
 #include "XmlParserEstado.h"
 #include "XmlParser.h"
-#include "XmlParserEstadoProcesandoTxt.h"
 #include "XmlParserEstadoCerrandoTag.h"
+#include "XmlParserEstadoProcesandoTxt.h"
 
 
 using namespace std;

@@ -1,7 +1,6 @@
 
 #include "XmlParserEstadoDentroTag.h"
 #include "XmlParserEstadoInicial.h"
-#include "XmlParserEstadoProcesandoTxt.h"
 
 
 XmlParserEstadoDentroTag::XmlParserEstadoDentroTag(deque<string*>* nodosProcesados) 
@@ -27,8 +26,6 @@ XmlParserEstadoDentroTag::~XmlParserEstadoDentroTag(void)
 
 XmlParserEstado* XmlParserEstadoDentroTag::procesarFragmento() {
 
-	this->setInicioTexto(this->getInicioTexto() + string(XML_CLOSE).size());
-
 	XmlParserEstado* siguienteEstado = this->getProcesandoTexto();
 	
 	if (!this->terminado()) {
@@ -49,7 +46,8 @@ XmlParserEstado* XmlParserEstadoDentroTag::procesarFragmento() {
 			// si son iguales los indices, gana indCloseTag (<=)
 			if ((indCloseTag <= indOpen) && (indCloseTag <= indAnyChar)
 				&& (indCloseTag < this->getTextoAProcesar().size())) {
-				siguienteEstado = this->getCerrandoTag();				
+				siguienteEstado = this->getCerrandoTag();	
+				this->setInicioTexto(indCloseTag + string(XML_CLOSE_TAG).size());
 			} 
 		}
 	

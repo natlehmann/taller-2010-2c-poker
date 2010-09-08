@@ -73,12 +73,14 @@ XmlParserEstado* XmlParserEstadoProcesandoAtt::procesarFragmento() {
 				if ((indClose < indCloseInline) && (indClose <= indAnyChar) 
 					&& (indClose < this->getTextoAProcesar().size())) {
 					siguienteEstado = this->getDentroTag();
+					this->setInicioTexto(indClose + string(XML_CLOSE).size());
 
 				} else {
 
 					if ((indCloseInline < indClose) && (indCloseInline <= indAnyChar)
 						&& (indCloseInline < this->getTextoAProcesar().size())) {
-						siguienteEstado = this->getCerrandoInline();				
+						siguienteEstado = this->getCerrandoInline();
+						this->setInicioTexto(indCloseInline + string(XML_CLOSE_TAG_INLINE).size());
 					} 
 				}
 			}

@@ -12,12 +12,25 @@
 
 #include "XmlParserEstado.h"
 #include "XmlParser.h"
+#include "XmlParserEstadoCerrandoTag.h"
 
 
 using namespace std;
 
+class XmlParserEstadoInicial;
+
 class XmlParserEstadoProcesandoTxt : public XmlParserEstado
 {
+private:
+	string textoAcumulado;
+	bool enProceso;
+
+	XmlParserEstadoCerrandoTag* cerrandoTag;
+	XmlParserEstadoInicial* inicial;
+
+	XmlParserEstadoCerrandoTag* getCerrandoTag();
+	XmlParserEstadoInicial* getInicial();
+
 public:
 	XmlParserEstadoProcesandoTxt(deque<string*>* nodosProcesados);
 	virtual ~XmlParserEstadoProcesandoTxt(void);
