@@ -18,6 +18,8 @@ XmlParserEstadoCerrandoInline::~XmlParserEstadoCerrandoInline(void)
 
 XmlParserEstado* XmlParserEstadoCerrandoInline::procesarFragmento() {
 
+	this->faltaProcesar = false;
+
 	// sacamos el elemento de la pila de control
 	delete(this->getNodosProcesados()->back());
 	this->getNodosProcesados()->pop_back();
@@ -31,6 +33,15 @@ XmlParserEstado* XmlParserEstadoCerrandoInline::procesarFragmento() {
 	this->getInicial()->setInicioTexto(this->getInicioTexto());
 
 	return this->getInicial();
+}
+
+void XmlParserEstadoCerrandoInline::setInicioTexto(unsigned int inicio) {
+	XmlParserEstado::setInicioTexto(inicio);
+	this->faltaProcesar = true;
+}
+
+bool XmlParserEstadoCerrandoInline::terminado() {
+	return this->faltaProcesar;
 }
 
 XmlParserEstadoInicial* XmlParserEstadoCerrandoInline::getInicial() {
