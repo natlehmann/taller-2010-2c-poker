@@ -36,7 +36,7 @@ public:
 	void setTextoAProcesar(string texto);
 	string getTextoAProcesar();
 
-	void setInicioTexto(unsigned int inicio);
+	virtual void setInicioTexto(unsigned int inicio);
 	unsigned int getInicioTexto();
 
 	void setNumeroLinea(int numero);
@@ -46,7 +46,7 @@ public:
 
 	virtual XmlParserEstado* procesarFragmento() = 0;
 
-	bool terminado();
+	virtual bool terminado();
 
 };
 

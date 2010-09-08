@@ -86,14 +86,8 @@ void XmlParser::procesarLineaALinea(string textoAProcesar,
 					throw ex;
 			}
 		}
-/*
-		if (fin < linea.size()) {
-			inicio = fin;
-		} else {
-			inicio = 0;
-		}
-		*/
-inicio = fin;
+
+		inicio = fin;
 		contadorLinea++;
 
 		procesarLineaALinea(textoAProcesar, inicio, contadorLinea);

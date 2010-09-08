@@ -8,6 +8,7 @@
 #include <set>
 #include <stack>
 #include <map>
+#include <list>
 
 #include "Elemento.h"
 #include "ParserException.h"
@@ -27,7 +28,7 @@ int main (int argc, char** argv)
 {
 	Parser* parser = new XmlParser();
 	DomTree* tree;
-	map<string,bool> pruebas;
+	list<pair<string,bool>> pruebas;
 
 
 	string xml01 = string("<pedido>\n</pedido>");
@@ -35,16 +36,25 @@ int main (int argc, char** argv)
 	string xml03 = string("<pedido>\n<operacion id=\"S\"/>\n<parametros>\n<parametro nombre=\"sum\">\n3\n</parametro>")
 		+ string("\n<parametro nombre=\"sum\">\n21\n</parametro>\n</parametros>\n</pedido>");
 	string xml04 = string("<pedido>\n<operacion \n id=\"S\" \n/>\n</pedido>");
+	string xml05 = string("<pedido>\n<\noperacion \n id=\"S\" \n/>\n</pedido>");
+	string xml06 = string("\n<pedido/>\n\n\n");
+	string xml07 = string("<pedido>\n<\n operacion \n id=\"S\"  \n/>\n<parametros>\n<parametro \n nombre=\"sum\"> \n  3 \n</parametro>")
+		+ string("\n<parametro \n nombre=\"sum\" \n >\n 21\n</parametro>\n\n\n</parametros>\n</pedido>");
 
 	// el valor booleano representa si el string se debe procesar bien (true) 
 	// o lanzar una excepcion (false)
-	pruebas.insert(pair<string,bool>(xml01, true));
-	pruebas.insert(pair<string,bool>(xml02, true));
-	pruebas.insert(pair<string,bool>(xml03, true));
-	pruebas.insert(pair<string,bool>(xml04, true));
+/*
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml01, true));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml02, true));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml03, true));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml04, true));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml05, true));
+	*/
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml06, true));
+	//pruebas.insert(pruebas.end(), pair<string,bool>(xml07, true));
 
 	int contador = 1;
-	for (map<string,bool>::iterator it = pruebas.begin(); it != pruebas.end(); it++) {
+	for (list<pair<string,bool>>::iterator it = pruebas.begin(); it != pruebas.end(); it++) {
 
 		cout << "TEST NUMERO " << contador++ << endl;
 		bool resReal = true;
@@ -80,13 +90,7 @@ int main (int argc, char** argv)
 
 
 
-cout << "1 caracter : x --" << MensajesUtil::trim("x") << "--" << endl;
-cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim(" \nx") << "--" << endl;
-cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x ") << "--" << endl;
-cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("\nx ") << "--" << endl;
-cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim("    x\n") << "--" << endl;
-cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x    \n") << "--" << endl;
-cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("\n    x ") << "--" << endl;
+
 
 /*
 		cout << "arbol creado" << endl;
@@ -312,6 +316,14 @@ cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim(" x ") <
 cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim("    x") << "--" << endl;
 cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x     ") << "--" << endl;
 cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("    x ") << "--" << endl;
+
+cout << "1 caracter : x --" << MensajesUtil::trim("x") << "--" << endl;
+cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim(" \nx") << "--" << endl;
+cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x ") << "--" << endl;
+cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("\nx ") << "--" << endl;
+cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim("    x\n") << "--" << endl;
+cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x    \n") << "--" << endl;
+cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("\n    x ") << "--" << endl;
 
 	delete(tree);
 	delete(parser);

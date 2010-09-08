@@ -24,11 +24,17 @@ private:
 	XmlParserEstadoInicial* inicial;
 	XmlParserEstadoInicial* getInicial();
 
+	bool faltaProcesar;
+
 public:
 	XmlParserEstadoCerrandoInline(deque<string*>* nodosProcesados);
 	virtual ~XmlParserEstadoCerrandoInline(void);
 
 	virtual XmlParserEstado* procesarFragmento();
+
+	// redefiniciones
+	virtual void setInicioTexto(unsigned int inicio);
+	virtual bool terminado();
 };
 
 #endif

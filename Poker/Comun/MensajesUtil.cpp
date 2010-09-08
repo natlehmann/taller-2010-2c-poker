@@ -54,8 +54,9 @@ string MensajesUtil::toString(const T &arg)
 
 bool MensajesUtil::esVacio(string texto) {
 	bool vacio = true;
-	for (unsigned int i = 0; i < texto.size(); i++) {
-		if (texto.at(i) != ' ') {
+	if (texto.size() > 0) {
+		unsigned int index = texto.find_first_not_of(" \n\t");
+		if (index != string::npos) {
 			vacio = false;
 		}
 	}
