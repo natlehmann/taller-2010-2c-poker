@@ -58,7 +58,7 @@ void UIServidor::menuPrincipal()
 
 void UIServidor::leerEntrada()
 {
-	std::cin >> entrada;
+	getline(cin, entrada);
 }
 
 void UIServidor::ejecutarAccion()
