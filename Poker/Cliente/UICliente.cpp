@@ -430,13 +430,5 @@ void UICliente::agregarOperando()
 
 void UICliente::limpiarListaOperandos()
 {
-	list<string>::iterator iter;
-						
-	iter = this->lstOperandos.begin();
-				
-	while (iter != this->lstOperandos.end())
-	{
-		iter = this->lstOperandos.erase(iter);		
-		iter++;
-	}
+	this->lstOperandos.clear();
 }
