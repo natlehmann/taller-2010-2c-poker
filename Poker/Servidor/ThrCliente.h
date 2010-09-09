@@ -43,7 +43,11 @@ class ThrCliente: public Thread
 				cout << msjRecibido;
 				// Se envia la respuesta correspondiente
 				msjRecibido = "Respuesta de " + msjRecibido;
-				sock->enviar(msjRecibido, msjRecibido.length());
+				
+				if(!sock->enviar(msjRecibido, msjRecibido.length()))
+				{
+					this->pararCliente();
+				}
 			}
 						
 			// Se desconecta el socket
