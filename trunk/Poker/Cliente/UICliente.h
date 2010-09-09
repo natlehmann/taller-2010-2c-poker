@@ -44,7 +44,7 @@ class UICliente
 		bool validarOpcionMenu(eMenu tipoMenu);
 		void limpiarPantalla();
 		void mostrarMensaje(string msg, bool ingresaDatos = true);
-		void mostrarMensajeError();
+		void reingresarOpcionMenu();
 
 		bool conectarServidor();
 		bool desconectarServidor();
