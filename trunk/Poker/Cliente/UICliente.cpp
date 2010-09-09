@@ -16,18 +16,18 @@ UICliente::~UICliente(void)
 void UICliente::iniciarAplicacion()
 {
 	bool salir = false;
-	bool volver = true;
-	bool volver2 = true;
+	bool volverMenuMP = true;
+	bool volverMenuTO = true;
 
 	limpiarPantalla();
 	
 	while (!this->cerrarAplicacion)
 	{
-		if (volver)
+		if (volverMenuMP)
 		{
 			menuPrincipal();
 			leerOpcionMenu();
-			volver = false;
+			volverMenuMP = false;
 		}
 		
 		if (this->validarOpcionMenu(MP))
@@ -36,45 +36,47 @@ void UICliente::iniciarAplicacion()
 			{
 				if (conectarServidor())
 				{
-					while (volver2)
+					while (!volverMenuMP)
 					{
-						menuTipoOperaciones();
-						leerOpcionMenu();
-						volver2 = false;
+						if (volverMenuTO)
+						{
+							menuTipoOperaciones();
+							leerOpcionMenu();
+							volverMenuTO = false;
+						}
 
 						if (this->validarOpcionMenu(TO))
 						{
 							if (this->opcionMenu != 3)
 							{
 								ejecutarAccionTO();
-								volver2 = true;
+								volverMenuTO = true;
 							}
 							else
 							{
 								if (this->desconectarServidor())
 								{
 									this->mostrarMensaje("SE HA DESCONECTADO CORRECTAMENTE", false);
-									salir = true;
+									volverMenuMP = true;
+									volverMenuTO = true;
 								}
 							}
 						}
+						else
+							reingresarOpcionMenu();
 					}
 				}
 				else
 				{
 					this->mostrarMensaje("NO SE HA PODIDO CONECTAR AL SERVIDOR", false);
-					volver = true;
+					volverMenuMP = true;
 				}
 			}
 			else
 				this->cerrarAplicacion = true;
 		}
 		else
-		{			
-			this->mostrarMensaje("EL VALOR '" + this->entrada + "' NO ES UNA OPCION INVALIDA !!!", false);
-			this->mostrarMensaje("INGRESE NUEVAMENTE UNA OPCION DEL MENU:");
-			leerOpcionMenu();
-		}
+			reingresarOpcionMenu();
 	}	
 }
 
@@ -123,12 +125,12 @@ void UICliente::menuOperaciones()
 
 void UICliente::leerOpcionMenu()
 {
-	std::cin >> entrada;
+	getline(cin, this->entrada);
 	this->opcionMenu = General::getEntero(this->entrada);
 }
 void UICliente::leerEntrada()
 {
-	std::cin >> entrada;
+	getline(cin, this->entrada);
 }
 
 void UICliente::ejecutarAccionMP()
@@ -167,30 +169,37 @@ void UICliente::ejecutarAccionO()
 
 void UICliente::ejecutarOperaciones(bool manual)
 {
+	bool volverMenuOP = true;
 	bool salir = false;
 
 	while (!salir)
 	{
 		if (manual)
 		{
-			menuOperaciones();
-			leerOpcionMenu();
+			if(volverMenuOP)
+			{
+				menuOperaciones();
+				leerOpcionMenu();
+				volverMenuOP = false;
+			}
 
 			if (this->validarOpcionMenu(OP))
 			{
 				if (this->opcionMenu != 5)
 				{
 					procesarEntradaOperandos();
+					volverMenuOP = true;
 				}
 				else
 					salir = true;
 			}
+			else
+				reingresarOpcionMenu();
 		}
 		else
 		{
-			this->mostrarMensaje("INGRESE LA RUTA DEL XML QUE CONTIENE LAS OPERACIONES:");
-			this->leerEntrada();
 			procesarArchivoXML();
+			salir = true;
 		}
 	}
 }
@@ -226,6 +235,11 @@ bool UICliente::conectarServidor()
 				mostrarMensaje("LA CONEXION CON EL SERVIDOR HA SIDO EXITOSA ...", false);
 				conecto = true;
 			}
+			else
+			{
+				mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR", false);
+				mostrarMensaje("INTENTE NUEVAMENTE...", false);
+			}
 		}
 		else
 		{
@@ -260,14 +274,16 @@ bool UICliente::desconectarServidor()
 }
 void UICliente::procesarArchivoXML()
 {
-	
-
+	this->mostrarMensaje("INGRESE LA RUTA DEL XML QUE CONTIENE LAS OPERACIONES:");
+	this->leerEntrada();
+	this->mostrarMensaje("SE HA PROCESADO CORRECTAMENTE EL ARCHIVO XML !!!", false);
 }
 void UICliente::procesarEntradaOperandos()
 {
 	bool fin = false;
 	bool enviar = false;
 	bool errorDato = true;
+	bool salir = false;
 	double operando = 0.0;
 	int dividendo = 0;
 	int divisor = 0;
@@ -289,24 +305,28 @@ void UICliente::procesarEntradaOperandos()
 	
 	if (this->tipoOperacion != DIVISION)
 	{
-		this->mostrarMensaje("INGRESE LOS OPERANDOS DE LA OPERACION (PARA FINALIZAR PRESIONE 'x'):",false);
+		this->mostrarMensaje("INGRESE LOS OPERANDOS DE LA OPERACION (PARA FINALIZAR PRESIONE 'x'):", false);
 		this->entrada = "";
 
-		while (!fin)
-		{	
-			if (!(this->entrada.compare("x")==0 || this->entrada.compare("X") ==0))
-			{
-				this->leerEntrada();
+		while (!salir)
+		{
+			this->leerEntrada();
+			
+			salir = (this->entrada.compare("x")==0 || this->entrada.compare("X") ==0);
 
+			if (!salir)
+			{
 				// Se valida que lo ingresado sea un numero real
 				if (General::esDouble(this->entrada))
 					agregarOperando();
 				else
-					mostrarMensaje("OPERANDO INGRESADO INCORRECTO!!!");
+					mostrarMensaje("OPERANDO INGRESADO INCORRECTO!!!", false);
 			}
-			else
-				fin = true;
 		}
+
+		// Se valida que por lo menos se hayan ingresado dos operandos
+		if (this->lstOperandos.size() > 1)
+			enviar = true;
 	}
 	else
 	{
@@ -314,6 +334,7 @@ void UICliente::procesarEntradaOperandos()
 		leerEntrada();
 		dividendo = General::getEntero(this->entrada);
 
+		// Se valida que el dividendo sea un numero entero
 		if(dividendo >= 0)
 		{
 			agregarOperando();
@@ -323,6 +344,7 @@ void UICliente::procesarEntradaOperandos()
 
 			divisor = General::getEntero(this->entrada);
 
+			// Se valida que el divisor sea un numero entero
 			if(divisor >= 0)
 			{
 				agregarOperando();
@@ -332,11 +354,9 @@ void UICliente::procesarEntradaOperandos()
 		}
 	}
 
+	// Si no se produjo errores al ingresar los datos --> se los envia
 	if (enviar)
-	{
 		enviarOperacion();
-		mostrarResultado();
-	}
 
 	limpiarListaOperandos();
 }
@@ -358,11 +378,11 @@ void UICliente::enviarOperacion()
 void UICliente::mostrarResultado()
 {
 }
-void UICliente::mostrarMensajeError()
+void UICliente::reingresarOpcionMenu()
 {
-	std::cout << std::endl;
-	std::cout << this->msgError;
-	std::cout << std::endl;
+	this->mostrarMensaje("EL VALOR '" + this->entrada + "' NO ES UNA OPCION INVALIDA !!!", false);
+	this->mostrarMensaje("INGRESE NUEVAMENTE UNA OPCION DEL MENU:");
+	leerOpcionMenu();
 }
 
 void UICliente::mostrarMensaje(string msg, bool ingresaDatos)
