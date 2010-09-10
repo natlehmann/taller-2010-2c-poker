@@ -28,7 +28,8 @@ XmlParserEstado* XmlParserEstadoCerrandoTag::procesarFragmento() {
 		if (!this->getNodosProcesados()->empty()) {
 
 			// control
-			string* ultimoProcesado = this->getNodosProcesados()->back();		
+			string* ultimoProcesado = this->getNodosProcesados()->back();
+			this->getNodosProcesados()->pop_back();
 
 			if (!MensajesUtil::sonIguales(tag, *ultimoProcesado)) {
 				string msg = "Error en linea " + MensajesUtil::intToString(this->getNumeroLinea())
@@ -38,7 +39,7 @@ XmlParserEstado* XmlParserEstadoCerrandoTag::procesarFragmento() {
 				throw ParserException(msg);
 			}
 
-			this->getNodosProcesados()->pop_back();
+			
 			delete(ultimoProcesado);
 
 		} else {
