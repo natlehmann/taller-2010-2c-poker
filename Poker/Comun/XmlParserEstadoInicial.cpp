@@ -36,8 +36,9 @@ XmlParserEstado* XmlParserEstadoInicial::procesarFragmento() {
 
 		if (indice < this->getTextoAProcesar().size()) {
 			// verifico si todo lo que hay antes del tag de apertura son espacios
-			bool esVacio = MensajesUtil::esVacio(
-				this->getTextoAProcesar().substr(this->getInicioTexto(),indice));
+			string textoAnterior = this->getTextoAProcesar().substr(this->getInicioTexto(),indice);
+			textoAnterior.erase(indice - this->getInicioTexto());
+			bool esVacio = MensajesUtil::esVacio(textoAnterior);
 
 			if (!esVacio) {
 				string msg = "Se encontraron caracteres invalidos antes del inicio de un tag en la linea " 
