@@ -8,6 +8,7 @@ UICliente::UICliente(void)
 	this->cerrarAplicacion = false;
 	this->opcionMenu = 0;
 	this->entrada = "";
+	this->resultado = "";
 }
 
 UICliente::~UICliente(void)
@@ -383,7 +384,7 @@ void UICliente::enviarOperacion()
 	//Aca se pasa al parserTeclado el tipo de operacion y la lista de operandos
 	//se devuelve un string
 	string codigoOperacion;
-	switch (tipoOperacion)
+	switch (this->tipoOperacion)
 	{
 		case 1:	codigoOperacion = "S";
 				break;
@@ -407,6 +408,24 @@ void UICliente::enviarOperacion()
 }
 void UICliente::mostrarResultado()
 {
+	string operacion;
+
+	switch (this->tipoOperacion)
+	{
+		case 1:	operacion = "SUMA";
+				break;
+
+		case 2: operacion = "RESTA";
+				break;
+
+		case 3: operacion = "MULTIPLICACION";
+				break;
+
+		case 4: operacion = "DIVISION";
+				break;
+	}
+
+	this->mostrarMensaje("EL RESULTADO DE LA " + operacion + " ES: " + this->resultado, false);
 }
 void UICliente::reingresarOpcionMenu()
 {
