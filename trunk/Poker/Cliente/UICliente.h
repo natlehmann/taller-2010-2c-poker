@@ -23,6 +23,7 @@ class UICliente
 		list<string> lstOperandos; // Lista con los operandos ingresados por el usuario
 		Cliente* cliente;
 		eOperacion tipoOperacion;
+		string resultado;
 
 		// Metodos de impresion de Menues
 		void menuPrincipal();
