@@ -2,6 +2,7 @@
 #define _NO_ "N"
 #define _ERROR_ -1
 #define _PUNTO_ '.'
+#define _MENOS_ '-'
 
 #include <string>
 #include <ctype.h>
@@ -38,11 +39,23 @@ class General
 			unsigned int digito = 0;
 			unsigned int indice = 0;
 			bool encontroPunto = false;
+			bool negativo = false;
 			bool salir = false;
 			bool resul = false;
 			
 			if (strlen(valor.data()) > 0)
 			{
+				if (valor[indice] == _MENOS_)
+				{
+					if (strlen(valor.data()) != 1)
+					{
+						negativo = true;
+						indice += 1;					
+					}
+					else
+						salir = false;
+				}
+
 				while((indice < strlen(valor.data())) && !(salir))
 				{
 					if (isdigit(valor[indice]))
