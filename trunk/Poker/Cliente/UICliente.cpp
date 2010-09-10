@@ -280,9 +280,7 @@ void UICliente::procesarArchivoXML()
 }
 void UICliente::procesarEntradaOperandos()
 {
-	bool fin = false;
 	bool enviar = false;
-	bool errorDato = true;
 	bool salir = false;
 	double operando = 0.0;
 	int dividendo = 0;
@@ -331,25 +329,43 @@ void UICliente::procesarEntradaOperandos()
 	else
 	{
 		mostrarMensaje("INGRESE EL DIVIDENDO:");
-		leerEntrada();
-		dividendo = General::getEntero(this->entrada);
-
-		// Se valida que el dividendo sea un numero entero
-		if(dividendo >= 0)
+		
+		while (!salir)
 		{
-			agregarOperando();
-
-			mostrarMensaje("INGRESE EL DIVISOR:");
 			leerEntrada();
+			dividendo = General::getEntero(this->entrada);
 
-			divisor = General::getEntero(this->entrada);
-
-			// Se valida que el divisor sea un numero entero
-			if(divisor >= 0)
+			// Se valida que el dividendo sea un numero entero
+			if(dividendo >= 0)
 			{
 				agregarOperando();
-				errorDato = false;
-				enviar = true;
+
+				mostrarMensaje("INGRESE EL DIVISOR:");
+				
+				while (!salir)
+				{
+					leerEntrada();
+
+					divisor = General::getEntero(this->entrada);
+
+					// Se valida que el divisor sea un numero entero
+					if(divisor >= 0)
+					{
+						agregarOperando();
+						enviar = true;
+						salir = true;
+					}
+					else
+					{
+						mostrarMensaje("DIVISOR INGRESADO INCORRECTO!!!. DEBE SER UN VALOR ENTERO.", false);
+						mostrarMensaje("VUELVA A INGRESAR EL DIVISOR:");
+					}
+				}
+			}
+			else
+			{
+				mostrarMensaje("DIVIDENDO INGRESADO INCORRECTO!!!. DEBE SER UN VALOR ENTERO.", false);
+				mostrarMensaje("VUELVA A INGRESAR EL DIVIDENDO:");
 			}
 		}
 	}
