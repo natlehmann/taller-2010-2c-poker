@@ -208,10 +208,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ParserEntradaTeclado.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ParserException.cpp"
 				>
 			</File>
@@ -299,10 +295,6 @@
 			</File>
 			<File
 				RelativePath=".\Parser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ParserEntradaTeclado.h"
 				>
 			</File>
 			<File
