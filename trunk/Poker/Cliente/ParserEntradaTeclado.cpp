@@ -1,6 +1,7 @@
 
 #include "ParserEntradaTeclado.h"
 #include "XmlParser.h"
+#include "ParserException.h"
 #include "DomTree.h"
 #include "Elemento.h"
 #include "MensajesUtil.h"
@@ -20,7 +21,7 @@ DomTree* ParserEntradaTeclado::toDom() {
 
 	DomTree* domTree = new DomTree();
 
-	//try {
+	try {
 
 			Elemento* elementoPedido = domTree->agregarElemento("pedido");
 			Elemento* elementoOperacion = elementoPedido->agregarHijo("operacion");
@@ -34,11 +35,11 @@ DomTree* ParserEntradaTeclado::toDom() {
 				elementoParametro->setTexto(*it);
 			}
 
-	//} catch(Exception ex ) {
+	} catch(ParserException& ex ) {
 
-	//	delete(domTree);
-	//	throw ex;
-	//}
+		delete(domTree);
+		throw ex;
+	}
 
 	return domTree;
 }
@@ -56,6 +57,7 @@ string ParserEntradaTeclado::generarMensaje()
 
 string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 {
+	//hay que probarlo!!!!
 	string mensajeRespuesta;
 
 	XmlParser* xmlParser = new XmlParser();
