@@ -18,21 +18,28 @@ XmlParserEstadoCerrandoInline::~XmlParserEstadoCerrandoInline(void)
 
 XmlParserEstado* XmlParserEstadoCerrandoInline::procesarFragmento() {
 
-	this->faltaProcesar = false;
+	if (!this->getNodosProcesados()->empty()) {
 
-	// sacamos el elemento de la pila de control
-	delete(this->getNodosProcesados()->back());
-	this->getNodosProcesados()->pop_back();
+		this->faltaProcesar = false;
 
-	// subo un nivel en el arbol
-	this->setElementoActual(this->getElementoActual()->getPadre());
+		// sacamos el elemento de la pila de control
+		delete(this->getNodosProcesados()->back());
+		this->getNodosProcesados()->pop_back();
 
-	this->getInicial()->setElementoActual(this->getElementoActual());
-	this->getInicial()->setTextoAProcesar(this->getTextoAProcesar());
-	this->getInicial()->setNumeroLinea(this->getNumeroLinea());
-	this->getInicial()->setInicioTexto(this->getInicioTexto());
+		// subo un nivel en el arbol
+		this->setElementoActual(this->getElementoActual()->getPadre());
 
-	return this->getInicial();
+		this->getInicial()->setElementoActual(this->getElementoActual());
+		this->getInicial()->setTextoAProcesar(this->getTextoAProcesar());
+		this->getInicial()->setNumeroLinea(this->getNumeroLinea());
+		this->getInicial()->setInicioTexto(this->getInicioTexto());
+
+		return this->getInicial();
+
+	} else {
+		throw ParserException("Error en linea " + MensajesUtil::intToString(this->getNumeroLinea())
+			+ ". Se encontro el cierre de un tag que nunca se abrio.");
+	}
 }
 
 void XmlParserEstadoCerrandoInline::setInicioTexto(unsigned int inicio) {
@@ -41,7 +48,7 @@ void XmlParserEstadoCerrandoInline::setInicioTexto(unsigned int inicio) {
 }
 
 bool XmlParserEstadoCerrandoInline::terminado() {
-	return this->faltaProcesar;
+	return !this->faltaProcesar;
 }
 
 XmlParserEstadoInicial* XmlParserEstadoCerrandoInline::getInicial() {

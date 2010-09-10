@@ -1,5 +1,5 @@
 
-//#include <vld.h>
+#include <vld.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -40,18 +40,33 @@ int main (int argc, char** argv)
 	string xml06 = string("\n<pedido/>\n\n\n");
 	string xml07 = string("<pedido>\n<\n operacion \n id=\"S\"  \n/>\n<parametros>\n<parametro \n nombre=\"sum\"> \n  3 \n</parametro>")
 		+ string("\n<parametro \n nombre=\"sum\" \n >\n 21\n</parametro>\n\n\n</parametros>\n</pedido>");
+	
+	string xml08 = string("<pedido>\n</pedido></pedido>");
+	string xml09 = string("<pedido>\n</pedido><pedido>");
+	string xml10 = string("<pedi\n</pedido><pedido>");
+	string xml11 = string("<pedi/pedido><pedido>");
+	string xml12 = string("<pedido\n></pedido>");
+	string xml13 = string("</pedido>");
+	string xml14 = string("</>");
 
 	// el valor booleano representa si el string se debe procesar bien (true) 
 	// o lanzar una excepcion (false)
-/*
+
 	pruebas.insert(pruebas.end(), pair<string,bool>(xml01, true));
 	pruebas.insert(pruebas.end(), pair<string,bool>(xml02, true));
 	pruebas.insert(pruebas.end(), pair<string,bool>(xml03, true));
 	pruebas.insert(pruebas.end(), pair<string,bool>(xml04, true));
 	pruebas.insert(pruebas.end(), pair<string,bool>(xml05, true));
-	*/
 	pruebas.insert(pruebas.end(), pair<string,bool>(xml06, true));
-	//pruebas.insert(pruebas.end(), pair<string,bool>(xml07, true));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml07, true));
+	
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml08, false));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml09, false));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml10, false));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml11, false));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml12, true));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml13, false));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml14, false));
 
 	int contador = 1;
 	for (list<pair<string,bool>>::iterator it = pruebas.begin(); it != pruebas.end(); it++) {

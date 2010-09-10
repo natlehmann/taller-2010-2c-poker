@@ -25,19 +25,26 @@ XmlParserEstado* XmlParserEstadoCerrandoTag::procesarFragmento() {
 		tag.erase(indiceFinal - this->getInicioTexto());
 		tag = MensajesUtil::trim(tag);
 
-		// control
-		string* ultimoProcesado = this->getNodosProcesados()->back();
-		this->getNodosProcesados()->pop_back();
+		if (!this->getNodosProcesados()->empty()) {
 
-		if (!MensajesUtil::sonIguales(tag, *ultimoProcesado)) {
-			string msg = "Error en linea " + MensajesUtil::intToString(this->getNumeroLinea())
-				+ ". Se esperaba el cierre del tag " + *ultimoProcesado + " y se encontro '" + tag 
-				+ "'.";
+			// control
+			string* ultimoProcesado = this->getNodosProcesados()->back();		
+
+			if (!MensajesUtil::sonIguales(tag, *ultimoProcesado)) {
+				string msg = "Error en linea " + MensajesUtil::intToString(this->getNumeroLinea())
+					+ ". Se esperaba el cierre del tag " + *ultimoProcesado + " y se encontro '" + tag 
+					+ "'.";
+				delete(ultimoProcesado);
+				throw ParserException(msg);
+			}
+
+			this->getNodosProcesados()->pop_back();
 			delete(ultimoProcesado);
-			throw ParserException(msg);
-		}
 
-		delete(ultimoProcesado);
+		} else {
+			throw ParserException("Error en linea " + MensajesUtil::intToString(this->getNumeroLinea())
+				+ ". Se encontro el cierre de un tag que nunca se abrio: " + tag);
+		}
 
 		// subo un nivel en el arbol
 		this->setElementoActual(this->getElementoActual()->getPadre());
