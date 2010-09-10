@@ -21,9 +21,6 @@
 
 #include <list>
 #include "DomTree.h"
-//#include "Parser.h"
-//#include "XmlParserEstado.h"
-//#include "PokerException.h"
 
 using namespace std;
 
@@ -33,11 +30,7 @@ private:
 	string _codigoOperacion;
 	list<string>* _lstOperandos;
 
-	//string abrirNodo(Elemento* elemento, string indent);
-	//string cerrarNodo(Elemento* elemento, string indent);
-	//string procesarNodo(Elemento* elemento, string indent);
 	DomTree* toDom();
-	//string toString(DomTree* domTree);
 
 public:
 	ParserEntradaTeclado(string codigoOperacion, list<string>* lstOperandos);
