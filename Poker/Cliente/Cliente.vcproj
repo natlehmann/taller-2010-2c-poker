@@ -175,11 +175,51 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\Comun\ArrayUtil.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Cliente.cpp"
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\DomTree.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\DomTreeFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Elemento.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\FormatException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\MensajesUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Parser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ParserEntradaTeclado.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\ParserException.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\PokerException.cpp"
 				>
 			</File>
 			<File
@@ -190,6 +230,42 @@
 				RelativePath=".\UICliente.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\Comun\XmlParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstado.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoAbriendoTag.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoCerrandoInline.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoCerrandoTag.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoDentroTag.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoInicial.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoProcesandoAtt.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoProcesandoTxt.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Archivos de encabezado"
@@ -197,11 +273,51 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\Comun\ArrayUtil.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Cliente.h"
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\DomTree.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\DomTreeFactory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Elemento.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\FormatException.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\General.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\MensajesUtil.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Parser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ParserEntradaTeclado.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\ParserException.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\PokerException.h"
 				>
 			</File>
 			<File
@@ -210,6 +326,42 @@
 			</File>
 			<File
 				RelativePath=".\UICliente.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParser.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstado.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoAbriendoTag.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoCerrandoInline.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoCerrandoTag.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoDentroTag.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoInicial.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoProcesandoAtt.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\XmlParserEstadoProcesandoTxt.h"
 				>
 			</File>
 		</Filter>

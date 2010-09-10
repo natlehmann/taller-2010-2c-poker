@@ -1,4 +1,5 @@
 #include "UICliente.h"
+#include "ParserEntradaTeclado.h"
 
 UICliente::UICliente(void)
 {
@@ -381,13 +382,26 @@ void UICliente::enviarOperacion()
 {
 	//Aca se pasa al parserTeclado el tipo de operacion y la lista de operandos
 	//se devuelve un string
-	//string mensaje = parserTeclado->mensajeProcesar()
-	string mensaje = "";
+	string codigoOperacion;
+	switch (tipoOperacion)
+	{
+		case 1:	codigoOperacion = "S";
+				break;
+		case 2: codigoOperacion = "R";
+				break;
+		case 3:	codigoOperacion = "M";
+				break;
+		case 4: codigoOperacion = "D";
+				break;
+	}
+
+	ParserEntradaTeclado parserTeclado(codigoOperacion, &this->lstOperandos);
+	string mensaje = parserTeclado.generarMensaje();
 	
 	if(cliente->enviarMsj(mensaje))
 	{
 		string respuestaServ = cliente->recibirMsj();
-		//string respuesta = parserTeclado->respuestaProcesar(respuesta);
+		string respuesta = parserTeclado.obtenerRespuesta(respuesta);
 		
 	}
 }
