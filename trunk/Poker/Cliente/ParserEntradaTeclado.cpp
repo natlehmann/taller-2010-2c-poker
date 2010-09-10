@@ -17,23 +17,45 @@ ParserEntradaTeclado::~ParserEntradaTeclado(void)
 	
 }
 
+string ParserEntradaTeclado::obtenerTipoParametro(int numeroParametro)
+{
+	string tipoParametro;
+	
+	if (MensajesUtil::sonIguales(XML_OP_SUMA, this->_codigoOperacion))
+		tipoParametro = XML_ATR_TIPO_SUM;
+	else if (MensajesUtil::sonIguales(XML_OP_RESTA, this->_codigoOperacion))
+		tipoParametro = XML_ATR_TIPO_RES;
+	else if (MensajesUtil::sonIguales(XML_OP_MULT, this->_codigoOperacion))
+		tipoParametro = XML_ATR_TIPO_MUL;
+	else if (MensajesUtil::sonIguales(XML_OP_DIV, this->_codigoOperacion))
+	{		
+		if (numeroParametro == 0)
+			tipoParametro = XML_ATR_TIPO_DIVISOR;
+		else
+			tipoParametro = XML_ATR_TIPO_DIVIDENDO;
+	}
+
+	return tipoParametro;
+}
+
 DomTree* ParserEntradaTeclado::toDom() {
 
+	int i = 0;
 	DomTree* domTree = new DomTree();
 
 	try {
 
-			Elemento* elementoPedido = domTree->agregarElemento("pedido");
-			Elemento* elementoOperacion = elementoPedido->agregarHijo("operacion");
-			elementoOperacion->agregarAtributo("id",this->_codigoOperacion);
-			Elemento* elementoParametros = elementoPedido->agregarHijo("parametros");
+		Elemento* elementoPedido = domTree->agregarElemento(XML_TAG_PEDIDO);
+		Elemento* elementoOperacion = elementoPedido->agregarHijo(XML_TAG_OPERACION);
+		elementoOperacion->agregarAtributo(XML_ATR_ID,this->_codigoOperacion);
+		Elemento* elementoParametros = elementoPedido->agregarHijo(XML_TAG_PARAMETROS);
 
-			Elemento* elementoParametro;
-			for (list<string>::iterator it = this->_lstOperandos->begin(); it != this->_lstOperandos->end(); it++) {
-				elementoParametro = elementoParametros->agregarHijo("parametro");
-				elementoParametro->agregarAtributo("nombre","dividendo");
-				elementoParametro->setTexto(*it);
-			}
+		Elemento* elementoParametro;
+		for (list<string>::iterator it = this->_lstOperandos->begin(); it != this->_lstOperandos->end(); it++) {
+			elementoParametro = elementoParametros->agregarHijo(XML_TAG_PARAMETRO);
+			elementoParametro->agregarAtributo(XML_ATR_NOMBRE,this->obtenerTipoParametro(i++));
+			elementoParametro->setTexto(*it);
+		}
 
 	} catch(ParserException& ex ) {
 
@@ -70,14 +92,14 @@ string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 		for(list<Elemento*>::iterator it = domRespuesta->getHijos()->begin(); 
 			it != domRespuesta->getHijos()->end(); it++) {
 			
-				if (MensajesUtil::sonIguales((*it)->getNombre(), "errores"))
+				if (MensajesUtil::sonIguales((*it)->getNombre(), XML_TAG_ERRORES))
 				{
 					for(list<Elemento*>::iterator it1 = (*it)->getHijos()->begin(); 
 						it1 != (*it)->getHijos()->end(); it1++) {					
 							mensajeRespuesta = (*it1)->getTexto();
 					}
 				}
-				else if (MensajesUtil::sonIguales((*it)->getNombre(), "resultados"))
+				else if (MensajesUtil::sonIguales((*it)->getNombre(), XML_TAG_RESULTADOS))
 				{
 					for(list<Elemento*>::iterator it2 = (*it)->getHijos()->begin(); 
 						it2 != (*it)->getHijos()->end(); it2++) {					

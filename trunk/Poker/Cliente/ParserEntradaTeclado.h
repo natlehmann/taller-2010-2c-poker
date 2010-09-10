@@ -1,16 +1,27 @@
 #ifndef _PARSERENTRADATECLADO_H__
 #define _PARSERENTRADATECLADO_H__
 
-#define XML_OPEN "<"
-#define XML_CLOSE ">"
-#define XML_CLOSE_TAG "</"
-#define XML_CLOSE_TAG_INLINE "/>"
-#define XML_INDENT "   "
-#define XML_OPEN_ATTR "=\""
-#define XML_CLOSE_ATTR "\""
+#define XML_OP_SUMA "S"
+#define XML_OP_RESTA "R"
+#define XML_OP_MULT "M"
+#define XML_OP_DIV "D"
+#define XML_TAG_PEDIDO "pedido"
+#define XML_TAG_OPERACION "operacion"
+#define XML_TAG_PARAMETROS "parametros"
+#define XML_TAG_PARAMETRO "parametro"
+#define XML_TAG_ERRORES "errores"
+#define XML_TAG_RESULTADOS "resultados"
+#define XML_ATR_NOMBRE "nombre"
+#define XML_ATR_ID "id"
+#define XML_ATR_TIPO_SUM "sum"
+#define XML_ATR_TIPO_RES "res"
+#define XML_ATR_TIPO_MUL "mul"
+#define XML_ATR_TIPO_DIVIDENDO "dividendo"
+#define XML_ATR_TIPO_DIVISOR "divisor"
 
 #include <stdio.h>
 #include <stdlib.h>
+
 #include <iostream>
 #include <string.h>
 #include <sstream>
@@ -30,6 +41,7 @@ private:
 	string _codigoOperacion;
 	list<string>* _lstOperandos;
 
+	string obtenerTipoParametro(int numeroParametro);
 	DomTree* toDom();
 
 public:
@@ -38,6 +50,8 @@ public:
 
 	string generarMensaje();
 	string obtenerRespuesta(string respuesta);
+
+
 };
 
 #endif
