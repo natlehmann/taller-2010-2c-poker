@@ -41,7 +41,8 @@ class ThrCliente: public Thread
 		void pararCliente()
 		{
 			this->parar = true;
-			sock->shutdown();
+			//sock->shutdown();
+			sock->cerrar();
 		}; 
 		
 		virtual void Run()
@@ -93,7 +94,7 @@ cout << "VA MENSAJE TOTAL = " << endl << msjAcumulado << endl;
 				
 				if(!sock->enviar(respuesta, respuesta.length()))
 				{
-					this->pararCliente();
+					//this->pararCliente();
 				}
 			}
 
