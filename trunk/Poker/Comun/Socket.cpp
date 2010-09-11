@@ -1,6 +1,7 @@
 #include "Socket.h"
  
 Socket::Socket()
+Socket::Socket()
 {
 }
 
@@ -8,8 +9,8 @@ Socket::Socket(const int sockfd)
 {	
 	this->valido = true;
 	this->sockfd = sockfd;
-	this->cantConexiones = 0;	
-
+	this->cantConexiones = 0;
+	this->msgError = "";
 }
 
 Socket::Socket(const int cantConexiones, const int puerto)
@@ -18,6 +19,7 @@ Socket::Socket(const int cantConexiones, const int puerto)
 	this->sockfd = -1;
 	this->cantConexiones = cantConexiones;
 	this->puerto = puerto;
+	this->msgError = "";
 }
 
 Socket::~Socket()
@@ -34,7 +36,6 @@ bool Socket::abrir()
 	{
 		if (!esValido())
 		{
-
 			fd = ::socket(AF_INET, SOCK_STREAM, 0);
 		
 			if (fd != -1)
@@ -43,9 +44,7 @@ bool Socket::abrir()
 				this->valido = true;
 			}	
 			else
-			{
 				resul = false;
-			}
 		}
 	}
 	return resul;
@@ -62,9 +61,7 @@ bool Socket::bindear()
 	if(::bind(this->sockfd, (struct sockaddr*)&direccion, sizeof(direccion))!=-1)
 		return true;
 	else
-	{
 		return false;
-	}
 }
 
 bool Socket::escuchar()
@@ -78,9 +75,7 @@ bool Socket::escuchar()
 			if(::listen(this->sockfd, this->cantConexiones)!=-1)
 				resul = true;
 			else
-			{
 				this->msgError = "Se produjo un error al intentar escuchar el socket";
-			}
 		}
 		else
 			this->msgError = "Se produjo un error al intentar bindear el socket";
@@ -117,6 +112,7 @@ bool Socket::conectar(const string& host)
 	struct sockaddr_in direccion;
 	bool resul = false;
 	WSADATA wsaData;
+	int error = 0;
 
 	if (WSAStartup(MAKEWORD(2, 0), &wsaData) == 0)
 	{
@@ -129,24 +125,18 @@ bool Socket::conectar(const string& host)
 				direccion.sin_addr.s_addr = ((struct in_addr*)(he->h_addr))->s_addr; 
 				
 				if(::connect(this->sockfd,(struct sockaddr *)&direccion, sizeof (direccion))!=-1)
-				{	
 					resul = true;
-				}
+				else
+					error = WSAGetLastError();
 			}
 			else
-			{
 				this->msgError = "Se produjo un error al intentar abrir el socket";
-			}
 		}
 		else
-		{
 			this->msgError = "Se produjo un error al intentar obtener el nombre del host";
-		}
 	}
 	else
-	{
 		this->msgError = "Se produjo un error: WSAStartup() failed";
-	}
 
 	return resul;
 }
@@ -200,6 +190,8 @@ bool Socket::recibir(string& msg)
 				resul = false;	
 			}
 		}
+		else
+			resul = false;
 	}
 	
 	return resul;
@@ -208,10 +200,7 @@ bool Socket::recibir(string& msg)
 bool Socket::cerrar()
 {
 	if(::closesocket(this->sockfd)!=-1)
-	{
-		WSACleanup();
 		return true;
-	}
 	else
 		return false;
 }
@@ -227,4 +216,16 @@ bool Socket::shutdown()
 bool Socket::esValido()
 {
 	return this->valido;
+}
+
+bool Socket::limpiarConexiones()
+{
+	int resul = 0;
+
+	resul = WSACleanup();
+
+	if (resul==0)
+		return true;
+	else
+		return false;
 }
