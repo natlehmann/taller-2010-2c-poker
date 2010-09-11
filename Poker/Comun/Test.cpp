@@ -52,6 +52,8 @@ int main (int argc, char** argv)
 	string xml16 = string("<pedido></ pedido >");
 	string xml17 = string("<   pedido \n></\n pedido >");
 	string xml18 = string("<   pedido \n></pedido\n>");
+	string xml19 = string("<pedido>/");
+	string xml20 = string("<pedido/");
 
 	// el valor booleano representa si el string se debe procesar bien (true) 
 	// o lanzar una excepcion (false)
@@ -74,8 +76,10 @@ int main (int argc, char** argv)
 	
 	pruebas.insert(pruebas.end(), pair<string,bool>(xml15, false));
 	pruebas.insert(pruebas.end(), pair<string,bool>(xml16, true));
-	pruebas.insert(pruebas.end(), pair<string,bool>(xml17, false));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml17, true));
 	pruebas.insert(pruebas.end(), pair<string,bool>(xml18, false));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml19, false));
+	pruebas.insert(pruebas.end(), pair<string,bool>(xml20, false));
 
 	int contador = 1;
 	for (list<pair<string,bool>>::iterator it = pruebas.begin(); it != pruebas.end(); it++) {
