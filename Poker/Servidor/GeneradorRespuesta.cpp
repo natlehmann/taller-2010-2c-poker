@@ -2,6 +2,7 @@
 #include "GeneradorRespuesta.h"
 #include "DomTree.h"
 #include "DomTreeFactory.h"
+#include "MensajesUtil.h"
 
 using namespace std;
 
@@ -9,64 +10,101 @@ GeneradorRespuesta::GeneradorRespuesta(void)
 {
 }
 
-void GeneradorRespuesta::agregarResultado(Resultado* resultado)
-{
-	listaResultados.push_back(resultado);
+GeneradorRespuesta::~GeneradorRespuesta(){
+	this->limpiar();
 }
+
+void GeneradorRespuesta::agregarRespuesta(Respuesta* respuesta)
+{
+	if (respuesta->isError()) {
+		listaErrores.push_back(respuesta);
+
+	} else {
+		listaResultados.push_back(respuesta);
+	}
+}
+
+void GeneradorRespuesta::agregarRespuestas(vector<Respuesta*> respuestas) {
+	for (vector<Respuesta*>::iterator it = respuestas.begin() ;
+		it != respuestas.end(); it++) {
+			this->agregarRespuesta(*it);
+	}
+}
+
+void GeneradorRespuesta::limpiar() {
+
+	if (!this->listaErrores.empty()) {
+		for (list<Respuesta*>::iterator it = this->listaErrores.begin() ;
+			it != this->listaErrores.end(); it++) {
+				delete (*it);
+		}
+	}
+
+	if (!this->listaResultados.empty()) {
+		for (list<Respuesta*>::iterator it = this->listaResultados.begin() ;
+			it != this->listaResultados.end(); it++) {
+				delete (*it);
+		}
+	}
+}
+
 
 string GeneradorRespuesta::obtenerRespuesta()
 {
-	string respuesta;
-	Parser* parser = new XmlParser();
-		
+	Parser* parser = new XmlParser();		
 	DomTree* tree = new DomTree();
-			
-	Elemento* e = tree->agregarElemento("respuesta");
+	Elemento* raiz = tree->agregarElemento("respuesta");
 
-	list<Resultado*>::iterator it = listaResultados.begin();
-	//Le pregunto al primero si es error, si es un error lo son todos
+	if (!this->listaErrores.empty()) {
 
-	Resultado* resultado = *it;
-	
-	Elemento* e2 = NULL;
+		// se procesan errores
 
-	if (resultado->isError())
-		{
-			if((resultado->getIdOperacion()).size()==0)
-			{
-				e2 = e->agregarHijo("operacion");
-				e2->agregarAtributo("id","");
-			}
-			else
-			{
-				e2 = e->agregarHijo("operacion");
-				e2->agregarAtributo("id",resultado->getIdOperacion());
-			}
-			e2 = e->agregarHijo("errores");	
+		list<Respuesta*>::iterator it = this->listaErrores.begin();
+		Respuesta* respuesta = *it;
+
+		Elemento* elem = raiz->agregarHijo("operacion");
+
+		if(MensajesUtil::esVacio(respuesta->getIdOperacion())) {
+			elem->agregarAtributo("id","");
+		} else {
+			elem->agregarAtributo("id",respuesta->getIdOperacion());
 		}
-	else
-		{
-			//Si se cual operacion es la informo
-			e2 = e->agregarHijo("resultados");
-		}	
 
-	for (it = listaResultados.begin(); it != listaResultados.end(); it++) 
-	{
-		resultado = *it;
-		Elemento *e3 = NULL;
-		if (resultado->isError())
-		{
-			e3 = e2->agregarHijo("error");
-			e3->agregarAtributo("tipo",resultado->getId());
-			e3->setTexto(resultado->getValor());
+		elem = raiz->agregarHijo("errores");
+
+		for (it = listaErrores.begin(); it != listaErrores.end(); it++) {
+
+			Elemento* error = elem->agregarHijo("error");
+			error->agregarAtributo("tipo",respuesta->getId());
+			error->setTexto(respuesta->getValor());
 		}
-		else
-		{
-			e3 = e2->agregarHijo("resultado");
-			e3->agregarAtributo("nombre",resultado->getId());
-			e3->setTexto(resultado->getValor());
-		}	
+
+
+	} else {
+
+		// se procesan resultados
+		
+		list<Respuesta*>::iterator it = this->listaResultados.begin();
+		Respuesta* respuesta = *it;
+
+		Elemento* elem = raiz->agregarHijo("operacion");
+		elem->agregarAtributo("id",respuesta->getIdOperacion());
+
+		elem = raiz->agregarHijo("resultados");
+
+		for (it = listaResultados.begin(); it != listaResultados.end(); it++) {
+
+			Elemento* resul = elem->agregarHijo("resultado");
+			resul->agregarAtributo("nombre",respuesta->getId());
+			resul->setTexto(respuesta->getValor());
+		}
 	}
-	respuesta = parser->toString(tree);
+
+
+	string respuesta = parser->toString(tree);
+
+	delete(parser);
+	delete(tree);
+
 	return respuesta;
 }
