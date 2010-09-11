@@ -43,8 +43,11 @@ class Socket
 		bool cerrar();
 						
 		bool shutdown();
+		bool inicializarConexiones();
 		bool limpiarConexiones();
 		bool esValido();
+
+		string mensajeError(int codigoError);
 };
 
 #endif /*SOCKET_H_*/

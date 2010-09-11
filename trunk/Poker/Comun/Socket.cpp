@@ -1,7 +1,6 @@
 #include "Socket.h"
  
 Socket::Socket()
-Socket::Socket()
 {
 }
 
@@ -26,27 +25,40 @@ Socket::~Socket()
 {
 }
 
+bool Socket::inicializarConexiones()
+{
+	WSADATA wsaData;
+	if (WSAStartup(MAKEWORD(2, 0), &wsaData) == 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 bool Socket::abrir()
 {
 	int fd = -1;
 	bool resul = true;
-	WSADATA wsaData;
+	//WSADATA wsaData;
 
-	if (WSAStartup(MAKEWORD(2, 0), &wsaData) == 0)
+	//if (WSAStartup(MAKEWORD(2, 0), &wsaData) == 0)
+	//{
+	if (!esValido())
 	{
-		if (!esValido())
+		fd = ::socket(AF_INET, SOCK_STREAM, 0);
+	
+		if (fd != -1)
 		{
-			fd = ::socket(AF_INET, SOCK_STREAM, 0);
-		
-			if (fd != -1)
-			{
-				this->sockfd = fd;
-				this->valido = true;
-			}	
-			else
-				resul = false;
-		}
+			this->sockfd = fd;
+			this->valido = true;
+		}	
+		else
+			resul = false;
 	}
+	//}
 	return resul;
 }
 
@@ -62,6 +74,12 @@ bool Socket::bindear()
 		return true;
 	else
 		return false;
+}
+
+string Socket::mensajeError(int codigoError)
+{
+	string mensaje;
+	return mensaje;
 }
 
 bool Socket::escuchar()
@@ -199,7 +217,7 @@ bool Socket::recibir(string& msg)
 
 bool Socket::cerrar()
 {
-	if(::closesocket(this->sockfd)!=-1)
+	if(::closesocket(this->sockfd)!= -1)
 		return true;
 	else
 		return false;
