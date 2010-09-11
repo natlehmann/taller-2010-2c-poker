@@ -3,7 +3,7 @@
 
 #include <string>
 #include <winsock.h>
-#include <errno.h>
+#include <winerror.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -43,6 +43,7 @@ class Socket
 		bool cerrar();
 						
 		bool shutdown();
+		bool limpiarConexiones();
 		bool esValido();
 };
 
