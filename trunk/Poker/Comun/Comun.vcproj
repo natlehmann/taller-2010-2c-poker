@@ -224,6 +224,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UtilTiposDatos.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\XmlParser.cpp"
 				>
 			</File>
@@ -311,6 +315,10 @@
 			</File>
 			<File
 				RelativePath=".\Socket.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UtilTiposDatos.h"
 				>
 			</File>
 			<File

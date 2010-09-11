@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DatosInvalidosException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Division.cpp"
 				>
 			</File>
@@ -200,6 +204,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\FormatException.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\GeneradorRespuesta.cpp"
 				>
 			</File>
 			<File
@@ -255,6 +263,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\testGeneradorRespuesta.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Thread.cpp"
 				>
 			</File>
@@ -263,7 +275,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\UtilTiposDatos.cpp"
+				RelativePath="..\Comun\UtilTiposDatos.cpp"
 				>
 			</File>
 			<File
@@ -313,6 +325,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DatosInvalidosException.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Division.h"
 				>
 			</File>
@@ -334,6 +350,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\FormatException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GeneradorRespuesta.h"
 				>
 			</File>
 			<File
@@ -401,7 +421,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\UtilTiposDatos.h"
+				RelativePath="..\Comun\UtilTiposDatos.h"
 				>
 			</File>
 			<File

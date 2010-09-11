@@ -11,8 +11,10 @@ class FabricaOperaciones {
 public:
 	FabricaOperaciones();
 	virtual ~FabricaOperaciones();
-
 	Operacion* newOperacion(DomTree* domTree);
+
+private:
+	void FabricaOperaciones::validarParametro(Elemento* parametro, string idOperacion, int numeroDeParametro);
 };
 
 #endif /* FABRICAOPERACIONES_H_ */

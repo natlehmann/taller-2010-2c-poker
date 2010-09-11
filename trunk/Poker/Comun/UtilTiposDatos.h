@@ -14,6 +14,8 @@ public:
 	static double stringToDouble(string numero);
 
 	static bool isInteger(double numero);
+
+	static bool isNumber(string numero);
 };
 
 #endif /* UTILTIPOSDATOS_H_ */
