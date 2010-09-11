@@ -102,7 +102,7 @@ string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 					{
 						for(list<Elemento*>::iterator it1 = (*it0)->getHijos()->begin(); 
 							it1 != (*it0)->getHijos()->end(); it1++) {					
-								mensajeRespuesta = (*it1)->getTexto();
+								mensajeRespuesta = (*it1)->getTexto() + "\n";
 
 							this->error = true;
 						}
@@ -112,7 +112,7 @@ string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 					{
 						for(list<Elemento*>::iterator it2 = (*it0)->getHijos()->begin(); 
 							it2 != (*it0)->getHijos()->end(); it2++) {					
-								mensajeRespuesta = (*it2)->getNombre() + ": " + (*it2)->getTexto() + "/n";
+								mensajeRespuesta = (*it2)->getNombre() + ": " + (*it2)->getTexto() + "\n";
 
 							this->error = false;
 						}
