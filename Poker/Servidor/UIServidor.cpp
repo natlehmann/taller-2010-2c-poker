@@ -122,7 +122,7 @@ void UIServidor::iniciarServidor()
 				{
 					preguntar = false;
 
-					if (this->entrada == _NO_)
+					if ((this->entrada == _NO_)||(this->entrada  == _no_))
 						salir = true;
 				}
 			}
