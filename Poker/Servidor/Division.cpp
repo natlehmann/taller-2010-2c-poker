@@ -11,12 +11,12 @@ Division::Division(string id, vector<double> parametros)
 
 Division::~Division() {}
 
-vector<Resultado> Division::ejecutar()
+vector<Respuesta*> Division::ejecutar()
 {
-	vector<Resultado> resultados;
+	vector<Respuesta*> resultados;
 
 	if (parametros.size() != 2) {
-		Resultado resultadoError("E","cantidad de parametros incorrecta",true,id);
+		Error* resultadoError = new Error("E","cantidad de parametros incorrecta",id);
 		resultados.push_back(resultadoError);
 		return resultados;
 	}
@@ -28,14 +28,14 @@ vector<Resultado> Division::ejecutar()
 
 	if (divisor == 0) {
 
-		Resultado resultadoError("E","division por cero",true,id);
+		Error* resultadoError = new Error("E","division por cero",id);
 		resultados.push_back(resultadoError);
 
 	} else {
 
 		if (!UtilTiposDatos::isInteger(dividendo) || !UtilTiposDatos::isInteger(divisor)) {
 
-			Resultado resultadoError("E","parametros no enteros",true,id);
+			Error* resultadoError = new Error("E","parametros no enteros",id);
 			resultados.push_back(resultadoError);
 
 		} else {
@@ -46,8 +46,8 @@ vector<Resultado> Division::ejecutar()
 			string cocienteString = UtilTiposDatos::doubleToString(cociente);
 			string restoString = UtilTiposDatos::doubleToString(resto);
 
-			Resultado resultadoCociente("coc",cocienteString,false,id);
-			Resultado resultadoResto("res",restoString,false,id);
+			Resultado* resultadoCociente = new Resultado("coc",cocienteString,id);
+			Resultado* resultadoResto = new Resultado("res",restoString,id);
 
 			resultados.push_back(resultadoCociente);
 			resultados.push_back(resultadoResto);

@@ -8,7 +8,7 @@ public:
 	Suma();
 	Suma(string id, vector<double> parametros);
 	virtual ~Suma();
-	vector<Resultado> ejecutar();
+	vector<Respuesta*> ejecutar();
 };
 
 #endif /* SUMA_H_ */

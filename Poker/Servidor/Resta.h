@@ -8,7 +8,7 @@ public:
 	Resta();
 	Resta(string id, vector<double> parametros);
 	virtual ~Resta();
-	vector<Resultado> ejecutar();
+	vector<Respuesta*> ejecutar();
 };
 
 #endif /* RESTA_H_ */

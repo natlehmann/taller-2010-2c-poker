@@ -8,7 +8,7 @@ public:
 	Division();
 	Division(string id, vector<double> parametros);
 	virtual ~Division();
-	vector<Resultado> ejecutar();
+	vector<Respuesta*> ejecutar();
 };
 
 #endif /* DIVISION_H_ */

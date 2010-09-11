@@ -11,7 +11,7 @@ Multiplicacion::Multiplicacion(string id, vector<double> parametros)
 
 Multiplicacion::~Multiplicacion() {}
 
-vector<Resultado> Multiplicacion::ejecutar()
+vector<Respuesta*> Multiplicacion::ejecutar()
 {
 	double resultadoOperacion = 0;
 	vector<double>::iterator it = parametros.begin();
@@ -26,8 +26,8 @@ vector<Resultado> Multiplicacion::ejecutar()
 	}
 	string resultadoString = UtilTiposDatos::doubleToString(resultadoOperacion);
 
-	Resultado resultado("mul",resultadoString,false,id);
-	vector<Resultado> resultados;
+	Resultado* resultado = new Resultado("mul",resultadoString,id);
+	vector<Respuesta*> resultados;
 	resultados.push_back(resultado);
 	return resultados;
 }
