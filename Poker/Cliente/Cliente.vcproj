@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Error.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\FormatException.cpp"
 				>
 			</File>
@@ -220,6 +224,14 @@
 			</File>
 			<File
 				RelativePath="..\Comun\PokerException.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Respuesta.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Resultado.cpp"
 				>
 			</File>
 			<File
@@ -293,6 +305,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Error.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\FormatException.h"
 				>
 			</File>
@@ -318,6 +334,14 @@
 			</File>
 			<File
 				RelativePath="..\Comun\PokerException.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Respuesta.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Resultado.h"
 				>
 			</File>
 			<File
