@@ -191,14 +191,14 @@ bool Socket::recibir(string& msg)
 			resul = false;
 			this->msgError = "Se produjo una interrupcion en la recepcion de los datos";
 		}
-		else if (Aux > 0)
+		else if (Aux >= 0)
 		{
 			cantRecibido += Aux;
 			msg.append(buf, cantRecibido);
-		}
-		else
-		{
-			resul = false;	
+		
+			if (Aux < MAXRECV) {
+				resul = false;	
+			}
 		}
 	}
 	
