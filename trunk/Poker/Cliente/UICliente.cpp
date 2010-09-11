@@ -211,20 +211,20 @@ bool UICliente::conectarServidor()
 	bool salir = false;
 	bool conecto = false;
 	bool preguntar = true;
-	string entrada;
-	string ip;
+	string ip = "";
 	int puerto;
-
-	mostrarMensaje("INGRESE LA IP DEL SERVIDOR: ");
-	leerEntrada();
-		
-	ip = this->entrada;
 
 	while ((!salir)&&(!conecto))
 	{
+		if (ip=="")
+		{
+			mostrarMensaje("INGRESE LA IP DEL SERVIDOR: ");
+			leerEntrada();
+			ip = this->entrada;
+		}
+		
 		mostrarMensaje("INGRESE EL PUERTO DE CONEXION DEL SERVIDOR: ");
 		leerEntrada();
-
 		puerto = General::getEntero(this->entrada);
 
 		if (puerto > 0)  
@@ -235,13 +235,32 @@ bool UICliente::conectarServidor()
 
 			if (cliente->iniciarConexion())
 			{
-				mostrarMensaje("LA CONEXION CON EL SERVIDOR HA SIDO EXITOSA ...", false);
+				mostrarMensaje("LA CONEXION CON EL SERVIDOR HA SIDO EXITOSA !!!", false);
 				conecto = true;
 			}
 			else
 			{
-				mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR", false);
-				mostrarMensaje("INTENTE NUEVAMENTE...", false);
+				mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR !!!", false);
+				
+				while (preguntar)
+				{
+					mostrarMensaje("DESEA INTENTAR CONECTARSE NUEVAMENTE [S/N]? ");
+					leerEntrada();
+
+					if (General::validarSiNo(this->entrada))
+					{
+						preguntar = false;
+
+						if ((this->entrada == _NO_)||(this->entrada  == _no_))
+						{
+							salir = true;
+							conecto = false;
+						}
+					}
+				}
+
+				preguntar = true;
+				ip = "";
 			}
 		}
 		else
@@ -257,7 +276,7 @@ bool UICliente::conectarServidor()
 				{
 					preguntar = false;
 
-					if (this->entrada == _NO_)
+					if ((this->entrada == _NO_)||(this->entrada  == _no_))
 					{
 						salir = true;
 						conecto = false;
@@ -388,9 +407,10 @@ void UICliente::procesarEntradaOperandos()
 
 void UICliente::enviarOperacion()
 {
-	//Aca se pasa al parserTeclado el tipo de operacion y la lista de operandos
-	//se devuelve un string
+	// Se pasa al parserTeclado el tipo de operacion y la lista de operandos
+	// se devuelve un string
 	string codigoOperacion;
+	
 	switch (this->tipoOperacion)
 	{
 		case 1:	codigoOperacion = "S";
@@ -409,8 +429,11 @@ void UICliente::enviarOperacion()
 	if(cliente->enviarMsj(mensaje))
 	{
 		string respuestaServ = cliente->recibirMsj();
-		string respuesta = parserTeclado.obtenerRespuesta(respuesta);
-		
+		string respuesta = parserTeclado.obtenerRespuesta(respuestaServ);
+	}
+	else
+	{	
+		this->mostrarMensaje("SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR.", false);
 	}
 }
 void UICliente::mostrarResultado()
