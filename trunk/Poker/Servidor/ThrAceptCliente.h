@@ -28,7 +28,8 @@ class ThrAceptCliente: public Thread
 		void pararAceptaciones()
 		{
 			this->parar = true;
-			this->socket.shutdown();
+			//this->socket.shutdown();
+			this->socket.cerrar();
 		};
 		
 		virtual void Run()
@@ -36,36 +37,41 @@ class ThrAceptCliente: public Thread
 			Socket* sockCliente;
 			ThrCliente* nuevoThrCliente;
 					
-			if (this->socket.escuchar())	// Se comienza a escuchar los clientes entrantes
+			if (this->socket.inicializarConexiones())	// Se inicializa el winsock del programa y define la versión a utilizar
 			{
-				
-				while(!this->parar)
+				if (this->socket.escuchar())			// Se comienza a escuchar los clientes entrantes
 				{
-					sockCliente = this->socket.aceptar();	// Se conecta el cliente entrante
-					
-					
-					if ((sockCliente != NULL) && (!this->parar))
+					while(!this->parar)
 					{
-						nuevoThrCliente = new ThrCliente(sockCliente); 
-						// Se inserta la referencia del hilo en la lista
-						listaThrClientes.push_back(nuevoThrCliente); 
-						// Se lanza el hilo para la conversacion con el cliente
-						nuevoThrCliente->CreateNewThread(); 
-						
-						// Se libera los hilos de los clientes finalizados
-						liberarThreadsFinalizados();
-					}
-
-				} 
+						sockCliente = this->socket.aceptar();	// Se conecta el cliente entrante
+										
+						if ((sockCliente != NULL) && (!this->parar))
+						{
+							nuevoThrCliente = new ThrCliente(sockCliente); 
+							// Se inserta la referencia del hilo en la lista
+							listaThrClientes.push_back(nuevoThrCliente); 
+							// Se lanza el hilo para la conversacion con el cliente
+							nuevoThrCliente->CreateNewThread(); 
+							
+							// Se libera los hilos de los clientes finalizados
+							liberarThreadsFinalizados();
+						}
+					} 
 				
-				// Se decidio finalizar las aceptaciones --> se debe finalizar las conexiones y liberar los hilos de la lista
-				liberarThreads();
+					// Se decidio finalizar las aceptaciones 
+					// --> se debe finalizar las conexiones y liberar los hilos de la lista
+					liberarThreads();
+				}
+			
+				// Se cierra el socket
+				//socket.cerrar();
+				socket.limpiarConexiones();
+
 			}
+			else
+			{
 			
-			// Se cierra el socket
-			socket.cerrar();
-			
-			//return NULL;
+			}
 		};
 		
 		void liberarThreadsFinalizados()
