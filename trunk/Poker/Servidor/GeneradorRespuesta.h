@@ -1,7 +1,10 @@
 #ifndef GENERADORRESPUESTA_H_
 #define GENERADORRESPUESTA_H_
 #include <list>
+#include <vector>
 #include "Resultado.h"
+#include "Error.h"
+#include "Respuesta.h"
 #include "XMLParser.h"
 
 using namespace std;
@@ -9,12 +12,16 @@ using namespace std;
 class GeneradorRespuesta
 {
 	private:
-		list<Resultado*> listaResultados;
+		list<Respuesta*> listaResultados;
+		list<Respuesta*> listaErrores;
 
 	public:
 		GeneradorRespuesta();
-		void agregarResultado(Resultado* resultado);
+		virtual ~GeneradorRespuesta();
+		void agregarRespuesta(Respuesta* respuesta);
+		void agregarRespuestas(vector<Respuesta*> respuestas);
 		string obtenerRespuesta();
+		void limpiar();
 };
 
 
