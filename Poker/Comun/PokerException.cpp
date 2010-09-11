@@ -10,6 +10,10 @@ PokerException::~PokerException(void)
 {
 }
 
+PokerException::PokerException(Error& error){
+	this->error = error;
+}
+
 const string PokerException::getMensaje() const throw() {
 	return this->mensaje;
 }

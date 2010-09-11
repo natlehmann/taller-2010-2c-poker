@@ -4,9 +4,8 @@ DatosInvalidosException::DatosInvalidosException(string mensaje) : PokerExceptio
 {
 }
 
-DatosInvalidosException::DatosInvalidosException(Resultado& resultado) : PokerException(resultado.getValor())
+DatosInvalidosException::DatosInvalidosException(Error& error) : PokerException(error)
 {
-	this->resultado = resultado;
 }
 
 DatosInvalidosException::~DatosInvalidosException() throw()
