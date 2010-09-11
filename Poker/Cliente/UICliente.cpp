@@ -429,7 +429,7 @@ void UICliente::mostrarResultado()
 }
 void UICliente::reingresarOpcionMenu()
 {
-	this->mostrarMensaje("EL VALOR '" + this->entrada + "' NO ES UNA OPCION INVALIDA !!!", false);
+	this->mostrarMensaje("EL VALOR '" + this->entrada + "' NO ES UNA OPCION VALIDA !!!", false);
 	this->mostrarMensaje("INGRESE NUEVAMENTE UNA OPCION DEL MENU:");
 	leerOpcionMenu();
 }
