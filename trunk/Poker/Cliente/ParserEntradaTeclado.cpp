@@ -97,13 +97,18 @@ string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 					for(list<Elemento*>::iterator it1 = (*it)->getHijos()->begin(); 
 						it1 != (*it)->getHijos()->end(); it1++) {					
 							mensajeRespuesta = (*it1)->getTexto();
+
+						this->error = true;
 					}
+
 				}
 				else if (MensajesUtil::sonIguales((*it)->getNombre(), XML_TAG_RESULTADOS))
 				{
 					for(list<Elemento*>::iterator it2 = (*it)->getHijos()->begin(); 
 						it2 != (*it)->getHijos()->end(); it2++) {					
 							mensajeRespuesta = (*it2)->getNombre() + ": " + (*it2)->getTexto() + "/n";
+
+						this->error = false;
 					}
 				}
 		}
