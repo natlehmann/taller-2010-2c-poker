@@ -47,60 +47,47 @@ class ThrCliente: public Thread
 		
 		virtual void Run()
 		{	
-			while (!this->parar) {
-
+			while (!this->parar) 
+			{
 				string msjRecibido = "";
 				string msjRetorno = "";
 				bool recibidoOK;
 				bool error = true;
 				
-				string msjAcumulado = "";
+				recibidoOK = sock->recibir(msjRecibido);
 
-				bool comTerminada = false;
+				//cout << "VA MENSAJE TOTAL = " << endl << msjAcumulado << endl;
 
-				// Comienza la entrada y salida
-				while (!this->parar && !comTerminada) { 
+				if (recibidoOK)
+				{
+					GeneradorRespuesta* generador = new GeneradorRespuesta();
 
-					// Se espera el envio del cliente
-					recibidoOK = sock->recibir(msjRecibido);
+					try 
+					{
+						Parser* parser = new XmlParser();
+						DomTree* arbol = parser->toDom(msjAcumulado);
 
-					msjAcumulado = msjAcumulado + msjRecibido;
+						Operacion* operacion = this->fabricaOperaciones->newOperacion(arbol);
+						generador->agregarRespuestas(operacion->ejecutar());
 
-					if (!recibidoOK) {
-						comTerminada = true;
+					} 
+					catch (PokerException& e) 
+					{
+						generador->agregarRespuesta(&e.getError());
+					}
+
+					string respuesta = generador->obtenerRespuesta();
+					delete(generador);
+
+					// Se envia la respuesta correspondiente				
+					if(!sock->enviar(respuesta, respuesta.length()))
+					{
+						this->pararCliente();
 					}
 				}
 
-
-
-cout << "VA MENSAJE TOTAL = " << endl << msjAcumulado << endl;
-
-				GeneradorRespuesta* generador = new GeneradorRespuesta();
-
-				try {
-					Parser* parser = new XmlParser();
-					DomTree* arbol = parser->toDom(msjAcumulado);
-
-					Operacion* operacion = this->fabricaOperaciones->newOperacion(arbol);
-					generador->agregarRespuestas(operacion->ejecutar());
-
-				} catch (PokerException& e) {
-					generador->agregarRespuesta(&e.getError());
-				}
-
-				
-				string respuesta = generador->obtenerRespuesta();
-				delete(generador);
-
-				// Se envia la respuesta correspondiente				
-				
-				if(!sock->enviar(respuesta, respuesta.length()))
-				{
-					this->pararCliente();
-				}
 			}
-
-						
+			
 			// Se desconecta el socket
 			sock->cerrar();
 		};
