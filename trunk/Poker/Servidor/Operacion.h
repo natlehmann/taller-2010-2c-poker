@@ -1,7 +1,9 @@
 #ifndef OPERACION_H_
 #define OPERACION_H_
 
+#include "Respuesta.h"
 #include "Resultado.h"
+#include "Error.h"
 #include <string>
 #include <vector>
 
@@ -38,7 +40,7 @@ public:
         this->parametros = parametros;
     }
 
-    virtual vector<Resultado> ejecutar() = 0;
+    virtual vector<Respuesta*> ejecutar() = 0;
 
 };
 

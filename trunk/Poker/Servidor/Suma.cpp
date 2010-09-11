@@ -11,7 +11,7 @@ Suma::Suma(string id, vector<double> parametros)
 
 Suma::~Suma() {}
 
-vector<Resultado> Suma::ejecutar()
+vector<Respuesta*> Suma::ejecutar()
 {
 	double resultadoOperacion = 0;
 	vector<double>::iterator it = parametros.begin();
@@ -22,8 +22,8 @@ vector<Resultado> Suma::ejecutar()
 	}
 	string resultadoString = UtilTiposDatos::doubleToString(resultadoOperacion);
 
-	Resultado resultado("sum",resultadoString,false,id);
-	vector<Resultado> resultados;
+	Resultado* resultado = new Resultado("sum",resultadoString,id);
+	vector<Respuesta*> resultados;
 	resultados.push_back(resultado);
 	return resultados;
 }

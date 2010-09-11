@@ -8,7 +8,7 @@ public:
 	Multiplicacion();
 	Multiplicacion(string id, vector<double> parametros);
 	virtual ~Multiplicacion();
-	vector<Resultado> ejecutar();
+	vector<Respuesta*> ejecutar();
 };
 
 #endif /* MULTIPLICACION_H_ */
