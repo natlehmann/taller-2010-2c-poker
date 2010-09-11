@@ -1,4 +1,5 @@
 #include "Socket.h"
+#include "MensajesUtil.h"
  
 Socket::Socket()
 {
@@ -76,9 +77,58 @@ bool Socket::bindear()
 		return false;
 }
 
-string Socket::mensajeError(int codigoError)
+bool Socket::cvtLPW2stdstring(string& s, const LPWSTR pw, UINT codepage)
+{    
+	bool res = false;    
+	char* p = 0;    
+	int bsz;     
+	bsz = WideCharToMultiByte(codepage,0,pw,-1,0,0,0,0);    
+	
+	if (bsz > 0) 
+	{        
+		p = new char[bsz];        
+		int rc = WideCharToMultiByte(codepage,0,pw,-1,p,bsz,0,0);       
+		if (rc != 0) 
+		{            
+			p[bsz-1] = 0;
+			s = p;
+			res = true;        
+		}    
+	}    
+	
+	delete [] p;    
+	return res;
+}
+
+string Socket::generarMensajeError()
 {
-	string mensaje;
+    string mensaje;
+	int errCode = WSAGetLastError();
+    LPWSTR errString = NULL;
+
+    int size = FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                 FORMAT_MESSAGE_FROM_SYSTEM, // use windows internal message table
+                 0,       // 0 since source is internal message table
+                 errCode, // this is the error code returned by WSAGetLastError()
+                          // Could just as well have been an error code from generic
+                          // Windows errors from GetLastError()
+                 0,       // auto-determine language to use
+                 (LPWSTR)&errString, // this is WHERE we want FormatMessage
+                                    // to plunk the error string.  Note the
+                                    // peculiar pass format:  Even though
+                                    // errString is already a pointer, we
+                                    // pass &errString (which is really type LPSTR* now)
+                                    // and then CAST IT to (LPSTR).  This is a really weird
+                                    // trip up.. but its how they do it on msdn:
+                                    // http://msdn.microsoft.com/en-us/library/ms679351(VS.85).aspx
+                 0,                 // min size for buffer
+                 0 );               // 0, since getting message from system tables
+	
+	if (!this->cvtLPW2stdstring(mensaje, errString, CP_ACP))
+		mensaje = "mensaje de socket desconocido";
+
+    LocalFree( errString ) ;
+	
 	return mensaje;
 }
 
@@ -130,7 +180,7 @@ bool Socket::conectar(const string& host)
 	struct sockaddr_in direccion;
 	bool resul = false;
 	WSADATA wsaData;
-	int error = 0;
+	//int error = 0;
 
 	if (WSAStartup(MAKEWORD(2, 0), &wsaData) == 0)
 	{
@@ -145,7 +195,7 @@ bool Socket::conectar(const string& host)
 				if(::connect(this->sockfd,(struct sockaddr *)&direccion, sizeof (direccion))!=-1)
 					resul = true;
 				else
-					error = WSAGetLastError();
+					this->msgError = this->generarMensajeError();
 			}
 			else
 				this->msgError = "Se produjo un error al intentar abrir el socket";

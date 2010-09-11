@@ -24,7 +24,10 @@ class Socket
 		
 		bool abrir();
 		bool bindear();
-	
+		string generarMensajeError();
+		bool cvtLPW2stdstring(std::string& s, const LPWSTR pw, UINT codepage);
+
+
 	public:
 		Socket();
 		Socket(const int cantConexiones, const int puerto);
@@ -47,7 +50,7 @@ class Socket
 		bool limpiarConexiones();
 		bool esValido();
 
-		string mensajeError(int codigoError);
+		
 };
 
 #endif /*SOCKET_H_*/
