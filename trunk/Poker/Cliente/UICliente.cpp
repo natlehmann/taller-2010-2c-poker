@@ -1,5 +1,6 @@
 #include "UICliente.h"
 #include "ParserEntradaTeclado.h"
+#include "MensajesUtil.h"
 
 UICliente::UICliente(void)
 {
@@ -317,16 +318,22 @@ void UICliente::procesarEntradaOperandos()
 			if (!salir)
 			{
 				// Se valida que lo ingresado sea un numero real
-				if (General::esDouble(this->entrada))
-					agregarOperando();
-				else
+				if (General::esDouble(this->entrada)) {
+					if (!MensajesUtil::esVacio(this->entrada)){
+						agregarOperando();
+					}
+				} else {
 					mostrarMensaje("OPERANDO INGRESADO INCORRECTO!!!", false);
+				}
 			}
 		}
 
 		// Se valida que por lo menos se hayan ingresado dos operandos
-		if (this->lstOperandos.size() > 1)
+		if (this->lstOperandos.size() > 1) {
 			enviar = true;
+		} else {
+			mostrarMensaje("\nNO SE PROCESA LA OPERACION PORQUE NO HAY SUFICIENTES OPERANDOS.\n");
+		}
 	}
 	else
 	{
