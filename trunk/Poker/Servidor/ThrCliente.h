@@ -65,7 +65,7 @@ class ThrCliente: public Thread
 					try 
 					{
 						Parser* parser = new XmlParser();
-						DomTree* arbol = parser->toDom(msjAcumulado);
+						DomTree* arbol = parser->toDom(msjRecibido);
 
 						Operacion* operacion = this->fabricaOperaciones->newOperacion(arbol);
 						generador->agregarRespuestas(operacion->ejecutar());

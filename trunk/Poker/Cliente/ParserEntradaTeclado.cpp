@@ -89,13 +89,13 @@ string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 	if (domTree)
 	{
 	
-		Elemento* domRespuesta = domTree->getRaiz();
-		for(list<Elemento*>::iterator it = domRespuesta->getHijos()->begin(); 
-			it != domRespuesta->getHijos()->end(); it++) 
+		Elemento* domRaiz = domTree->getRaiz();
+		for(list<Elemento*>::iterator it = domRaiz->getHijos()->begin(); 
+			it != domRaiz->getHijos()->end(); it++) 
 		{
 
 			for(list<Elemento*>::iterator it0 = (*it)->getHijos()->begin(); 
-			it0 != domRespuesta->getHijos()->end(); it0++) 
+			it0 != (*it)->getHijos()->end(); it0++) 
 			{
 				
 					if (MensajesUtil::sonIguales((*it0)->getNombre(), XML_TAG_ERRORES))

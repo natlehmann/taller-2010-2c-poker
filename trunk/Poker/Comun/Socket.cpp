@@ -214,23 +214,24 @@ bool Socket::enviar(const string msg, const int longMsg)
 {
 	int cantEnviado = 0;
 	int Aux = 0;
-	bool resul = true;
+	bool sigue = true;
+	bool error = false;
 	
-	while ((resul)&&(cantEnviado < longMsg))
+	while ((sigue)&&(cantEnviado < longMsg))
 	{
-		//Aux = ::send(this->sockfd, msg.data(), longMsg, 0);
 		Aux = ::send(this->sockfd, msg.c_str(), longMsg, 0);
 	
 		if (Aux < 0)
 		{
-			resul = false;
+			error = true;
+			sigue = false;
 			this->msgError = "Se produjo una interrupcion en el envio de los datos";
 		}
 		else
 			cantEnviado += Aux; 
 	}
 	
-	return resul;
+	return !error;
 }
  
 bool Socket::recibir(string& msg)
@@ -239,33 +240,32 @@ bool Socket::recibir(string& msg)
 	char buf[MAXRECV+1];
 	int cantRecibido = 0;
 	int Aux = 0;
-	bool resul = true;
+	bool sigue = true;
+	bool error = false;
 	 
-	//while ((resul)&&(msg.find('\n') == string::npos))
-	while ((resul)&&(msg.find('\0') == string::npos))
+	while ((sigue)&&(msg.find('\0') == string::npos))
 	{
 		Aux = ::recv(this->sockfd, buf, MAXRECV, 0);
 		
 		if (Aux < 0)
 		{
-			resul = false;
+			error = true;
+			sigue = false;
 			this->msgError = "Se produjo una interrupcion en la recepcion de los datos";
 		}
 		else if (Aux >= 0)
 		{
 			cantRecibido += Aux;
-			//msg.append(buf, cantRecibido);
 			msg.append(buf, Aux);
 		
 			if (Aux < MAXRECV) {
-				resul = false;	
+				sigue = false;	
 			}
 		}
-		else
-			resul = false;
+
 	}
 	
-	return resul;
+	return !error;
 }
 
 bool Socket::cerrar()

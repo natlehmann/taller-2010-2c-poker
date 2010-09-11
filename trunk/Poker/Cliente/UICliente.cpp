@@ -430,6 +430,7 @@ void UICliente::enviarOperacion()
 	{
 		string respuestaServ = cliente->recibirMsj();
 		string respuesta = parserTeclado.obtenerRespuesta(respuestaServ);
+		this->mostrarMensaje(respuesta,false);
 	}
 	else
 	{	
