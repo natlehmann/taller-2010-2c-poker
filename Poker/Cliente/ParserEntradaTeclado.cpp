@@ -88,30 +88,38 @@ string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 
 	if (domTree)
 	{
+	
 		Elemento* domRespuesta = domTree->getRaiz();
 		for(list<Elemento*>::iterator it = domRespuesta->getHijos()->begin(); 
-			it != domRespuesta->getHijos()->end(); it++) {
-			
-				if (MensajesUtil::sonIguales((*it)->getNombre(), XML_TAG_ERRORES))
-				{
-					for(list<Elemento*>::iterator it1 = (*it)->getHijos()->begin(); 
-						it1 != (*it)->getHijos()->end(); it1++) {					
-							mensajeRespuesta = (*it1)->getTexto();
+			it != domRespuesta->getHijos()->end(); it++) 
+		{
 
-						this->error = true;
+			for(list<Elemento*>::iterator it0 = (*it)->getHijos()->begin(); 
+			it0 != domRespuesta->getHijos()->end(); it0++) 
+			{
+				
+					if (MensajesUtil::sonIguales((*it0)->getNombre(), XML_TAG_ERRORES))
+					{
+						for(list<Elemento*>::iterator it1 = (*it0)->getHijos()->begin(); 
+							it1 != (*it0)->getHijos()->end(); it1++) {					
+								mensajeRespuesta = (*it1)->getTexto();
+
+							this->error = true;
+						}
+
 					}
+					else if (MensajesUtil::sonIguales((*it0)->getNombre(), XML_TAG_RESULTADOS))
+					{
+						for(list<Elemento*>::iterator it2 = (*it0)->getHijos()->begin(); 
+							it2 != (*it0)->getHijos()->end(); it2++) {					
+								mensajeRespuesta = (*it2)->getNombre() + ": " + (*it2)->getTexto() + "/n";
 
-				}
-				else if (MensajesUtil::sonIguales((*it)->getNombre(), XML_TAG_RESULTADOS))
-				{
-					for(list<Elemento*>::iterator it2 = (*it)->getHijos()->begin(); 
-						it2 != (*it)->getHijos()->end(); it2++) {					
-							mensajeRespuesta = (*it2)->getNombre() + ": " + (*it2)->getTexto() + "/n";
-
-						this->error = false;
+							this->error = false;
+						}
 					}
-				}
+			}
 		}
+			
 	}
 
 	return mensajeRespuesta;
