@@ -44,6 +44,8 @@ private:
 	string obtenerTipoParametro(int numeroParametro);
 	DomTree* toDom();
 
+	bool error;
+
 public:
 	ParserEntradaTeclado(string codigoOperacion, list<string>* lstOperandos);
 	virtual ~ParserEntradaTeclado(void);
@@ -51,6 +53,7 @@ public:
 	string generarMensaje();
 	string obtenerRespuesta(string respuesta);
 
+	bool hayError() {return error;};
 
 };
 
