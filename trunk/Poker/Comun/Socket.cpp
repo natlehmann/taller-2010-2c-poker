@@ -218,7 +218,8 @@ bool Socket::enviar(const string msg, const int longMsg)
 	
 	while ((resul)&&(cantEnviado < longMsg))
 	{
-		Aux = ::send(this->sockfd, msg.data(), longMsg, 0);
+		//Aux = ::send(this->sockfd, msg.data(), longMsg, 0);
+		Aux = ::send(this->sockfd, msg.c_str(), longMsg, 0);
 	
 		if (Aux < 0)
 		{
@@ -240,7 +241,8 @@ bool Socket::recibir(string& msg)
 	int Aux = 0;
 	bool resul = true;
 	 
-	while ((resul)&&(msg.find('\n') == string::npos))
+	//while ((resul)&&(msg.find('\n') == string::npos))
+	while ((resul)&&(msg.find('\0') == string::npos))
 	{
 		Aux = ::recv(this->sockfd, buf, MAXRECV, 0);
 		
@@ -252,7 +254,8 @@ bool Socket::recibir(string& msg)
 		else if (Aux >= 0)
 		{
 			cantRecibido += Aux;
-			msg.append(buf, cantRecibido);
+			//msg.append(buf, cantRecibido);
+			msg.append(buf, Aux);
 		
 			if (Aux < MAXRECV) {
 				resul = false;	
