@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Error.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\FabricaOperaciones.cpp"
 				>
 			</File>
@@ -239,11 +243,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Respuesta.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Resta.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Resultado.cpp"
+				RelativePath="..\Comun\Resultado.cpp"
 				>
 			</File>
 			<File
@@ -345,6 +353,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Error.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FabricaOperaciones.h"
 				>
 			</File>
@@ -385,11 +397,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Respuesta.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Resta.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Resultado.h"
+				RelativePath="..\Comun\Resultado.h"
 				>
 			</File>
 			<File
