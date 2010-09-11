@@ -8,6 +8,9 @@
 #include "DomTree.h"
 #include "FabricaOperaciones.h"
 #include "Operacion.h"
+#include "DatosInvalidosException.h"
+#include "GeneradorRespuesta.h"
+#include <vector>
 
 
 class ThrCliente: public Thread
@@ -43,57 +46,56 @@ class ThrCliente: public Thread
 		
 		virtual void Run()
 		{	
-			string msjRecibido = "";
-			string msjRetorno = "";
-			bool recibidoOK;
-			bool error = true;
-			
-			string msjAcumulado = "";
+			while (!this->parar) {
 
-			// Comienza la entrada y salida de personas
-			while (!this->parar)
-			{
-				// Se espera el envio del cliente
-				recibidoOK = sock->recibir(msjRecibido);
-
-				msjAcumulado = msjAcumulado + msjRecibido;
-
-				if (!recibidoOK) {
-					this->parar = true;
-				}
-			}
-
-			cout << "VA MENSAJE TOTAL = " << endl << msjAcumulado << endl;
-			try {
-				Parser* parser = new XmlParser();
-				DomTree* arbol = parser->toDom(msjAcumulado);
-
-				Operacion* operacion = this->fabricaOperaciones->newOperacion(arbol);
-
-				// TODO : enviar operacion e generador de respuestas
-				// eso tiene que generar tanto resultado como error
-				cout << operacion->getId() << " " << endl;
-
-
-
-			} catch (PokerException& e) {
-				// TODO 
-				//////
-				cout << e.what() << endl;
-			}
-
-
-				// Se envia la respuesta correspondiente
-				msjRecibido = "Respuesta de " + msjRecibido;
+				string msjRecibido = "";
+				string msjRetorno = "";
+				bool recibidoOK;
+				bool error = true;
 				
-				/*
-				if(!sock->enviar(msjRecibido, msjRecibido.length()))
+				string msjAcumulado = "";
+
+				bool comTerminada = false;
+
+				// Comienza la entrada y salida
+				while (!this->parar && !comTerminada) { 
+
+					// Se espera el envio del cliente
+					recibidoOK = sock->recibir(msjRecibido);
+
+					msjAcumulado = msjAcumulado + msjRecibido;
+
+					if (!recibidoOK) {
+						comTerminada = true;
+					}
+				}
+
+cout << "VA MENSAJE TOTAL = " << endl << msjAcumulado << endl;
+
+				GeneradorRespuesta* generador = new GeneradorRespuesta();
+
+				try {
+					Parser* parser = new XmlParser();
+					DomTree* arbol = parser->toDom(msjAcumulado);
+
+					Operacion* operacion = this->fabricaOperaciones->newOperacion(arbol);
+					generador->agregarRespuestas(operacion->ejecutar());
+
+				} catch (PokerException& e) {
+					generador->agregarRespuesta(&e.getError());
+				}
+
+				
+				string respuesta = generador->obtenerRespuesta();
+				delete(generador);
+
+				// Se envia la respuesta correspondiente				
+				
+				if(!sock->enviar(respuesta, respuesta.length()))
 				{
 					this->pararCliente();
 				}
-				*/
-
-				
+			}
 
 						
 			// Se desconecta el socket
