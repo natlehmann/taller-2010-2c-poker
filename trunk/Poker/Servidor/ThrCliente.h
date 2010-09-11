@@ -71,6 +71,8 @@ class ThrCliente: public Thread
 					}
 				}
 
+
+
 cout << "VA MENSAJE TOTAL = " << endl << msjAcumulado << endl;
 
 				GeneradorRespuesta* generador = new GeneradorRespuesta();
@@ -94,7 +96,7 @@ cout << "VA MENSAJE TOTAL = " << endl << msjAcumulado << endl;
 				
 				if(!sock->enviar(respuesta, respuesta.length()))
 				{
-					//this->pararCliente();
+					this->pararCliente();
 				}
 			}
 
