@@ -50,13 +50,13 @@ class ThrCliente: public Thread
 			while (!this->parar) 
 			{
 				string msjRecibido = "";
-				string msjRetorno = "";
+				//string msjRetorno = "";
 				bool recibidoOK;
-				bool error = true;
+				//bool error = true;
 				
 				recibidoOK = sock->recibir(msjRecibido);
 
-				if (recibidoOK)
+				if ((recibidoOK)&&(msjRecibido!=""))
 				{
 					string respuesta;
 					GeneradorRespuesta* generador = new GeneradorRespuesta();
@@ -85,7 +85,10 @@ class ThrCliente: public Thread
 						this->pararCliente();
 					}
 				}
-
+				else
+				{
+					this->pararCliente();
+				}
 			}
 			
 			// Se desconecta el socket

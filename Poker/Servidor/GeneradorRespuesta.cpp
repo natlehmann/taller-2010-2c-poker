@@ -102,8 +102,10 @@ string GeneradorRespuesta::obtenerRespuesta()
 		for (it = listaResultados.begin(); it != listaResultados.end(); it++) {
 
 			Elemento* resul = elem->agregarHijo("resultado");
-			resul->agregarAtributo("nombre",respuesta->getId());
-			resul->setTexto(respuesta->getValor());
+			//resul->agregarAtributo("nombre",respuesta->getId());
+			//resul->setTexto(respuesta->getValor());
+			resul->agregarAtributo("nombre",(*it)->getId());
+			resul->setTexto((*it)->getValor());
 		}
 	}
 
