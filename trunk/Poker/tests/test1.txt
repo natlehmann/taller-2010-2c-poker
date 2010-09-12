@@ -1,0 +1,7 @@
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum">15.4</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
