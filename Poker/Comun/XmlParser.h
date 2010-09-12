@@ -30,7 +30,7 @@ using namespace std;
 
 class XmlParser : public Parser
 {
-private:
+protected:
 	XmlParserEstado* estadoInicial;
 	XmlParserEstado* estadoActual;
 	deque<string*>* nodosProcesados;
