@@ -1,5 +1,5 @@
 
-//#include <vld.h>
+#include <vld.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -18,6 +18,7 @@
 #include "XmlParser.h"
 #include "Parser.h"
 #include "PokerException.h"
+#include "XmlParserArchivo.h"
 
 
 
@@ -113,249 +114,42 @@ int main (int argc, char** argv)
 
 	
 
-	delete (parser);
+	list<string> archivos;
+	archivos.push_back("..\\tests\\test1.txt");
+	archivos.push_back("..\\tests\\test2.txt");
+	archivos.push_back("..\\tests\\test3.txt");
+	archivos.push_back("..\\tests\\test4.txt");
+	archivos.push_back("..\\tests\\test5.txt");
 
-
-
-
-
-
-/*
-		cout << "arbol creado" << endl;
-
-		Elemento* e = tree->agregarElemento("pedido");
-		cout << "elemento pedido creado" << endl;
-
-		Elemento* e2 = e->agregarHijo("operacion");
-		cout << "elemento operacion creado" << endl;
-
-		e2->agregarAtributo("id","S");
-		cout << "atributo id agregado" << endl;
-
-		Elemento* e3 = e->agregarHijo("parametros");
-		Elemento* e4 = e3->agregarHijo("parametro");
-		e4->agregarAtributo("nombre","sum");
-		e4->setTexto("15.4");
-		Elemento* e5 = e3->agregarHijo("parametro");
-		e5->agregarAtributo("nombre","sum");
-		e5->setTexto("4");
+	for (list<string>::iterator itt = archivos.begin(); itt != archivos.end(); itt++) {
+		
+		cout << "Procesando archivo " << *itt << endl;
+		XmlParserArchivo* parserArch = new XmlParserArchivo(*itt);
+		int contPedido = 1;
 
 		try {
-			e->agregarHijo("otro");
+			DomTree* dt = parserArch->getSiguiente();
 
-		} catch(ParserException& ex1 ) {
-			cout<< ex1.getMensaje() <<endl;
-		}
+			while (dt != NULL) {	
+				cout << "Pedido " << contPedido++ << endl;
+				cout << parser->toString(dt) << endl;
 
-		try {
-			e->agregarAtributo("uno", "dos");
+				delete (dt);
+				dt = parserArch->getSiguiente();
+			}
 
-		} catch(ParserException& ex2 ) {
-			cout<< ex2.getMensaje() <<endl;
-
-		} catch(exception& ex3 ) {
-			cout<< ex3.what() <<endl;
+		} catch (PokerException& e){
+			cout << e.getMensaje() << endl;
 		}
 
 		
-		cout << parser->toString(tree) << endl;
-
-
-try {
-DomTree* otroArbol = parser->toDom("ESTA ES LA PRIMER LINEA.\nEsta es la segunda.\n");
-cout << "ANTES DEL DELETE DEL OTRO ARBOL" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex4 ) {
-	cout<< ex4.getMensaje() <<endl;
-	//delete(ex4);
-}
-
-try {
-DomTree* otroArbol = parser->toDom("<");
-cout << "deberia funcionar" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex5 ) {
-	cout<< ex5.getMensaje() <<endl;
-	//delete(ex5);
-}
-
-try {
-DomTree* otroArbol = parser->toDom("            <");
-cout << "deberia funcionar con espacios " << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex6 ) {
-	cout<< ex6.getMensaje() <<endl;
-	//delete(ex6);
-}
+		cout << endl << endl;
+		delete (parserArch);
+	}
 
 
 
-
-try {
-DomTree* otroArbol = parser->toDom("<pedido>");
-cout << "ok <pedido>" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex7 ) {
-	cout<< ex7.getMensaje() <<endl;
-	//delete(ex7);
-}
-
-try {
-DomTree* otroArbol = parser->toDom("            <pedido");
-cout << "ok <pedido" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex8 ) {
-	cout<< ex8.getMensaje() <<endl;
-	//delete(ex8);
-}
-
-
-try {
-DomTree* otroArbol = parser->toDom("            <pedido/>");
-cout << "ok <pedido/>" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex9 ) {
-	cout<< ex9.getMensaje() <<endl;
-}
-
-
-try {
-DomTree* otroArbol = parser->toDom("            <pedido  />");
-cout << "ok <pedido  />" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex10 ) {
-	cout<< ex10.getMensaje() <<endl;
-}
-
-
-try {
-DomTree* otroArbol = parser->toDom("            <pedido  >");
-cout << "ok <pedido  >" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex11 ) {
-	cout<< ex11.getMensaje() <<endl;
-	//delete(ex11);
-}
-
-try {
-DomTree* otroArbol = parser->toDom("            <pedido    ");
-cout << "ok <pedido    " << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex12 ) {
-	cout<< ex12.getMensaje() <<endl;
-	//delete(ex12);
-}
-
-try {
-DomTree* otroArbol = parser->toDom("            <otro    ");
-cout << "ok <otro    " << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex13 ) {
-	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
-}
-
-try {
-DomTree* otroArbol = parser->toDom("<pedido id>");
-cout << "ok <pedido id>" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex13 ) {
-	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
-}
-
-try {
-DomTree* otroArbol = parser->toDom("<pedido =\">");
-cout << "ok <pedido =\">" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex13 ) {
-	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
-}
-
-try {
-DomTree* otroArbol = parser->toDom("<pedido =\"\">");
-cout << "ok <pedido =\"\">" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex13 ) {
-	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
-}
-
-try {
-DomTree* otroArbol = parser->toDom("<pedido id=>");
-cout << "ok <pedido id=>" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex13 ) {
-	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
-}
-
-try {
-DomTree* otroArbol = parser->toDom("<pedido id=\">");
-cout << "ok <pedido id=\">" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex13 ) {
-	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
-}
-
-try {
-DomTree* otroArbol = parser->toDom("<pedido id=\"S>");
-cout << "ok <pedido id=\"S>" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex13 ) {
-	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
-}
-
-try {
-DomTree* otroArbol = parser->toDom("<pedido id=\"S\">");
-cout << "ok <pedido id=\"S\">" << endl;
-delete(otroArbol);
-
-} catch(ParserException& ex13 ) {
-	cout<< "LANZO Excepcion " << ex13.getMensaje() <<endl;
-}
-
-
-
-
-
-cout << "3 espacios " << MensajesUtil::esVacio("   ") << endl;
-cout << "1 espacio " << MensajesUtil::esVacio(" ") << endl;
-cout << "0 espacios " << MensajesUtil::esVacio("") << endl;
-string prueba = "0123456789";
-cout << prueba.substr(0,3) << endl;
-
-cout << "1 caracter : x --" << MensajesUtil::trim("x") << "--" << endl;
-cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim(" x") << "--" << endl;
-cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x ") << "--" << endl;
-cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim(" x ") << "--" << endl;
-cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim("    x") << "--" << endl;
-cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x     ") << "--" << endl;
-cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("    x ") << "--" << endl;
-
-cout << "1 caracter : x --" << MensajesUtil::trim("x") << "--" << endl;
-cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim(" \nx") << "--" << endl;
-cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x ") << "--" << endl;
-cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("\nx ") << "--" << endl;
-cout << "1 caracter y espacios a izq: --" << MensajesUtil::trim("    x\n") << "--" << endl;
-cout << "1 caracter y espacios a der: --" << MensajesUtil::trim("x    \n") << "--" << endl;
-cout << "1 caracter y espacios a ambos lados: --" << MensajesUtil::trim("\n    x ") << "--" << endl;
-
-	delete(tree);
-	delete(parser);
-*/	
+	delete (parser);
 
 	return 0;
 
