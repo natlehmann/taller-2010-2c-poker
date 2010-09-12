@@ -36,7 +36,6 @@ public:
 
 	template < class T >
 	static string toString(const T &arg);
-
 };
 
 #endif
