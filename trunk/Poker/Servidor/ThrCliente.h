@@ -70,11 +70,19 @@ class ThrCliente: public Thread
 						operacion = this->fabricaOperaciones->newOperacion(arbol);
 						generador->agregarRespuestas(operacion->ejecutar());
 						respuesta = generador->obtenerRespuesta();
+
+						if (_DEBUG) {
+							cout << "Procesando operacion " << operacion->getId() << " - Resultado Ok" << endl;
+						}
 					} 
 					catch (PokerException& e) 
 					{
 						generador->agregarRespuesta(&e.getError());
 						respuesta = generador->obtenerRespuesta();
+
+						if (_DEBUG) {
+							cout << "Procesando operacion - Resultado Error" << endl;
+						}
 					}
 
 					delete(generador);
