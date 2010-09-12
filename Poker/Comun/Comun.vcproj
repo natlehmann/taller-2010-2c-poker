@@ -244,6 +244,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\XmlParserArchivo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\XmlParserEstado.cpp"
 				>
 			</File>
@@ -347,6 +351,10 @@
 			</File>
 			<File
 				RelativePath=".\XmlParser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\XmlParserArchivo.h"
 				>
 			</File>
 			<File
