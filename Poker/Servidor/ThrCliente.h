@@ -56,24 +56,35 @@ class ThrCliente: public Thread
 				
 				recibidoOK = sock->recibir(msjRecibido);
 
-				//cout << "VA MENSAJE TOTAL = " << endl << msjAcumulado << endl;
-
 				if (recibidoOK)
 				{
 					GeneradorRespuesta* generador = new GeneradorRespuesta();
+					Operacion* operacion = NULL;
 
 					try 
 					{
 						Parser* parser = new XmlParser();
 						DomTree* arbol = parser->toDom(msjRecibido);
 
-						Operacion* operacion = this->fabricaOperaciones->newOperacion(arbol);
+						operacion = this->fabricaOperaciones->newOperacion(arbol);
 						generador->agregarRespuestas(operacion->ejecutar());
+
+						if (_DEBUG) {
+							cout << "Procesando operacion id " << operacion->getId() << endl;
+						}
 
 					} 
 					catch (PokerException& e) 
 					{
+						if (operacion != NULL) {
+							e.getError().setIdOperacion(operacion->getId());
+						}
+
 						generador->agregarRespuesta(&e.getError());
+
+						if (_DEBUG) {
+							cout << "Operacion finalizo con errores." << endl;
+						}
 					}
 
 					string respuesta = generador->obtenerRespuesta();

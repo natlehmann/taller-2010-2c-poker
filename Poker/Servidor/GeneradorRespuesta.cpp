@@ -75,8 +75,8 @@ string GeneradorRespuesta::obtenerRespuesta()
 		for (it = listaErrores.begin(); it != listaErrores.end(); it++) {
 
 			Elemento* error = elem->agregarHijo("error");
-			error->agregarAtributo("tipo",respuesta->getId());
-			error->setTexto(respuesta->getValor());
+			error->agregarAtributo("tipo",(*it)->getId());
+			error->setTexto((*it)->getValor());
 		}
 
 
@@ -95,8 +95,8 @@ string GeneradorRespuesta::obtenerRespuesta()
 		for (it = listaResultados.begin(); it != listaResultados.end(); it++) {
 
 			Elemento* resul = elem->agregarHijo("resultado");
-			resul->agregarAtributo("nombre",respuesta->getId());
-			resul->setTexto(respuesta->getValor());
+			resul->agregarAtributo("nombre", (*it)->getId());
+			resul->setTexto((*it)->getValor());
 		}
 	}
 
