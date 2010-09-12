@@ -4,6 +4,9 @@
 PokerException::PokerException(string mensaje)
 {
 	this->mensaje = mensaje;
+
+	// Si no se conoce el tipo de error, por default se asume de Sintaxis
+	this->error = Error("S", mensaje, "");
 }
 
 PokerException::~PokerException(void)
