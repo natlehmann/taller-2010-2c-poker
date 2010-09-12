@@ -19,6 +19,12 @@ private:
 
 public:
 	DomTree(void);
+
+	/**
+	* Construye un arbol conteniendo el elemento recibido por parametro
+	*/
+	DomTree(Elemento* elemento);
+
 	virtual ~DomTree(void);
 
 	/**

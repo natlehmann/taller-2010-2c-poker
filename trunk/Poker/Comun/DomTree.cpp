@@ -8,6 +8,11 @@ DomTree::DomTree(void)
 	this->raiz = DomTreeFactory::crearElemento("raiz");
 }
 
+DomTree::DomTree(Elemento* elemento){
+	this->raiz = DomTreeFactory::crearElemento("raiz");
+	this->raiz->getHijos()->push_back(elemento);
+}
+
 DomTree::~DomTree(void)
 {
 	delete(this->raiz);
