@@ -428,15 +428,20 @@ void UICliente::enviarOperacion()
 	
 	if(cliente->enviarMsj(mensaje))
 	{
-		string respuestaServ = cliente->recibirMsj();
-		this->mostrarEncabezado("Resultado ejecucion");
-		string respuesta = parserTeclado.obtenerRespuesta(respuestaServ);
-		this->mostrarMensaje(respuesta,false);
+		//string respuestaServ = cliente->recibirMsj(respuestaServ);
+		string respuestaServ;
+		if (cliente->recibirMsj(respuestaServ))
+		{
+			this->mostrarEncabezado("Resultado ejecucion");
+			string respuesta = parserTeclado.obtenerRespuesta(respuestaServ);
+			this->mostrarMensaje(respuesta,false);
+		}
+		else
+			this->mostrarMensaje("SE PRODUJO UN ERROR AL RECIBIR EL RESULTADO DESDE EL SERVIDOR.", false);
+		
 	}
 	else
-	{	
 		this->mostrarMensaje("SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR.", false);
-	}
 }
 
 void UICliente::mostrarEncabezado(string mensaje) {
