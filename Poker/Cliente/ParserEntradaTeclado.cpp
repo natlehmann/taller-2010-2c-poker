@@ -30,9 +30,9 @@ string ParserEntradaTeclado::obtenerTipoParametro(int numeroParametro)
 	else if (MensajesUtil::sonIguales(XML_OP_DIV, this->_codigoOperacion))
 	{		
 		if (numeroParametro == 0)
-			tipoParametro = XML_ATR_TIPO_DIVISOR;
-		else
 			tipoParametro = XML_ATR_TIPO_DIVIDENDO;
+		else
+			tipoParametro = XML_ATR_TIPO_DIVISOR;
 	}
 
 	return tipoParametro;
@@ -79,8 +79,7 @@ string ParserEntradaTeclado::generarMensaje()
 
 string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 {
-	//hay que probarlo!!!!
-	string mensajeRespuesta;
+	string mensajeRespuesta = "";
 
 	XmlParser* xmlParser = new XmlParser();
 	DomTree* domTree = xmlParser->toDom(respuesta);
@@ -102,7 +101,7 @@ string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 					{
 						for(list<Elemento*>::iterator it1 = (*it0)->getHijos()->begin(); 
 							it1 != (*it0)->getHijos()->end(); it1++) {					
-								mensajeRespuesta = (*it1)->getTexto() + "\n";
+								mensajeRespuesta = mensajeRespuesta + (*it1)->getTexto() + "\n";
 
 							this->error = true;
 						}
@@ -112,7 +111,8 @@ string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 					{
 						for(list<Elemento*>::iterator it2 = (*it0)->getHijos()->begin(); 
 							it2 != (*it0)->getHijos()->end(); it2++) {					
-								mensajeRespuesta = (*it2)->getNombre() + ": " + (*it2)->getTexto() + "\n";
+								mensajeRespuesta = mensajeRespuesta + (*it2)->getAtributo("nombre") 
+									+ ": " + (*it2)->getTexto() + "\n";
 
 							this->error = false;
 						}
