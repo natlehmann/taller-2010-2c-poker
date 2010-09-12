@@ -17,6 +17,7 @@ private:
 
 public:
 	PokerException(string mensaje); 
+	PokerException(string mensaje, string idError); 
 	PokerException(Error& error);
 	virtual ~PokerException(void);
 
