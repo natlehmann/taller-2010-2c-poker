@@ -3,6 +3,7 @@
 #include "MensajesUtil.h"
 #include "XmlParserArchivo.h"
 #include "DomTree.h"
+#include "GeneradorRespuesta.h"
 #include <fstream>
 
 UICliente::UICliente(void)
@@ -352,8 +353,11 @@ void UICliente::procesarArchivoXML()
 				}
 
 			} catch (PokerException& e){
-				//TODO ///////////
-				cout << e.getMensaje() << endl;
+
+				GeneradorRespuesta* generador = new GeneradorRespuesta();
+				generador->agregarRespuesta(&e.getError());
+				salida << generador->obtenerRespuesta() << endl;
+				delete (generador);
 			}
 
 			salida.close();
