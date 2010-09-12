@@ -1,6 +1,9 @@
 #include "UICliente.h"
 #include "ParserEntradaTeclado.h"
 #include "MensajesUtil.h"
+#include "XmlParserArchivo.h"
+#include "DomTree.h"
+#include <fstream>
 
 UICliente::UICliente(void)
 {
@@ -298,8 +301,68 @@ void UICliente::procesarArchivoXML()
 {
 	this->mostrarMensaje("INGRESE LA RUTA DEL XML QUE CONTIENE LAS OPERACIONES:");
 	this->leerEntrada();
-	this->mostrarMensaje("SE HA PROCESADO CORRECTAMENTE EL ARCHIVO XML !!!", false);
+
+	XmlParserArchivo* parser = NULL;
+
+	try {
+		parser = new XmlParserArchivo(this->entrada);
+
+	} catch (PokerException& e) {
+		this->mostrarMensaje("No se ha podido procesar el archivo indicado.", false);
+	}
+
+	if (parser != NULL) {
+
+		this->mostrarMensaje("INGRESE LA RUTA DEL ARCHIVO DE SALIDA: ", true); 
+		this->leerEntrada();
+
+		string archivoSalida = "";
+		if (!MensajesUtil::esVacio(this->entrada)) {
+			archivoSalida = this->entrada;
+		}		
+
+		ofstream salida(archivoSalida.c_str(), ios::out | ios::trunc);
+		if (MensajesUtil::esVacio(archivoSalida) || !salida.is_open()) {
+			this->mostrarMensaje("No se ha podido abrir el archivo " 
+				+ archivoSalida + " para escritura.", false);
+
+		} else {
+
+
+			try {
+				DomTree* domTree = parser->getSiguiente();
+
+				while (domTree != NULL) {	
+					
+					if(cliente->enviarMsj(parser->toString(domTree)))
+					{
+						string respuestaServ;
+						bool ok = cliente->recibirMsj(respuestaServ);
+						// TODO: FALTA CHEQUEO
+						salida << respuestaServ << "\n";
+					}
+					else
+					{	
+						this->mostrarMensaje(
+							"SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR.", false);
+					}
+
+					delete (domTree);
+					domTree = parser->getSiguiente();
+				}
+
+			} catch (PokerException& e){
+				//TODO ///////////
+				cout << e.getMensaje() << endl;
+			}
+
+			salida.close();
+			delete(parser);
+			this->mostrarMensaje("SE HA PROCESADO CORRECTAMENTE EL ARCHIVO XML !!!", false);
+		}
+	}
 }
+
 void UICliente::procesarEntradaOperandos()
 {
 	bool enviar = false;
