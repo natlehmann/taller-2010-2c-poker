@@ -9,6 +9,11 @@ PokerException::PokerException(string mensaje)
 	this->error = Error("S", mensaje, "");
 }
 
+PokerException::PokerException(string mensaje, string idError){
+	this->mensaje = mensaje;
+	this->error = Error(idError, mensaje, "");
+}
+
 PokerException::~PokerException(void)
 {
 }
