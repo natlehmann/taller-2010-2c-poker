@@ -429,6 +429,7 @@ void UICliente::enviarOperacion()
 	if(cliente->enviarMsj(mensaje))
 	{
 		string respuestaServ = cliente->recibirMsj();
+		this->mostrarEncabezado("Resultado ejecucion");
 		string respuesta = parserTeclado.obtenerRespuesta(respuestaServ);
 		this->mostrarMensaje(respuesta,false);
 	}
@@ -437,6 +438,13 @@ void UICliente::enviarOperacion()
 		this->mostrarMensaje("SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR.", false);
 	}
 }
+
+void UICliente::mostrarEncabezado(string mensaje) {
+	cout << "----------------------------------------------------" << endl;
+	cout << mensaje << endl;
+	cout << "----------------------------------------------------" << endl;
+}
+
 void UICliente::mostrarResultado()
 {
 	string operacion;
