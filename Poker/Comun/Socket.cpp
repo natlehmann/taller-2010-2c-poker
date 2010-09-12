@@ -300,3 +300,8 @@ bool Socket::limpiarConexiones()
 	else
 		return false;
 }
+
+string Socket::getError()
+{
+	return this->msgError;
+}

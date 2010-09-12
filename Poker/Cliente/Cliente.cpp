@@ -33,11 +33,9 @@ bool Cliente::conectar()
 		return false;
 }
 
-string Cliente::recibirMsj()
+bool Cliente::recibirMsj(string& msjRecibido)
 {
-	string msj;
-	sock->recibir(msj);
-	return msj;
+	return sock->recibir(msjRecibido);
 }
 
 bool Cliente::enviarMsj(const string msj)
@@ -48,4 +46,9 @@ bool Cliente::enviarMsj(const string msj)
 bool Cliente::finalizarConexion()
 {
 	return sock->cerrar();
+}
+
+string Cliente::getSocketError()
+{
+	return sock->getError();
 }

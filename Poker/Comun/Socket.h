@@ -49,6 +49,7 @@ class Socket
 		bool inicializarConexiones();
 		bool limpiarConexiones();
 		bool esValido();
+		string getError();
 
 		
 };

@@ -13,11 +13,12 @@ class GeneradorRespuesta
 {
 	private:
 		list<Respuesta*> listaResultados;
-		list<Respuesta*> listaErrores;
+		list<Error*> listaErrores;
 
 	public:
 		GeneradorRespuesta();
 		virtual ~GeneradorRespuesta();
+		void agregarRespuesta(const Error* error);
 		void agregarRespuesta(Respuesta* respuesta);
 		void agregarRespuestas(vector<Respuesta*> respuestas);
 		string obtenerRespuesta();

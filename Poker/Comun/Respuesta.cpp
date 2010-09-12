@@ -8,7 +8,8 @@ Respuesta::Respuesta(string id, string valor, string idOperacion) {
 	this->idOperacion = idOperacion;
 }
 
-Respuesta::~Respuesta() {}
+Respuesta::~Respuesta() {
+}
 
 
 bool Respuesta::isError(){
