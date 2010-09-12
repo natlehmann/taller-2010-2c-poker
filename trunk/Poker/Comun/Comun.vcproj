@@ -204,6 +204,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GeneradorRespuesta.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MensajesUtil.cpp"
 				>
 			</File>
@@ -307,6 +311,10 @@
 			</File>
 			<File
 				RelativePath=".\FormatException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GeneradorRespuesta.h"
 				>
 			</File>
 			<File
