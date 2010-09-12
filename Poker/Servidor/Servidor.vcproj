@@ -215,7 +215,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GeneradorRespuesta.cpp"
+				RelativePath="..\Comun\GeneradorRespuesta.cpp"
 				>
 			</File>
 			<File
@@ -365,7 +365,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\GeneradorRespuesta.h"
+				RelativePath="..\Comun\GeneradorRespuesta.h"
 				>
 			</File>
 			<File
