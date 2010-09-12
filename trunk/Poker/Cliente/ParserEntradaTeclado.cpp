@@ -73,6 +73,7 @@ string ParserEntradaTeclado::generarMensaje()
 	XmlParser* xmlParser = new XmlParser();
 	string mensaje = xmlParser->toString(domTree);
 	delete(xmlParser);
+	delete(domTree);
 
 	return mensaje;
 }
@@ -119,9 +120,10 @@ string ParserEntradaTeclado::obtenerRespuesta(string respuesta)
 					}
 			}
 		}
-			
+		
 	}
 
+	delete(domTree);
 	return mensajeRespuesta;
 }
 

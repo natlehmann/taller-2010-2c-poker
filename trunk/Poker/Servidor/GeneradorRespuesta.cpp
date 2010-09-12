@@ -14,14 +14,21 @@ GeneradorRespuesta::~GeneradorRespuesta(){
 	this->limpiar();
 }
 
+void GeneradorRespuesta::agregarRespuesta(const Error* error)
+{
+	Error* newError = new Error(error->getId(), error->getValor(), error->getIdOperacion());
+	listaErrores.push_back(newError);
+}
+
 void GeneradorRespuesta::agregarRespuesta(Respuesta* respuesta)
 {
-	if (respuesta->isError()) {
-		listaErrores.push_back(respuesta);
+	listaResultados.push_back(respuesta);
+	//if (respuesta->isError()) {
+	//	listaErrores.push_back(respuesta);
 
-	} else {
-		listaResultados.push_back(respuesta);
-	}
+	//} else {
+	//	listaResultados.push_back(respuesta);
+	//}
 }
 
 void GeneradorRespuesta::agregarRespuestas(vector<Respuesta*> respuestas) {
@@ -34,7 +41,7 @@ void GeneradorRespuesta::agregarRespuestas(vector<Respuesta*> respuestas) {
 void GeneradorRespuesta::limpiar() {
 
 	if (!this->listaErrores.empty()) {
-		for (list<Respuesta*>::iterator it = this->listaErrores.begin() ;
+		for (list<Error*>::iterator it = this->listaErrores.begin() ;
 			it != this->listaErrores.end(); it++) {
 				delete (*it);
 		}
@@ -59,24 +66,24 @@ string GeneradorRespuesta::obtenerRespuesta()
 
 		// se procesan errores
 
-		list<Respuesta*>::iterator it = this->listaErrores.begin();
-		Respuesta* respuesta = *it;
+		list<Error*>::iterator it = this->listaErrores.begin();
+		Error* error = *it;
 
 		Elemento* elem = raiz->agregarHijo("operacion");
 
-		if(MensajesUtil::esVacio(respuesta->getIdOperacion())) {
+		if(MensajesUtil::esVacio(error->getIdOperacion())) {
 			elem->agregarAtributo("id","");
 		} else {
-			elem->agregarAtributo("id",respuesta->getIdOperacion());
+			elem->agregarAtributo("id",error->getIdOperacion());
 		}
 
 		elem = raiz->agregarHijo("errores");
 
 		for (it = listaErrores.begin(); it != listaErrores.end(); it++) {
 
-			Elemento* error = elem->agregarHijo("error");
-			error->agregarAtributo("tipo",(*it)->getId());
-			error->setTexto((*it)->getValor());
+			Elemento* errorelem = elem->agregarHijo("error");
+			errorelem->agregarAtributo("tipo",error->getId());
+			errorelem->setTexto(error->getValor());
 		}
 
 
@@ -95,8 +102,8 @@ string GeneradorRespuesta::obtenerRespuesta()
 		for (it = listaResultados.begin(); it != listaResultados.end(); it++) {
 
 			Elemento* resul = elem->agregarHijo("resultado");
-			resul->agregarAtributo("nombre", (*it)->getId());
-			resul->setTexto((*it)->getValor());
+			resul->agregarAtributo("nombre",respuesta->getId());
+			resul->setTexto(respuesta->getValor());
 		}
 	}
 

@@ -58,6 +58,7 @@ class ThrCliente: public Thread
 
 				if (recibidoOK)
 				{
+					string respuesta;
 					GeneradorRespuesta* generador = new GeneradorRespuesta();
 					Operacion* operacion = NULL;
 
@@ -68,26 +69,14 @@ class ThrCliente: public Thread
 
 						operacion = this->fabricaOperaciones->newOperacion(arbol);
 						generador->agregarRespuestas(operacion->ejecutar());
-
-						if (_DEBUG) {
-							cout << "Procesando operacion id " << operacion->getId() << endl;
-						}
-
+						respuesta = generador->obtenerRespuesta();
 					} 
 					catch (PokerException& e) 
 					{
-						if (operacion != NULL) {
-							e.getError().setIdOperacion(operacion->getId());
-						}
-
 						generador->agregarRespuesta(&e.getError());
-
-						if (_DEBUG) {
-							cout << "Operacion finalizo con errores." << endl;
-						}
+						respuesta = generador->obtenerRespuesta();
 					}
 
-					string respuesta = generador->obtenerRespuesta();
 					delete(generador);
 
 					// Se envia la respuesta correspondiente				

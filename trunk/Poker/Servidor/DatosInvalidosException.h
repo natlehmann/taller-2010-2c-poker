@@ -10,7 +10,7 @@ public:
 	DatosInvalidosException(string mensaje);
 	DatosInvalidosException(Error& error);
 	virtual ~DatosInvalidosException() throw();
-
+	
 };
 
 #endif /* DATOSINVALIDOSEXCEPTION_H_ */

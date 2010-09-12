@@ -21,9 +21,10 @@ class Cliente
 		void desconectar() {this->conectado = false;};
 		
 		bool iniciarConexion();
-		string recibirMsj();
+		bool recibirMsj(string& msjRecibido);
 		bool enviarMsj(const string msj);
 		bool finalizarConexion();
+		string getSocketError();
 };
 
 #endif /*CLIENTE_H_*/
