@@ -85,7 +85,7 @@ XmlParserEstado* XmlParserEstadoProcesandoAtt::procesarFragmento() {
 
 			} catch(ParserException& e) {
 				throw ParserException("Error en linea " + MensajesUtil::intToString(this->getNumeroLinea()) 
-					+ ". " + e.getMensaje());
+					+ ". " + e.getMensaje(), e.getError().getId());
 			}
 		}
 

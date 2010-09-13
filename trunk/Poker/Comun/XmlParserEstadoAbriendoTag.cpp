@@ -58,6 +58,7 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 		try {
 			this->setElementoActual(this->getElementoActual()->agregarHijo(nombreElemento));
 			this->getNodosProcesados()->push_back(new string(nombreElemento));
+			this->getElementoActual()->setNumeroDeLinea(this->getNumeroLinea());
 
 			XmlParserEstado* siguienteEstado = this->getProcesandoAtt();
 			this->setInicioTexto(indiceFinal);
@@ -93,7 +94,8 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 
 		} catch(ParserException& e) {
 			throw ParserException("Error en linea " 
-				+ MensajesUtil::intToString(this->getNumeroLinea()) + ". " + e.getMensaje());
+				+ MensajesUtil::intToString(this->getNumeroLinea()) + ". " + e.getMensaje(),
+				e.getError().getId());
 		}
 
 	} else {

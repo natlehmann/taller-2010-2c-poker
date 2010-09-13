@@ -43,7 +43,6 @@ XmlParserEstado* XmlParserEstadoInicial::procesarFragmento() {
 			if (!esVacio) {
 				string msg = "Se encontraron caracteres invalidos antes del inicio de un tag en la linea " 
 					+ MensajesUtil::intToString(this->getNumeroLinea()); 
-				//string msg = "Se encontraron caracteres invalidos antes del inicio de un tag en la linea ";
 				string invalido = this->getTextoAProcesar().substr(this->getInicioTexto(),indice);
 				string msg2= msg + ". Caracteres: " + invalido;
 				throw ParserException(msg2);

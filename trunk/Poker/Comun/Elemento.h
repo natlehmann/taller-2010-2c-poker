@@ -21,6 +21,7 @@ private:
 	map<string,string>* atributos;
 	set<string*>* atributosPermitidos;
 	set<string*>* hijosPermitidos;
+	int numeroDeLinea;
 
 	list<Elemento*>* hijos;
 	Elemento* padre;
@@ -43,6 +44,9 @@ public:
 	string getTexto();
 
 	string getNombre();
+
+	int getNumeroDeLinea();
+	void setNumeroDeLinea(int numero);
 
 	Elemento* getPadre();
 	bool isRaiz();
