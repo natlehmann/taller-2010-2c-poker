@@ -84,7 +84,7 @@ Elemento* DomTreeFactory::crearElemento(string nombre) {
 
 	} else {
 		string msg = "El elemento " + nombre + " no esta permitido.";
-		throw ParserException(msg);
+		throw ParserException(msg, "V");
 	}
 	
 }

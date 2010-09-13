@@ -74,7 +74,6 @@ void XmlParserArchivo::procesarArchivo(){
 
 			string linea;
 			getline(*this->archivo,linea);
-			this->contadorLinea++;
 
 			if (this->archivo->eof()) {
 				this->finArchivo = true;
@@ -86,6 +85,7 @@ void XmlParserArchivo::procesarArchivo(){
 
 		
 			this->procesarLinea(linea);
+			this->contadorLinea++;
 		}
 
 		if (this->finArchivo && !this->validado) {

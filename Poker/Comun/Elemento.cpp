@@ -11,6 +11,7 @@ Elemento::Elemento(string nombre)
 	this->atributos = new map<string,string>();
 	this->hijos = new list<Elemento*>();
 	this->texto = "";
+	this->numeroDeLinea = -1;
 }
 
 Elemento::~Elemento(void)
@@ -73,7 +74,7 @@ void Elemento::agregarAtributo(string clave, string valor){
 	
 	} else {
 		string msg = "El atributo " + clave + " no esta permitido en el elemento " + this->nombre;
-		throw ParserException(msg);
+		throw ParserException(msg, "V");
 	}
 }
 
@@ -122,7 +123,7 @@ Elemento* Elemento::agregarHijo(string nombreHijo) {
 	} else {
 		string msg = "El elemento " + nombreHijo + 
 			" no puede anidarse dentro del elemento " + this->nombre;
-		throw ParserException(msg);
+		throw ParserException(msg, "V");
 	}
 }
 
@@ -146,4 +147,12 @@ bool Elemento::esPermitido(string nombre, set<string*>* conjunto) {
 		}
 	}
 	return encontrado;
+}
+
+int Elemento::getNumeroDeLinea() {
+	return this->numeroDeLinea;
+}
+
+void Elemento::setNumeroDeLinea(int numero){
+	this->numeroDeLinea = numero;
 }
