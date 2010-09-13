@@ -1,0 +1,104 @@
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum">15.4</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="R"/>
+<parametros>
+<parametro nombre="res">15.4</parametro>
+<parametro nombre="res">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="M"/>
+<parametros>
+<parametro nombre="mul">15.4</parametro>
+<parametro nombre="mul">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="D"/>
+<parametros>
+<parametro nombre="dividendo">15</parametro>
+<parametro nombre="divisor">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="D"/>
+<parametros>
+<parametro nombre="dividendo">15.3</parametro>
+<parametro nombre="divisor">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="D"/>
+<parametros>
+<parametro nombre="dividendo">15</parametro>
+<parametro nombre="divisor">10.23</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="D"/>
+<parametros>
+<parametro nombre="dividendo">-15</parametro>
+<parametro nombre="divisor">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="D"/>
+<parametros>
+<parametro nombre="dividendo">15</parametro>
+<parametro nombre="divisor">-10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="D"/>
+<parametros>
+<parametro nombre="dividendo">15</parametro>
+<parametro nombre="divisor">0</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="SUMA"/>
+<parametros>
+<parametro nombre="sum">15.4</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum">15.4.123</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum">-45.6</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion idinvalido="S"/>
+<parametros>
+<parametro nombre="sum">-45.6</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
