@@ -32,7 +32,7 @@ bool UtilTiposDatos::isNumber(string numero)
 		return 0;
 	}
 	if (numero.size() == 1) {
-		return isdigit(numero[0]);
+		return (isdigit(numero[0]) != 0);
 	}
 	if (!isdigit(numero[0]) && numero[0] != '-') {
 		return 0;
