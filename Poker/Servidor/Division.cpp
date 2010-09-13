@@ -1,5 +1,6 @@
 #include "Division.h"
 #include "UtilTiposDatos.h"
+#include "DatosInvalidosException.h"
 
 Division::Division() {}
 
@@ -15,12 +16,6 @@ vector<Respuesta*> Division::ejecutar()
 {
 	vector<Respuesta*> resultados;
 
-	if (parametros.size() != 2) {
-		Error* resultadoError = new Error("E","Cantidad de parametros incorrecta",id);
-		resultados.push_back(resultadoError);
-		return resultados;
-	}
-
 	double dividendo = parametros.at(0);
 	double divisor = parametros.at(1);
 	int cociente = 0;
@@ -28,15 +23,15 @@ vector<Respuesta*> Division::ejecutar()
 
 	if (divisor == 0) {
 
-		Error* resultadoError = new Error("E","Division por cero",id);
-		resultados.push_back(resultadoError);
+		Error resultadoError("E","Division por cero.",id);
+		throw DatosInvalidosException(resultadoError);
 
 	} else {
 
 		if (!UtilTiposDatos::esEntero(dividendo) || !UtilTiposDatos::esEntero(divisor)) {
 
-			Error* resultadoError = new Error("E","Parametros no enteros",id);
-			resultados.push_back(resultadoError);
+			Error resultadoError("E","Parametros no enteros.",id);
+			throw DatosInvalidosException(resultadoError);
 
 		} else {
 

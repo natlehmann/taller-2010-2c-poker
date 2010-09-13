@@ -138,6 +138,12 @@ Operacion* FabricaOperaciones::newOperacion(DomTree* domTree)
 			+ string(". Una division debe tener 2 parametros, 'dividendo' y 'divisor'."),idOperacion);
 		throw DatosInvalidosException(resultado);
 	}
+	if (hijosParametros->size() < 2) {
+		Error resultado("V",
+			string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
+			+ string(". Deben haber al menos dos parametros para realizar la operacion."),idOperacion);
+		throw DatosInvalidosException(resultado);
+	}
 
 	int cantidadParametros = 0;
 	for (it = hijosParametros->begin(); it != hijosParametros->end(); it++) {
