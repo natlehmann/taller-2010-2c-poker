@@ -120,6 +120,21 @@ int main (int argc, char** argv)
 	archivos.push_back("..\\tests\\test3.txt");
 	archivos.push_back("..\\tests\\test4.txt");
 	archivos.push_back("..\\tests\\test5.txt");
+	archivos.push_back("..\\tests\\test6.txt");
+	archivos.push_back("..\\tests\\test7.txt");
+	archivos.push_back("..\\tests\\test8.txt");
+	archivos.push_back("..\\tests\\test9.txt");
+	archivos.push_back("..\\tests\\test10.txt");
+	archivos.push_back("..\\tests\\test11.txt");
+	archivos.push_back("..\\tests\\test12.txt");
+	archivos.push_back("..\\tests\\test13.txt");
+	archivos.push_back("..\\tests\\test14.txt");
+	archivos.push_back("..\\tests\\test15.txt");
+	archivos.push_back("..\\tests\\test16.txt");
+	archivos.push_back("..\\tests\\test17.txt");
+	archivos.push_back("..\\tests\\test18.txt");
+	archivos.push_back("..\\tests\\test19.txt");
+
 
 	for (list<string>::iterator itt = archivos.begin(); itt != archivos.end(); itt++) {
 		
