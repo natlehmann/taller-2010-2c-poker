@@ -4,6 +4,7 @@
 #include "XmlParserArchivo.h"
 #include "DomTree.h"
 #include "GeneradorRespuesta.h"
+#include "UtilTiposDatos.h"
 #include <fstream>
 
 UICliente::UICliente(void)
@@ -133,11 +134,13 @@ void UICliente::menuOperaciones()
 void UICliente::leerOpcionMenu()
 {
 	getline(cin, this->entrada);
-	this->opcionMenu = General::getEntero(this->entrada);
+	this->entrada = MensajesUtil::trim(this->entrada);
+	this->opcionMenu = UtilTiposDatos::getEntero(this->entrada);
 }
 void UICliente::leerEntrada()
 {
 	getline(cin, this->entrada);
+	this->entrada = MensajesUtil::trim(this->entrada);
 }
 
 void UICliente::ejecutarAccionMP()
@@ -229,7 +232,7 @@ bool UICliente::conectarServidor()
 		
 		mostrarMensaje("INGRESE EL PUERTO DE CONEXION DEL SERVIDOR: ");
 		leerEntrada();
-		puerto = General::getEntero(this->entrada);
+		puerto = UtilTiposDatos::getEntero(this->entrada);
 
 		if (puerto > 0)  
 		{
@@ -251,7 +254,7 @@ bool UICliente::conectarServidor()
 					mostrarMensaje("DESEA INTENTAR CONECTARSE NUEVAMENTE [S/N]? ");
 					leerEntrada();
 
-					if (General::validarSiNo(this->entrada))
+					if (UtilTiposDatos::validarSiNo(this->entrada))
 					{
 						preguntar = false;
 
@@ -276,7 +279,7 @@ bool UICliente::conectarServidor()
 				mostrarMensaje("DESEA INGRESAR NUEVAMENTE EL PUERTO DE CONEXION [S/N]? ");
 				leerEntrada();
 
-				if (General::validarSiNo(this->entrada))
+				if (UtilTiposDatos::validarSiNo(this->entrada))
 				{
 					preguntar = false;
 
@@ -372,8 +375,6 @@ void UICliente::procesarEntradaOperandos()
 	bool enviar = false;
 	bool salir = false;
 	double operando = 0.0;
-	int dividendo = 0;
-	int divisor = 0;
 
 	switch (this->opcionMenu)
 	{
@@ -404,7 +405,7 @@ void UICliente::procesarEntradaOperandos()
 			if (!salir)
 			{
 				// Se valida que lo ingresado sea un numero real
-				if (General::esDouble(this->entrada)) {
+				if (UtilTiposDatos::esDouble(this->entrada)) {
 					if (!MensajesUtil::esVacio(this->entrada)){
 						agregarOperando();
 					}
@@ -428,10 +429,9 @@ void UICliente::procesarEntradaOperandos()
 		while (!salir)
 		{
 			leerEntrada();
-			dividendo = General::getEntero(this->entrada);
 
 			// Se valida que el dividendo sea un numero entero
-			if(dividendo >= 0)
+			if(UtilTiposDatos::esEntero(this->entrada))
 			{
 				agregarOperando();
 
@@ -441,14 +441,20 @@ void UICliente::procesarEntradaOperandos()
 				{
 					leerEntrada();
 
-					divisor = General::getEntero(this->entrada);
-
 					// Se valida que el divisor sea un numero entero
-					if(divisor >= 0)
+					if(UtilTiposDatos::esEntero(this->entrada))
 					{
-						agregarOperando();
-						enviar = true;
-						salir = true;
+						if (UtilTiposDatos::stringADouble(this->entrada)!=0)
+						{
+							agregarOperando();
+							enviar = true;
+							salir = true;
+						}
+						else
+						{
+							mostrarMensaje("DIVISOR INGRESADO INCORRECTO!!!. DEBE SER UN VALOR DISTINTO DE CERO.", false);
+							mostrarMensaje("VUELVA A INGRESAR EL DIVISOR:");
+						}
 					}
 					else
 					{

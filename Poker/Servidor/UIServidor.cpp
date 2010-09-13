@@ -1,4 +1,5 @@
 #include "UIServidor.h"
+#include "UtilTiposDatos.h"
 
 UIServidor::UIServidor(void)
 {
@@ -25,7 +26,7 @@ void UIServidor::iniciarAplicacion()
 			volver = false;
 		}
 		
-		this->opcionMP = General::getEntero(this->entrada);
+		this->opcionMP = UtilTiposDatos::getEntero(this->entrada);
 		
 		if ((this->opcionMP >= 1)&&(this->opcionMP <= 2))
 		{
@@ -59,6 +60,7 @@ void UIServidor::menuPrincipal()
 void UIServidor::leerEntrada()
 {
 	getline(cin, entrada);
+	this->entrada = MensajesUtil::trim(this->entrada);
 }
 
 void UIServidor::ejecutarAccion()
@@ -86,7 +88,7 @@ void UIServidor::iniciarServidor()
 		mostrarMensaje("INGRESE EL PUERTO DE CONEXION DEL SERVIDOR: ");
 		leerEntrada();
 
-		puerto = General::getEntero(this->entrada);
+		puerto = UtilTiposDatos::getEntero(this->entrada);
 
 		if (puerto > 0) 
 		{
@@ -118,7 +120,7 @@ void UIServidor::iniciarServidor()
 				mostrarMensaje("DESEA INGRESAR NUEVAMENTE EL PUERTO DE CONEXION [S/N]? ");
 				leerEntrada();
 
-				if (General::validarSiNo(this->entrada))
+				if (UtilTiposDatos::validarSiNo(this->entrada))
 				{
 					preguntar = false;
 

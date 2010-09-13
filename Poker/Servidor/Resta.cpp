@@ -24,7 +24,7 @@ vector<Respuesta*> Resta::ejecutar()
 			it++;
 		}
 	}
-	string resultadoString = UtilTiposDatos::doubleToString(resultadoOperacion);
+	string resultadoString = UtilTiposDatos::doubleAString(resultadoOperacion);
 
 	Resultado* resultado = new Resultado("res",resultadoString,id);
 	vector<Respuesta*> resultados;

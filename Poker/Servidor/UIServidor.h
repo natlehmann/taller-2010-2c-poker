@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
-#include "General.h"
 #include "Servidor.h"
 
 using namespace std;

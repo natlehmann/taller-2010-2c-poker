@@ -151,7 +151,7 @@ Operacion* FabricaOperaciones::newOperacion(DomTree* domTree)
 		}
 		validarParametro(elementoParametro, idOperacion, cantidadParametros);
 		string valor = elementoParametro->getTexto();
-		parametros.push_back(UtilTiposDatos::stringToDouble(valor));
+		parametros.push_back(UtilTiposDatos::stringADouble(valor));
 	}
 	
 	switch (idOperacion.at(0))
@@ -235,7 +235,7 @@ void FabricaOperaciones::validarParametro(Elemento* parametro, string idOperacio
 		break;
 	}
 
-	if (!UtilTiposDatos::isNumber(parametro->getTexto())) {
+	if (!UtilTiposDatos::esDouble(parametro->getTexto())) {
 		Error resultado("V",
 			string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
 			+ string(". El parametro contiene un valor que no es numerico. Se encontro '")

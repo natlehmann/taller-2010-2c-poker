@@ -4,7 +4,6 @@
 #include <string>
 #include <iostream>
 #include <list>
-#include "General.h"
 #include "Cliente.h"
 
 using namespace std;

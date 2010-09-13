@@ -24,7 +24,7 @@ vector<Respuesta*> Multiplicacion::ejecutar()
 			it++;
 		}
 	}
-	string resultadoString = UtilTiposDatos::doubleToString(resultadoOperacion);
+	string resultadoString = UtilTiposDatos::doubleAString(resultadoOperacion);
 
 	Resultado* resultado = new Resultado("mul",resultadoString,id);
 	vector<Respuesta*> resultados;

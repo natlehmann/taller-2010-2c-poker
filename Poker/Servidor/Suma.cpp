@@ -20,7 +20,7 @@ vector<Respuesta*> Suma::ejecutar()
 		resultadoOperacion += termino;
 		it++;
 	}
-	string resultadoString = UtilTiposDatos::doubleToString(resultadoOperacion);
+	string resultadoString = UtilTiposDatos::doubleAString(resultadoOperacion);
 
 	Resultado* resultado = new Resultado("sum",resultadoString,id);
 	vector<Respuesta*> resultados;
