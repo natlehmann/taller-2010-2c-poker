@@ -312,7 +312,7 @@ void UICliente::procesarArchivoXML()
 	try {
 		parser = new XmlParserArchivo(this->entrada);
 
-	} catch (PokerException& e) {
+	} catch (PokerException&) {
 		this->mostrarMensaje("No se ha podido procesar el archivo indicado.", false);
 		hacerUnaPausa();
 	}
