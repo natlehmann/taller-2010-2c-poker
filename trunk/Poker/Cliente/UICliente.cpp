@@ -27,8 +27,6 @@ void UICliente::iniciarAplicacion()
 	bool volverMenuMP = true;
 	bool volverMenuTO = true;
 
-	limpiarPantalla();
-	
 	while (!this->cerrarAplicacion)
 	{
 		if (volverMenuMP)
@@ -65,6 +63,7 @@ void UICliente::iniciarAplicacion()
 								if (this->desconectarServidor())
 								{
 									this->mostrarMensaje("SE HA DESCONECTADO CORRECTAMENTE", false);
+									hacerUnaPausa();
 									volverMenuMP = true;
 									volverMenuTO = true;
 								}
@@ -77,6 +76,7 @@ void UICliente::iniciarAplicacion()
 				else
 				{
 					this->mostrarMensaje("NO SE HA PODIDO CONECTAR AL SERVIDOR", false);
+					hacerUnaPausa();
 					volverMenuMP = true;
 				}
 			}
@@ -90,7 +90,7 @@ void UICliente::iniciarAplicacion()
 
 void UICliente::menuPrincipal()
 {
-	cout << endl;
+	limpiarPantalla();
 	cout << "****************************************************" << endl;
 	cout << "*********  CLIENTE DE OPERACIONES REMOTAS  *********" << endl;
 	cout << "****************************************************" << endl;
@@ -103,7 +103,7 @@ void UICliente::menuPrincipal()
 
 void UICliente::menuTipoOperaciones()
 {
-	cout << endl;
+	limpiarPantalla();
 	cout << "****************************************************" << endl;
 	cout << "*********       OPERACIONES REMOTAS      **********" << endl;
 	cout << "****************************************************" << endl;
@@ -117,7 +117,7 @@ void UICliente::menuTipoOperaciones()
 
 void UICliente::menuOperaciones()
 {
-	cout << endl;
+	limpiarPantalla();
 	cout << "**************************************************************" << endl;
 	cout << "*********   EJECUCION MANUAL DE OPERACIONES REMOTAS   ********" << endl;
 	cout << "**************************************************************" << endl;
@@ -143,17 +143,17 @@ void UICliente::leerEntrada()
 	this->entrada = MensajesUtil::trim(this->entrada);
 }
 
-void UICliente::ejecutarAccionMP()
-{
-	switch (this->opcionMenu)
-	{
-		case 1:	this->conectarServidor();
-				break;
-
-		case 2: this->cerrarAplicacion = true;
-				break;
-	}
-}
+//void UICliente::ejecutarAccionMP()
+//{
+//	switch (this->opcionMenu)
+//	{
+//		case 1:	this->conectarServidor();
+//				break;
+//
+//		case 2: this->cerrarAplicacion = true;
+//				break;
+//	}
+//}
 void UICliente::ejecutarAccionTO()
 {
 	switch (this->opcionMenu)
@@ -165,17 +165,17 @@ void UICliente::ejecutarAccionTO()
 				break;
 	}
 }
-void UICliente::ejecutarAccionO()
-{
-	switch (this->opcionMenu)
-	{
-		case 1:	this->ejecutarOperaciones(true);
-				break;
-
-		case 2: this->ejecutarOperaciones(false);
-				break;
-	}
-}
+//void UICliente::ejecutarAccionO()
+//{
+//	switch (this->opcionMenu)
+//	{
+//		case 1:	this->ejecutarOperaciones(true);
+//				break;
+//
+//		case 2: this->ejecutarOperaciones(false);
+//				break;
+//	}
+//}
 
 void UICliente::ejecutarOperaciones(bool manual)
 {
@@ -243,6 +243,7 @@ bool UICliente::conectarServidor()
 			if (cliente->iniciarConexion())
 			{
 				mostrarMensaje("LA CONEXION CON EL SERVIDOR HA SIDO EXITOSA !!!", false);
+				hacerUnaPausa();
 				conecto = true;
 			}
 			else
@@ -303,7 +304,7 @@ bool UICliente::desconectarServidor()
 }
 void UICliente::procesarArchivoXML()
 {
-	this->mostrarMensaje("INGRESE LA RUTA DEL XML QUE CONTIENE LAS OPERACIONES:");
+	this->mostrarMensaje("INGRESE LA RUTA DEL XML QUE CONTIENE LAS OPERACIONES: ");
 	this->leerEntrada();
 
 	XmlParserArchivo* parser = NULL;
@@ -313,6 +314,7 @@ void UICliente::procesarArchivoXML()
 
 	} catch (PokerException& e) {
 		this->mostrarMensaje("No se ha podido procesar el archivo indicado.", false);
+		hacerUnaPausa();
 	}
 
 	if (parser != NULL) {
@@ -329,10 +331,11 @@ void UICliente::procesarArchivoXML()
 		if (MensajesUtil::esVacio(archivoSalida) || !salida.is_open()) {
 			this->mostrarMensaje("No se ha podido abrir el archivo " 
 				+ archivoSalida + " para escritura.", false);
+			hacerUnaPausa();
 
 		} else {
 
-
+			bool huboErrores = false;
 			try {
 				DomTree* domTree = parser->getSiguiente();
 
@@ -349,6 +352,7 @@ void UICliente::procesarArchivoXML()
 					{	
 						this->mostrarMensaje(
 							"SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR.", false);
+						huboErrores = true;
 					}
 
 					delete (domTree);
@@ -365,7 +369,12 @@ void UICliente::procesarArchivoXML()
 
 			salida.close();
 			delete(parser);
-			this->mostrarMensaje("SE HA PROCESADO CORRECTAMENTE EL ARCHIVO XML !!!", false);
+			if (huboErrores) {
+				this->mostrarMensaje("OCURRIERON ERRORES EN LA COMUNICACION CON EL SERVIDOR.", false);
+			} else {
+				this->mostrarMensaje("SE HA PROCESADO CORRECTAMENTE EL ARCHIVO XML.", false);
+			}
+			hacerUnaPausa();
 		}
 	}
 }
@@ -420,11 +429,12 @@ void UICliente::procesarEntradaOperandos()
 			enviar = true;
 		} else {
 			mostrarMensaje("\nNO SE PROCESA LA OPERACION PORQUE NO HAY SUFICIENTES OPERANDOS.\n");
+			hacerUnaPausa();
 		}
 	}
 	else
 	{
-		mostrarMensaje("INGRESE EL DIVIDENDO:");
+		mostrarMensaje("INGRESE EL DIVIDENDO: ");
 		
 		while (!salir)
 		{
@@ -435,7 +445,7 @@ void UICliente::procesarEntradaOperandos()
 			{
 				agregarOperando();
 
-				mostrarMensaje("INGRESE EL DIVISOR:");
+				mostrarMensaje("INGRESE EL DIVISOR: ");
 				
 				while (!salir)
 				{
@@ -453,20 +463,20 @@ void UICliente::procesarEntradaOperandos()
 						else
 						{
 							mostrarMensaje("DIVISOR INGRESADO INCORRECTO!!!. DEBE SER UN VALOR DISTINTO DE CERO.", false);
-							mostrarMensaje("VUELVA A INGRESAR EL DIVISOR:");
+							mostrarMensaje("VUELVA A INGRESAR EL DIVISOR: ");
 						}
 					}
 					else
 					{
 						mostrarMensaje("DIVISOR INGRESADO INCORRECTO!!!. DEBE SER UN VALOR ENTERO.", false);
-						mostrarMensaje("VUELVA A INGRESAR EL DIVISOR:");
+						mostrarMensaje("VUELVA A INGRESAR EL DIVISOR: ");
 					}
 				}
 			}
 			else
 			{
 				mostrarMensaje("DIVIDENDO INGRESADO INCORRECTO!!!. DEBE SER UN VALOR ENTERO.", false);
-				mostrarMensaje("VUELVA A INGRESAR EL DIVIDENDO:");
+				mostrarMensaje("VUELVA A INGRESAR EL DIVIDENDO: ");
 			}
 		}
 	}
@@ -508,13 +518,20 @@ void UICliente::enviarOperacion()
 			this->mostrarEncabezado("Resultado ejecucion");
 			string respuesta = parserTeclado.obtenerRespuesta(respuestaServ);
 			this->mostrarMensaje(respuesta,false);
+			hacerUnaPausa();
 		}
-		else
+		else 
+		{
 			this->mostrarMensaje("SE PRODUJO UN ERROR AL RECIBIR EL RESULTADO DESDE EL SERVIDOR.", false);
+			hacerUnaPausa();
+		}
 		
 	}
 	else
+	{
 		this->mostrarMensaje("SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR.", false);
+		hacerUnaPausa();
+	}
 }
 
 void UICliente::mostrarEncabezado(string mensaje) {
@@ -523,31 +540,32 @@ void UICliente::mostrarEncabezado(string mensaje) {
 	cout << "----------------------------------------------------" << endl;
 }
 
-void UICliente::mostrarResultado()
-{
-	string operacion;
+//void UICliente::mostrarResultado()
+//{
+//	string operacion;
+//
+//	switch (this->tipoOperacion)
+//	{
+//		case 1:	operacion = "SUMA";
+//				break;
+//
+//		case 2: operacion = "RESTA";
+//				break;
+//
+//		case 3: operacion = "MULTIPLICACION";
+//				break;
+//
+//		case 4: operacion = "DIVISION";
+//				break;
+//	}
+//
+//	this->mostrarMensaje("EL RESULTADO DE LA " + operacion + " ES: " + this->resultado, false);
+//}
 
-	switch (this->tipoOperacion)
-	{
-		case 1:	operacion = "SUMA";
-				break;
-
-		case 2: operacion = "RESTA";
-				break;
-
-		case 3: operacion = "MULTIPLICACION";
-				break;
-
-		case 4: operacion = "DIVISION";
-				break;
-	}
-
-	this->mostrarMensaje("EL RESULTADO DE LA " + operacion + " ES: " + this->resultado, false);
-}
 void UICliente::reingresarOpcionMenu()
 {
 	this->mostrarMensaje("EL VALOR '" + this->entrada + "' NO ES UNA OPCION VALIDA !!!", false);
-	this->mostrarMensaje("INGRESE NUEVAMENTE UNA OPCION DEL MENU:");
+	this->mostrarMensaje("INGRESE NUEVAMENTE UNA OPCION DEL MENU: ");
 	leerOpcionMenu();
 }
 
@@ -597,4 +615,11 @@ void UICliente::agregarOperando()
 void UICliente::limpiarListaOperandos()
 {
 	this->lstOperandos.clear();
+}
+
+void UICliente::hacerUnaPausa()
+{
+	string buffer;
+	this->mostrarMensaje("\n\nPRESIONE INTRO PARA CONTINUAR...",false);
+	getline(cin, buffer);
 }
