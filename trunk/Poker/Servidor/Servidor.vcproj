@@ -369,10 +369,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\General.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Comun\MensajesUtil.h"
 				>
 			</File>

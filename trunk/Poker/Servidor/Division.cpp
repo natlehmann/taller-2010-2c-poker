@@ -33,7 +33,7 @@ vector<Respuesta*> Division::ejecutar()
 
 	} else {
 
-		if (!UtilTiposDatos::isInteger(dividendo) || !UtilTiposDatos::isInteger(divisor)) {
+		if (!UtilTiposDatos::esEntero(dividendo) || !UtilTiposDatos::esEntero(divisor)) {
 
 			Error* resultadoError = new Error("E","parametros no enteros",id);
 			resultados.push_back(resultadoError);
@@ -43,8 +43,8 @@ vector<Respuesta*> Division::ejecutar()
 			cociente = (int)dividendo / (int)divisor;
 			resto = (int)dividendo % (int)divisor;
 
-			string cocienteString = UtilTiposDatos::doubleToString(cociente);
-			string restoString = UtilTiposDatos::doubleToString(resto);
+			string cocienteString = UtilTiposDatos::doubleAString(cociente);
+			string restoString = UtilTiposDatos::doubleAString(resto);
 
 			Resultado* resultadoCociente = new Resultado("coc",cocienteString,id);
 			Resultado* resultadoResto = new Resultado("res",restoString,id);

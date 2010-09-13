@@ -247,6 +247,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\UtilTiposDatos.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\XmlParser.cpp"
 				>
 			</File>
@@ -325,10 +329,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Comun\General.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Comun\MensajesUtil.h"
 				>
 			</File>
@@ -362,6 +362,10 @@
 			</File>
 			<File
 				RelativePath=".\UICliente.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\UtilTiposDatos.h"
 				>
 			</File>
 			<File
