@@ -35,9 +35,9 @@ class UICliente
 		// Entrada general de datos
 		void leerEntrada();
 		
-		void ejecutarAccionMP();
+		//void ejecutarAccionMP();
 		void ejecutarAccionTO();
-		void ejecutarAccionO();
+		//void ejecutarAccionO();
 		
 		void ejecutarOperaciones(bool manual);
 
@@ -52,12 +52,12 @@ class UICliente
 		void procesarEntradaOperandos();
 		void procesarArchivoXML();
 		void enviarOperacion();
-		void mostrarResultado();
+		//void mostrarResultado();
 
 		// Metodos 
 		void agregarOperando();
 		void limpiarListaOperandos();
-
+		void hacerUnaPausa();
 
 	public:
 		UICliente(void);

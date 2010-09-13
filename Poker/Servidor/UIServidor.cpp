@@ -20,7 +20,6 @@ void UIServidor::iniciarAplicacion()
 	{
 		if (volver)
 		{
-			limpiarPantalla();
 			menuPrincipal();
 			leerEntrada();
 			volver = false;
@@ -37,7 +36,7 @@ void UIServidor::iniciarAplicacion()
 		else
 		{
 			mostrarMensaje("EL VALOR '" + this->entrada + "' NO ES UNA OPCION VALIDA !!!", false);
-			mostrarMensaje("INGRESE NUEVAMENTE UNA OPCION DEL MENU:");
+			mostrarMensaje("INGRESE NUEVAMENTE UNA OPCION DEL MENU: ");
 			leerEntrada();
 			volver = false;
 		}
@@ -47,6 +46,7 @@ void UIServidor::iniciarAplicacion()
 
 void UIServidor::menuPrincipal()
 {
+	limpiarPantalla();
 	cout << "****************************************************" << endl;
 	cout << "*********  Servidor de Operaciones Remotas  ********" << endl;
 	cout << "****************************************************" << endl;
@@ -138,6 +138,7 @@ void UIServidor::detenerServidor()
 	// Se intenta detener el servidor
 	servidor->finalizarConexion();
 	mostrarMensaje("SE HA DETENIDO EL SERVIDOR EN FORMA EXITOSA!!! ", false);
+	hacerUnaPausa();
 }
 
 void UIServidor::mostrarMensaje(string msg, bool ingresaDatos)
@@ -150,4 +151,11 @@ void UIServidor::mostrarMensaje(string msg, bool ingresaDatos)
 void UIServidor::limpiarPantalla()
 {
 	system("CLS");
+}
+
+void UIServidor::hacerUnaPausa()
+{
+	string buffer;
+	this->mostrarMensaje("\n\nPRESIONE INTRO PARA CONTINUAR...",false);
+	getline(cin, buffer);
 }

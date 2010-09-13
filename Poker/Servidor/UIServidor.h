@@ -21,10 +21,10 @@ class UIServidor
 
 		void iniciarServidor();
 		void detenerServidor();
-		void salirAplicacion();
 
 		void limpiarPantalla();
 		void mostrarMensaje(string msg, bool ingresaDatos = true);
+		void hacerUnaPausa();
 		
 	public:
 		UIServidor(void);
