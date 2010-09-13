@@ -16,7 +16,7 @@ vector<Respuesta*> Division::ejecutar()
 	vector<Respuesta*> resultados;
 
 	if (parametros.size() != 2) {
-		Error* resultadoError = new Error("E","cantidad de parametros incorrecta",id);
+		Error* resultadoError = new Error("E","Cantidad de parametros incorrecta",id);
 		resultados.push_back(resultadoError);
 		return resultados;
 	}
@@ -28,14 +28,14 @@ vector<Respuesta*> Division::ejecutar()
 
 	if (divisor == 0) {
 
-		Error* resultadoError = new Error("E","division por cero",id);
+		Error* resultadoError = new Error("E","Division por cero",id);
 		resultados.push_back(resultadoError);
 
 	} else {
 
 		if (!UtilTiposDatos::esEntero(dividendo) || !UtilTiposDatos::esEntero(divisor)) {
 
-			Error* resultadoError = new Error("E","parametros no enteros",id);
+			Error* resultadoError = new Error("E","Parametros no enteros",id);
 			resultados.push_back(resultadoError);
 
 		} else {
