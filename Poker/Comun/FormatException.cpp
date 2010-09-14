@@ -5,6 +5,6 @@ FormatException::FormatException(string mensaje) : PokerException(mensaje)
 {
 }
 
-FormatException::~FormatException(void)
+FormatException::~FormatException(void) throw()
 {
 }

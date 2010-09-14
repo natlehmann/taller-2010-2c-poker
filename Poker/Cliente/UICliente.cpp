@@ -23,7 +23,6 @@ UICliente::~UICliente(void)
 
 void UICliente::iniciarAplicacion()
 {
-	bool salir = false;
 	bool volverMenuMP = true;
 	bool volverMenuTO = true;
 
@@ -344,7 +343,7 @@ void UICliente::procesarArchivoXML()
 					if(cliente->enviarMsj(parser->toString(domTree)))
 					{
 						string respuestaServ;
-						bool ok = cliente->recibirMsj(respuestaServ);
+						cliente->recibirMsj(respuestaServ);
 						// TODO: FALTA CHEQUEO
 						salida << respuestaServ << "\n";
 					}
@@ -383,7 +382,6 @@ void UICliente::procesarEntradaOperandos()
 {
 	bool enviar = false;
 	bool salir = false;
-	double operando = 0.0;
 
 	switch (this->opcionMenu)
 	{

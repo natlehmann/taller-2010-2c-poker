@@ -13,7 +13,7 @@ class FormatException : public PokerException
 {
 public:
 	FormatException(string mensaje);
-	~FormatException(void);
+	~FormatException(void) throw();
 };
 
 #endif

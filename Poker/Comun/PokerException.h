@@ -19,7 +19,7 @@ public:
 	PokerException(string mensaje); 
 	PokerException(string mensaje, string idError); 
 	PokerException(Error& error);
-	virtual ~PokerException(void);
+	virtual ~PokerException(void) throw();
 
 	virtual const string getMensaje() const throw();
 	virtual const char* what() const throw();

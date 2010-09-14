@@ -90,7 +90,7 @@ Operacion* FabricaOperaciones::newOperacion(DomTree* domTree)
 		throw DatosInvalidosException(resultado);
 	}
 
-	idOperacion = elementoOperacion->getAtributo("id");
+	idOperacion = MensajesUtil::trim(elementoOperacion->getAtributo("id"));
 
 	if (idOperacion.length() != 1 || (idOperacion[0] != 'S' && idOperacion[0] != 'R' && idOperacion[0] != 'M' && idOperacion[0] != 'D')) {
 		Error resultado("V",
@@ -188,53 +188,55 @@ void FabricaOperaciones::validarParametro(Elemento* parametro, string idOperacio
 		throw DatosInvalidosException(resultado);
 	}
 
+	string atributoNombre = MensajesUtil::trim(parametro->getAtributo("nombre"));
+
 	switch (idOperacion.at(0))
 	{
 	case 'S':
-		if (strcmp("sum",parametro->getAtributo("nombre").c_str()) != 0) {
+		if (strcmp("sum",atributoNombre.c_str()) != 0) {
 			Error resultado("V",
 				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
 				+ string(". El atributo 'nombre' del tag 'parametro' para una suma debe ser 'sum'. Se encontro '")
-				+ parametro->getAtributo("nombre")+"'.",idOperacion);
+				+ atributoNombre +"'.",idOperacion);
 			throw DatosInvalidosException(resultado);
 		}
 		break;
 
 	case 'R':
-		if (strcmp("res",parametro->getAtributo("nombre").c_str()) != 0) {
+		if (strcmp("res",atributoNombre.c_str()) != 0) {
 			Error resultado("V",
 				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
 				+ string(". El atributo 'nombre' del tag 'parametro' para una resta debe ser 'res'. Se encontro '")
-				+ parametro->getAtributo("nombre")+"'.",idOperacion);
+				+ atributoNombre +"'.",idOperacion);
 			throw DatosInvalidosException(resultado);
 		}
 		break;
 
 	case 'M':
-		if (strcmp("mul",parametro->getAtributo("nombre").c_str()) != 0) {
+		if (strcmp("mul",atributoNombre.c_str()) != 0) {
 			Error resultado("V",
 				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
 				+ string(". El atributo 'nombre' del tag 'parametro' para una multiplicacion debe ser 'mul'. Se encontro '")
-				+ parametro->getAtributo("nombre")+"'.",idOperacion);
+				+ atributoNombre +"'.",idOperacion);
 			throw DatosInvalidosException(resultado);
 		}
 		break;
 
 	case 'D':
 		if (numeroDeParametro == 1) {
-			if (strcmp("dividendo",parametro->getAtributo("nombre").c_str()) != 0) {
+			if (strcmp("dividendo",atributoNombre.c_str()) != 0) {
 				Error resultado("V",
 					string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
 					+ string(". El primer parametro para una division debe ser tener el valor 'dividendo' en el atributo 'nombre' . Se encontro '")
-					+ parametro->getAtributo("nombre")+"'.",idOperacion);
+					+ atributoNombre +"'.",idOperacion);
 				throw DatosInvalidosException(resultado);
 			}
 		} else {
-			if (strcmp("divisor",parametro->getAtributo("nombre").c_str()) != 0) {
+			if (strcmp("divisor",atributoNombre.c_str()) != 0) {
 				Error resultado("V",
 					string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
 					+ string(". El segundo parametro para una division debe ser tener el valor 'divisor' en el atributo 'nombre' . Se encontro '")
-					+ parametro->getAtributo("nombre")+"'.",idOperacion);
+					+ atributoNombre +"'.",idOperacion);
 				throw DatosInvalidosException(resultado);
 			}
 		}

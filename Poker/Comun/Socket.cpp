@@ -106,7 +106,7 @@ string Socket::generarMensajeError()
 	int errCode = WSAGetLastError();
     LPWSTR errString = NULL;
 
-    int size = FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER |
+    FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER |
                  FORMAT_MESSAGE_FROM_SYSTEM, // use windows internal message table
                  0,       // 0 since source is internal message table
                  errCode, // this is the error code returned by WSAGetLastError()
