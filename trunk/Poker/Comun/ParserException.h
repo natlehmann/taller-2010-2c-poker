@@ -15,7 +15,7 @@ class ParserException : public PokerException
 public:
 	ParserException(string mensaje);   
 	ParserException(string mensaje, string idError);  
-	virtual ~ParserException(void);
+	virtual ~ParserException(void) throw();
 
 };
 

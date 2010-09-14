@@ -78,7 +78,6 @@ void UIServidor::ejecutarAccion()
 void UIServidor::iniciarServidor()
 {
 	bool salir = false;
-	bool conecto = false;
 	bool preguntar = true;
 	string ip = "";
 	int puerto = 0;

@@ -14,7 +14,7 @@ PokerException::PokerException(string mensaje, string idError){
 	this->error = Error(idError, mensaje, "");
 }
 
-PokerException::~PokerException(void)
+PokerException::~PokerException(void) throw()
 {
 }
 

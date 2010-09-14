@@ -9,6 +9,9 @@ UtilTiposDatos::~UtilTiposDatos() {}
 
 string UtilTiposDatos::doubleAString(double numero) 
 {
+	// Esto se hace para el caso en que numero sea -0, 
+	// para que no lo formatee con signo.
+	numero = numero == 0 ? 0 : numero;
 	ostringstream strs;
 	strs << numero;
 	string numeroString = strs.str();
@@ -17,7 +20,8 @@ string UtilTiposDatos::doubleAString(double numero)
 
 double UtilTiposDatos::stringADouble(string numero) 
 {
-	return atof(numero.c_str());
+	double valor = atof(numero.c_str());
+	return valor == 0 ? 0 : valor;
 }
 
 bool UtilTiposDatos::esEntero(double numero) 
