@@ -247,7 +247,7 @@ bool UICliente::conectarServidor()
 			}
 			else
 			{
-				mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR !!!", false);
+				mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR, INTENTELO MAS TARDE.", false);
 				
 				while (preguntar)
 				{
@@ -343,14 +343,14 @@ void UICliente::procesarArchivoXML()
 					if(cliente->enviarMsj(parser->toString(domTree)))
 					{
 						string respuestaServ;
-						cliente->recibirMsj(respuestaServ);
+						huboErrores = !cliente->recibirMsj(respuestaServ);
 						// TODO: FALTA CHEQUEO
 						salida << respuestaServ << "\n";
 					}
 					else
 					{	
-						this->mostrarMensaje(
-							"SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR.", false);
+						/*this->mostrarMensaje(
+							"SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR, INTENTELO MAS TARDE O PRUEBE VOLVER A CONECTARSE.", false);*/
 						huboErrores = true;
 					}
 
@@ -369,7 +369,7 @@ void UICliente::procesarArchivoXML()
 			salida.close();
 			delete(parser);
 			if (huboErrores) {
-				this->mostrarMensaje("OCURRIERON ERRORES EN LA COMUNICACION CON EL SERVIDOR.", false);
+				this->mostrarMensaje("OCURRIERON ERRORES EN LA COMUNICACION CON EL SERVIDOR, INTENTE VOLVER A CONECTARSE.", false);
 			} else {
 				this->mostrarMensaje("SE HA PROCESADO CORRECTAMENTE EL ARCHIVO XML.", false);
 			}
@@ -520,14 +520,14 @@ void UICliente::enviarOperacion()
 		}
 		else 
 		{
-			this->mostrarMensaje("SE PRODUJO UN ERROR AL RECIBIR EL RESULTADO DESDE EL SERVIDOR.", false);
+			this->mostrarMensaje("SE PRODUJO UN ERROR AL RECIBIR EL RESULTADO DESDE EL SERVIDOR, INTENTELO MAS TARDE O PRUEBE VOLVER A CONECTARSE.", false);
 			hacerUnaPausa();
 		}
 		
 	}
 	else
 	{
-		this->mostrarMensaje("SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR.", false);
+		this->mostrarMensaje("SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR, INTENTELO MAS TARDE O PRUEBE VOLVER A CONECTARSE.", false);
 		hacerUnaPausa();
 	}
 }
