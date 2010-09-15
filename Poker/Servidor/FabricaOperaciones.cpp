@@ -243,6 +243,13 @@ void FabricaOperaciones::validarParametro(Elemento* parametro, string idOperacio
 		break;
 	}
 
+	if (MensajesUtil::sonIguales(MensajesUtil::trim(parametro->getTexto()),"")) {
+			Error resultado("V",
+				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
+				+ string(". El valor del parametro '" + atributoNombre + "' esta vacio."),idOperacion);
+		throw DatosInvalidosException(resultado);
+	}
+
 	if (!UtilTiposDatos::esDouble(parametro->getTexto())) {
 		Error resultado("V",
 			string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
