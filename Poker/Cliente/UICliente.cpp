@@ -335,9 +335,7 @@ void UICliente::procesarArchivoXML()
 						salida << respuestaServ << "\n";
 					}
 					else
-					{	
-						/*this->mostrarMensaje(
-							"SE PRODUJO UN ERROR AL REALIZAR EL ENVIO DE DATOS AL SERVIDOR, INTENTELO MAS TARDE O PRUEBE VOLVER A CONECTARSE.", false);*/
+					{
 						huboErrores = true;
 					}
 
@@ -526,28 +524,6 @@ void UICliente::mostrarEncabezado(string mensaje) {
 	cout << mensaje << endl;
 	cout << "----------------------------------------------------" << endl;
 }
-
-//void UICliente::mostrarResultado()
-//{
-//	string operacion;
-//
-//	switch (this->tipoOperacion)
-//	{
-//		case 1:	operacion = "SUMA";
-//				break;
-//
-//		case 2: operacion = "RESTA";
-//				break;
-//
-//		case 3: operacion = "MULTIPLICACION";
-//				break;
-//
-//		case 4: operacion = "DIVISION";
-//				break;
-//	}
-//
-//	this->mostrarMensaje("EL RESULTADO DE LA " + operacion + " ES: " + this->resultado, false);
-//}
 
 void UICliente::reingresarOpcionMenu()
 {
