@@ -45,16 +45,20 @@ class ThrAceptCliente: public Thread
 					{
 						sockCliente = this->socket.aceptar();	// Se conecta el cliente entrante
 										
-						if ((sockCliente != NULL) && (!this->parar))
-						{
-							nuevoThrCliente = new ThrCliente(sockCliente); 
-							// Se inserta la referencia del hilo en la lista
-							listaThrClientes.push_back(nuevoThrCliente); 
-							// Se lanza el hilo para la conversacion con el cliente
-							nuevoThrCliente->CreateNewThread(); 
-							
-							// Se libera los hilos de los clientes finalizados
-							liberarThreadsFinalizados();
+						if (sockCliente != NULL) {
+							if(!this->parar) {
+								nuevoThrCliente = new ThrCliente(sockCliente); 
+								// Se inserta la referencia del hilo en la lista
+								listaThrClientes.push_back(nuevoThrCliente); 
+								// Se lanza el hilo para la conversacion con el cliente
+								nuevoThrCliente->CreateNewThread(); 
+								
+								// Se libera los hilos de los clientes finalizados
+								liberarThreadsFinalizados();
+
+							} else {
+								delete(sockCliente);
+							}
 						}
 					} 
 				
