@@ -10,6 +10,9 @@ UIServidor::UIServidor(void)
 
 UIServidor::~UIServidor(void)
 {
+	if (this->servidor != NULL) {
+		delete(this->servidor);
+	}
 }
 
 void UIServidor::iniciarAplicacion()

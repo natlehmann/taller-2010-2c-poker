@@ -21,6 +21,7 @@ void XmlParserArchivo::setNombreArchivo(string nombreArchivo) {
 	this->archivo = new ifstream(this->nombreArchivo.c_str());
 
 	if (!*this->archivo){
+		delete(this->archivo);
 		throw ParserException("No se puede abrir el archivo " + this->nombreArchivo, "E");
 	}
 }

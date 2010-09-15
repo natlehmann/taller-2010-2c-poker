@@ -19,6 +19,9 @@ UICliente::UICliente(void)
 
 UICliente::~UICliente(void)
 {
+	if (this->cliente != NULL) {
+		delete (this->cliente);
+	}
 }
 
 void UICliente::iniciarAplicacion()
@@ -142,17 +145,6 @@ void UICliente::leerEntrada()
 	this->entrada = MensajesUtil::trim(this->entrada);
 }
 
-//void UICliente::ejecutarAccionMP()
-//{
-//	switch (this->opcionMenu)
-//	{
-//		case 1:	this->conectarServidor();
-//				break;
-//
-//		case 2: this->cerrarAplicacion = true;
-//				break;
-//	}
-//}
 void UICliente::ejecutarAccionTO()
 {
 	switch (this->opcionMenu)
@@ -164,17 +156,7 @@ void UICliente::ejecutarAccionTO()
 				break;
 	}
 }
-//void UICliente::ejecutarAccionO()
-//{
-//	switch (this->opcionMenu)
-//	{
-//		case 1:	this->ejecutarOperaciones(true);
-//				break;
-//
-//		case 2: this->ejecutarOperaciones(false);
-//				break;
-//	}
-//}
+
 
 void UICliente::ejecutarOperaciones(bool manual)
 {
@@ -248,7 +230,8 @@ bool UICliente::conectarServidor()
 			else
 			{
 				mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR, INTENTELO MAS TARDE.", false);
-				
+				delete(cliente);
+
 				while (preguntar)
 				{
 					mostrarMensaje("DESEA INTENTAR CONECTARSE NUEVAMENTE [S/N]? ");
@@ -367,7 +350,7 @@ void UICliente::procesarArchivoXML()
 			}
 
 			salida.close();
-			delete(parser);
+			
 			if (huboErrores) {
 				this->mostrarMensaje("OCURRIERON ERRORES EN LA COMUNICACION CON EL SERVIDOR, INTENTE VOLVER A CONECTARSE.", false);
 			} else {
@@ -375,6 +358,8 @@ void UICliente::procesarArchivoXML()
 			}
 			hacerUnaPausa();
 		}
+
+		delete(parser);
 	}
 }
 

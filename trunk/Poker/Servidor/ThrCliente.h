@@ -50,9 +50,7 @@ class ThrCliente: public Thread
 			while (!this->parar) 
 			{
 				string msjRecibido = "";
-				//string msjRetorno = "";
 				bool recibidoOK;
-				//bool error = true;
 				
 				recibidoOK = sock->recibir(msjRecibido);
 
@@ -61,11 +59,13 @@ class ThrCliente: public Thread
 					string respuesta;
 					GeneradorRespuesta* generador = new GeneradorRespuesta();
 					Operacion* operacion = NULL;
+					Parser* parser = NULL;
+					DomTree* arbol = NULL;
 
 					try 
 					{
-						Parser* parser = new XmlParser();
-						DomTree* arbol = parser->toDom(msjRecibido);
+						parser = new XmlParser();
+						arbol = parser->toDom(msjRecibido);
 
 						operacion = this->fabricaOperaciones->newOperacion(arbol);
 						generador->agregarRespuestas(operacion->ejecutar());
@@ -83,6 +83,18 @@ class ThrCliente: public Thread
 						if (_DEBUG) {
 							cout << "Procesando operacion - Resultado Error" << endl;
 						}
+					}
+
+					if (parser != NULL) {
+						delete(parser);
+					}
+
+					if (arbol != NULL) {
+						delete(arbol);
+					}
+
+					if (operacion != NULL) {
+						delete(operacion);
 					}
 
 					delete(generador);
