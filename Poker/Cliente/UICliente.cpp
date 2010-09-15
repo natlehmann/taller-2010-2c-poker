@@ -220,6 +220,8 @@ bool UICliente::conectarServidor()
 		{
 			mostrarMensaje("INTENTANDO CONECTAR CON EL SERVIDOR " + ip + " ...", false);
 			
+			if (cliente != NULL)
+				delete(cliente);
 			cliente = new Cliente(puerto, ip);
 
 			if (cliente->iniciarConexion())
