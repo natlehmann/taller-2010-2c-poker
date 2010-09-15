@@ -115,6 +115,7 @@ int main (int argc, char** argv)
 	
 
 	list<string> archivos;
+
 	archivos.push_back("..\\tests\\test1.txt");
 	archivos.push_back("..\\tests\\test2.txt");
 	archivos.push_back("..\\tests\\test3.txt");
@@ -134,6 +135,7 @@ int main (int argc, char** argv)
 	archivos.push_back("..\\tests\\test17.txt");
 	archivos.push_back("..\\tests\\test18.txt");
 	archivos.push_back("..\\tests\\test19.txt");
+	archivos.push_back("..\\tests\\test20.txt");
 
 
 	for (list<string>::iterator itt = archivos.begin(); itt != archivos.end(); itt++) {
