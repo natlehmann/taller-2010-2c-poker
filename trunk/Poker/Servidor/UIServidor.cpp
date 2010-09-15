@@ -6,6 +6,7 @@ UIServidor::UIServidor(void)
 	this->cerrarAplicacion = false;
 	this->opcionMP = 0;
 	this->entrada = "";
+	this->servidor = NULL;
 }
 
 UIServidor::~UIServidor(void)
