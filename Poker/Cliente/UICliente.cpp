@@ -15,6 +15,7 @@ UICliente::UICliente(void)
 	this->opcionMenu = 0;
 	this->entrada = "";
 	this->resultado = "";
+	this->cliente = NULL;
 }
 
 UICliente::~UICliente(void)
@@ -231,6 +232,7 @@ bool UICliente::conectarServidor()
 			{
 				mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR, INTENTELO MAS TARDE.", false);
 				delete(cliente);
+				this->cliente = NULL;
 
 				while (preguntar)
 				{
