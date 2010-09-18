@@ -9,14 +9,16 @@ XmlParserEstadoProcesandoTxt::XmlParserEstadoProcesandoTxt(deque<string*>* nodos
 	this->cerrandoTag = NULL;
 }
 
+XmlParserEstadoProcesandoTxt::XmlParserEstadoProcesandoTxt(deque<string*>* nodosProcesados, 
+		XmlParserEstadoInicial* inicial, XmlParserEstadoCerrandoTag* cerrandoTag)
+			: XmlParserEstado(nodosProcesados)
+{
+	this->inicial = inicial;
+	this->cerrandoTag = cerrandoTag;
+}
+
 XmlParserEstadoProcesandoTxt::~XmlParserEstadoProcesandoTxt(void)
 {
-	if (this->inicial != NULL) {
-		delete (this->inicial);
-	}
-	if (this->cerrandoTag != NULL) {
-		delete(this->cerrandoTag);
-	}
 }
 
 XmlParserEstado* XmlParserEstadoProcesandoTxt::procesarFragmento() {
@@ -89,17 +91,9 @@ XmlParserEstado* XmlParserEstadoProcesandoTxt::procesarFragmento() {
 
 
 XmlParserEstadoInicial* XmlParserEstadoProcesandoTxt::getInicial() {
-	if (this->inicial == NULL) {
-		this->inicial = new XmlParserEstadoInicial(this->getNodosProcesados());
-	}
-
 	return this->inicial;
 }
 
 XmlParserEstadoCerrandoTag* XmlParserEstadoProcesandoTxt::getCerrandoTag() {
-	if (this->cerrandoTag == NULL) {
-		this->cerrandoTag = new XmlParserEstadoCerrandoTag(this->getNodosProcesados());
-	}
-
 	return this->cerrandoTag;
 }

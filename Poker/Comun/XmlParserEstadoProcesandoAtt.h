@@ -31,6 +31,8 @@ private:
 
 public:
 	XmlParserEstadoProcesandoAtt(deque<string*>* nodosProcesados);
+	XmlParserEstadoProcesandoAtt(deque<string*>* nodosProcesados,
+		XmlParserEstadoDentroTag* dentroTag, XmlParserEstadoCerrandoInline* cerrandoInline);
 	virtual ~XmlParserEstadoProcesandoAtt(void);
 
 	virtual XmlParserEstado* procesarFragmento();

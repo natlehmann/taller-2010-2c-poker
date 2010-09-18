@@ -28,6 +28,7 @@ private:
 
 public:
 	XmlParserEstadoCerrandoInline(deque<string*>* nodosProcesados);
+	XmlParserEstadoCerrandoInline(deque<string*>* nodosProcesados, XmlParserEstadoInicial* inicial);
 	virtual ~XmlParserEstadoCerrandoInline(void);
 
 	virtual XmlParserEstado* procesarFragmento();

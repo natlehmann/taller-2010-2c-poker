@@ -33,6 +33,8 @@ private:
 
 public:
 	XmlParserEstadoProcesandoTxt(deque<string*>* nodosProcesados);
+	XmlParserEstadoProcesandoTxt(deque<string*>* nodosProcesados, 
+		XmlParserEstadoInicial* inicial, XmlParserEstadoCerrandoTag* cerrandoTag);
 	virtual ~XmlParserEstadoProcesandoTxt(void);
 
 	virtual XmlParserEstado* procesarFragmento();

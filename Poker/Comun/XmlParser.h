@@ -28,10 +28,26 @@
 
 using namespace std;
 
+class XmlParserEstadoInicial;
+class XmlParserEstadoAbriendoTag;
+class XmlParserEstadoCerrandoInline;
+class XmlParserEstadoCerrandoTag;
+class XmlParserEstadoDentroTag;
+class XmlParserEstadoProcesandoAtt;
+class XmlParserEstadoProcesandoTxt;
+
 class XmlParser : public Parser
 {
 protected:
-	XmlParserEstado* estadoInicial;
+	XmlParserEstadoInicial* estadoInicial;
+	XmlParserEstadoAbriendoTag* abriendoTag;
+	XmlParserEstadoCerrandoInline* cerrandoInline;
+	XmlParserEstadoCerrandoTag* cerrandoTag;
+	XmlParserEstadoDentroTag* dentroTag;
+	XmlParserEstadoProcesandoAtt* procesandoAtt;
+	XmlParserEstadoProcesandoTxt* procesandoTxt;
+
+
 	XmlParserEstado* estadoActual;
 	deque<string*>* nodosProcesados;
 

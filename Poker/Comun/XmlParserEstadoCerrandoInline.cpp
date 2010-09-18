@@ -9,11 +9,15 @@ XmlParserEstadoCerrandoInline::XmlParserEstadoCerrandoInline(deque<string*>* nod
 	this->inicial = NULL;
 }
 
+XmlParserEstadoCerrandoInline::XmlParserEstadoCerrandoInline(
+	deque<string*>* nodosProcesados, XmlParserEstadoInicial* inicial)
+	: XmlParserEstado(nodosProcesados)
+{
+	this->inicial = inicial;
+}
+
 XmlParserEstadoCerrandoInline::~XmlParserEstadoCerrandoInline(void)
 {
-	if (this->inicial != NULL) {
-		delete(this->inicial);
-	}
 }
 
 XmlParserEstado* XmlParserEstadoCerrandoInline::procesarFragmento() {
@@ -52,9 +56,5 @@ bool XmlParserEstadoCerrandoInline::terminado() {
 }
 
 XmlParserEstadoInicial* XmlParserEstadoCerrandoInline::getInicial() {
-	if (this->inicial == NULL) {
-		this->inicial = new XmlParserEstadoInicial(this->getNodosProcesados());
-	}
-
 	return this->inicial;
 }
