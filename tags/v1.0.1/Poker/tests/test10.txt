@@ -1,0 +1,23 @@
+<pedido>
+<operacion id="S"/>
+<parametros>pqweirupqowiruo
+<parametro nombre="sum">10</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>pqweirupqowiruo
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum">10</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id""/>
+<parametros>
+<parametro nombre="sum">10</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>

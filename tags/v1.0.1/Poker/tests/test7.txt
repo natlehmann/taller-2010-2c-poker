@@ -1,0 +1,49 @@
+
+
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="res">-45.6</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum">-45.6</parametro>
+<parametro nombre="res">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum"></parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre=""></parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacio id="S"/>
+<parametros>
+<parametro nombre="sum">10</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+

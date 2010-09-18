@@ -1,0 +1,22 @@
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum">0</parametro>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="S"/>
+<parametros>
+</parametros>
+</pedido>
+
+<pedido>
+<operacion id="S"/>
+<parametros>
+<parametro nombre="sum">20</parametros>
+<parametro nombre="sum">10</parametro>
+</parametros>
+</pedido>
+
