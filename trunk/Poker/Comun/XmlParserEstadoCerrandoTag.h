@@ -26,6 +26,7 @@ private:
 
 public:
 	XmlParserEstadoCerrandoTag(deque<string*>* nodosProcesados);
+	XmlParserEstadoCerrandoTag(deque<string*>* nodosProcesados, XmlParserEstadoInicial* inicial);
 	virtual ~XmlParserEstadoCerrandoTag(void);
 
 	virtual XmlParserEstado* procesarFragmento();

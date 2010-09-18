@@ -11,20 +11,20 @@ XmlParserEstadoAbriendoTag::XmlParserEstadoAbriendoTag(deque<string*>* nodosProc
 	this->procesandoAtt = NULL;
 }
 
+XmlParserEstadoAbriendoTag::XmlParserEstadoAbriendoTag(deque<string*>* nodosProcesados, 
+						   XmlParserEstadoDentroTag* dentroTag,
+						   XmlParserEstadoCerrandoInline* cerrandoInline, 
+						   XmlParserEstadoProcesandoAtt* procesandoAtt) : XmlParserEstado(nodosProcesados){
+
+	this->cerrandoInline = cerrandoInline;
+	this->dentroTag = dentroTag;
+	this->procesandoAtt = procesandoAtt;
+}
+
 XmlParserEstadoAbriendoTag::~XmlParserEstadoAbriendoTag(void)
 {
-	if (this->cerrandoInline != NULL) {
-		delete(this->cerrandoInline);
-	}
-
-	if (this->dentroTag != NULL) {
-		delete(this->dentroTag);
-	}
-
-	if (this->procesandoAtt != NULL) {
-		delete(this->procesandoAtt);
-	}
 }
+
 
 XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 
@@ -106,29 +106,14 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 }
 
 XmlParserEstadoCerrandoInline* XmlParserEstadoAbriendoTag::getCerrandoInline() {
-	
-	if (this->cerrandoInline == NULL) {
-		this->cerrandoInline = new XmlParserEstadoCerrandoInline(this->getNodosProcesados());
-	}
-
 	return this->cerrandoInline;
 }
 
 XmlParserEstadoDentroTag* XmlParserEstadoAbriendoTag::getDentroTag() {
-	
-	if (this->dentroTag == NULL) {
-		this->dentroTag = new XmlParserEstadoDentroTag(this->getNodosProcesados());
-	}
-
 	return this->dentroTag;
 }
 
 XmlParserEstadoProcesandoAtt* XmlParserEstadoAbriendoTag::getProcesandoAtt() {
-	
-	if (this->procesandoAtt == NULL) {
-		this->procesandoAtt = new XmlParserEstadoProcesandoAtt(this->getNodosProcesados());
-	}
-
 	return this->procesandoAtt;
 }
 

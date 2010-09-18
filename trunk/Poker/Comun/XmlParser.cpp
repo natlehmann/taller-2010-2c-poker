@@ -4,12 +4,36 @@
 #include "Elemento.h"
 #include "XmlParserEstado.h"
 #include "XmlParserEstadoInicial.h"
+#include "XmlParserEstadoAbriendoTag.h"
+#include "XmlParserEstadoCerrandoInline.h"
+#include "XmlParserEstadoCerrandoTag.h"
+#include "XmlParserEstadoDentroTag.h"
+#include "XmlParserEstadoProcesandoAtt.h"
+#include "XmlParserEstadoProcesandoTxt.h"
 #include "ParserException.h"
 
 XmlParser::XmlParser(void)
 {
 	this->nodosProcesados = new deque<string*>();
+
 	this->estadoInicial = new XmlParserEstadoInicial(this->nodosProcesados);
+	this->cerrandoInline = new XmlParserEstadoCerrandoInline(
+		this->nodosProcesados, this->estadoInicial);
+	this->cerrandoTag = new XmlParserEstadoCerrandoTag(this->nodosProcesados, 
+		this->estadoInicial);
+	this->procesandoTxt = new XmlParserEstadoProcesandoTxt(this->nodosProcesados, 
+		this->estadoInicial, this->cerrandoTag);
+	this->dentroTag = new XmlParserEstadoDentroTag(this->nodosProcesados,
+		this->estadoInicial, this->procesandoTxt, this->cerrandoTag);
+	this->procesandoAtt = new XmlParserEstadoProcesandoAtt(this->nodosProcesados,
+		this->dentroTag, this->cerrandoInline);
+	this->abriendoTag = new XmlParserEstadoAbriendoTag(this->nodosProcesados, 
+		this->dentroTag, this->cerrandoInline, this->procesandoAtt);
+
+	this->estadoInicial->setAbriendoTag(this->abriendoTag);
+	this->estadoInicial->setCerrandoTag(this->cerrandoTag);
+	
+
 	this->estadoActual = this->estadoInicial;
 }
 
@@ -23,7 +47,40 @@ XmlParser::~XmlParser(void)
 	this->nodosProcesados->clear();
 	delete(this->nodosProcesados);
 
-	delete (this->estadoInicial);
+	if (this->estadoInicial != NULL) {
+		delete (this->estadoInicial);
+		this->estadoInicial = NULL;
+	}
+
+	if (this->abriendoTag != NULL) {
+		delete (this->abriendoTag);
+		this->abriendoTag = NULL;
+	}
+
+	if (this->cerrandoInline != NULL) {
+		delete (this->cerrandoInline);
+		this->cerrandoInline = NULL;
+	}
+
+	if (this->cerrandoTag != NULL) {
+		delete (this->cerrandoTag);
+		this->cerrandoTag = NULL;
+	}
+	
+	if (this->dentroTag != NULL) {
+		delete (this->dentroTag);
+		this->dentroTag = NULL;
+	}
+
+	if (this->procesandoAtt != NULL) {
+		delete (this->procesandoAtt);
+		this->procesandoAtt = NULL;
+	}
+
+	if (this->procesandoTxt != NULL) {
+		delete (this->procesandoTxt);
+		this->procesandoTxt = NULL;
+	}
 }
 
 DomTree* XmlParser::toDom(string texto) {

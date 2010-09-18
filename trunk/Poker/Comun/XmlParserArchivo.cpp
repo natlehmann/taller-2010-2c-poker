@@ -62,7 +62,7 @@ void XmlParserArchivo::procesarArchivo(){
 
 	if (!this->inicializado) {
 
-		this->estadoActual = this->estadoInicial;
+		this->estadoActual = (XmlParserEstado*)this->estadoInicial;
 		this->estadoActual->setElementoActual(this->arbol->getRaiz());
 
 		this->contadorLinea = 1;

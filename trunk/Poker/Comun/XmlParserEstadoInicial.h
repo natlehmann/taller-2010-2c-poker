@@ -33,6 +33,9 @@ public:
 	virtual ~XmlParserEstadoInicial(void);
 
 	virtual XmlParserEstado* procesarFragmento();
+
+	void setAbriendoTag(XmlParserEstadoAbriendoTag* abriendoTag);
+	void setCerrandoTag(XmlParserEstadoCerrandoTag* cerrandoTag);
 };
 
 #endif
