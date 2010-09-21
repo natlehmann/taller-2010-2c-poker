@@ -43,7 +43,7 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;..\Comun&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG"
-				RuntimeLibrary="1"
+				RuntimeLibrary="2"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -59,7 +59,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
-				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib ws2_32.lib sdl.lib sdlmain.lib sdl_image.lib sdl_mixer.lib sdl_net.lib sdl_ttf.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"

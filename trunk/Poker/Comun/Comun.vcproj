@@ -43,7 +43,7 @@
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				GeneratePreprocessedFile="0"
-				RuntimeLibrary="1"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				ObjectFile="$(IntDir)\"
 				WarningLevel="3"
@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
-				AdditionalDependencies="ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib sdl.lib sdlmain.lib sdl_image.lib sdl_mixer.lib sdl_net.lib sdl_ttf.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
