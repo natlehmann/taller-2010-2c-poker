@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Comun"
 	ProjectGUID="{B91A0032-5F62-4327-9842-FA9A23DA5E6D}"
 	RootNamespace="Comun"
@@ -192,11 +192,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DomTreeFactoryInstance.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Elemento.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Error.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FileException.cpp"
 				>
 			</File>
 			<File
@@ -221,6 +229,14 @@
 			</File>
 			<File
 				RelativePath=".\PokerException.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Properties.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RecursosAplicacion.cpp"
 				>
 			</File>
 			<File
@@ -302,11 +318,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DomTreeFactoryInstance.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Elemento.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Error.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileException.h"
 				>
 			</File>
 			<File
@@ -331,6 +355,14 @@
 			</File>
 			<File
 				RelativePath=".\PokerException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Properties.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RecursosAplicacion.h"
 				>
 			</File>
 			<File
@@ -399,6 +431,10 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\parserConfig.properties"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

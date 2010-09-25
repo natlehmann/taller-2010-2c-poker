@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Cliente"
 	ProjectGUID="{AABB0789-22C9-4C74-BA8B-189354326F8C}"
 	RootNamespace="Cliente"
@@ -191,11 +191,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\DomTreeFactoryInstance.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Elemento.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Comun\Error.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\FileException.cpp"
 				>
 			</File>
 			<File
@@ -228,6 +236,14 @@
 			</File>
 			<File
 				RelativePath="..\Comun\PokerException.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Properties.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\RecursosAplicacion.cpp"
 				>
 			</File>
 			<File
@@ -313,11 +329,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\DomTreeFactoryInstance.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Elemento.h"
 				>
 			</File>
 			<File
 				RelativePath="..\Comun\Error.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\FileException.h"
 				>
 			</File>
 			<File
@@ -346,6 +370,14 @@
 			</File>
 			<File
 				RelativePath="..\Comun\PokerException.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\Properties.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\RecursosAplicacion.h"
 				>
 			</File>
 			<File
