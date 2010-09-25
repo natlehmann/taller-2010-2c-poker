@@ -1,20 +1,36 @@
-#include "FabricaOperaciones.h"
-#include "Suma.h"
-#include "Resta.h"
-#include "Multiplicacion.h"
-#include "Division.h"
+#include "FabricaOperacionesServidor.h"
 #include "UtilTiposDatos.h"
 #include "DatosInvalidosException.h"
 #include "Error.h"
 #include "MensajesUtil.h"
+#include "OpEnviarEscenario.h"
 #include <list>
 using namespace std;
 
-FabricaOperaciones::FabricaOperaciones() {}
+FabricaOperacionesServidor::FabricaOperacionesServidor() {}
 
-FabricaOperaciones::~FabricaOperaciones() {}
+FabricaOperacionesServidor::~FabricaOperacionesServidor() {}
 
-Operacion* FabricaOperaciones::newOperacion(DomTree* domTree)
+Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion){
+
+	Operacion* operacion = NULL;
+
+	if (MensajesUtil::sonIguales(nombreOperacion, "OpEnviarEscenario")) {
+		operacion = new OpEnviarEscenario();
+	}
+
+	// TODO: ACA SE VERIFICARIAN TODAS LAS DEMAS OPERACIONES
+
+	if (operacion == NULL) {
+		Error error("V","Id de operacion invalido.",nombreOperacion);
+		throw DatosInvalidosException(error);
+	}
+
+	return operacion;
+
+}
+
+Operacion* FabricaOperacionesServidor::newOperacion(DomTree* domTree)
 {
 	string idOperacion;
 	vector<double> parametros;
@@ -66,10 +82,10 @@ Operacion* FabricaOperaciones::newOperacion(DomTree* domTree)
 
 	list<Elemento*>* hijosPedido = elementoPedido->getHijos();
 
-	if (hijosPedido == NULL || hijosPedido->size() != 2) {
+	if (hijosPedido == NULL || hijosPedido->size() < 1) {
 		Error resultado("V",
 			string("Error en linea ") + MensajesUtil::intToString(elementoPedido->getNumeroDeLinea()) 
-			+ string(". El tag 'pedido' debe tener dos hijos, 'operacion' y 'parametros'."),"");
+			+ string(". El tag 'pedido' debe tener al menos un hijo."),"");
 		throw DatosInvalidosException(resultado);
 	}
 
@@ -92,12 +108,6 @@ Operacion* FabricaOperaciones::newOperacion(DomTree* domTree)
 
 	idOperacion = MensajesUtil::trim(elementoOperacion->getAtributo("id"));
 
-	if (idOperacion.length() != 1 || (idOperacion[0] != 'S' && idOperacion[0] != 'R' && idOperacion[0] != 'M' && idOperacion[0] != 'D')) {
-		Error resultado("V",
-			string("Error en linea ") + MensajesUtil::intToString(elementoOperacion->getNumeroDeLinea())
-			+ string(". El atributo 'id' del tag 'operacion' debe ser 'S', 'R', 'M' o 'D'."),"");
-		throw DatosInvalidosException(resultado);
-	}
 	if (elementoOperacion->getTexto().size() != 0) {
 		Error resultado("V",
 			string("Error en linea ") + MensajesUtil::intToString(elementoOperacion->getNumeroDeLinea())
@@ -105,6 +115,15 @@ Operacion* FabricaOperaciones::newOperacion(DomTree* domTree)
 			+ elementoOperacion->getTexto()+"'.",idOperacion);
 		throw DatosInvalidosException(resultado);
 	}
+
+	return this->newOperacion(idOperacion);
+
+
+
+	// TODO: QUEDA LA POSIBILIDAD DE QUE ALGUNA OPERACION PUEDA TENER PARAMETROS
+	// Ver si se habilita esto
+
+	/*
 
 	it++;
 	Elemento* elementoParametros = *it;
@@ -132,18 +151,7 @@ Operacion* FabricaOperaciones::newOperacion(DomTree* domTree)
 			+ string(". El tag 'parametros' no tiene hijos. Se esperaba tag 'parametro'."),idOperacion);
 		throw DatosInvalidosException(resultado);
 	}
-	if (idOperacion[0] == 'D' && hijosParametros->size() != 2) {
-		Error resultado("V",
-			string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
-			+ string(". Una division debe tener 2 parametros, 'dividendo' y 'divisor'."),idOperacion);
-		throw DatosInvalidosException(resultado);
-	}
-	if (hijosParametros->size() < 2) {
-		Error resultado("V",
-			string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
-			+ string(". Deben haber al menos dos parametros para realizar la operacion."),idOperacion);
-		throw DatosInvalidosException(resultado);
-	}
+
 
 	int cantidadParametros = 0;
 	for (it = hijosParametros->begin(); it != hijosParametros->end(); it++) {
@@ -160,27 +168,16 @@ Operacion* FabricaOperaciones::newOperacion(DomTree* domTree)
 		parametros.push_back(UtilTiposDatos::stringADouble(valor));
 	}
 	
-	switch (idOperacion.at(0))
-	{
-	case 'S':
-		return new Suma("S",parametros);
-		break;
-	case 'R':
-		return new Resta("R",parametros);
-		break;
-	case 'M':
-		return new Multiplicacion("M",parametros);
-		break;
-	case 'D':
-		return new Division("D",parametros);
-		break;
-	}
 	return NULL;
+	*/
 }
 
 
-void FabricaOperaciones::validarParametro(Elemento* parametro, string idOperacion, int numeroDeParametro)
+void FabricaOperacionesServidor::validarParametro(Elemento* parametro, string idOperacion, int numeroDeParametro)
 {
+	// TODO: ESTE METODO DEBERIA CAMBIAR DE ACUERDO A LOS PARAMETROS ACEPTADOS PARA LAS NUEVAS OPERACIONES
+
+	/*
 	if (parametro->getAtributos()->size() != 1) {
 		Error resultado("V",
 			string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
@@ -257,4 +254,6 @@ void FabricaOperaciones::validarParametro(Elemento* parametro, string idOperacio
 			+ parametro->getTexto()+"'.",idOperacion);
 		throw DatosInvalidosException(resultado);
 	}
+
+	*/
 }
