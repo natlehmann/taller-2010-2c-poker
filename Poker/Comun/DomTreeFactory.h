@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
-//#include <algorithm>
-//#include <cctype>
 #include <set>
 #include <map>
 
@@ -16,16 +14,35 @@
 
 using namespace std;
 
+class DomTreeFactoryInstance;
+
 class DomTreeFactory
 {
 private:
-	static Elemento* configurarNodo(string nombre, char* hijos[], char* atributos[]);
+	static map<string, DomTreeFactoryInstance> configuraciones;
+	static string defaultConfig;
+
+	static void inicializar();
+
+protected:
+	DomTreeFactory(void);
 
 public:
-	DomTreeFactory(void);
-	virtual ~DomTreeFactory(void);
-
+	/**
+	* Crea un elemento del DomTree para la configuracion default del parser
+	*/
 	static Elemento* crearElemento(string nombre);
+
+	/*
+	* Crea un elemento del DomTree
+	*/
+	virtual Elemento* elemento(string nombre) = 0;
+
+	/*
+	* Devuelve un DomTreeFactory perteneciente a una determinada configuracion
+	* del parser
+	*/
+	static DomTreeFactory* config(string nombreConfig);
 };
 
 #endif
