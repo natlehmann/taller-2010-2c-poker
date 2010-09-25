@@ -24,7 +24,7 @@ bool Thread::Suspend()
 
 bool Thread::Kill()
 {
- return TerminateThread(m_hThread, 1); //win32 API
+ return (TerminateThread(m_hThread, 1) != 0); //win32 API
 }
  
 bool Thread::Resume()
