@@ -6,6 +6,7 @@
 #include "OperacionUICliente.h"
 #include "PokerException.h"
 #include "Respuesta.h"
+#include "Ventana.h"
 
 
 int main (int argc, char** argv)
@@ -16,16 +17,15 @@ int main (int argc, char** argv)
 	string idOperacionInicial = 
 		RecursosAplicacion::getClienteConfigProperties()->get("cliente.operacion.inicial");
 	FabricaOperacionesCliente fab;
+	Ventana ventana;
 
 	try {
 		OperacionUICliente* operacion = fab.newOperacion(idOperacionInicial);
 
-		// TODO: Esto deberia actuar sobre la Ventana
-		operacion->ejecutar();
+		operacion->ejecutar(&ventana);
 		delete(operacion);
 
-		// TODO
-		// ventana.dibujar();
+		ventana.dibujar();
 
 	} catch (PokerException& e) {
 		RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());

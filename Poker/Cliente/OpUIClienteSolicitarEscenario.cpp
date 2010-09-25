@@ -15,7 +15,7 @@ OpUIClienteSolicitarEscenario::OpUIClienteSolicitarEscenario(void) : OperacionUI
 OpUIClienteSolicitarEscenario::~OpUIClienteSolicitarEscenario(void){
 }
 
-void OpUIClienteSolicitarEscenario::ejecutar(){
+void OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 
 	DomTree* tree = new DomTree("operaciones");
 	Elemento* pedido = tree->agregarElemento("pedido");
@@ -37,6 +37,8 @@ void OpUIClienteSolicitarEscenario::ejecutar(){
 		DomTree* arbolEscenario = parser->toDom(msjRecibido, "escenario");
 
 		// TODO: PASAR EL MENSAJE POR LA FABRICA DE ESCENARIO PARA QUE CONFIGURE LA VENTANA
+		// ej: 
+		// FabricaEscenario::generar(arbolEscenario, ventana);
 		cout << "Recibi este arbol " << parser->toString(arbolEscenario) << endl;
 
 		delete (arbolEscenario);
