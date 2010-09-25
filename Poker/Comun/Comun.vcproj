@@ -184,6 +184,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DatosInvalidosException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DomTree.cpp"
 				>
 			</File>
@@ -213,6 +217,10 @@
 			</File>
 			<File
 				RelativePath=".\GeneradorRespuesta.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Log.cpp"
 				>
 			</File>
 			<File
@@ -310,6 +318,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DatosInvalidosException.h"
+				>
+			</File>
+			<File
 				RelativePath=".\DomTree.h"
 				>
 			</File>
@@ -339,6 +351,10 @@
 			</File>
 			<File
 				RelativePath=".\GeneradorRespuesta.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Log.h"
 				>
 			</File>
 			<File

@@ -183,6 +183,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\DatosInvalidosException.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\DomTree.cpp"
 				>
 			</File>
@@ -203,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FabricaOperacionesCliente.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\FileException.cpp"
 				>
 			</File>
@@ -215,11 +223,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Log.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\Comun\MensajesUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OperacionUICliente.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteSolicitarEscenario.cpp"
 				>
 			</File>
 			<File
@@ -321,6 +341,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\DatosInvalidosException.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\DomTree.h"
 				>
 			</File>
@@ -341,6 +365,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FabricaOperacionesCliente.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\FileException.h"
 				>
 			</File>
@@ -353,7 +381,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Log.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\MensajesUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OperacionUICliente.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteSolicitarEscenario.h"
 				>
 			</File>
 			<File
@@ -378,6 +418,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\RecursosAplicacion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
@@ -446,6 +490,10 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\config.ini"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

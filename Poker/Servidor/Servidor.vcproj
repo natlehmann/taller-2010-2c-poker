@@ -183,11 +183,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DatosInvalidosException.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Division.cpp"
+				RelativePath="..\Comun\DatosInvalidosException.cpp"
 				>
 			</File>
 			<File
@@ -211,7 +207,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FabricaOperaciones.cpp"
+				RelativePath=".\FabricaOperacionesServidor.cpp"
 				>
 			</File>
 			<File
@@ -227,6 +223,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Log.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -235,7 +235,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Multiplicacion.cpp"
+				RelativePath=".\OpEnviarEscenario.cpp"
 				>
 			</File>
 			<File
@@ -267,10 +267,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Resta.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Comun\Resultado.cpp"
 				>
 			</File>
@@ -280,10 +276,6 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Socket.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Suma.cpp"
 				>
 			</File>
 			<File
@@ -349,11 +341,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\DatosInvalidosException.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Division.h"
+				RelativePath="..\Comun\DatosInvalidosException.h"
 				>
 			</File>
 			<File
@@ -377,7 +365,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\FabricaOperaciones.h"
+				RelativePath=".\FabricaOperacionesServidor.h"
 				>
 			</File>
 			<File
@@ -393,11 +381,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\Log.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\MensajesUtil.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Multiplicacion.h"
+				RelativePath=".\OpEnviarEscenario.h"
 				>
 			</File>
 			<File
@@ -429,10 +421,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Resta.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Comun\Resultado.h"
 				>
 			</File>
@@ -442,10 +430,6 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Socket.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Suma.h"
 				>
 			</File>
 			<File
@@ -510,6 +494,14 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\config.ini"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario1.txt"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
