@@ -10,20 +10,31 @@ using namespace std;
 
 class UICliente
 {
+	/*
 	enum eMenu {MP=1, TO, OP, XML};
 	enum eOperacion {SUMA=1, RESTA, MULTIPLICACION, DIVISION};
+	*/
 
 	private:
+		/*
 		bool cerrarAplicacion;
 		int opcionMenu;
 		bool hayError;
 		string msgError;
 		string entrada;
 		list<string> lstOperandos; // Lista con los operandos ingresados por el usuario
-		Cliente* cliente;
 		eOperacion tipoOperacion;
 		string resultado;
+		*/
+		
 
+		
+		static Cliente* cliente;
+
+		static void mostrarMensaje(string msg, bool ingresaDatos = true);
+
+		
+		/*
 		// Metodos de impresion de Menues
 		void menuPrincipal();
 		void menuTipoOperaciones();
@@ -43,11 +54,10 @@ class UICliente
 
 		bool validarOpcionMenu(eMenu tipoMenu);
 		void limpiarPantalla();
-		void mostrarMensaje(string msg, bool ingresaDatos = true);
 		void mostrarEncabezado(string mensaje);
 		void reingresarOpcionMenu();
 
-		bool conectarServidor();
+		
 		bool desconectarServidor();
 		void procesarEntradaOperandos();
 		void procesarArchivoXML();
@@ -58,10 +68,20 @@ class UICliente
 		void agregarOperando();
 		void limpiarListaOperandos();
 		void hacerUnaPausa();
+		*/
+		UICliente(void);
 
 	public:
-		UICliente(void);
+		
 		virtual ~UICliente(void);
 
+		/*
 		void iniciarAplicacion();
+		*/
+
+
+		static bool conectarServidor();
+		static void finalizar();
+
+		static Cliente* getCliente();
 };

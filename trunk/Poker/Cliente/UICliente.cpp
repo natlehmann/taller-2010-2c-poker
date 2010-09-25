@@ -5,10 +5,15 @@
 #include "DomTree.h"
 #include "GeneradorRespuesta.h"
 #include "UtilTiposDatos.h"
+#include "RecursosAplicacion.h"
 #include <fstream>
+#include <cstdlib>
+
+Cliente* UICliente::cliente = NULL;
 
 UICliente::UICliente(void)
 {
+	/*
 	this->hayError = false;
 	this->msgError = "";
 	this->cerrarAplicacion = false;
@@ -16,15 +21,20 @@ UICliente::UICliente(void)
 	this->entrada = "";
 	this->resultado = "";
 	this->cliente = NULL;
+	*/
 }
 
 UICliente::~UICliente(void)
 {
-	if (this->cliente != NULL) {
+	/*
+	if (cliente != NULL) {
 		delete (this->cliente);
 	}
+	*/
 }
 
+
+/*
 void UICliente::iniciarAplicacion()
 {
 	bool volverMenuMP = true;
@@ -195,99 +205,59 @@ void UICliente::ejecutarOperaciones(bool manual)
 		}
 	}
 }
+*/
+
 bool UICliente::conectarServidor()
 {
-	bool salir = false;
 	bool conecto = false;
-	bool preguntar = true;
-	string ip = "";
-	int puerto;
 
-	while ((!salir)&&(!conecto))
+	string ip = RecursosAplicacion::getClienteConfigProperties()->get("cliente.conexion.ip");
+	int puerto = UtilTiposDatos::getEntero(
+			RecursosAplicacion::getClienteConfigProperties()->get("cliente.conexion.puerto"));
+
+	if (puerto > 0)  
 	{
-		if (ip=="")
-		{
-			mostrarMensaje("INGRESE LA IP DEL SERVIDOR: ");
-			leerEntrada();
-			ip = this->entrada;
-		}
+		mostrarMensaje("INTENTANDO CONECTAR CON EL SERVIDOR " + ip + " ...", false);
 		
-		mostrarMensaje("INGRESE EL PUERTO DE CONEXION DEL SERVIDOR: ");
-		leerEntrada();
-		puerto = UtilTiposDatos::getEntero(this->entrada);
-
-		if (puerto > 0)  
-		{
-			mostrarMensaje("INTENTANDO CONECTAR CON EL SERVIDOR " + ip + " ...", false);
-			
-			if (cliente != NULL)
-				delete(cliente);
-			cliente = new Cliente(puerto, ip);
-
-			if (cliente->iniciarConexion())
-			{
-				mostrarMensaje("LA CONEXION CON EL SERVIDOR HA SIDO EXITOSA !!!", false);
-				hacerUnaPausa();
-				conecto = true;
-			}
-			else
-			{
-				mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR, INTENTELO MAS TARDE.", false);
-				delete(cliente);
-				this->cliente = NULL;
-
-				while (preguntar)
-				{
-					mostrarMensaje("DESEA INTENTAR CONECTARSE NUEVAMENTE [S/N]? ");
-					leerEntrada();
-
-					if (UtilTiposDatos::validarSiNo(this->entrada))
-					{
-						preguntar = false;
-
-						if ((this->entrada == _NO_)||(this->entrada  == _no_))
-						{
-							salir = true;
-							conecto = false;
-						}
-					}
-				}
-
-				preguntar = true;
-				ip = "";
-			}
+		if (cliente != NULL){
+			delete(cliente);
 		}
-		else
-		{
-			mostrarMensaje("EL PUERTO '" + this->entrada + "' ES INVALIDO !!! ", false);
+		cliente = new Cliente(puerto, ip);
 
-			while (preguntar)
-			{
-				mostrarMensaje("DESEA INGRESAR NUEVAMENTE EL PUERTO DE CONEXION [S/N]? ");
-				leerEntrada();
+		conecto = cliente->iniciarConexion();		
+	}
 
-				if (UtilTiposDatos::validarSiNo(this->entrada))
-				{
-					preguntar = false;
+	if (!conecto || puerto <= 0) {
 
-					if ((this->entrada == _NO_)||(this->entrada  == _no_))
-					{
-						salir = true;
-						conecto = false;
-					}
-				}
-			}
-			preguntar = true;
-		}
+		mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR, INTENTELO MAS TARDE.", false);
+		delete(cliente);
+		RecursosAplicacion::getLogErroresCliente()->escribir(
+			"No se puede establecer la conexion. O bien el servidor esta caido o la IP y puerto de conexion son incorrectos.");
+		exit(1);
 	}
 
 	return conecto;
 }
 
+Cliente* UICliente::getCliente(){
+	return UICliente::cliente;
+}
+
+void UICliente::finalizar()
+{
+	cliente->finalizarConexion();
+	delete(cliente);
+	cliente = NULL;
+}
+
+
+
+/*
 bool UICliente::desconectarServidor()
 {
 	return cliente->finalizarConexion();
 }
+
 void UICliente::procesarArchivoXML()
 {
 	this->mostrarMensaje("INGRESE LA RUTA DEL XML QUE CONTIENE LAS OPERACIONES: ");
@@ -531,14 +501,19 @@ void UICliente::reingresarOpcionMenu()
 	this->mostrarMensaje("INGRESE NUEVAMENTE UNA OPCION DEL MENU: ");
 	leerOpcionMenu();
 }
+*/
+
 
 void UICliente::mostrarMensaje(string msg, bool ingresaDatos)
 {
 	std::cout << msg;
 
-	if (!ingresaDatos)
+	if (!ingresaDatos){
 		std::cout << std::endl;
+	}
 }
+
+/*
 void UICliente::limpiarPantalla()
 {
 	system("CLS");
@@ -586,3 +561,5 @@ void UICliente::hacerUnaPausa()
 	this->mostrarMensaje("\n\nPRESIONE INTRO PARA CONTINUAR...",false);
 	getline(cin, buffer);
 }
+
+*/
