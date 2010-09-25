@@ -49,20 +49,22 @@ void Properties::inicializar() {
 	bool finArchivo = false;
 	while (!finArchivo) {
 
-			string linea;
-			getline(*this->archivo,linea);
+		string linea;
+		getline(*this->archivo,linea);
 
-			if (this->archivo->eof()) {
-				finArchivo = true;
-			}
-
-			if (this->archivo->bad()) {
-				throw FileException("Se produjo un error de lectura en el archivo " 
-					+ this->nombreArchivo, "E");
-			}
-		
-			this->procesarLinea(linea);
+		if (this->archivo->eof()) {
+			finArchivo = true;
 		}
+
+		if (this->archivo->bad()) {
+			throw FileException("Se produjo un error de lectura en el archivo " 
+				+ this->nombreArchivo, "E");
+		}
+	
+		this->procesarLinea(linea);
+	}
+
+	this->archivo->close();
 }
 
 void Properties::procesarLinea(string linea) {
