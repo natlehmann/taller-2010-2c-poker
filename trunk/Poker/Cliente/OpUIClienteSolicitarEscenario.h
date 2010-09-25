@@ -12,8 +12,7 @@ public:
 	OpUIClienteSolicitarEscenario(void);
 	virtual ~OpUIClienteSolicitarEscenario(void);
 
-	// TODO: Por parametro recibe la Ventana
-	virtual void ejecutar();
+	virtual void ejecutar(Ventana* ventana);
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define _OPERACION_UI_CLIENTE_H_
 
 #include <string>
+#include "Ventana.h"
 
 using namespace std;
 
@@ -11,8 +12,7 @@ public:
 	OperacionUICliente(void);
 	virtual ~OperacionUICliente(void);
 
-	// TODO: Por parametro recibe la Ventana
-	virtual void ejecutar() = 0;
+	virtual void ejecutar(Ventana* ventana) = 0;
 };
 
 #endif
