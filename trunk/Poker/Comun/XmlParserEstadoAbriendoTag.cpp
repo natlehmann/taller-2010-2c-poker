@@ -56,7 +56,8 @@ XmlParserEstado* XmlParserEstadoAbriendoTag::procesarFragmento() {
 		nombreElemento.erase(indiceFinal - indiceInicial);
 
 		try {
-			this->setElementoActual(this->getElementoActual()->agregarHijo(nombreElemento));
+			this->setElementoActual(this->getElementoActual()->agregarHijo(
+				nombreElemento, this->nombreConfiguracion));
 			this->getNodosProcesados()->push_back(new string(nombreElemento));
 			this->getElementoActual()->setNumeroDeLinea(this->getNumeroLinea());
 

@@ -51,7 +51,16 @@ public:
 	Elemento* getPadre();
 	bool isRaiz();
 
+	/**
+	* Agrega un elemento hijo perteneciente a la configuracion default
+	*/
 	Elemento* agregarHijo(string nombreHijo);
+
+	/**
+	* Agrega un elemento que se valida con una determinada configuracion
+	*/
+	Elemento* agregarHijo(string nombreHijo, string nombreConfiguracion);
+
 	list<Elemento*>* getHijos();
 
 	bool esHijoPermitido(string nombreHijo);

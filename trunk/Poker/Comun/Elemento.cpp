@@ -110,11 +110,23 @@ bool Elemento::isRaiz() {
 }
 
 Elemento* Elemento::agregarHijo(string nombreHijo) {
+	return this->agregarHijo(nombreHijo, "");
+}
+
+Elemento* Elemento::agregarHijo(string nombreHijo, string nombreConfiguracion) {
 
 	// si el hijo esta permitido
 	if (esHijoPermitido(nombreHijo)) {
 
-		Elemento* hijo = DomTreeFactory::crearElemento(nombreHijo);
+		Elemento* hijo = NULL;
+		
+		if (nombreConfiguracion.empty()) {
+			hijo = DomTreeFactory::crearElemento(nombreHijo);
+
+		} else {
+			hijo = DomTreeFactory::config(nombreConfiguracion)->elemento(nombreHijo);
+		}
+
 		hijo->setPadre(this);
 		this->hijos->insert(this->hijos->end(), hijo);
 

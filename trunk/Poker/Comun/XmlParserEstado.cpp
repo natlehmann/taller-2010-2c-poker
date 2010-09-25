@@ -7,6 +7,7 @@ XmlParserEstado::XmlParserEstado(deque<string*>* nodosProcesados)
 	this->nodosProcesados = nodosProcesados;
 	this->inicioTexto = 0;
 	this->textoAProcesar = "\0";
+	this->nombreConfiguracion = "";
 }
 
 XmlParserEstado::~XmlParserEstado(void)
@@ -61,6 +62,14 @@ bool XmlParserEstado::terminado() {
 
 deque<string*>* XmlParserEstado::getNodosProcesados() {
 	return this->nodosProcesados;
+}
+
+string XmlParserEstado::getNombreConfiguracion(){
+	return this->nombreConfiguracion;
+}
+
+void XmlParserEstado::setNombreConfiguracion(string nombreConfiguracion){
+	this->nombreConfiguracion = nombreConfiguracion;
 }
 
 
