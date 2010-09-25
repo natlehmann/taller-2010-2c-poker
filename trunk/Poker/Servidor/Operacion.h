@@ -5,7 +5,6 @@
 #include "Resultado.h"
 #include "Error.h"
 #include <string>
-#include <vector>
 
 using namespace std;
 
@@ -14,7 +13,6 @@ class Operacion {
 
 protected:
 	string id;
-	vector<double> parametros;
 
 public:
 	Operacion();
@@ -30,17 +28,7 @@ public:
         this->id = id;
     }
 
-    vector<double> getParametros() const
-    {
-        return parametros;
-    }
-
-    void setParametros(vector<double> parametros)
-    {
-        this->parametros = parametros;
-    }
-
-    virtual vector<Respuesta*> ejecutar() = 0;
+    virtual Respuesta* ejecutar() = 0;
 
 };
 

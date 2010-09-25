@@ -6,7 +6,7 @@
 #include "Parser.h"
 #include "XmlParser.h"
 #include "DomTree.h"
-#include "FabricaOperaciones.h"
+#include "FabricaOperacionesServidor.h"
 #include "Operacion.h"
 #include "DatosInvalidosException.h"
 #include "GeneradorRespuesta.h"
@@ -18,18 +18,18 @@ class ThrCliente: public Thread
 	private:
 		bool parar;
 		Socket* sock;
-		FabricaOperaciones* fabricaOperaciones;
+		FabricaOperacionesServidor* fabricaOperaciones;
 		
 	public:	
 		ThrCliente(){
-			this->fabricaOperaciones = new FabricaOperaciones();
+			this->fabricaOperaciones = new FabricaOperacionesServidor();
 		};
 				
 		ThrCliente(Socket* sockCliente)
 		{
 			this->sock = sockCliente;
 			this->parar = false;
-			this->fabricaOperaciones = new FabricaOperaciones();
+			this->fabricaOperaciones = new FabricaOperacionesServidor();
 
 		};
 		
@@ -56,11 +56,11 @@ class ThrCliente: public Thread
 
 				if ((recibidoOK)&&(msjRecibido!=""))
 				{
-					string respuesta;
-					GeneradorRespuesta* generador = new GeneradorRespuesta();
+					string respuesta = "";
 					Operacion* operacion = NULL;
 					Parser* parser = NULL;
 					DomTree* arbol = NULL;
+					GeneradorRespuesta* generador = new GeneradorRespuesta();
 
 					try 
 					{
@@ -68,21 +68,18 @@ class ThrCliente: public Thread
 						arbol = parser->toDom(msjRecibido);
 
 						operacion = this->fabricaOperaciones->newOperacion(arbol);
-						generador->agregarRespuestas(operacion->ejecutar());
-						respuesta = generador->obtenerRespuesta();
+						Respuesta* resp = operacion->ejecutar();
 
-						if (_DEBUG) {
-							cout << "Procesando operacion " << operacion->getId() << " - Resultado Ok" << endl;
+						if (resp != NULL) {
+							respuesta = resp->getValor();
+							delete(resp);
 						}
+
 					} 
 					catch (PokerException& e) 
 					{
 						generador->agregarRespuesta(&e.getError());
 						respuesta = generador->obtenerRespuesta();
-
-						if (_DEBUG) {
-							cout << "Procesando operacion - Resultado Error" << endl;
-						}
 					}
 
 					if (parser != NULL) {
