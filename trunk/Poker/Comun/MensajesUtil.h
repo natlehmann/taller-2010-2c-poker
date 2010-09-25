@@ -10,6 +10,8 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
+#include <list>
+#include <set>
 
 
 
@@ -31,6 +33,26 @@ public:
 	* Elimina espacios en blanco antes y despues del texto recibido
 	*/
 	static string trim(string texto);
+
+	/*
+	* Corta un texto en fragmentos por cada vez que encuentre el caracter separador
+	*/
+	static list<string> split(string texto, string separador);
+
+	/*
+	* Corta un texto en fragmentos tomando como caracter separador la coma (",")
+	*/
+	static list<string> split(string texto);
+
+	/*
+	* Idem split(string, string) pero devuelve los resultados en un conjunto
+	*/
+	static set<string*>* splitToSet(string texto, string separador);
+
+	/*
+	* Idem split(string) pero devuelve los resultados en un conjunto
+	*/
+	static set<string*>* splitToSet(string texto);
 
 	static string intToString(int value);
 

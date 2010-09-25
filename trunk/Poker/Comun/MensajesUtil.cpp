@@ -89,3 +89,75 @@ string MensajesUtil::intToString(int value) {
 	 return string(buffer);
 }
 
+list<string> MensajesUtil::split(string texto, string separador){
+
+	list<string> resultado;
+	unsigned int inicial = 0;
+	unsigned int final = texto.find_first_of(separador, inicial);
+	bool terminado = false;
+
+	while (!terminado) {
+
+		if (final == string::npos) {
+			final = texto.size();
+			terminado = true;
+		}
+
+		string fragmento = texto.substr(inicial, final);
+		fragmento.erase(final - inicial);
+		fragmento = MensajesUtil::trim(fragmento);
+
+		if (!MensajesUtil::esVacio(fragmento)) {
+			resultado.push_back(fragmento);
+		}
+
+		if (!terminado) {
+			inicial = final + separador.size();
+			final = texto.find_first_of(separador, inicial);
+		}
+	}
+
+	return resultado;
+}
+
+
+set<string*>* MensajesUtil::splitToSet(string texto, string separador){
+
+	set<string*>* resultado = new set<string*>();
+	unsigned int inicial = 0;
+	unsigned int final = texto.find_first_of(separador, inicial);
+	bool terminado = false;
+
+	while (!terminado) {
+
+		if (final == string::npos) {
+			final = texto.size();
+			terminado = true;
+		}
+
+		string fragmento = texto.substr(inicial, final);
+		fragmento.erase(final - inicial);
+		fragmento = MensajesUtil::trim(fragmento);
+
+		if (!MensajesUtil::esVacio(fragmento)) {
+			resultado->insert(new string(fragmento));
+		}
+
+		if (!terminado) {
+			inicial = final + separador.size();
+			final = texto.find_first_of(separador, inicial);
+		}
+	}
+
+	return resultado;
+}
+
+
+list<string> MensajesUtil::split(string texto){
+	return MensajesUtil::split(texto, ",");
+}
+
+set<string*>* MensajesUtil::splitToSet(string texto){
+	return MensajesUtil::splitToSet(texto, ",");
+}
+
