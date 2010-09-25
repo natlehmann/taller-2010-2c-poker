@@ -47,6 +47,8 @@ protected:
 	XmlParserEstadoProcesandoAtt* procesandoAtt;
 	XmlParserEstadoProcesandoTxt* procesandoTxt;
 
+	string nombreConfiguracion;
+
 
 	XmlParserEstado* estadoActual;
 	deque<string*>* nodosProcesados;
@@ -59,11 +61,23 @@ protected:
 						 unsigned int inicio, unsigned int contadorLinea);
 	void validarFinal();
 
+	void guardarNombreConfiguracion(string nombreConfiguracion);
+
 public:
 	XmlParser(void);
 	virtual ~XmlParser(void);
 
+	/**
+	* Parsea un string devolviendo un DomTree para la configuracion default
+	*/
 	virtual DomTree* toDom(string texto);
+
+	/**
+	* Parsea un string devolviendo un DomTree que responde a la configuracion recibida
+	* por parametro
+	*/
+	virtual DomTree* toDom(string texto, string nombreConfiguracion);
+
 	virtual string toString(DomTree* domTree);
 };
 

@@ -26,6 +26,9 @@ private:
 	unsigned int inicioTexto;
 	int numeroLinea;
 
+protected:
+	string nombreConfiguracion;
+
 public:
 	XmlParserEstado(deque<string*>* nodosProcesados);
 	virtual ~XmlParserEstado(void);
@@ -47,6 +50,9 @@ public:
 	virtual XmlParserEstado* procesarFragmento() = 0;
 
 	virtual bool terminado();
+
+	string getNombreConfiguracion();
+	void setNombreConfiguracion(string nombreConfiguracion);
 
 };
 

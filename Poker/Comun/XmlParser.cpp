@@ -83,9 +83,21 @@ XmlParser::~XmlParser(void)
 	}
 }
 
-DomTree* XmlParser::toDom(string texto) {
+DomTree* XmlParser::toDom(string texto){
+	return this->toDom(texto, "");
+}
 
-	DomTree* tree = new DomTree();
+DomTree* XmlParser::toDom(string texto, string nombreConfiguracion) {
+
+	DomTree* tree = NULL;
+	if (nombreConfiguracion.empty()) {
+		tree = new DomTree();
+
+	} else {
+		this->guardarNombreConfiguracion(nombreConfiguracion);
+		tree = new DomTree(nombreConfiguracion);
+	}
+
 	this->estadoActual = this->estadoInicial;
 	this->estadoActual->setElementoActual(tree->getRaiz());
 
@@ -110,6 +122,18 @@ DomTree* XmlParser::toDom(string texto) {
 	}
 
 	return tree;
+}
+
+
+void XmlParser::guardarNombreConfiguracion(string nombreConfiguracion){
+
+	this->estadoInicial->setNombreConfiguracion(nombreConfiguracion);
+	this->cerrandoInline->setNombreConfiguracion(nombreConfiguracion);
+	this->cerrandoTag->setNombreConfiguracion(nombreConfiguracion);
+	this->procesandoTxt->setNombreConfiguracion(nombreConfiguracion);
+	this->dentroTag->setNombreConfiguracion(nombreConfiguracion);
+	this->procesandoAtt->setNombreConfiguracion(nombreConfiguracion);
+	this->abriendoTag->setNombreConfiguracion(nombreConfiguracion);
 }
 
 
