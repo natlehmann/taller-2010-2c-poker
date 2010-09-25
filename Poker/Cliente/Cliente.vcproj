@@ -183,6 +183,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Contenedor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\DatosInvalidosException.cpp"
 				>
 			</File>
@@ -200,6 +204,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Elemento.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ElementoGrafico.cpp"
 				>
 			</File>
 			<File
@@ -240,6 +248,10 @@
 			</File>
 			<File
 				RelativePath=".\OpUIClienteSolicitarEscenario.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Panel.cpp"
 				>
 			</File>
 			<File
@@ -284,6 +296,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\UtilTiposDatos.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Ventana.cpp"
 				>
 			</File>
 			<File
@@ -341,6 +357,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Contenedor.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\DatosInvalidosException.h"
 				>
 			</File>
@@ -358,6 +378,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Elemento.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ElementoGrafico.h"
 				>
 			</File>
 			<File
@@ -394,6 +418,10 @@
 			</File>
 			<File
 				RelativePath=".\OpUIClienteSolicitarEscenario.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Panel.h"
 				>
 			</File>
 			<File
@@ -442,6 +470,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\UtilTiposDatos.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Ventana.h"
 				>
 			</File>
 			<File
