@@ -15,12 +15,11 @@ private:
 	long tamanio;
 
 public:
-	Imagen(void);
+	Imagen(string nombre);
 	virtual ~Imagen(void);
 
 	virtual void dibujar();
 
-	void setNombre(string nombre);
 	string getNombre();
 
 	void setTamanio(long tamanio);

@@ -1,8 +1,9 @@
 #include "Imagen.h"
 #include "UIException.h"
 
-Imagen::Imagen(void)
-{
+Imagen::Imagen(string nombre) {
+	// TODO: VER SI ACA VERIFICAMOS QUE LA IMAGEN EXISTA O SE LA PEDIMOS AL SERVIDOR
+	this->nombre = nombre;
 }
 
 Imagen::~Imagen(void)
@@ -28,11 +29,6 @@ void Imagen::dibujar(){
 
 }
 
-void Imagen::setNombre(string nombre){
-
-	// TODO: VER SI ACA VERIFICAMOS QUE LA IMAGEN EXISTA O SE LA PEDIMOS AL SERVIDOR
-	this->nombre = nombre;
-}
 
 string Imagen::getNombre(){
 	return this->nombre;
