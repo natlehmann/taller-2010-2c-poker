@@ -29,9 +29,9 @@ class UICliente
 		
 
 		
-		static Cliente* cliente;
+		static Cliente* cliente;		
 
-		static void mostrarMensaje(string msg, bool ingresaDatos = true);
+		static bool conectarServidor();
 
 		
 		/*
@@ -75,12 +75,8 @@ class UICliente
 		
 		virtual ~UICliente(void);
 
-		/*
-		void iniciarAplicacion();
-		*/
-
-
-		static bool conectarServidor();
+		static void iniciarAplicacion();
+		static void mostrarMensaje(string msg, bool ingresaDatos = true);
 		static void finalizar();
 
 		static Cliente* getCliente();

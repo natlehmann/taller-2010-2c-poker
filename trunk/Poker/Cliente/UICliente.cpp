@@ -1,3 +1,4 @@
+#include "SDL.h"
 #include "UICliente.h"
 #include "ParserEntradaTeclado.h"
 #include "MensajesUtil.h"
@@ -6,6 +7,7 @@
 #include "GeneradorRespuesta.h"
 #include "UtilTiposDatos.h"
 #include "RecursosAplicacion.h"
+#include "UIException.h"
 #include <fstream>
 #include <cstdlib>
 
@@ -34,72 +36,17 @@ UICliente::~UICliente(void)
 }
 
 
-/*
+
 void UICliente::iniciarAplicacion()
 {
-	bool volverMenuMP = true;
-	bool volverMenuTO = true;
+	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 ) {
+		throw UIException("No se pudo inicializar la interfaz grafica.","E");
+	}
 
-	while (!this->cerrarAplicacion)
-	{
-		if (volverMenuMP)
-		{
-			menuPrincipal();
-			leerOpcionMenu();
-			volverMenuMP = false;
-		}
-		
-		if (this->validarOpcionMenu(MP))
-		{
-			if (this->opcionMenu == 1)
-			{
-				if (conectarServidor())
-				{
-					while (!volverMenuMP)
-					{
-						if (volverMenuTO)
-						{
-							menuTipoOperaciones();
-							leerOpcionMenu();
-							volverMenuTO = false;
-						}
-
-						if (this->validarOpcionMenu(TO))
-						{
-							if (this->opcionMenu != 3)
-							{
-								ejecutarAccionTO();
-								volverMenuTO = true;
-							}
-							else
-							{
-								if (this->desconectarServidor())
-								{
-									this->mostrarMensaje("SE HA DESCONECTADO CORRECTAMENTE", false);
-									hacerUnaPausa();
-									volverMenuMP = true;
-									volverMenuTO = true;
-								}
-							}
-						}
-						else
-							reingresarOpcionMenu();
-					}
-				}
-				else
-				{
-					this->mostrarMensaje("NO SE HA PODIDO CONECTAR AL SERVIDOR", false);
-					hacerUnaPausa();
-					volverMenuMP = true;
-				}
-			}
-			else
-				this->cerrarAplicacion = true;
-		}
-		else
-			reingresarOpcionMenu();
-	}	
+	UICliente::conectarServidor();
 }
+
+/*
 
 void UICliente::menuPrincipal()
 {
@@ -245,6 +192,7 @@ Cliente* UICliente::getCliente(){
 
 void UICliente::finalizar()
 {
+	SDL_Quit(); 
 	cliente->finalizarConexion();
 	delete(cliente);
 	cliente = NULL;

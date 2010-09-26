@@ -11,15 +11,14 @@
 
 int main (int argc, char** argv)
 {
-
-	UICliente::conectarServidor();
-
-	string idOperacionInicial = 
-		RecursosAplicacion::getClienteConfigProperties()->get("cliente.operacion.inicial");
-	FabricaOperacionesCliente fab;
-	Ventana ventana;
-
 	try {
+		UICliente::iniciarAplicacion();
+
+		string idOperacionInicial = 
+			RecursosAplicacion::getClienteConfigProperties()->get("cliente.operacion.inicial");
+		FabricaOperacionesCliente fab;
+		Ventana ventana;
+
 		OperacionUICliente* operacion = fab.newOperacion(idOperacionInicial);
 
 		operacion->ejecutar(&ventana);
@@ -27,11 +26,13 @@ int main (int argc, char** argv)
 
 		ventana.dibujar();
 
+		UICliente::finalizar();
+
 	} catch (PokerException& e) {
 		RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
+		UICliente::mostrarMensaje(
+			"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
 	}
-
-	UICliente::finalizar();
 
 	return 0;
 
