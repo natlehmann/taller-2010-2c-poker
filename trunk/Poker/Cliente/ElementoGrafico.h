@@ -10,17 +10,22 @@
 using namespace std;
 
 class ElementoGrafico {
-private:
+protected:
 	int posX;
 	int posY;
 	int ancho;
 	int alto;
+
+	SDL_Surface* superficie;
 
 public:
 	ElementoGrafico(void);
 	virtual ~ElementoGrafico(void);
 
 	virtual void dibujar() = 0;
+
+	SDL_Surface* getSuperficie();
+	SDL_Rect* getOffsetRect();
 
 	int getPosX();
 	void setPosX(int posX);

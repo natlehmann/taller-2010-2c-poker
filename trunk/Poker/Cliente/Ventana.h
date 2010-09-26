@@ -1,6 +1,8 @@
 #ifndef _VENTANA_H__
 #define _VENTANA_H__
 
+#define RESOLUCION_PANTALLA 32
+
 #include "SDL.h" 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +13,10 @@
 
 using namespace std;
 
-class Ventana : public Contenedor
-{
+class Ventana : public Contenedor {
+private:
+	SDL_Surface* pantalla;
+
 public:
 	Ventana(void);
 	virtual ~Ventana(void);

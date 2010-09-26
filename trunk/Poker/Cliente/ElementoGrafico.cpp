@@ -1,11 +1,27 @@
 #include "ElementoGrafico.h"
 
-ElementoGrafico::ElementoGrafico(void)
-{
+ElementoGrafico::ElementoGrafico(void) {
+	this->superficie = NULL;
+	this->posX = 0;
+	this->posY = 0;
 }
 
-ElementoGrafico::~ElementoGrafico(void)
-{
+ElementoGrafico::~ElementoGrafico(void){
+	SDL_FreeSurface(this->superficie); 
+}
+
+SDL_Surface* ElementoGrafico::getSuperficie() {
+	return this->superficie;
+}
+
+SDL_Rect* ElementoGrafico::getOffsetRect() {
+	SDL_Rect offset;
+	offset.x = this->getPosX();
+	offset.y = this->getPosY();
+	offset.w = this->getAncho();
+	offset.h = this->getAlto();
+
+	return &offset;
 }
 
 int ElementoGrafico::getPosX() {
