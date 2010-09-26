@@ -264,6 +264,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UIException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UtilTiposDatos.cpp"
 				>
 			</File>
@@ -395,6 +399,10 @@
 			</File>
 			<File
 				RelativePath=".\Socket.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UIException.h"
 				>
 			</File>
 			<File
