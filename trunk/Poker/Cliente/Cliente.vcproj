@@ -247,6 +247,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Mesa.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OperacionUICliente.cpp"
 				>
 			</File>
@@ -422,6 +426,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\MensajesUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Mesa.h"
 				>
 			</File>
 			<File
