@@ -4,10 +4,12 @@ ElementoGrafico::ElementoGrafico(void) {
 	this->superficie = NULL;
 	this->posX = 0;
 	this->posY = 0;
+	this->offset = new SDL_Rect();
 }
 
 ElementoGrafico::~ElementoGrafico(void){
 	SDL_FreeSurface(this->superficie); 
+	delete (this->offset);
 }
 
 SDL_Surface* ElementoGrafico::getSuperficie() {
@@ -15,13 +17,12 @@ SDL_Surface* ElementoGrafico::getSuperficie() {
 }
 
 SDL_Rect* ElementoGrafico::getOffsetRect() {
-	SDL_Rect offset;
-	offset.x = this->getPosX();
-	offset.y = this->getPosY();
-	offset.w = this->getAncho();
-	offset.h = this->getAlto();
+	this->offset->x = this->getPosX();
+	this->offset->y = this->getPosY();
+	this->offset->w = this->getAncho();
+	this->offset->h = this->getAlto();
 
-	return &offset;
+	return this->offset;
 }
 
 int ElementoGrafico::getPosX() {
