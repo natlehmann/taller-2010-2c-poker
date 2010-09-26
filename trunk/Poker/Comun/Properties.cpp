@@ -65,6 +65,8 @@ void Properties::inicializar() {
 	}
 
 	this->archivo->close();
+	delete(this->archivo);
+	this->archivo = NULL;
 }
 
 void Properties::procesarLinea(string linea) {
