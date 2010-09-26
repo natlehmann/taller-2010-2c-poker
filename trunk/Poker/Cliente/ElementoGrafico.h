@@ -17,6 +17,7 @@ protected:
 	int alto;
 
 	SDL_Surface* superficie;
+	SDL_Rect* offset;
 
 public:
 	ElementoGrafico(void);
@@ -24,8 +25,8 @@ public:
 
 	virtual void dibujar() = 0;
 
-	SDL_Surface* getSuperficie();
-	SDL_Rect* getOffsetRect();
+	virtual SDL_Surface* getSuperficie();
+	virtual SDL_Rect* getOffsetRect();
 
 	int getPosX();
 	void setPosX(int posX);
