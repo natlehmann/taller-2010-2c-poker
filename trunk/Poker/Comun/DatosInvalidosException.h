@@ -8,6 +8,7 @@ class DatosInvalidosException: public PokerException {
 
 public:
 	DatosInvalidosException(string mensaje);
+	DatosInvalidosException(string mensaje, string idError);
 	DatosInvalidosException(Error& error);
 	virtual ~DatosInvalidosException() throw();
 	

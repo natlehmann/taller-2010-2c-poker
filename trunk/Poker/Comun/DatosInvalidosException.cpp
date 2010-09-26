@@ -4,6 +4,10 @@ DatosInvalidosException::DatosInvalidosException(string mensaje) : PokerExceptio
 {
 }
 
+DatosInvalidosException::DatosInvalidosException(string mensaje, string idError) 
+		: PokerException(mensaje, idError){
+}
+
 DatosInvalidosException::DatosInvalidosException(Error& error) : PokerException(error)
 {
 }
