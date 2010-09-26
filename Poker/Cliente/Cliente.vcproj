@@ -231,6 +231,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Imagen.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Log.cpp"
 				>
 			</File>
@@ -292,6 +296,10 @@
 			</File>
 			<File
 				RelativePath=".\UICliente.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\UIException.cpp"
 				>
 			</File>
 			<File
@@ -405,6 +413,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Imagen.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Log.h"
 				>
 			</File>
@@ -449,10 +461,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Comun\Respuesta.h"
 				>
 			</File>
@@ -466,6 +474,10 @@
 			</File>
 			<File
 				RelativePath=".\UICliente.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\UIException.h"
 				>
 			</File>
 			<File

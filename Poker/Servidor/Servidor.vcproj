@@ -291,6 +291,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\Comun\UIException.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UIServidor.cpp"
 				>
 			</File>
@@ -442,6 +446,10 @@
 			</File>
 			<File
 				RelativePath=".\Thread.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Comun\UIException.h"
 				>
 			</File>
 			<File
