@@ -42,7 +42,6 @@ Ventana::~Ventana(void)
 }
 
 void Ventana::dibujar(){
-	// TODO: FALTA IMPLEMENTAR : ver como imprimimos el fondo (por separado o un elemento mas)
 
 	for (list<ElementoGrafico*>::iterator it = this->elementos.begin();
 		it != this->elementos.end(); it++) {
@@ -55,4 +54,15 @@ void Ventana::dibujar(){
 	if(SDL_Flip(this->pantalla) == -1) { 
 		throw UIException("Error al redibujar la pantalla completa.","E");
 	} 
+
+	// TODO: ACA SE LANZARIA EL PROCESAMIENTO DE EVENTOS
+	bool listo = false;
+	SDL_Event event;
+	while(!listo) {
+		while ( SDL_PollEvent(&event) ) 
+		{
+			if ( event.type == SDL_KEYDOWN )
+			listo = true;
+		}
+	}
 }
