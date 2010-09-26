@@ -8,6 +8,7 @@
 #include "PokerException.h"
 #include "RecursosAplicacion.h"
 #include "Respuesta.h"
+#include "Mesa.h"
 
 OpUIClienteSolicitarEscenario::OpUIClienteSolicitarEscenario(void) : OperacionUICliente(){
 }
@@ -39,7 +40,14 @@ void OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 		// TODO: PASAR EL MENSAJE POR LA FABRICA DE ESCENARIO PARA QUE CONFIGURE LA VENTANA
 		// ej: 
 		// FabricaEscenario::generar(arbolEscenario, ventana);
-		cout << "Recibi este arbol " << parser->toString(arbolEscenario) << endl;
+
+
+		// TODO: ELIMINAR ESTO (ES EJEMPLO, SE DEBERIA INSTANCIAR EN LA FABRICA)
+		Mesa* mesa = new Mesa();
+		mesa->setAlto(ventana->getAlto());
+		mesa->setAncho(ventana->getAncho());
+		mesa->setFondo("..\\Cliente\\recursos\\imagenes\\mesa640x480.bmp");
+		ventana->agregarElementoGrafico(mesa);
 
 		delete (arbolEscenario);
 
