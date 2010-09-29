@@ -235,6 +235,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Jugador.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Log.cpp"
 				>
 			</File>
@@ -292,6 +296,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Resultado.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServiciosGraficos.cpp"
 				>
 			</File>
 			<File
@@ -421,6 +429,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Jugador.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Log.h"
 				>
 			</File>
@@ -474,6 +486,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Resultado.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ServiciosGraficos.h"
 				>
 			</File>
 			<File
