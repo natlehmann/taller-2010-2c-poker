@@ -1,7 +1,7 @@
 #ifndef _VENTANA_H__
 #define _VENTANA_H__
 
-#define RESOLUCION_PANTALLA 32
+#define RESOLUCION_PANTALLA 24
 
 #include "SDL.h" 
 #include <stdio.h>
