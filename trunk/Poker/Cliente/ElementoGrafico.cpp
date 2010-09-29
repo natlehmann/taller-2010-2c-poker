@@ -8,7 +8,9 @@ ElementoGrafico::ElementoGrafico(void) {
 }
 
 ElementoGrafico::~ElementoGrafico(void){
-	SDL_FreeSurface(this->superficie); 
+	if (this->superficie != NULL) {
+		SDL_FreeSurface(this->superficie); 
+	}
 	delete (this->offset);
 }
 

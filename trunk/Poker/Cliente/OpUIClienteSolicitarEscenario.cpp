@@ -9,6 +9,8 @@
 #include "RecursosAplicacion.h"
 #include "Respuesta.h"
 #include "Mesa.h"
+#include "Jugador.h"
+#include "Imagen.h"
 
 OpUIClienteSolicitarEscenario::OpUIClienteSolicitarEscenario(void) : OperacionUICliente(){
 }
@@ -46,8 +48,13 @@ void OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 		Mesa* mesa = new Mesa();
 		mesa->setAlto(ventana->getAlto());
 		mesa->setAncho(ventana->getAncho());
-		mesa->setFondo("..\\Cliente\\recursos\\imagenes\\mesa640x480.bmp");
+		mesa->setFondo("..\\Cliente\\recursos\\imagenes\\mesa600x800.bmp");
 		ventana->agregarElementoGrafico(mesa);
+		Jugador* jugador = new Jugador();
+		jugador->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador1.bmp"));
+		jugador->setPosicion(1);
+		ventana->agregarElementoGrafico(jugador);
+
 
 		delete (arbolEscenario);
 
