@@ -2,6 +2,8 @@
 #include "ServiciosGraficos.h"
 #include "UIException.h"
 #include "MensajesUtil.h"
+#include "Color.h"
+#include "ImagenRecortada.h"
 
 Jugador::Jugador(void) {
 	this->imagen = NULL;
@@ -22,12 +24,37 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 		throw UIException("No se puede dibujar al jugador porque no se ha seteado su posicion.","E");
 	}
 
+	// TODO: Ver SI HABILITAMOS UNA IMAGEN DEFAULT EN CASO DE NO TENER NINGUNA
 	if (this->imagen != NULL) {
-		this->imagen->dibujar(superficie);
-		SDL_Rect* offset = this->imagen->getOffsetRect();
-		offset->w = this->imagen->getAncho();
-		offset->h = this->imagen->getAlto();
-		ServiciosGraficos::dibujarElipse(superficie, offset, 255,0,0);  // TODO: DEFINIR COLOR
+
+		// se procesa la foto del jugador en una superficie
+		SDL_Surface* supImagen = ServiciosGraficos::crearSuperficie(
+			this->imagen->getAncho(), this->imagen->getAlto());
+		this->imagen->dibujarSobreSup(supImagen, this->imagen->getContornoRect());
+
+		// se crea una superficie de igual tamaño y se pinta como la mascara
+		ImagenRecortada* supCirculo = new ImagenRecortada(
+			this->imagen->getAncho(), this->imagen->getAlto());
+
+		// se dibuja el circulo sobre esa superficie
+		SDL_Rect* offset = this->imagen->getContornoRect();	
+
+		Color colorCirculo(255,0,0);		// TODO: DEFINIR COLOR
+		ServiciosGraficos::dibujarElipse(
+			supCirculo->getSuperficie(), offset, &colorCirculo); 
+
+		// se funde la imagen de la foto y la del circulo
+		ServiciosGraficos::copiarDentro(supImagen, supCirculo->getSuperficie(), &colorCirculo);
+
+
+		// se dibuja el circulo con la foto dentro sobre la superficie recibida
+		supCirculo->setPosX(this->imagen->getPosX());
+		supCirculo->setPosY(this->imagen->getPosY());
+		supCirculo->dibujar(superficie);
+
+		delete(supCirculo);
+		SDL_FreeSurface(supImagen);
+		delete(supImagen);
 	}
 
 	// TODO: FALTA DIBUJAR ETIQUETA, CARTAS Y FICHAS
