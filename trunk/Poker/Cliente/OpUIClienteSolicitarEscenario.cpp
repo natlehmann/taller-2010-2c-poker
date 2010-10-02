@@ -11,6 +11,7 @@
 #include "Mesa.h"
 #include "Jugador.h"
 #include "Imagen.h"
+#include "FabricaDeElementosGraficos.h"
 
 OpUIClienteSolicitarEscenario::OpUIClienteSolicitarEscenario(void) : OperacionUICliente(){
 }
@@ -42,19 +43,19 @@ void OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 		// TODO: PASAR EL MENSAJE POR LA FABRICA DE ESCENARIO PARA QUE CONFIGURE LA VENTANA
 		// ej: 
 		// FabricaEscenario::generar(arbolEscenario, ventana);
-
+		FabricaDeElementosGraficos::generarEscenario(arbolEscenario, ventana);
 
 		// TODO: ELIMINAR ESTO (ES EJEMPLO, SE DEBERIA INSTANCIAR EN LA FABRICA)
-		Mesa* mesa = new Mesa();
-		mesa->setAlto(ventana->getAlto());
-		mesa->setAncho(ventana->getAncho());
-		mesa->setFondo("..\\Cliente\\recursos\\imagenes\\mesa600x800.bmp");
-		ventana->agregarElementoGrafico(mesa);
-		Jugador* jugador = new Jugador();
-		jugador->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador1.bmp"));
-		jugador->setPosicion(1);
-		ventana->agregarElementoGrafico(jugador);
-		Jugador* jugador2 = new Jugador();
+		//Mesa* mesa = new Mesa();
+		//mesa->setAlto(ventana->getAlto());
+		//mesa->setAncho(ventana->getAncho());
+		//mesa->setFondo("..\\Cliente\\recursos\\imagenes\\mesa600x800.bmp");
+		//ventana->agregarElementoGrafico(mesa);
+		//Jugador* jugador = new Jugador();
+		//jugador->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador1.bmp"));
+		//jugador->setPosicion(1);
+		//ventana->agregarElementoGrafico(jugador);
+		/*Jugador* jugador2 = new Jugador();
 		jugador2->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador2.bmp"));
 		jugador2->setPosicion(2);
 		ventana->agregarElementoGrafico(jugador2);
@@ -73,9 +74,8 @@ void OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 		Jugador* jugador6 = new Jugador();
 		jugador6->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador2.bmp"));
 		jugador6->setPosicion(6);
-		ventana->agregarElementoGrafico(jugador6);
+		ventana->agregarElementoGrafico(jugador6);*/
 		// HASTA ACA
-
 
 		delete (arbolEscenario);
 
