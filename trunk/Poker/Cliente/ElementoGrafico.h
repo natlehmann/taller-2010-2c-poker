@@ -54,9 +54,9 @@ public:
 	int getPosY();
 	void setPosY(int posY);
 	int getAncho();
-	void setAncho(int ancho);
+	virtual void setAncho(int ancho);
 	int getAlto();
-	void setAlto(int alto);
+	virtual void setAlto(int alto);
 };
 
 #endif //_ELEMENTOGRAFICO_H__
