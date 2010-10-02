@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string.h>
 
+#include "Color.h"
+
 #define CELDAS_HORIZ	6
 #define CELDAS_VERT		3
 
@@ -19,10 +21,18 @@ private:
 	static int bordeIzquierdo;
 	static int bordeDerecho;
 
+	static void lock(SDL_Surface* superficie);
+	static void unlock(SDL_Surface* superficie);
+
 	/**
-	* Este metodo requiere que previamente se bloquee la pantalla
+	* Estos metodos requieren que previamente se bloquee la pantalla
 	*/
 	static void putPixel(SDL_Surface* superficie, int x, int y, Uint32 pixel);
+	static Uint32 getPixel(SDL_Surface* surface, int x, int y);
+	static int findFirstPorLinea(SDL_Surface* superficie, 
+		int xDesde, int xHasta, int linea, Uint32 pixel);
+
+	
 
 public:
 	ServiciosGraficos(void);
@@ -34,11 +44,26 @@ public:
 	* se evaluaran para fijar el tamaño de la elipse.
 	*/
 	static void dibujarElipse(SDL_Surface* superficie, 
-		SDL_Rect* offset, Uint8 red, Uint8 green, Uint8 blue);
+		SDL_Rect* offset, Color* color);
 
 	static const SDL_VideoInfo* getVideoInfo();
 
 	static SDL_Surface* crearSuperficie(int ancho, int alto);
+
+	/**
+	* Copia origen a destino en la posicion indicada por offsetDestino,
+	* para todos los pixels que sean distintos de colorMascara.
+	*/
+	static void merge(SDL_Surface* origen, SDL_Surface* destino, 
+		SDL_Rect* offsetDestino, Uint32 colorMascara);
+
+	/**
+	* Copia origen a la superficie destino, en todos los pixels que encuentren
+	* contenidos entre dos pixels de colorFigura.
+	* Origen y destino deben ser del mismo tamaño.
+	*/
+	static void copiarDentro(SDL_Surface* origen, 
+		SDL_Surface* destino, Color* colorFigura);
 
 	static int getTamanioCeldaHoriz();
 	static int getTamanioCeldaVert();
