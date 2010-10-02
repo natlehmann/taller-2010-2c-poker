@@ -24,16 +24,25 @@ ServiciosGraficos::~ServiciosGraficos(void)
 {
 }
 
-void ServiciosGraficos::dibujarElipse(SDL_Surface* superficie, 
-			SDL_Rect* offset, Uint8 red, Uint8 green, Uint8 blue){
-
-	Uint32 color = SDL_MapRGB(superficie->format, red, green, blue);
-
+void ServiciosGraficos::lock(SDL_Surface* superficie) {
 	if ( SDL_MUSTLOCK(superficie) ) {
 		if ( SDL_LockSurface(superficie) < 0 ) {
 			throw UIException("No se pudo bloquear la pantalla para dibujo", "E");
 		}
 	}
+}
+
+void ServiciosGraficos::unlock(SDL_Surface* superficie) {
+	if ( SDL_MUSTLOCK(superficie) ){
+		SDL_UnlockSurface(superficie);
+	}
+}
+
+
+void ServiciosGraficos::dibujarElipse(SDL_Surface* superficie, 
+			SDL_Rect* offset, Color* color){
+
+	lock(superficie);
 
 	int radioX = offset->w / 2;
 	int radioY = offset->h / 2;
@@ -47,18 +56,114 @@ void ServiciosGraficos::dibujarElipse(SDL_Surface* superficie,
 		int coordX = (int)(radioX * cos((double)(M_PI * angulo / 180))) + xMedio;
 		int coordY = yMedio - (int)(radioY * sin((double)(M_PI * angulo / 180)));
 
-		ServiciosGraficos::putPixel(superficie, coordX, coordY, color);
+		ServiciosGraficos::putPixel(superficie, coordX, coordY, color->toUint32(superficie));
 
 		// se calcula la coordY para la mitad inferior de la elipse
 		coordY = offset->y + offset->h - (coordY - offset->y);
-		ServiciosGraficos::putPixel(superficie, coordX, coordY, color);
+		ServiciosGraficos::putPixel(superficie, coordX, coordY, color->toUint32(superficie));
 
 		angulo++;
 	}
 
-	if ( SDL_MUSTLOCK(superficie) ){
-		SDL_UnlockSurface(superficie);
+	unlock(superficie);
+}
+
+void ServiciosGraficos::merge(SDL_Surface* origen, SDL_Surface* destino, 
+	SDL_Rect* offsetDestino, Uint32 colorMascara){
+
+	   lock(origen);
+	   lock(destino);
+
+	   for (int y = 0; y < origen->h; y++) {
+
+		   for (int x = 0; x < origen->w; x++) {
+
+			   Uint32 pixel = ServiciosGraficos::getPixel(origen, x, y);
+			   if (pixel != colorMascara) {
+
+				   ServiciosGraficos::putPixel(destino, x + offsetDestino->x, 
+					   y + offsetDestino->y, pixel);
+			   }
+		   }
+	   }
+
+	   unlock(origen);
+	   unlock(destino);
+}
+
+void ServiciosGraficos::copiarDentro(SDL_Surface* origen, 
+									 SDL_Surface* destino, Color* colorFigura){
+
+	 lock(origen);
+	 lock(destino);
+
+	 int linea = 0;
+
+	 Uint32 pixelLimite = colorFigura->toUint32(destino);
+
+	 while (linea < destino->h) {
+
+		 int inicio = ServiciosGraficos::findFirstPorLinea(
+			 destino, 0, destino->w, linea, pixelLimite);
+
+		 while (inicio >= 0 && inicio < destino->w) {
+
+			 Uint32 pixelInicio = ServiciosGraficos::getPixel(destino, inicio, linea);
+			 // avanzo todos los pixels del color
+			 while(inicio < destino->w && pixelInicio == pixelLimite) {
+				 inicio++;
+				 pixelInicio = ServiciosGraficos::getPixel(destino, inicio, linea);
+			 }
+
+			 if (inicio < destino->w) {
+
+				 int fin = ServiciosGraficos::findFirstPorLinea(
+					 destino, inicio, destino->w, linea, pixelLimite);
+
+				 if (fin > 0) {
+
+					 //copiar pixels de origen a destino entre inicio y fin
+					 for (int x = inicio; x < fin; x++) {
+						 ServiciosGraficos::putPixel(destino, x, linea, 
+							 ServiciosGraficos::getPixel(origen, x, linea));
+					 }
+
+					 inicio = fin;
+				 
+				 } else {
+					 // si no encontre caracter de fin, salgo
+					 inicio = destino->w;
+				 }
+			 }
+		 }
+
+		 linea++;
+	 }
+
+	 unlock(origen);
+	 unlock(destino);
+}
+
+/**
+* Busca un pixel dentro de una linea de una superficie y devuelve la posicion del primer
+* match, si es que existe. Si no, devuelve -1.
+* Busca desde xDesde inclusive hasta xHasta exclusive.
+*/
+int ServiciosGraficos::findFirstPorLinea(SDL_Surface* superficie, 
+			int xDesde, int xHasta, int linea, Uint32 pixel){
+
+	int posX = -1;
+	int x = xDesde;
+
+	while (x < xHasta && posX == -1) {
+		Uint32 pixelEnc = ServiciosGraficos::getPixel(superficie, x, linea);
+		if (pixelEnc == pixel) {
+			posX = x;
+		}
+		x++;
 	}
+
+	return posX;
 }
 
 const SDL_VideoInfo* ServiciosGraficos::getVideoInfo() {
@@ -106,6 +211,34 @@ void ServiciosGraficos::putPixel(SDL_Surface* superficie, int x, int y, Uint32 p
 		*(Uint32 *)p = pixel;
 		break;
 	}
+}
+
+
+Uint32 ServiciosGraficos::getPixel(SDL_Surface* surface, int x, int y)
+{
+    int bpp = surface->format->BytesPerPixel;
+
+    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+
+    switch(bpp) {
+    case 1:
+        return *p;
+
+    case 2:
+        return *(Uint16 *)p;
+
+    case 3:
+        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+            return p[0] << 16 | p[1] << 8 | p[2];
+        else
+            return p[0] | p[1] << 8 | p[2] << 16;
+
+    case 4:
+        return *(Uint32 *)p;
+
+    default:
+        return 0;
+    }
 }
 
 int ServiciosGraficos::getTamanioCeldaHoriz() {
