@@ -12,6 +12,7 @@
 
 class Mesa : public ElementoGrafico {
 private:
+	string id;
 	Imagen* imagen;
 
 protected:
@@ -20,6 +21,9 @@ protected:
 public:
 	Mesa(void);
 	virtual ~Mesa(void);
+
+	string getId();
+	void setId(string id);
 
 	void setFondo(string nombreImagen);
 };
