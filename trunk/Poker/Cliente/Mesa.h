@@ -14,13 +14,12 @@ class Mesa : public ElementoGrafico {
 private:
 	Imagen* imagen;
 
+protected:
+	virtual void dibujarSobreSup(SDL_Surface* superficie);
+
 public:
 	Mesa(void);
 	virtual ~Mesa(void);
-
-	virtual void dibujar();
-
-	virtual SDL_Surface* getSuperficie();
 
 	void setFondo(string nombreImagen);
 };

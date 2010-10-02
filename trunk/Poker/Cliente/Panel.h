@@ -13,11 +13,12 @@ using namespace std;
 
 class Panel : public Contenedor
 {
+protected:
+	virtual void dibujarSobreSup(SDL_Surface* superficie);
+
 public:
 	Panel(void);
 	virtual ~Panel(void);
-
-	virtual void dibujar();
 };
 
 #endif //_PANEL_H__

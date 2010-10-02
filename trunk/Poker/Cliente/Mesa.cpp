@@ -1,4 +1,5 @@
 #include "Mesa.h"
+#include "ServiciosGraficos.h"
 
 Mesa::Mesa(void) {
 	this->imagen = NULL;
@@ -10,8 +11,9 @@ Mesa::~Mesa(void) {
 	}
 }
 
-void Mesa::dibujar(){
-	this->imagen->dibujar();
+void Mesa::dibujarSobreSup(SDL_Surface* superficie){
+
+	this->imagen->dibujar(superficie);
 }
 
 void Mesa::setFondo(string nombreImagen){
@@ -23,12 +25,4 @@ void Mesa::setFondo(string nombreImagen){
 	this->imagen = new Imagen(nombreImagen);
 	this->imagen->setAlto(this->getAlto());
 	this->imagen->setAncho(this->getAncho());
-}
-
-SDL_Surface* Mesa::getSuperficie() {
-	if (this->imagen != NULL) {
-		return this->imagen->getSuperficie();
-	} else {
-		return this->superficie;
-	}
 }

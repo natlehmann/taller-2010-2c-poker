@@ -17,11 +17,12 @@ class Ventana : public Contenedor {
 private:
 	SDL_Surface* pantalla;
 
+protected:
+	virtual void dibujarSobreSup(SDL_Surface* superficie);
+
 public:
 	Ventana(void);
 	virtual ~Ventana(void);
-
-	virtual void dibujar();
 };
 
 #endif //_VENTANA_H__

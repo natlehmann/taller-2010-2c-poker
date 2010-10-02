@@ -16,29 +16,18 @@ Jugador::~Jugador(void) {
 	}
 }
 
-void Jugador::dibujar(){
+void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->posicion < 1) {
 		throw UIException("No se puede dibujar al jugador porque no se ha seteado su posicion.","E");
 	}
 
-	if (this->superficie != NULL) {
-		SDL_FreeSurface(this->superficie);
-		delete(this->superficie);
-	}
-
-	this->superficie = SDL_CreateRGBSurface (SDL_SWSURFACE, 
-		this->getAncho(), this->getAlto(),
-		ServiciosGraficos::getVideoInfo()->vfmt->BitsPerPixel, 
-        ServiciosGraficos::getVideoInfo()->vfmt->Rmask, 
-		ServiciosGraficos::getVideoInfo()->vfmt->Gmask,
-        ServiciosGraficos::getVideoInfo()->vfmt->Bmask, 
-		ServiciosGraficos::getVideoInfo()->vfmt->Amask);
-
 	if (this->imagen != NULL) {
-		this->imagen->dibujar();
+		this->imagen->dibujar(superficie);
 		SDL_Rect* offset = this->imagen->getOffsetRect();
-		ServiciosGraficos::dibujarElipse(this->getSuperficie(), offset, 255,0,0);  // TODO: DEFINIR COLOR
+		offset->w = this->imagen->getAncho();
+		offset->h = this->imagen->getAlto();
+		ServiciosGraficos::dibujarElipse(superficie, offset, 255,0,0);  // TODO: DEFINIR COLOR
 	}
 
 	// TODO: FALTA DIBUJAR ETIQUETA, CARTAS Y FICHAS
@@ -70,42 +59,42 @@ void Jugador::setPosicion(int posicion) {
 
 	switch(posicion) {
 		case 1:
-			this->posX = ServiciosGraficos::getTamanioCeldaHoriz();
-			this->posY = 0;
+			this->posX = ServiciosGraficos::getBordeIzquierdo() + ServiciosGraficos::getTamanioCeldaHoriz();
+			this->posY = ServiciosGraficos::getBordeSuperior();
 			this->setearDisposicionAIzq();
 			break;
 
 		case 2:
-			this->posX = ServiciosGraficos::getAnchoVentana() 
+			this->posX = ServiciosGraficos::getAnchoVentana() - ServiciosGraficos::getBordeDerecho()
 							- ServiciosGraficos::getTamanioCeldaHoriz() * 2;
-			this->posY = 0;
+			this->posY = ServiciosGraficos::getBordeSuperior();
 			this->setearDisposicionADer();
 			break;
 
 		case 3:
-			this->posX = 0;
-			this->posY = ServiciosGraficos::getTamanioCeldaVert();
+			this->posX = ServiciosGraficos::getBordeIzquierdo();
+			this->posY = ServiciosGraficos::getTamanioCeldaVert() + ServiciosGraficos::getBordeSuperior();
 			this->setearDisposicionAIzq();
 			break;
 
 		case 4:
-			this->posX = ServiciosGraficos::getAnchoVentana() 
+			this->posX = ServiciosGraficos::getAnchoVentana() - ServiciosGraficos::getBordeDerecho()
 							- ServiciosGraficos::getTamanioCeldaHoriz();
-			this->posY = ServiciosGraficos::getTamanioCeldaVert();
+			this->posY = ServiciosGraficos::getTamanioCeldaVert() + ServiciosGraficos::getBordeSuperior();
 			this->setearDisposicionADer();
 			break;
 
 		case 5:
-			this->posX = ServiciosGraficos::getTamanioCeldaHoriz();
-			this->posY = ServiciosGraficos::getAltoVentana() 
+			this->posX = ServiciosGraficos::getTamanioCeldaHoriz() + ServiciosGraficos::getBordeIzquierdo();
+			this->posY =ServiciosGraficos::getAltoVentana() - ServiciosGraficos::getBordeInferior()
 							- ServiciosGraficos::getTamanioCeldaVert();
 			this->setearDisposicionAIzq();
 			break;
 
 		case 6:
-			this->posX = ServiciosGraficos::getAnchoVentana() 
+			this->posX = ServiciosGraficos::getAnchoVentana() - ServiciosGraficos::getBordeDerecho()
 							- ServiciosGraficos::getTamanioCeldaHoriz() * 2;
-			this->posY = ServiciosGraficos::getAltoVentana() 
+			this->posY = ServiciosGraficos::getAltoVentana() - ServiciosGraficos::getBordeInferior()
 							- ServiciosGraficos::getTamanioCeldaVert();
 			this->setearDisposicionADer();
 			break;
@@ -118,10 +107,10 @@ void Jugador::setPosicion(int posicion) {
 
 void Jugador::setearDisposicionAIzq(){
 	SDL_Rect* rectFoto = this->calcularRectFoto();
-	this->imagen->setPosX(0);
-	this->imagen->setPosY(0);
+	this->imagen->setPosX(this->getPosX());
+	this->imagen->setPosY(this->getPosY());
 
-	// TODO: HABILITAR ESTO
+	// TODO: HABILITAR ESTO, REVISAR SIGNOS Y HACER QUE TODOS LOS VALORES SEAN RELATIVOS A LA VENTANA TOTAL
 
 	//this->etiqueta->setPosX(0);
 	//this->etiqueta->setPosY(rectFoto->h);
@@ -141,10 +130,10 @@ void Jugador::setearDisposicionAIzq(){
 
 void Jugador::setearDisposicionADer(){
 	SDL_Rect* rectFoto = this->calcularRectFoto();
-	this->imagen->setPosX(this->getAncho() - rectFoto->w);
-	this->imagen->setPosY(0);
+	this->imagen->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
+	this->imagen->setPosY(this->getPosY());
 
-	// TODO: HABILITAR ESTO
+	// TODO: HABILITAR ESTO, REVISAR SIGNOS Y HACER QUE TODOS LOS VALORES SEAN RELATIVOS A LA VENTANA TOTAL
 
 	//this->etiqueta->setPosX(this->getAncho() - rectFoto->w);
 	//this->etiqueta->setPosY(rectFoto->h);
@@ -175,7 +164,7 @@ SDL_Rect* Jugador::calcularRectFoto(){
 	this->imagen->setAlto(menor);
 	this->imagen->setAncho(menor);
 
-	return this->imagen->getOffsetRect();
+	return this->imagen->getContornoRect();
 }
 
 Imagen* Jugador::getImagen() {
