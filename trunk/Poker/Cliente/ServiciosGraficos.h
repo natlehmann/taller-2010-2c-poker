@@ -14,6 +14,11 @@ class ServiciosGraficos {
 private:
 	static const SDL_VideoInfo* videoInfo;
 
+	static int bordeSuperior;
+	static int bordeInferior;
+	static int bordeIzquierdo;
+	static int bordeDerecho;
+
 	/**
 	* Este metodo requiere que previamente se bloquee la pantalla
 	*/
@@ -33,11 +38,18 @@ public:
 
 	static const SDL_VideoInfo* getVideoInfo();
 
+	static SDL_Surface* crearSuperficie(int ancho, int alto);
+
 	static int getTamanioCeldaHoriz();
 	static int getTamanioCeldaVert();
 
 	static int getAnchoVentana();
 	static int getAltoVentana();
+
+	static int getBordeSuperior();
+	static int getBordeInferior();
+	static int getBordeDerecho();
+	static int getBordeIzquierdo();
 };
 
 #endif //_SERVICIOSGRAFICOS_H__
