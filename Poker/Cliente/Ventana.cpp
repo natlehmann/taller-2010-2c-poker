@@ -41,14 +41,16 @@ Ventana::~Ventana(void)
 {
 }
 
-void Ventana::dibujar(){
+void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 
 	for (list<ElementoGrafico*>::iterator it = this->elementos.begin();
 		it != this->elementos.end(); it++) {
-			(*it)->dibujar();
 
-			SDL_BlitSurface((*it)->getSuperficie(), (*it)->getOffsetRect(), 
-				this->pantalla, this->getOffsetRect()); 
+			(*it)->dibujar(this->pantalla);
+
+			// ESTO TIENE QUE ESTAR EN CADA UNO DE LOS ELEMENTOS GRAFICOS
+			//SDL_BlitSurface((*it)->getSuperficie(), (*it)->getOffsetRect(), 
+			//	this->pantalla, this->getOffsetRect()); 
 	}
 
 	if(SDL_Flip(this->pantalla) == -1) { 

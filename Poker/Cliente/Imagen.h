@@ -14,11 +14,12 @@ private:
 	string nombre;
 	long tamanio;
 
+protected:
+	virtual void dibujarSobreSup(SDL_Surface* superficie);
+
 public:
 	Imagen(string nombre);
 	virtual ~Imagen(void);
-
-	virtual void dibujar();
 
 	string getNombre();
 

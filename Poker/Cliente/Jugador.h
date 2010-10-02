@@ -24,11 +24,12 @@ private:
 	void setearDisposicionADer();
 	SDL_Rect* calcularRectFoto();
 
+protected:
+	virtual void dibujarSobreSup(SDL_Surface* superficie);
+
 public:
 	Jugador(void);
 	virtual ~Jugador(void);
-
-	virtual void dibujar();
 
 	int getId();
 	void setId(int id);
