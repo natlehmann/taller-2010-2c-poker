@@ -54,6 +54,27 @@ void OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 		jugador->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador1.bmp"));
 		jugador->setPosicion(1);
 		ventana->agregarElementoGrafico(jugador);
+		Jugador* jugador2 = new Jugador();
+		jugador2->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador2.bmp"));
+		jugador2->setPosicion(2);
+		ventana->agregarElementoGrafico(jugador2);
+		Jugador* jugador3 = new Jugador();
+		jugador3->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador3.bmp"));
+		jugador3->setPosicion(3);
+		ventana->agregarElementoGrafico(jugador3);
+		Jugador* jugador4 = new Jugador();
+		jugador4->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador4.bmp"));
+		jugador4->setPosicion(4);
+		ventana->agregarElementoGrafico(jugador4);
+		Jugador* jugador5 = new Jugador();
+		jugador5->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador1.bmp"));
+		jugador5->setPosicion(5);
+		ventana->agregarElementoGrafico(jugador5);
+		Jugador* jugador6 = new Jugador();
+		jugador6->setImagen(new Imagen("..\\Servidor\\recursos\\imagenes\\jugador2.bmp"));
+		jugador6->setPosicion(6);
+		ventana->agregarElementoGrafico(jugador6);
+		// HASTA ACA
 
 
 		delete (arbolEscenario);
