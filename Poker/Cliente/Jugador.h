@@ -11,11 +11,13 @@
 #include "Imagen.h"
 #include "Carta.h"
 #include "Fichas.h"
+#include "Etiqueta.h"
 
 #define ALTO_MIN_ETIQUETA	0.25
 #define ANCHO_MIN_CARTAS	0.3
 #define SEPARACION_ENTRE_CARTAS	 1
 #define SEPARACION_CARTAS_FICHAS 5
+#define ALTO_MAXIMO_ETIQ_NOMBRE  30
 
 class Jugador : public ElementoGrafico {
 private:
@@ -26,6 +28,7 @@ private:
 	Carta* carta1;
 	Carta* carta2;
 	Fichas* fichas;
+	Etiqueta* etiquetaNombre;
 
 	void setearDisposicionAIzq();
 	void setearDisposicionADer();
