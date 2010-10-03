@@ -1,9 +1,26 @@
 #include "Color.h"
+#include "MensajesUtil.h"
+#include "UtilTiposDatos.h"
+#include "UIException.h"
+#include <list>
 
 Color::Color(Uint8 red, Uint8 green, Uint8 blue) {
 	this->red = red;
 	this->green = green;
 	this->blue = blue;
+}
+
+Color::Color(string redgreenblue){
+	list<string> colores = MensajesUtil::split(redgreenblue);
+	if (colores.size() != 3) {
+		throw UIException("Argumentos invalidos al construir un color.","E");
+	}
+	list<string>::iterator it = colores.begin();
+	this->red = UtilTiposDatos::getEntero(*it);
+	it++;
+	this->green = UtilTiposDatos::getEntero(*it);
+	it++;
+	this->blue = UtilTiposDatos::getEntero(*it);
 }
 
 Color::~Color(void)
