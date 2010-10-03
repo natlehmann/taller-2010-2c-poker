@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string.h>
 
+using namespace std;
+
 class Color {
 private:
 	Uint8 red;
@@ -15,6 +17,14 @@ private:
 
 public:
 	Color(Uint8 red, Uint8 green, Uint8 blue);
+
+	/**
+	* Recibe un string con el siguiente formato: RRR,GGG,BBB
+	* donde RRR representa el valor del color rojo (de 0 a 255),
+	* GGG el del color verde y BBB el del color azul
+	*/
+	Color(string redgreenblue);
+
 	virtual ~Color(void);
 
 	void setRed(Uint8 red);
