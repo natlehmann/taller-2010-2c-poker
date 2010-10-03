@@ -179,6 +179,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Bote.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Carta.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Cliente.cpp"
 				>
 			</File>
@@ -216,6 +224,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Error.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FabricaDeElementosGraficos.cpp"
 				>
 			</File>
 			<File
@@ -381,6 +393,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Bote.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Carta.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Cliente.h"
 				>
 			</File>
@@ -418,6 +438,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Error.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FabricaDeElementosGraficos.h"
 				>
 			</File>
 			<File
