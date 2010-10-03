@@ -13,6 +13,7 @@ Jugador::Jugador(void) {
 	this->posicion = -1;
 	this->carta1 = NULL;
 	this->carta2 = NULL;
+	this->etiquetaNombre = new Etiqueta();
 }
 
 Jugador::~Jugador(void) {
@@ -27,6 +28,9 @@ Jugador::~Jugador(void) {
 	}
 	if (this->fichas != NULL) {
 		delete (this->fichas);
+	}
+	if (this->etiquetaNombre != NULL) {
+		delete (this->etiquetaNombre);
 	}
 }
 
@@ -48,7 +52,7 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 		this->fichas->dibujar(superficie);
 	}
 
-	// TODO: FALTA DIBUJAR ETIQUETA
+	this->etiquetaNombre->dibujar(superficie);
 
 }
 
@@ -99,6 +103,7 @@ string Jugador::getNombre() {
 
 void Jugador::setNombre(string nombre){
 	this->nombre = nombre;
+	this->etiquetaNombre->setMensaje(nombre);
 }
 
 int Jugador::getPosicion() {
@@ -161,12 +166,15 @@ void Jugador::setearDisposicionAIzq(){
 	this->imagen->setPosX(this->getPosX());
 	this->imagen->setPosY(this->getPosY());
 
-	// TODO: HABILITAR ESTO, REVISAR SIGNOS Y HACER QUE TODOS LOS VALORES SEAN RELATIVOS A LA VENTANA TOTAL
+	this->etiquetaNombre->setPosX(this->getPosX());
+	this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
+	this->etiquetaNombre->setAncho(rectFoto->w);
+	if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQ_NOMBRE) {
+		this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
 
-	//this->etiqueta->setPosX(0);
-	//this->etiqueta->setPosY(rectFoto->h);
-	//this->etiqueta->setAncho(rectFoto->w);
-	//this->etiqueta->setAlto(this->getAlto() - rectFoto->h);
+	} else {
+		this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQ_NOMBRE);
+	}
 
 	int anchoCarta = (int)((this->getAncho() - rectFoto->w - SEPARACION_ENTRE_CARTAS * 2) / 2);
 	this->carta1->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
@@ -192,12 +200,15 @@ void Jugador::setearDisposicionADer(){
 	this->imagen->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
 	this->imagen->setPosY(this->getPosY());
 
-	// TODO: HABILITAR ESTO, REVISAR SIGNOS Y HACER QUE TODOS LOS VALORES SEAN RELATIVOS A LA VENTANA TOTAL
+	this->etiquetaNombre->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
+	this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
+	this->etiquetaNombre->setAncho(rectFoto->w);
+	if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQ_NOMBRE) {
+		this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
 
-	//this->etiqueta->setPosX(this->getAncho() - rectFoto->w);
-	//this->etiqueta->setPosY(rectFoto->h);
-	//this->etiqueta->setAncho(rectFoto->w);
-	//this->etiqueta->setAlto(this->getAlto() - rectFoto->h);
+	} else {
+		this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQ_NOMBRE);
+	}
 
 	int anchoCarta = (int)((this->getAncho() - rectFoto->w - SEPARACION_ENTRE_CARTAS * 2) / 2);
 	this->carta1->setPosX(this->getPosX());
