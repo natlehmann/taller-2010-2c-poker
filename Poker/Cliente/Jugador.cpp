@@ -10,11 +10,19 @@ Jugador::Jugador(void) {
 	this->setAncho(ServiciosGraficos::getTamanioCeldaHoriz());
 	this->setAlto(ServiciosGraficos::getTamanioCeldaVert());
 	this->posicion = -1;
+	this->carta1 = NULL;
+	this->carta2 = NULL;
 }
 
 Jugador::~Jugador(void) {
 	if (this->imagen != NULL) {
 		delete(this->imagen);
+	}
+	if (this->carta1 != NULL) {
+		delete (this->carta1);
+	}
+	if (this->carta2 != NULL) {
+		delete (this->carta2);
 	}
 }
 
@@ -26,39 +34,46 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 
 	// TODO: Ver SI HABILITAMOS UNA IMAGEN DEFAULT EN CASO DE NO TENER NINGUNA
 	if (this->imagen != NULL) {
-
-		// se procesa la foto del jugador en una superficie
-		SDL_Surface* supImagen = ServiciosGraficos::crearSuperficie(
-			this->imagen->getAncho(), this->imagen->getAlto());
-		this->imagen->dibujarSobreSup(supImagen, this->imagen->getContornoRect());
-
-		// se crea una superficie de igual tamaño y se pinta como la mascara
-		ImagenRecortada* supCirculo = new ImagenRecortada(
-			this->imagen->getAncho(), this->imagen->getAlto());
-
-		// se dibuja el circulo sobre esa superficie
-		SDL_Rect* offset = this->imagen->getContornoRect();	
-
-		Color colorCirculo(255,0,0);		// TODO: DEFINIR COLOR
-		ServiciosGraficos::dibujarElipse(
-			supCirculo->getSuperficie(), offset, &colorCirculo); 
-
-		// se funde la imagen de la foto y la del circulo
-		ServiciosGraficos::copiarDentro(supImagen, supCirculo->getSuperficie(), &colorCirculo);
-
-
-		// se dibuja el circulo con la foto dentro sobre la superficie recibida
-		supCirculo->setPosX(this->imagen->getPosX());
-		supCirculo->setPosY(this->imagen->getPosY());
-		supCirculo->dibujar(superficie);
-
-		delete(supCirculo);
-		SDL_FreeSurface(supImagen);
-		delete(supImagen);
+		this->dibujarJugador(superficie);
 	}
+
+	this->carta1->dibujar(superficie);
+	this->carta2->dibujar(superficie);
 
 	// TODO: FALTA DIBUJAR ETIQUETA, CARTAS Y FICHAS
 
+}
+
+void Jugador::dibujarJugador(SDL_Surface* superficie) {
+
+	// se procesa la foto del jugador en una superficie
+	SDL_Surface* supImagen = ServiciosGraficos::crearSuperficie(
+		this->imagen->getAncho(), this->imagen->getAlto());
+	this->imagen->dibujarSobreSup(supImagen, this->imagen->getContornoRect());
+
+	// se crea una superficie de igual tamaño y se pinta como la mascara
+	ImagenRecortada* supCirculo = new ImagenRecortada(
+		this->imagen->getAncho(), this->imagen->getAlto());
+
+	// se dibuja el circulo sobre esa superficie
+	SDL_Rect* offset = this->imagen->getContornoRect();	
+
+	Color colorCirculo(255,0,0);		// TODO: DEFINIR COLOR
+	ServiciosGraficos::dibujarElipse(
+		supCirculo->getSuperficie(), offset, &colorCirculo); 
+
+	// se funde la imagen de la foto y la del circulo
+	ServiciosGraficos::copiarDentro(supImagen, supCirculo->getSuperficie(), &colorCirculo);
+
+
+	// se dibuja el circulo con la foto dentro sobre la superficie recibida
+	supCirculo->setPosX(this->imagen->getPosX());
+	supCirculo->setPosY(this->imagen->getPosY());
+	supCirculo->dibujar(superficie);
+
+	delete(supCirculo);
+	SDL_FreeSurface(supImagen);
+	delete(supImagen);
 }
 
 int Jugador::getId() {
@@ -144,10 +159,18 @@ void Jugador::setearDisposicionAIzq(){
 	//this->etiqueta->setAncho(rectFoto->w);
 	//this->etiqueta->setAlto(this->getAlto() - rectFoto->h);
 
-	//this->cartas->setPosX(rectFoto->w);
-	//this->cartas->setPosY(0);
-	//this->cartas->setAncho(this->getAncho() - rectFoto->w);
-	//this->cartas->setAlto(rectFoto->h / 2);
+	int anchoCarta = (int)((this->getAncho() - rectFoto->w - SEPARACION_ENTRE_CARTAS * 2) / 2);
+	this->carta1->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
+	this->carta2->setPosX(this->getPosX() + this->getAncho() - anchoCarta);
+
+	this->carta1->setPosY(this->getPosY());
+	this->carta2->setPosY(this->getPosY());
+
+	this->carta1->setAncho(anchoCarta);
+	this->carta2->setAncho(anchoCarta);
+
+	this->carta1->setAlto(rectFoto->h / 2);
+	this->carta2->setAlto(rectFoto->h / 2);
 
 	//this->fichas->setPosX(rectFoto->w);
 	//this->fichas->setPosY(rectFoto->h / 2);
@@ -167,10 +190,18 @@ void Jugador::setearDisposicionADer(){
 	//this->etiqueta->setAncho(rectFoto->w);
 	//this->etiqueta->setAlto(this->getAlto() - rectFoto->h);
 
-	//this->cartas->setPosX(0);
-	//this->cartas->setPosY(0);
-	//this->cartas->setAncho(this->getAncho() - rectFoto->w);
-	//this->cartas->setAlto(rectFoto->h / 2);
+	int anchoCarta = (int)((this->getAncho() - rectFoto->w - SEPARACION_ENTRE_CARTAS * 2) / 2);
+	this->carta1->setPosX(this->getPosX());
+	this->carta2->setPosX(this->getPosX() + anchoCarta + SEPARACION_ENTRE_CARTAS);
+
+	this->carta1->setPosY(this->getPosY());
+	this->carta2->setPosY(this->getPosY());
+
+	this->carta1->setAncho(anchoCarta);
+	this->carta2->setAncho(anchoCarta);
+
+	this->carta1->setAlto(rectFoto->h / 2);
+	this->carta2->setAlto(rectFoto->h / 2);
 
 	//this->fichas->setPosX(0);
 	//this->fichas->setPosY(rectFoto->h / 2);
@@ -203,4 +234,34 @@ void Jugador::setImagen(Imagen* imagen) {
 
 	// TODO: VER SI ACA SE CARGA LA IMAGEN
 	
+}
+
+void Jugador::setCarta1(Carta* carta){
+	this->carta1 = carta;
+}
+
+void Jugador::setCarta2(Carta* carta){
+	this->carta2 = carta;
+}
+
+Carta* Jugador::getCarta1() {
+	return this->carta1;
+}
+
+Carta* Jugador::getCarta2() {
+	return this->carta2;
+}
+
+void Jugador::setCarta(Carta* carta){
+	if (this->carta1 == NULL) {
+		this->setCarta1(carta);
+
+	} else {
+		if (this->carta2 == NULL) {
+			this->setCarta2(carta);
+
+		} else {
+			throw UIException("Un jugador no puede tener mas de dos cartas.","V");
+		}
+	}
 }
