@@ -227,11 +227,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Etiqueta.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\FabricaDeElementosGraficos.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\FabricaOperacionesCliente.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Fichas.cpp"
 				>
 			</File>
 			<File
@@ -441,11 +449,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Etiqueta.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FabricaDeElementosGraficos.h"
 				>
 			</File>
 			<File
 				RelativePath=".\FabricaOperacionesCliente.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Fichas.h"
 				>
 			</File>
 			<File
