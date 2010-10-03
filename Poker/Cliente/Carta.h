@@ -1,3 +1,12 @@
+#ifndef _CARTA_H__
+#define _CARTA_H__
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <string.h>
+
 #include "ElementoGrafico.h"
 #include "Imagen.h"
 
@@ -9,6 +18,8 @@ class Carta : public ElementoGrafico {
 		bool visible;
 
 		Imagen* imagen;
+
+		string getIdPalo();
 
 	public:
 		Carta(void);
@@ -24,3 +35,5 @@ class Carta : public ElementoGrafico {
 		void setVisible(bool visible);
 
 };
+
+#endif //_CARTA_H__
