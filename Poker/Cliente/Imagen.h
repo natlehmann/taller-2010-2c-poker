@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
+#include <windows.h>
 
 #include "ElementoGrafico.h"
 
@@ -13,6 +14,9 @@ class Imagen : public ElementoGrafico {
 private:
 	string nombre;
 	long tamanio;
+
+	SDL_Surface* cargarBMP();
+	char* invertirBMP(char *bitmapImage, BITMAPINFOHEADER bitmapInfoHeader);
 
 protected:
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
