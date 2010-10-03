@@ -1,9 +1,11 @@
 #include "Imagen.h"
 #include "UIException.h"
+#include "RecursosAplicacion.h"
 
 Imagen::Imagen(string nombre) {
 	// TODO: VER SI ACA VERIFICAMOS QUE LA IMAGEN EXISTA O SE LA PEDIMOS AL SERVIDOR
-	this->nombre = nombre;
+	this->nombre = RecursosAplicacion::getClienteConfigProperties()->get(
+		"cliente.configuracion.imagenes.path") + nombre;
 
 }
 
