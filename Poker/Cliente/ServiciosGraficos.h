@@ -9,7 +9,7 @@
 
 #include "Color.h"
 
-#define CELDAS_HORIZ	6
+#define CELDAS_HORIZ	5
 #define CELDAS_VERT		3
 
 class ServiciosGraficos {
