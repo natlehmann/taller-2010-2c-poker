@@ -39,10 +39,6 @@ void OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 
 	try {
 		DomTree* arbolEscenario = parser->toDom(msjRecibido, "escenario");
-
-		// TODO: PASAR EL MENSAJE POR LA FABRICA DE ESCENARIO PARA QUE CONFIGURE LA VENTANA
-		// ej: 
-		// FabricaEscenario::generar(arbolEscenario, ventana);
 		FabricaDeElementosGraficos::generarEscenario(arbolEscenario, ventana);
 
 		// TODO: ELIMINAR ESTO (ES EJEMPLO, SE DEBERIA INSTANCIAR EN LA FABRICA)
