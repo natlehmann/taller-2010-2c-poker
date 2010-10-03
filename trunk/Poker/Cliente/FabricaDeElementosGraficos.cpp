@@ -25,7 +25,7 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 					mesa->setId((*itElementosVentana)->getAtributo("id"));
 					mesa->setAlto(ventana->getAlto());
 					mesa->setAncho(ventana->getAncho());
-					mesa->setFondo("..\\Cliente\\recursos\\imagenes\\mesa640x480.bmp");
+					mesa->setFondo((*itElementosVentana)->getAtributo("fondo"));
 					ventana->agregarElementoGrafico(mesa);
 				}
 				else if (MensajesUtil::sonIguales(XML_JUGADORES, (*itElementosVentana)->getNombre()))
@@ -66,8 +66,9 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 		if (MensajesUtil::sonIguales(XML_IMAGEN, (*itElemento)->getNombre()))
 		{
 			// Se genera la IMAGEN y se la carga al JUGADOR
-			string pathImagen = "..\\Servidor\\recursos\\imagenes\\";
-		    imagen = new Imagen(pathImagen + (*itElemento)->getAtributo("nombre"));
+			//string pathImagen = "..\\Servidor\\recursos\\imagenes\\";
+		    //imagen = new Imagen(pathImagen + (*itElemento)->getAtributo("nombre"));
+			imagen = new Imagen((*itElemento)->getAtributo("nombre"));
 			imagen->setTamanio(UtilTiposDatos::getEntero((*itElemento)->getAtributo("tamanio")));
 			imagen->setAncho(UtilTiposDatos::getEntero((*itElemento)->getAtributo("ancho")));
 			imagen->setAlto(UtilTiposDatos::getEntero((*itElemento)->getAtributo("alto")));
@@ -89,7 +90,7 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 			for(list<Elemento*>::iterator itCarta = (*itElemento)->getHijos()->begin(); itCarta != (*itElemento)->getHijos()->end(); itCarta++) 
 			{
 				Carta* carta = generarCarta(itCarta);
-				//jugador->setCarta(carta);
+				jugador->setCarta(carta);
 			}
 		}
 	}

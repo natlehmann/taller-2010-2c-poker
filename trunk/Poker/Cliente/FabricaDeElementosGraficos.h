@@ -6,6 +6,7 @@
 #include "Carta.h"
 #include "Bote.h"
 #include "UtilTiposDatos.h"
+#include "ParserException.h"
 
 #define XML_MESA "mesa"
 #define XML_JUGADORES "jugadores"
