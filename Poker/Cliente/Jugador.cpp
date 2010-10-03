@@ -4,6 +4,7 @@
 #include "MensajesUtil.h"
 #include "Color.h"
 #include "ImagenRecortada.h"
+#include "RecursosAplicacion.h"
 
 Jugador::Jugador(void) {
 	this->imagen = NULL;
@@ -24,6 +25,9 @@ Jugador::~Jugador(void) {
 	if (this->carta2 != NULL) {
 		delete (this->carta2);
 	}
+	if (this->fichas != NULL) {
+		delete (this->fichas);
+	}
 }
 
 void Jugador::dibujarSobreSup(SDL_Surface* superficie){
@@ -40,7 +44,11 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 	this->carta1->dibujar(superficie);
 	this->carta2->dibujar(superficie);
 
-	// TODO: FALTA DIBUJAR ETIQUETA, CARTAS Y FICHAS
+	if (this->fichas != NULL) {
+		this->fichas->dibujar(superficie);
+	}
+
+	// TODO: FALTA DIBUJAR ETIQUETA
 
 }
 
@@ -58,7 +66,8 @@ void Jugador::dibujarJugador(SDL_Surface* superficie) {
 	// se dibuja el circulo sobre esa superficie
 	SDL_Rect* offset = this->imagen->getContornoRect();	
 
-	Color colorCirculo(255,0,0);		// TODO: DEFINIR COLOR
+	Color colorCirculo(RecursosAplicacion::getClienteConfigProperties()->get(
+		"cliente.tema.default.jugador.color.borde"));
 	ServiciosGraficos::dibujarElipse(
 		supCirculo->getSuperficie(), offset, &colorCirculo); 
 
@@ -172,10 +181,10 @@ void Jugador::setearDisposicionAIzq(){
 	this->carta1->setAlto(rectFoto->h / 2);
 	this->carta2->setAlto(rectFoto->h / 2);
 
-	//this->fichas->setPosX(rectFoto->w);
-	//this->fichas->setPosY(rectFoto->h / 2);
-	//this->fichas->setAncho(this->getAncho() - rectFoto->w);
-	//this->fichas->setAlto(rectFoto->h / 2);
+	this->fichas->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
+	this->fichas->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_FICHAS);
+	this->fichas->setAncho(this->getAncho() - rectFoto->w);
+	this->fichas->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_FICHAS);
 }
 
 void Jugador::setearDisposicionADer(){
@@ -203,10 +212,10 @@ void Jugador::setearDisposicionADer(){
 	this->carta1->setAlto(rectFoto->h / 2);
 	this->carta2->setAlto(rectFoto->h / 2);
 
-	//this->fichas->setPosX(0);
-	//this->fichas->setPosY(rectFoto->h / 2);
-	//this->fichas->setAncho(this->getAncho() - rectFoto->w);
-	//this->fichas->setAlto(rectFoto->h / 2);
+	this->fichas->setPosX(this->getPosX());
+	this->fichas->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_FICHAS);
+	this->fichas->setAncho(this->getAncho() - rectFoto->w);
+	this->fichas->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_FICHAS);
 }
 
 SDL_Rect* Jugador::calcularRectFoto(){
@@ -264,4 +273,17 @@ void Jugador::setCarta(Carta* carta){
 			throw UIException("Un jugador no puede tener mas de dos cartas.","V");
 		}
 	}
+}
+
+void Jugador::setFichas(string cantidad) {
+	if (this->fichas == NULL) {
+		this->fichas = new Fichas(cantidad);
+	
+	} else {
+		this->fichas->setCantidad(cantidad);
+	}
+}
+
+Fichas* Jugador::getFichas(){
+	return this->fichas;
 }

@@ -10,10 +10,12 @@
 #include "ElementoGrafico.h"
 #include "Imagen.h"
 #include "Carta.h"
+#include "Fichas.h"
 
 #define ALTO_MIN_ETIQUETA	0.25
 #define ANCHO_MIN_CARTAS	0.3
 #define SEPARACION_ENTRE_CARTAS	 1
+#define SEPARACION_CARTAS_FICHAS 5
 
 class Jugador : public ElementoGrafico {
 private:
@@ -23,6 +25,7 @@ private:
 	Imagen* imagen;
 	Carta* carta1;
 	Carta* carta2;
+	Fichas* fichas;
 
 	void setearDisposicionAIzq();
 	void setearDisposicionADer();
@@ -57,6 +60,9 @@ public:
 	* Si ambas cartas ya fueron seteadas, lanza una excepcion.
 	*/
 	void setCarta(Carta* carta);
+
+	void setFichas(string cantidad);
+	Fichas* getFichas();
 };
 
 #endif //_JUGADOR_H__

@@ -1,4 +1,5 @@
 #include "FabricaDeElementosGraficos.h"
+#include "Fichas.h"
 
 FabricaDeElementosGraficos::FabricaDeElementosGraficos(void)
 {
@@ -77,7 +78,7 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 		else if (MensajesUtil::sonIguales(XML_FICHAS, (*itElemento)->getNombre()))
 		{
 			// Se genera las FICHAS
-			int cantidadFichas = UtilTiposDatos::getEntero((*itElemento)->getTexto());
+			jugador->setFichas((*itElemento)->getTexto());
 		}
 		else if (MensajesUtil::sonIguales(XML_APUESTA, (*itElemento)->getNombre()))
 		{
