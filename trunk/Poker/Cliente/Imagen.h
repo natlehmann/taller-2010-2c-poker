@@ -1,6 +1,8 @@
 #ifndef _IMAGEN_H__
 #define _IMAGEN_H__
 
+#define _CRT_SECURE_NO_DEPRECATE 1
+
 
 #include <stdio.h>
 #include <stdlib.h>
