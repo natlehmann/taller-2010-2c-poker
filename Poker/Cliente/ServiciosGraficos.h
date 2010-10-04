@@ -75,6 +75,8 @@ public:
 	static int getBordeInferior();
 	static int getBordeDerecho();
 	static int getBordeIzquierdo();
+
+	static SDL_Surface* resizeSuperficie(SDL_Surface* superficie, int ancho, int alto);
 };
 
 #endif //_SERVICIOSGRAFICOS_H__

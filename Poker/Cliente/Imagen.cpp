@@ -53,16 +53,16 @@ long Imagen::getTamanio() {
 }
 
 SDL_Surface* Imagen::cargarBMP() {
-	SDL_Surface* superficie;
+	SDL_Surface* superficie = NULL;
 	Uint32 rmask = 0x00ff0000;
 	Uint32 gmask = 0x0000ff00;
 	Uint32 bmask = 0x000000ff;
 	Uint32 amask = 0x00000000;
 
-	FILE *archivo;
+	FILE *archivo = NULL;
 	BITMAPFILEHEADER encabezadoArchivo;
 	BITMAPINFOHEADER encabezadoMapaDeBits;
-	char *imagenStream;
+	char *imagenStream = NULL;
 	
 	archivo = fopen(this->nombre.c_str(),"rb"); // "rb" solo lectura, en binario
 	if (archivo == NULL)
@@ -70,41 +70,49 @@ SDL_Surface* Imagen::cargarBMP() {
 
 	//leo el encabezado del archivo bmp
 	fread(&encabezadoArchivo, sizeof(BITMAPFILEHEADER),1,archivo);
+	if (ferror(archivo)) {
+		fclose(archivo);
+		return NULL;
+	}
 
 	//si es un bmp entonces el bfType tiene que ser 0x4D42
-	if (encabezadoArchivo.bfType !=0x4D42) {
+	if (encabezadoArchivo.bfType != 0x4D42) {
 		fclose(archivo);
 		return NULL;
 	}
 	
 	//leo la info del encabezado
 	fread(&encabezadoMapaDeBits, sizeof(BITMAPINFOHEADER),1,archivo);
+	if (ferror(archivo)) {
+		fclose(archivo);
+		return NULL;
+	}
 
 	//tamanio de la imagen sin metadata
 	int tamanioEnBytes = encabezadoMapaDeBits.biSizeImage;
-
-	//muevo el puntero a donde estan los datos de la imagen
-	fseek(archivo, encabezadoArchivo.bfOffBits, SEEK_SET);
+	if (tamanioEnBytes < 1)
+		return NULL;
 
 	imagenStream = new char[tamanioEnBytes];
 	if (!imagenStream) {
-		delete imagenStream;
 		fclose(archivo);
 		return NULL;
 	}
 
 	//leo los datos de la imagen
 	fread(imagenStream,tamanioEnBytes,1,archivo);
-	if (imagenStream == NULL) {
+	if (ferror(archivo)) {
+		delete[] imagenStream;
 		fclose(archivo);
 		return NULL;
 	}
 	
 	//se invierte verticalmente la imagen
-	char *imagenStreamInvetida = invertirBMP(imagenStream, encabezadoMapaDeBits);
-	superficie = SDL_CreateRGBSurfaceFrom(imagenStreamInvetida,encabezadoMapaDeBits.biWidth,encabezadoMapaDeBits.biHeight,24,3*encabezadoMapaDeBits.biWidth,rmask,gmask,bmask,amask);
+	char *imagenStreamInvertida = invertirBMP(imagenStream, encabezadoMapaDeBits);
 
-	delete imagenStream;
+	superficie = SDL_CreateRGBSurfaceFrom(imagenStreamInvertida,encabezadoMapaDeBits.biWidth,encabezadoMapaDeBits.biHeight,24,3*encabezadoMapaDeBits.biWidth,rmask,gmask,bmask,amask);
+
+	delete[] imagenStream;
 	fclose(archivo);
 	return superficie;
 }
@@ -112,7 +120,6 @@ SDL_Surface* Imagen::cargarBMP() {
 
 char* Imagen::invertirBMP(char *imagenStream, BITMAPINFOHEADER encabezadoMapaDeBits)
 {
-	
 	int cantidadFila = encabezadoMapaDeBits.biHeight;
 	int cantidadXColum = encabezadoMapaDeBits.biWidth * BYTES_POR_PIXEL;
 	int k = 0;
