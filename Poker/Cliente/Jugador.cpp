@@ -14,6 +14,7 @@ Jugador::Jugador(void) {
 	this->carta1 = NULL;
 	this->carta2 = NULL;
 	this->etiquetaNombre = new Etiqueta();
+	this->fichas = NULL;
 }
 
 Jugador::~Jugador(void) {
