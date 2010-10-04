@@ -11,7 +11,7 @@
 #include <fstream>
 #include <cstdlib>
 
-Cliente* UICliente::cliente = NULL;
+//Cliente* UICliente::cliente = NULL;
 
 UICliente::UICliente(void)
 {
@@ -166,18 +166,16 @@ bool UICliente::conectarServidor()
 	{
 		mostrarMensaje("INTENTANDO CONECTAR CON EL SERVIDOR " + ip + " ...", false);
 		
-		if (cliente != NULL){
-			delete(cliente);
+		if (Cliente::estaConectado()){
+			Cliente::finalizarConexion();
 		}
-		cliente = new Cliente(puerto, ip);
-
-		conecto = cliente->iniciarConexion();		
+		conecto = Cliente::iniciarConexion(puerto, ip);
 	}
 
 	if (!conecto || puerto <= 0) {
 
 		mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR, INTENTELO MAS TARDE.", false);
-		delete(cliente);
+		Cliente::finalizarConexion();
 		RecursosAplicacion::getLogErroresCliente()->escribir(
 			"No se puede establecer la conexion. O bien el servidor esta caido o la IP y puerto de conexion son incorrectos.");
 		exit(1);
@@ -186,16 +184,14 @@ bool UICliente::conectarServidor()
 	return conecto;
 }
 
-Cliente* UICliente::getCliente(){
-	return UICliente::cliente;
-}
+//Cliente* UICliente::getCliente(){
+//	return UICliente::cliente;
+//}
 
 void UICliente::finalizar()
 {
 	SDL_Quit(); 
-	cliente->finalizarConexion();
-	delete(cliente);
-	cliente = NULL;
+	Cliente::finalizarConexion();
 }
 
 

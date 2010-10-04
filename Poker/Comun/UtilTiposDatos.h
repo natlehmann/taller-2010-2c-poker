@@ -31,6 +31,10 @@ public:
 
 	static bool validarSiNo(string valor);
 
+	static string enteroAString(int entero);
+
+	static int stringAEntero(string enteroString);
+
 private:
 	static bool esDigito(int caracter);
 };

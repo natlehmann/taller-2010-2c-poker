@@ -131,3 +131,19 @@ bool UtilTiposDatos::esDigito(int caracter)
 {
 	return (caracter >= 48 && caracter <= 57);
 }
+
+string UtilTiposDatos::enteroAString(int entero) 
+{
+	ostringstream buffer;
+	buffer << entero;
+	string enteroString(buffer.str());
+	return enteroString;
+}
+
+int UtilTiposDatos::stringAEntero(string enteroString) 
+{
+	int entero;
+	stringstream buffer(enteroString);
+	buffer >> entero;
+	return entero;
+}

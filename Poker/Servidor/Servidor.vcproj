@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="Servidor"
 	ProjectGUID="{80034BA5-0061-4E00-B475-8FC007704BC7}"
 	RootNamespace="Servidor"
@@ -235,6 +235,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpEnviarArchivo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpEnviarEscenario.cpp"
 				>
 			</File>
@@ -272,6 +276,14 @@
 			</File>
 			<File
 				RelativePath=".\Servidor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServidorCliente.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServidorCliente.h"
 				>
 			</File>
 			<File
@@ -390,6 +402,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\MensajesUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpEnviarArchivo.h"
 				>
 			</File>
 			<File
