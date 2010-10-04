@@ -1,6 +1,7 @@
 #include "Imagen.h"
 #include "UIException.h"
 #include "RecursosAplicacion.h"
+#include "ServiciosGraficos.h"
 
 #define BYTES_POR_PIXEL 3
 
@@ -17,22 +18,33 @@ Imagen::~Imagen(void)
 
 void Imagen::dibujarSobreSup(SDL_Surface* superficie, SDL_Rect* posicionEnSup){
 
-	SDL_Surface* imagenInicial = cargarBMP(); 
+	if (this->superficie == NULL) {
 
-	// ESTO TAMBIEN SE VA !!!!
-	if(imagenInicial != NULL) {
-		this->superficie = SDL_DisplayFormat(imagenInicial);
+		SDL_Surface* imagenInicial = cargarBMP(); 
+		this->superficie = imagenInicial;
 
-		SDL_BlitSurface(this->getSuperficie(), this->getContornoRect(), 
-				superficie, posicionEnSup); 
-		//Free the old image 
-		SDL_FreeSurface(imagenInicial); 
-		SDL_FreeSurface(this->getSuperficie()); 
-		this->superficie = NULL;
-	
-	} else {
+		if(imagenInicial != NULL) {
+		
+			// solo hacer resize si es necesario
+			if (imagenInicial->clip_rect.w != this->getAncho() 
+				|| imagenInicial->clip_rect.h != this->getAlto()) {
+			
+					this->superficie = ServiciosGraficos::resizeSuperficie(
+						imagenInicial, this->getAncho(), this->getAlto());
+
+					SDL_FreeSurface(imagenInicial);
+			}
+		}
+	}
+
+	//si algo salio mal
+	if (this->superficie == NULL) {
 		throw UIException("No se pudo cargar la imagen " + this->nombre, "E");
 	}
+
+	SDL_BlitSurface(this->superficie, this->getContornoRect(), 
+					superficie, posicionEnSup); 
+
 }
 
 void Imagen::dibujarSobreSup(SDL_Surface* superficie) {
