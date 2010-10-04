@@ -324,3 +324,29 @@ int ServiciosGraficos::getBordeIzquierdo() {
 
 	return ServiciosGraficos::bordeIzquierdo;
 }
+
+SDL_Surface* ServiciosGraficos::resizeSuperficie(SDL_Surface* superficie, int ancho, int alto)
+{
+	if (ancho == 0 || alto == 0 || superficie == NULL || superficie->w == 0 || superficie->h == 0)
+		return NULL;
+
+	Uint32 rmask = 0x00ff0000;
+	Uint32 gmask = 0x0000ff00;
+	Uint32 bmask = 0x000000ff;
+	Uint32 amask = 0x00000000;
+	
+    SDL_Surface* superficieModificada = SDL_CreateRGBSurface(superficie->flags, ancho, alto, 32, rmask, gmask, bmask, amask);
+    if (superficieModificada == NULL)
+		return NULL;
+
+	double factorX = (static_cast<double>(ancho) / static_cast<double>(superficie->w));
+	double factorY = (static_cast<double>(alto) / static_cast<double>(superficie->h));
+
+    for (Sint32 y = 0; y < superficie->h; y++)
+        for (Sint32 x = 0; x < superficie->w; x++)
+            for (Sint32 j = 0; j < factorY; ++j)
+                for (Sint32 i = 0; i < factorX; ++i)
+					putPixel(superficieModificada, static_cast<Sint32>(factorX * x) + i, static_cast<Sint32>(factorY * y) + j, getPixel(superficie, x, y));
+
+    return superficieModificada;
+}
