@@ -99,12 +99,11 @@ bool Cliente::solicitarArchivo(string& nombreArchivo, string& pathDestino)
 
 					return true;
 				}
-				else
-					return false;
 			}
 		}
 	}
 
+	return false;
 }
 
 string Cliente::getSocketError()
