@@ -41,7 +41,9 @@ class Socket
 		bool conectar(const string& host);
 		
 		// Metodos para Servidor y Cliente
+		bool enviar(const char* msg, const int longMsg);
 		bool enviar(const string msg, const int longMsg);
+		bool recibir(string& msg, int size);
 		bool recibir(string& msg);		
 		bool cerrar();
 						

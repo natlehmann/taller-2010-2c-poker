@@ -29,7 +29,7 @@ class UICliente
 		
 
 		
-		static Cliente* cliente;		
+		//static Cliente* cliente;		
 
 		static bool conectarServidor();
 

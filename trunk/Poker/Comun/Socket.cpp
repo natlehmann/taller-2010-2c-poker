@@ -43,10 +43,7 @@ bool Socket::abrir()
 {
 	int fd = -1;
 	bool resul = true;
-	//WSADATA wsaData;
 
-	//if (WSAStartup(MAKEWORD(2, 0), &wsaData) == 0)
-	//{
 	if (!esValido())
 	{
 		fd = ::socket(AF_INET, SOCK_STREAM, 0);
@@ -59,7 +56,6 @@ bool Socket::abrir()
 		else
 			resul = false;
 	}
-	//}
 	return resul;
 }
 
@@ -212,23 +208,28 @@ bool Socket::conectar(const string& host)
 
 bool Socket::enviar(const string msg, const int longMsg)
 {
-	int cantEnviado = 0;
-	int Aux = 0;
+	return this->enviar(msg.c_str(), longMsg);
+}
+
+bool Socket::enviar(const char* msg, const int longMsg)
+{
+	int cantEnv = 0;
+	int totalEnv = 0;
 	bool sigue = true;
 	bool error = false;
 	
-	while ((sigue)&&(cantEnviado < longMsg))
+	while ((sigue)&&(totalEnv < longMsg))
 	{
-		Aux = ::send(this->sockfd, msg.c_str(), longMsg, 0);
+		cantEnv = ::send(this->sockfd, msg, longMsg, 0);
 	
-		if (Aux < 0)
+		if (cantEnv < 0)
 		{
 			error = true;
 			sigue = false;
 			this->msgError = "Se produjo una interrupcion en el envio de los datos";
 		}
 		else
-			cantEnviado += Aux; 
+			totalEnv += cantEnv; 
 	}
 	
 	return !error;
@@ -259,6 +260,40 @@ bool Socket::recibir(string& msg)
 			msg.append(buf, Aux);
 		
 			if (Aux < MAXRECV) {
+				sigue = false;	
+			}
+		}
+
+	}
+	
+	return !error;
+}
+
+bool Socket::recibir(string& msg, int size)
+{
+	msg = "";
+	char buffer[MAXRECV+1];
+	int totalRec = 0;
+	int cantRec = 0;
+	bool sigue = true;
+	bool error = false;
+	 
+	while ((sigue)&&(totalRec < size))
+	{
+		cantRec = ::recv(this->sockfd, buffer, MAXRECV, 0);
+		
+		if (cantRec < 0)
+		{
+			error = true;
+			sigue = false;
+			this->msgError = "Se produjo una interrupcion en la recepcion de los datos";
+		}
+		else if (cantRec >= 0)
+		{
+			totalRec += cantRec;
+			msg.append(buffer, cantRec);
+		
+			if (cantRec < MAXRECV) {
 				sigue = false;	
 			}
 		}
