@@ -40,6 +40,9 @@ string Etiqueta::getMensaje() {
 }
 
 void Etiqueta::setFondo(Color* color){
+	if (this->fondo != NULL) {
+		delete(this->fondo);
+	}
 	this->fondo = color;
 }
 
