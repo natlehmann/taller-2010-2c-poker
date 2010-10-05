@@ -26,9 +26,20 @@ void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){
 	offset->w = this->getAncho();
 	offset->h = this->getAlto();
 
-	SDL_FillRect(superficie, offset, this->fondo->toUint32(superficie));
+	//SDL_FillRect(superficie, offset, this->fondo->toUint32(superficie));
 
-	//TODO: ACA VIENE LA PARTE DE IMPRIMIR EL TEXTO
+	string color = RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.fuente.color");
+	
+	int tamanio = UtilTiposDatos::getEntero(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.fuente.tamanio"));
+	
+	string estilo = RecursosAplicacion::getClienteConfigProperties()->get("cliente.configuracion.fuentes") +
+					RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.fuente.estilo") + ".ttf";
+	
+	Fuente* fuente = new Fuente(color, tamanio, estilo);
+		
+	SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(this->mensaje, this->fondo);
+
+	SDL_BlitSurface(superficieTexto, NULL, superficie, offset);
 }
 
 void Etiqueta::setMensaje(string mensaje) {
