@@ -1,7 +1,6 @@
 #include "OpEnviarEscenario.h"
 #include "Resultado.h"
 #include "RecursosAplicacion.h"
-
 #include <fstream>
 
 OpEnviarEscenario::OpEnviarEscenario(void){
@@ -10,8 +9,8 @@ OpEnviarEscenario::OpEnviarEscenario(void){
 OpEnviarEscenario::~OpEnviarEscenario(void){
 }
 
-Respuesta* OpEnviarEscenario::ejecutar(){
-
+bool OpEnviarEscenario::ejecutar(Socket* socket){
+	bool error = false;
 	Resultado* resultado = NULL;
 
 	string nombreArchivo = RecursosAplicacion::getServidorConfigProperties()->get("servidor.archivoEscenario");
@@ -39,5 +38,13 @@ Respuesta* OpEnviarEscenario::ejecutar(){
 		resultado->setIdOperacion("OpEnviarEscenario");
 	}
 
-	return resultado;	
+	if (socket != NULL){
+		string respuesta = resultado->getValor();
+		if(!socket->enviar(respuesta))
+			error = true;
+	}
+	else
+		error = true;
+
+	return error;	
 }

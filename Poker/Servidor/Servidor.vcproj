@@ -279,14 +279,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ServidorCliente.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ServidorCliente.h"
-				>
-			</File>
-			<File
 				RelativePath="..\Comun\Socket.cpp"
 				>
 			</File>

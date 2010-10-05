@@ -11,7 +11,7 @@
 #include <fstream>
 #include <cstdlib>
 
-//Cliente* UICliente::cliente = NULL;
+Cliente* UICliente::cliente = NULL;
 
 UICliente::UICliente(void)
 {
@@ -28,11 +28,9 @@ UICliente::UICliente(void)
 
 UICliente::~UICliente(void)
 {
-	/*
 	if (cliente != NULL) {
 		delete (this->cliente);
 	}
-	*/
 }
 
 
@@ -166,16 +164,25 @@ bool UICliente::conectarServidor()
 	{
 		mostrarMensaje("INTENTANDO CONECTAR CON EL SERVIDOR " + ip + " ...", false);
 		
-		if (Cliente::estaConectado()){
-			Cliente::finalizarConexion();
+		if (UICliente::cliente != NULL)
+		{
+			if (UICliente::cliente->estaConectado())
+				UICliente::cliente->finalizarConexion();
+
+			delete(UICliente::cliente);
 		}
-		conecto = Cliente::iniciarConexion(puerto, ip);
+
+		UICliente::cliente = new Cliente(puerto, ip);
+		conecto = UICliente::cliente->iniciarConexion();
 	}
 
 	if (!conecto || puerto <= 0) {
 
 		mostrarMensaje("NO SE HA PODIDO ESTABLECER LA CONEXION CON EL SERVIDOR, INTENTELO MAS TARDE.", false);
-		Cliente::finalizarConexion();
+
+		if (UICliente::cliente->estaConectado())
+			UICliente::cliente->finalizarConexion();
+
 		RecursosAplicacion::getLogErroresCliente()->escribir(
 			"No se puede establecer la conexion. O bien el servidor esta caido o la IP y puerto de conexion son incorrectos.");
 		exit(1);
@@ -184,14 +191,14 @@ bool UICliente::conectarServidor()
 	return conecto;
 }
 
-//Cliente* UICliente::getCliente(){
-//	return UICliente::cliente;
-//}
+Cliente* UICliente::getCliente(){
+	return UICliente::cliente;
+}
 
 void UICliente::finalizar()
 {
 	SDL_Quit(); 
-	Cliente::finalizarConexion();
+	UICliente::cliente->finalizarConexion();
 }
 
 

@@ -7,13 +7,16 @@
 
 using namespace std;
 
+#define IDOPERACIONESCENARIO = "OpEnviarEscenario"
+#define IDOPERACIONARCHIVO = "OpEnviarArchivo"
+
 class FabricaOperacionesServidor {
 public:
 	FabricaOperacionesServidor();
 	virtual ~FabricaOperacionesServidor();
 
 	Operacion* newOperacion(DomTree* domTree);
-	Operacion* newOperacion(string nombreOperacion);
+	Operacion* newOperacion(string nombreOperacion, vector<string> parametros);
 
 private:
 	void FabricaOperacionesServidor::validarParametro(Elemento* parametro, string idOperacion, int numeroDeParametro);
