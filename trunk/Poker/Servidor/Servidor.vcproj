@@ -235,10 +235,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OpEnviarArchivo.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\OpEnviarEscenario.cpp"
 				>
 			</File>

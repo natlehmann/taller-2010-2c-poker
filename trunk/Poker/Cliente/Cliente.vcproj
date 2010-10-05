@@ -251,6 +251,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Fuente.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\GeneradorRespuesta.cpp"
 				>
 			</File>
@@ -474,6 +478,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\FormatException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Fuente.h"
 				>
 			</File>
 			<File
