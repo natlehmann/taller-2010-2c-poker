@@ -36,6 +36,8 @@ public:
 	Uint8 getBlue();
 
 	Uint32 toUint32(SDL_Surface* superficie);
+
+	SDL_Color toSDL_Color();
 };
 
 #endif //_COLOR_H__
