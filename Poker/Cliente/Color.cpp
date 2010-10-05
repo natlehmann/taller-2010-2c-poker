@@ -31,6 +31,16 @@ Uint32 Color::toUint32(SDL_Surface* superficie){
 	return SDL_MapRGB(superficie->format, this->red, this->green, this->blue);
 }
 
+SDL_Color Color::toSDL_Color(){
+	SDL_Color color;
+
+	color.b = this->blue;
+	color.r = this->red;
+	color.g = this->green;
+
+	return color;
+}
+
 void Color::setRed(Uint8 red){
 	this->red = red;
 }
