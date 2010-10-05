@@ -2,13 +2,25 @@
 #include "UIException.h"
 #include "RecursosAplicacion.h"
 #include "ServiciosGraficos.h"
+#include "OperacionUICliente.h"
+#include "FabricaOperacionesCliente.h"
+#include <fstream>
 
 #define BYTES_POR_PIXEL 3
 
 Imagen::Imagen(string nombre) {
-	// TODO: VER SI ACA VERIFICAMOS QUE LA IMAGEN EXISTA O SE LA PEDIMOS AL SERVIDOR
+
 	this->nombre = RecursosAplicacion::getClienteConfigProperties()->get(
 		"cliente.configuracion.imagenes.path") + nombre;
+
+	ifstream archivoExiste(this->nombre.c_str());
+	if (!archivoExiste.good()){
+
+		FabricaOperacionesCliente fab;
+		OperacionUICliente* operacion = fab.newOperacion("OpUIClienteSolicitarArchivo", nombre);
+		operacion->ejecutar(NULL);
+		delete(operacion);
+	}
 
 }
 
