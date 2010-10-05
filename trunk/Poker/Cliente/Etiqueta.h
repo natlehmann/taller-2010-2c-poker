@@ -7,8 +7,11 @@
 #include <iostream>
 #include <string.h>
 
+#include "SDL_ttf.h"
 #include "ElementoGrafico.h"
 #include "Color.h"
+#include "Fuente.h"
+#include "UtilTiposDatos.h"
 
 class Etiqueta : public ElementoGrafico
 {
