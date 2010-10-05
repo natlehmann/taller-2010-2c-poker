@@ -1,4 +1,5 @@
 #include "SDL.h"
+#include "SDL_ttf.h"
 #include "UICliente.h"
 #include "ParserEntradaTeclado.h"
 #include "MensajesUtil.h"
@@ -41,6 +42,10 @@ void UICliente::iniciarAplicacion()
 		throw UIException("No se pudo inicializar la interfaz grafica.","E");
 	}
 
+	if( TTF_Init() == -1 ) {
+		throw UIException("No se pudo inicializar la interfaz grafica.","E");
+	}
+	
 	UICliente::conectarServidor();
 }
 
@@ -197,7 +202,8 @@ Cliente* UICliente::getCliente(){
 
 void UICliente::finalizar()
 {
-	SDL_Quit(); 
+	SDL_Quit();
+	TTF_Quit(); 
 	UICliente::cliente->finalizarConexion();
 }
 
