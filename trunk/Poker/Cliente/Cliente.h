@@ -7,21 +7,22 @@
 class Cliente
 {
 	private:
-		static bool conectado;
-		static string ipServidor;
-		static Socket* sock;
-		
-		Cliente(); 
-		virtual ~Cliente();
+		bool conectado;
+		string ipServidor;
+		Socket* sock;
 
 	public:
-		static bool iniciarConexion(const int puerto, const string& ipServidor);
-		static bool finalizarConexion();
-		static bool estaConectado(); 
-		static bool recibirMsj(string& msjRecibido);
-		static bool enviarMsj(const string msj);
-		static bool solicitarArchivo(string& nombreArchivo, string& pathDestino);
-		static string getSocketError();
+		Cliente(); 
+		Cliente(const int puerto, const string& ipServidor);
+		virtual ~Cliente();
+		
+		bool iniciarConexion();
+		bool finalizarConexion();
+		bool estaConectado(); 
+		bool recibirMsj(string& msjRecibido);
+		bool recibirMsj(string& msjRecibido, int size);
+		bool enviarMsj(const string msj);
+		string getSocketError();
 };
 
 #endif /*CLIENTE_H_*/

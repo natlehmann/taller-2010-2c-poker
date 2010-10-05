@@ -2,6 +2,7 @@
 #define _FABRICAOPERACIONES_CLIENTE_H_
 
 #include "OperacionUICliente.h"
+#include <vector>
 
 using namespace std;
 
@@ -12,6 +13,8 @@ public:
 	virtual ~FabricaOperacionesCliente();
 
 	OperacionUICliente* newOperacion(string nombreOperacion);
+	OperacionUICliente* newOperacion(string nombreOperacion, string parametro);
+	OperacionUICliente* newOperacion(string nombreOperacion, vector<string> parametros);
 
 };
 

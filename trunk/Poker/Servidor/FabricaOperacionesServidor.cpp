@@ -4,19 +4,24 @@
 #include "Error.h"
 #include "MensajesUtil.h"
 #include "OpEnviarEscenario.h"
+#include "OpEnviarArchivo.h"
 #include <list>
 using namespace std;
+
 
 FabricaOperacionesServidor::FabricaOperacionesServidor() {}
 
 FabricaOperacionesServidor::~FabricaOperacionesServidor() {}
 
-Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion){
+Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vector<string> parametros){
 
 	Operacion* operacion = NULL;
 
 	if (MensajesUtil::sonIguales(nombreOperacion, "OpEnviarEscenario")) {
 		operacion = new OpEnviarEscenario();
+	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpEnviarArchivo")) {
+		operacion = new OpEnviarArchivo(parametros);
 	}
 
 	// TODO: ACA SE VERIFICARIAN TODAS LAS DEMAS OPERACIONES
@@ -33,7 +38,7 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion){
 Operacion* FabricaOperacionesServidor::newOperacion(DomTree* domTree)
 {
 	string idOperacion;
-	vector<double> parametros;
+	vector<string> parametros;
 
 	if (domTree == NULL) {
 		Error resultado("V","Error inesperado leyendo datos de entrada.","");
@@ -116,68 +121,59 @@ Operacion* FabricaOperacionesServidor::newOperacion(DomTree* domTree)
 		throw DatosInvalidosException(resultado);
 	}
 
-	return this->newOperacion(idOperacion);
+		
+	list<Elemento*>* hijosOperacion = elementoOperacion->getHijos();
+	if (hijosOperacion != NULL && hijosOperacion->size() >= 1) 
+	{
+		//it++;
+		it = hijosOperacion->begin();
+		Elemento* elementoParametros = *it;
 
+		if (strcmp("parametros",elementoParametros->getNombre().c_str()) != 0) {
+			Error resultado("V",
+				string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
+				+ string(". Se esperaba tag 'parametros' y se encontro '")
+				+ elementoParametros->getNombre()+"'.",idOperacion);
+			throw DatosInvalidosException(resultado);
+		}
+		if (elementoParametros->getTexto().size() != 0) {
+			Error resultado("V",
+				string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
+				+ string(". El tag 'parametros' no puede contener texto y se encontro '")
+				+ elementoParametros->getTexto()+"'.",idOperacion);
+			throw DatosInvalidosException(resultado);
+		}
 
+		list<Elemento*>* hijosParametros = elementoParametros->getHijos();
 
-	// TODO: QUEDA LA POSIBILIDAD DE QUE ALGUNA OPERACION PUEDA TENER PARAMETROS
-	// Ver si se habilita esto
-
-	/*
-
-	it++;
-	Elemento* elementoParametros = *it;
-
-	if (strcmp("parametros",elementoParametros->getNombre().c_str()) != 0) {
-		Error resultado("V",
-			string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
-			+ string(". Se esperaba tag 'parametros' y se encontro '")
-			+ elementoParametros->getNombre()+"'.",idOperacion);
-		throw DatosInvalidosException(resultado);
-	}
-	if (elementoParametros->getTexto().size() != 0) {
-		Error resultado("V",
-			string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
-			+ string(". El tag 'parametros' no puede contener texto y se encontro '")
-			+ elementoParametros->getTexto()+"'.",idOperacion);
-		throw DatosInvalidosException(resultado);
-	}
-
-	list<Elemento*>* hijosParametros = elementoParametros->getHijos();
-
-	if (hijosParametros == NULL || hijosParametros->size() == 0) {
-		Error resultado("V",
-			string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
-			+ string(". El tag 'parametros' no tiene hijos. Se esperaba tag 'parametro'."),idOperacion);
-		throw DatosInvalidosException(resultado);
-	}
-
-
-	int cantidadParametros = 0;
-	for (it = hijosParametros->begin(); it != hijosParametros->end(); it++) {
-		cantidadParametros++;
-		Elemento* elementoParametro = *it;
-		if (elementoParametro == NULL) {
+		if (hijosParametros == NULL || hijosParametros->size() == 0) {
 			Error resultado("V",
 				string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
 				+ string(". El tag 'parametros' no tiene hijos. Se esperaba tag 'parametro'."),idOperacion);
 			throw DatosInvalidosException(resultado);
 		}
-		validarParametro(elementoParametro, idOperacion, cantidadParametros);
-		string valor = elementoParametro->getTexto();
-		parametros.push_back(UtilTiposDatos::stringADouble(valor));
+
+		int cantidadParametros = 0;
+		for (it = hijosParametros->begin(); it != hijosParametros->end(); it++) {
+			cantidadParametros++;
+			Elemento* elementoParametro = *it;
+			if (elementoParametro == NULL) {
+				Error resultado("V",
+					string("Error en linea ") + MensajesUtil::intToString(elementoParametros->getNumeroDeLinea())
+					+ string(". El tag 'parametros' no tiene hijos. Se esperaba tag 'parametro'."),idOperacion);
+				throw DatosInvalidosException(resultado);
+			}
+			validarParametro(elementoParametro, idOperacion, cantidadParametros);
+			string valor = elementoParametro->getTexto();
+			parametros.push_back(valor);
+		}
 	}
-	
-	return NULL;
-	*/
+	return this->newOperacion(idOperacion, parametros);
 }
 
 
 void FabricaOperacionesServidor::validarParametro(Elemento* parametro, string idOperacion, int numeroDeParametro)
 {
-	// TODO: ESTE METODO DEBERIA CAMBIAR DE ACUERDO A LOS PARAMETROS ACEPTADOS PARA LAS NUEVAS OPERACIONES
-
-	/*
 	if (parametro->getAtributos()->size() != 1) {
 		Error resultado("V",
 			string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
@@ -187,57 +183,14 @@ void FabricaOperacionesServidor::validarParametro(Elemento* parametro, string id
 
 	string atributoNombre = MensajesUtil::trim(parametro->getAtributo("nombre"));
 
-	switch (idOperacion.at(0))
-	{
-	case 'S':
-		if (strcmp("sum",atributoNombre.c_str()) != 0) {
+	if (MensajesUtil::sonIguales(idOperacion, "OpEnviarEscenario")) {
+		if (strcmp("nombreArchivo",atributoNombre.c_str()) != 0) {
 			Error resultado("V",
 				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
-				+ string(". El atributo 'nombre' del tag 'parametro' para una suma debe ser 'sum'. Se encontro '")
+				+ string(". El atributo 'nombre' del tag 'parametro' para una transferencia de archivo debe ser 'nombreArchivo'. Se encontro '")
 				+ atributoNombre +"'.",idOperacion);
 			throw DatosInvalidosException(resultado);
 		}
-		break;
-
-	case 'R':
-		if (strcmp("res",atributoNombre.c_str()) != 0) {
-			Error resultado("V",
-				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
-				+ string(". El atributo 'nombre' del tag 'parametro' para una resta debe ser 'res'. Se encontro '")
-				+ atributoNombre +"'.",idOperacion);
-			throw DatosInvalidosException(resultado);
-		}
-		break;
-
-	case 'M':
-		if (strcmp("mul",atributoNombre.c_str()) != 0) {
-			Error resultado("V",
-				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
-				+ string(". El atributo 'nombre' del tag 'parametro' para una multiplicacion debe ser 'mul'. Se encontro '")
-				+ atributoNombre +"'.",idOperacion);
-			throw DatosInvalidosException(resultado);
-		}
-		break;
-
-	case 'D':
-		if (numeroDeParametro == 1) {
-			if (strcmp("dividendo",atributoNombre.c_str()) != 0) {
-				Error resultado("V",
-					string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
-					+ string(". El primer parametro para una division debe ser tener el valor 'dividendo' en el atributo 'nombre' . Se encontro '")
-					+ atributoNombre +"'.",idOperacion);
-				throw DatosInvalidosException(resultado);
-			}
-		} else {
-			if (strcmp("divisor",atributoNombre.c_str()) != 0) {
-				Error resultado("V",
-					string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
-					+ string(". El segundo parametro para una division debe ser tener el valor 'divisor' en el atributo 'nombre' . Se encontro '")
-					+ atributoNombre +"'.",idOperacion);
-				throw DatosInvalidosException(resultado);
-			}
-		}
-		break;
 	}
 
 	if (MensajesUtil::sonIguales(MensajesUtil::trim(parametro->getTexto()),"")) {
@@ -247,13 +200,4 @@ void FabricaOperacionesServidor::validarParametro(Elemento* parametro, string id
 		throw DatosInvalidosException(resultado);
 	}
 
-	if (!UtilTiposDatos::esDouble(parametro->getTexto())) {
-		Error resultado("V",
-			string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
-			+ string(". El parametro contiene un valor que no es numerico. Se encontro '")
-			+ parametro->getTexto()+"'.",idOperacion);
-		throw DatosInvalidosException(resultado);
-	}
-
-	*/
 }

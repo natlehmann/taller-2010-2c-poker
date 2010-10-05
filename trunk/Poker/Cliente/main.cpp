@@ -19,8 +19,12 @@ int main (int argc, char** argv)
 		FabricaOperacionesCliente fab;
 		Ventana ventana;
 
-		OperacionUICliente* operacion = fab.newOperacion(idOperacionInicial);
+		//ejemplo de solicitud de imagenes al servidor
+		//OperacionUICliente* operacion = fab.newOperacion("OpUIClienteSolicitarArchivo", "test1234.bmp");
+		//operacion->ejecutar(&ventana);
+		//delete(operacion);
 
+		OperacionUICliente* operacion = fab.newOperacion(idOperacionInicial);
 		operacion->ejecutar(&ventana);
 		delete(operacion);
 

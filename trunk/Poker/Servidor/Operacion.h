@@ -1,6 +1,7 @@
 #ifndef OPERACION_H_
 #define OPERACION_H_
 
+#include "Socket.h"
 #include "Respuesta.h"
 #include "Resultado.h"
 #include "Error.h"
@@ -28,7 +29,7 @@ public:
         this->id = id;
     }
 
-    virtual Respuesta* ejecutar() = 0;
+    virtual bool ejecutar(Socket* socket) = 0;
 
 };
 

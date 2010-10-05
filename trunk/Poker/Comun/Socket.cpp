@@ -206,9 +206,9 @@ bool Socket::conectar(const string& host)
 }
 
 
-bool Socket::enviar(const string msg, const int longMsg)
+bool Socket::enviar(const string msg)
 {
-	return this->enviar(msg.c_str(), longMsg);
+	return this->enviar(msg.c_str(), msg.length()+1);
 }
 
 bool Socket::enviar(const char* msg, const int longMsg)

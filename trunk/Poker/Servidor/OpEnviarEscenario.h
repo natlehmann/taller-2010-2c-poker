@@ -9,7 +9,7 @@ public:
 	OpEnviarEscenario(void);
 	virtual ~OpEnviarEscenario(void);
 
-	Respuesta* ejecutar();
+	bool ejecutar(Socket* socket);
 };
 
 #endif // _OP_ENVIARESCENARIO_H_

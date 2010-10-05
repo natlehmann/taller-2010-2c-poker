@@ -56,11 +56,9 @@ class ThrCliente: public Thread
 
 				if ((recibidoOK)&&(msjRecibido!=""))
 				{
-					string respuesta = "";
 					Operacion* operacion = NULL;
 					Parser* parser = NULL;
 					DomTree* arbol = NULL;
-					GeneradorRespuesta* generador = new GeneradorRespuesta();
 
 					try 
 					{
@@ -68,18 +66,21 @@ class ThrCliente: public Thread
 						arbol = parser->toDom(msjRecibido);
 
 						operacion = this->fabricaOperaciones->newOperacion(arbol);
-						Respuesta* resp = operacion->ejecutar();
-
-						if (resp != NULL) {
-							respuesta = resp->getValor();
-							delete(resp);
-						}
+						if (operacion->ejecutar(sock))
+							this->pararCliente();
 
 					} 
 					catch (PokerException& e) 
 					{
+						GeneradorRespuesta* generador = new GeneradorRespuesta();
 						generador->agregarRespuesta(&e.getError());
-						respuesta = generador->obtenerRespuesta();
+						string respuesta = generador->obtenerRespuesta();
+
+						// Se envia la respuesta correspondiente				
+						if(!sock->enviar(respuesta))
+							this->pararCliente();
+
+						delete(generador);
 					}
 
 					if (parser != NULL) {
@@ -94,13 +95,6 @@ class ThrCliente: public Thread
 						delete(operacion);
 					}
 
-					delete(generador);
-
-					// Se envia la respuesta correspondiente				
-					if(!sock->enviar(respuesta, respuesta.length()))
-					{
-						this->pararCliente();
-					}
 				}
 				else
 				{
