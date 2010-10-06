@@ -33,10 +33,11 @@ void Imagen::dibujarSobreSup(SDL_Surface* superficie, SDL_Rect* posicionEnSup){
 	if (this->superficie == NULL) {
 
 		SDL_Surface* imagenInicial = cargarBMP(); 
+
 		this->superficie = imagenInicial;
 
 		if(imagenInicial != NULL) {
-		
+
 			// solo hacer resize si es necesario
 			if (imagenInicial->clip_rect.w != this->getAncho() 
 				|| imagenInicial->clip_rect.h != this->getAlto()) {
@@ -134,7 +135,13 @@ SDL_Surface* Imagen::cargarBMP() {
 	//se invierte verticalmente la imagen
 	char *imagenStreamInvertida = invertirBMP(imagenStream, encabezadoMapaDeBits);
 
-	superficie = SDL_CreateRGBSurfaceFrom(imagenStreamInvertida,encabezadoMapaDeBits.biWidth,encabezadoMapaDeBits.biHeight,24,3*encabezadoMapaDeBits.biWidth,rmask,gmask,bmask,amask);
+	// pitch debe ser multiplo de 4
+	int pitch = 3*encabezadoMapaDeBits.biWidth;
+	if (pitch % 4 != 0) {
+		pitch += 4 - (pitch % 4);
+	}
+	superficie = SDL_CreateRGBSurfaceFrom(imagenStreamInvertida,encabezadoMapaDeBits.biWidth,
+		encabezadoMapaDeBits.biHeight,24,pitch,rmask,gmask,bmask,amask);
 
 	delete[] imagenStream;
 	fclose(archivo);
@@ -145,7 +152,10 @@ SDL_Surface* Imagen::cargarBMP() {
 char* Imagen::invertirBMP(char *imagenStream, BITMAPINFOHEADER encabezadoMapaDeBits)
 {
 	int cantidadFila = encabezadoMapaDeBits.biHeight;
-	int cantidadXColum = encabezadoMapaDeBits.biWidth * BYTES_POR_PIXEL;
+
+	// el ancho no puede medirse asi porque esto no considera el padding por fila
+	//int cantidadXColum = encabezadoMapaDeBits.biWidth * BYTES_POR_PIXEL;
+	int cantidadXColum = encabezadoMapaDeBits.biSizeImage/encabezadoMapaDeBits.biHeight;
 	int k = 0;
 	int j = 0;
 	char *imagenStreamCopia;
