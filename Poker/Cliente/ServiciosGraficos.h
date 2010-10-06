@@ -31,6 +31,8 @@ private:
 	static Uint32 getPixel(SDL_Surface* surface, int x, int y);
 	static int findFirstPorLinea(SDL_Surface* superficie, 
 		int xDesde, int xHasta, int linea, Uint32 pixel);
+	static int findLastPorLinea(SDL_Surface* superficie, 
+		int xDesde, int xHasta, int linea, Uint32 pixel);
 
 	
 
