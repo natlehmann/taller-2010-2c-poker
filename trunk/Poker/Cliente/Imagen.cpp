@@ -6,7 +6,6 @@
 #include "FabricaOperacionesCliente.h"
 #include <fstream>
 
-#define BYTES_POR_PIXEL 3
 
 Imagen::Imagen(string nombre) {
 
@@ -33,11 +32,10 @@ void Imagen::dibujarSobreSup(SDL_Surface* superficie, SDL_Rect* posicionEnSup){
 	if (this->superficie == NULL) {
 
 		SDL_Surface* imagenInicial = cargarBMP(); 
-
 		this->superficie = imagenInicial;
 
 		if(imagenInicial != NULL) {
-
+		
 			// solo hacer resize si es necesario
 			if (imagenInicial->clip_rect.w != this->getAncho() 
 				|| imagenInicial->clip_rect.h != this->getAlto()) {
@@ -78,98 +76,95 @@ long Imagen::getTamanio() {
 }
 
 SDL_Surface* Imagen::cargarBMP() {
-	SDL_Surface* superficie = NULL;
-	Uint32 rmask = 0x00ff0000;
-	Uint32 gmask = 0x0000ff00;
-	Uint32 bmask = 0x000000ff;
-	Uint32 amask = 0x00000000;
 
-	FILE *archivo = NULL;
 	BITMAPFILEHEADER encabezadoArchivo;
 	BITMAPINFOHEADER encabezadoMapaDeBits;
 	char *imagenStream = NULL;
 	
-	archivo = fopen(this->nombre.c_str(),"rb"); // "rb" solo lectura, en binario
-	if (archivo == NULL)
+	ifstream archivo(this->nombre.c_str(), ios::in | ios::binary);
+	if (archivo.fail() || archivo.bad())
 		return NULL;
 
 	//leo el encabezado del archivo bmp
-	fread(&encabezadoArchivo, sizeof(BITMAPFILEHEADER),1,archivo);
-	if (ferror(archivo)) {
-		fclose(archivo);
+	archivo.read((char*)&encabezadoArchivo, sizeof(BITMAPFILEHEADER));
+	if (archivo.fail() || archivo.bad()) {
+		archivo.close();
 		return NULL;
 	}
 
 	//si es un bmp entonces el bfType tiene que ser 0x4D42
 	if (encabezadoArchivo.bfType != 0x4D42) {
-		fclose(archivo);
+		archivo.close();
 		return NULL;
 	}
 	
 	//leo la info del encabezado
-	fread(&encabezadoMapaDeBits, sizeof(BITMAPINFOHEADER),1,archivo);
-	if (ferror(archivo)) {
-		fclose(archivo);
+	archivo.read((char*)&encabezadoMapaDeBits, sizeof(BITMAPINFOHEADER));
+	if (archivo.fail() || archivo.bad()) {
+		archivo.close();
 		return NULL;
 	}
 
 	//tamanio de la imagen sin metadata
 	int tamanioEnBytes = encabezadoMapaDeBits.biSizeImage;
-	if (tamanioEnBytes < 1)
+	if (tamanioEnBytes < 1) {
+		archivo.close();
 		return NULL;
+	}
 
 	imagenStream = new char[tamanioEnBytes];
 	if (!imagenStream) {
-		fclose(archivo);
+		archivo.close();
 		return NULL;
 	}
 
 	//leo los datos de la imagen
-	fread(imagenStream,tamanioEnBytes,1,archivo);
-	if (ferror(archivo)) {
+	archivo.read(imagenStream,tamanioEnBytes);
+	if (archivo.fail() || archivo.bad()) {
 		delete[] imagenStream;
-		fclose(archivo);
+		archivo.close();
 		return NULL;
 	}
 	
 	//se invierte verticalmente la imagen
 	char *imagenStreamInvertida = invertirBMP(imagenStream, encabezadoMapaDeBits);
 
-	// pitch debe ser multiplo de 4
-	int pitch = 3*encabezadoMapaDeBits.biWidth;
+	//el pitch debe ser multiplo de 4
+	int pitch = encabezadoMapaDeBits.biWidth * ServiciosGraficos::getVideoInfo()->vfmt->BytesPerPixel;
 	if (pitch % 4 != 0) {
 		pitch += 4 - (pitch % 4);
 	}
-	superficie = SDL_CreateRGBSurfaceFrom(imagenStreamInvertida,encabezadoMapaDeBits.biWidth,
-		encabezadoMapaDeBits.biHeight,24,pitch,rmask,gmask,bmask,amask);
+
+	SDL_Surface* superficie = SDL_CreateRGBSurfaceFrom(
+		imagenStreamInvertida,
+		encabezadoMapaDeBits.biWidth,
+		encabezadoMapaDeBits.biHeight,
+		ServiciosGraficos::getVideoInfo()->vfmt->BitsPerPixel,
+		pitch,
+        ServiciosGraficos::getVideoInfo()->vfmt->Rmask, 
+		ServiciosGraficos::getVideoInfo()->vfmt->Gmask,
+        ServiciosGraficos::getVideoInfo()->vfmt->Bmask, 
+		ServiciosGraficos::getVideoInfo()->vfmt->Amask);
 
 	delete[] imagenStream;
-	fclose(archivo);
+	archivo.close();
 	return superficie;
 }
 
 
 char* Imagen::invertirBMP(char *imagenStream, BITMAPINFOHEADER encabezadoMapaDeBits)
 {
-	int cantidadFila = encabezadoMapaDeBits.biHeight;
-
-	// el ancho no puede medirse asi porque esto no considera el padding por fila
-	//int cantidadXColum = encabezadoMapaDeBits.biWidth * BYTES_POR_PIXEL;
-	int cantidadXColum = encabezadoMapaDeBits.biSizeImage/encabezadoMapaDeBits.biHeight;
-	int k = 0;
-	int j = 0;
-	char *imagenStreamCopia;
-	int posicion = 0;
-	imagenStreamCopia = new char[encabezadoMapaDeBits.biSizeImage];
-	for (int i = 1 ; i <=cantidadFila;i++)
-	{
-		k = cantidadFila - (i-1);
-		posicion = (i-1)*cantidadXColum;
-		int w = (k-1)*cantidadXColum;
-		for (j=0; j< cantidadXColum; j++)
-		{
-			imagenStreamCopia[j+posicion] = imagenStream[w];
-			w++;
+	int cantidadFilas = encabezadoMapaDeBits.biHeight;
+	int bytesPorColumna = encabezadoMapaDeBits.biSizeImage/encabezadoMapaDeBits.biHeight;
+	int offsetFila = 0;
+	int offsetColumna = 0;
+	char *imagenStreamCopia = new char[encabezadoMapaDeBits.biSizeImage];
+	for (int i = 0 ; i < cantidadFilas ; i++) {
+		offsetFila = i * bytesPorColumna;
+		offsetColumna = (cantidadFilas - i - 1) * bytesPorColumna;
+		for (int j = 0 ; j < bytesPorColumna ; j++) {
+			imagenStreamCopia[j + offsetFila] = imagenStream[offsetColumna];
+			offsetColumna++;
 		}
 	}
 	return imagenStreamCopia;
