@@ -11,6 +11,8 @@
 
 int main (int argc, char** argv)
 {
+	OperacionUICliente* operacion = NULL;
+
 	try {
 		UICliente::iniciarAplicacion();
 
@@ -19,12 +21,7 @@ int main (int argc, char** argv)
 		FabricaOperacionesCliente fab;
 		Ventana ventana;
 
-		//ejemplo de solicitud de imagenes al servidor
-		//OperacionUICliente* operacion = fab.newOperacion("OpUIClienteSolicitarArchivo", "test1234.bmp");
-		//operacion->ejecutar(&ventana);
-		//delete(operacion);
-
-		OperacionUICliente* operacion = fab.newOperacion(idOperacionInicial);
+		operacion = fab.newOperacion(idOperacionInicial);
 		operacion->ejecutar(&ventana);
 		delete(operacion);
 
@@ -36,6 +33,9 @@ int main (int argc, char** argv)
 		RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
 		UICliente::mostrarMensaje(
 			"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+		if (operacion != NULL) {
+			delete(operacion);
+		}
 	}
 
 	return 0;
