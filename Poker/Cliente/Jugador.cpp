@@ -64,20 +64,21 @@ void Jugador::dibujarJugador(SDL_Surface* superficie) {
 		this->imagen->getAncho(), this->imagen->getAlto());
 	this->imagen->dibujarSobreSup(supImagen, this->imagen->getContornoRect());
 
+
 	// se crea una superficie de igual tamaño y se pinta como la mascara
 	ImagenRecortada* supCirculo = new ImagenRecortada(
 		this->imagen->getAncho(), this->imagen->getAlto());
 
 	// se dibuja el circulo sobre esa superficie
-	SDL_Rect* offset = this->imagen->getContornoRect();	
+	SDL_Rect* offset = this->imagen->getContornoRect();
 
-	Color colorCirculo(RecursosAplicacion::getClienteConfigProperties()->get(
+	Color* colorCirculo = new Color(RecursosAplicacion::getClienteConfigProperties()->get(
 		"cliente.tema.default.jugador.color.borde"));
 	ServiciosGraficos::dibujarElipse(
-		supCirculo->getSuperficie(), offset, &colorCirculo); 
+		supCirculo->getSuperficie(), offset, colorCirculo); 
 
 	// se funde la imagen de la foto y la del circulo
-	ServiciosGraficos::copiarDentro(supImagen, supCirculo->getSuperficie(), &colorCirculo);
+	ServiciosGraficos::copiarDentro(supImagen, supCirculo->getSuperficie(), colorCirculo);
 
 
 	// se dibuja el circulo con la foto dentro sobre la superficie recibida
@@ -85,9 +86,12 @@ void Jugador::dibujarJugador(SDL_Surface* superficie) {
 	supCirculo->setPosY(this->imagen->getPosY());
 	supCirculo->dibujar(superficie);
 
+	// limpieza
+	delete(colorCirculo);
 	delete(supCirculo);
 	SDL_FreeSurface(supImagen);
 	delete(supImagen);
+
 }
 
 int Jugador::getId() {
