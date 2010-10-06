@@ -68,6 +68,8 @@ void ServiciosGraficos::dibujarElipse(SDL_Surface* superficie,
 	unlock(superficie);
 }
 
+
+
 void ServiciosGraficos::merge(SDL_Surface* origen, SDL_Surface* destino, 
 	SDL_Rect* offsetDestino, Uint32 colorMascara){
 
@@ -101,12 +103,26 @@ void ServiciosGraficos::copiarDentro(SDL_Surface* origen,
 
 	 Uint32 pixelLimite = colorFigura->toUint32(destino);
 
-	 while (linea < destino->h) {
+	 int memoriaInicio = -1;
+	 int memoriaFin = -1;
 
+	 while (linea < destino->h) {
+		 
 		 int inicio = ServiciosGraficos::findFirstPorLinea(
 			 destino, 0, destino->w, linea, pixelLimite);
 
-		 while (inicio >= 0 && inicio < destino->w) {
+		 // correccion para lineas en las que no encuentra el pixel limite: se toma el mismo
+		 // de la linea anterior
+		 if (inicio >= 0) {
+			 memoriaInicio = inicio;
+		 
+		 } else {
+			 if (memoriaInicio >= 0) {
+				inicio = memoriaInicio;
+			}
+		 }
+
+		 if (inicio >= 0 && inicio < destino->w) {
 
 			 Uint32 pixelInicio = ServiciosGraficos::getPixel(destino, inicio, linea);
 			 // avanzo todos los pixels del color
@@ -117,8 +133,19 @@ void ServiciosGraficos::copiarDentro(SDL_Surface* origen,
 
 			 if (inicio < destino->w) {
 
-				 int fin = ServiciosGraficos::findFirstPorLinea(
+				 int fin = ServiciosGraficos::findLastPorLinea(
 					 destino, inicio, destino->w, linea, pixelLimite);
+
+				 // correccion para lineas en las que no encuentra el pixel limite: se toma el mismo
+				 // de la linea anterior
+				 if (fin >= 0) {
+					 memoriaFin = fin;
+				 
+				 } else {
+					 if (memoriaFin >= 0) {
+						fin = memoriaFin;
+					}
+				 }
 
 				 if (fin > 0) {
 
@@ -127,12 +154,7 @@ void ServiciosGraficos::copiarDentro(SDL_Surface* origen,
 						 ServiciosGraficos::putPixel(destino, x, linea, 
 							 ServiciosGraficos::getPixel(origen, x, linea));
 					 }
-
-					 inicio = fin;
 				 
-				 } else {
-					 // si no encontre caracter de fin, salgo
-					 inicio = destino->w;
 				 }
 			 }
 		 }
@@ -161,6 +183,29 @@ int ServiciosGraficos::findFirstPorLinea(SDL_Surface* superficie,
 			posX = x;
 		}
 		x++;
+	}
+
+	return posX;
+}
+
+/**
+* Busca un pixel dentro de una linea de una superficie comenzando desde el final
+* y devuelve la posicion del primer
+* match, si es que existe. Si no, devuelve -1.
+* Busca desde xDesde inclusive hasta xHasta exclusive.
+*/
+int ServiciosGraficos::findLastPorLinea(SDL_Surface* superficie, 
+			int xDesde, int xHasta, int linea, Uint32 pixel){
+
+	int posX = -1;
+	int x = xHasta - 1;
+
+	while (x >= xDesde && posX == -1) {
+		Uint32 pixelEnc = ServiciosGraficos::getPixel(superficie, x, linea);
+		if (pixelEnc == pixel) {
+			posX = x;
+		}
+		x--;
 	}
 
 	return posX;
