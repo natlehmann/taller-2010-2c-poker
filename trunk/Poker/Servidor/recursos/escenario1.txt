@@ -53,7 +53,7 @@
 		</jugador>
 		
 		<jugador id="6" posicion="6" nombre="jugadorSeis">
-			<imagen nombre="jugador1.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<imagen nombre="jugador6.bmp" tamanio="31744" ancho="104" alto="99"/>
 			<fichas>540</fichas>
 			<apuesta>100</apuesta>
 			<cartas>
