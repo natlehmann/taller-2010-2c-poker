@@ -175,6 +175,7 @@ bool UICliente::conectarServidor()
 				UICliente::cliente->finalizarConexion();
 
 			delete(UICliente::cliente);
+			UICliente::cliente = NULL;
 		}
 
 		UICliente::cliente = new Cliente(puerto, ip);
@@ -190,6 +191,11 @@ bool UICliente::conectarServidor()
 
 		RecursosAplicacion::getLogErroresCliente()->escribir(
 			"No se puede establecer la conexion. O bien el servidor esta caido o la IP y puerto de conexion son incorrectos.");
+
+		if (UICliente::cliente != NULL) {
+			delete(UICliente::cliente);
+		}
+
 		exit(1);
 	}
 
