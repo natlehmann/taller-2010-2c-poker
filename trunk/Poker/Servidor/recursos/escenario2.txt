@@ -1,0 +1,53 @@
+<escenario>
+	<mesa id="1" fondo="mesa600x800.bmp"/>
+	
+	<jugadores>
+		<jugador id="1" posicion="1" nombre="jugadorUno">
+			<imagen nombre="jugador1.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>300</fichas>
+			<apuesta>50</apuesta>
+			<cartas>
+				<carta numero="2" palo="Corazon" visible="true"/> 
+				<carta numero="5" palo="Pica" visible="true"/> 
+			</cartas>
+		</jugador>
+		
+		
+		
+		<jugador id="3" posicion="3" nombre="jugadorTres">
+			<imagen nombre="jugador3.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>540</fichas>
+			<apuesta>100</apuesta>
+			<cartas>
+				<carta numero="k" palo="Trebol" visible="true"/> 
+				<carta numero="a" palo="Diamante" visible="true"/> 
+			</cartas>
+		</jugador>	
+		
+		<jugador id="4" posicion="4" nombre="jugadorCuatro">
+			<imagen nombre="jugador4.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>540</fichas>
+			<apuesta>100</apuesta>
+			<cartas>
+				<carta numero="9" palo="Trebol" visible="true"/> 
+				<carta numero="9" palo="Pica" visible="true"/> 
+			</cartas>
+		</jugador>
+		
+		<jugador id="5" posicion="5" nombre="jugadorCinco">
+			<imagen nombre="jugador2.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>540</fichas>
+			<apuesta>100</apuesta>
+			<cartas>
+				<carta numero="a" palo="Corazon" visible="false"/> 
+				<carta numero="5" palo="Pica" visible="false"/> 
+			</cartas>
+		</jugador>
+		
+		
+			
+	</jugadores>
+	
+	<bote>1782</bote>
+	
+</escenario>
