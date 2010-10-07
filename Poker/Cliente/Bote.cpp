@@ -3,6 +3,7 @@
 Bote::Bote(void)
 {
 	this->imagen = NULL;
+	this->etiqueta = NULL;
 	this->total = 0;
 }
 
