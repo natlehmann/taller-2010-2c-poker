@@ -1,5 +1,6 @@
 #include "ElementoGrafico.h"
 #include "Imagen.h"
+#include "Etiqueta.h"
 
 class Bote: public ElementoGrafico
 {
@@ -7,6 +8,7 @@ class Bote: public ElementoGrafico
 		int total;
 
 		Imagen* imagen;
+		Etiqueta* etiqueta;
 
 	public:
 		Bote(void);
