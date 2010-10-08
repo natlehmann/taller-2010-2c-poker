@@ -10,6 +10,7 @@ Carta::Carta(void)
 	this->numero = "";
 	this->palo = "";
 	this->visible = false;
+	this->posicion = 0;
 }
 
 Carta::~Carta(void)
@@ -101,4 +102,14 @@ bool Carta::getVisible()
 void Carta::setVisible(bool visible) 
 {
 	this->visible = visible;
+}
+
+int Carta::getPosicion() 
+{
+	return this->posicion;
+}
+
+void Carta::setPosicion(int posicion) 
+{
+	this->posicion = posicion;
 }
