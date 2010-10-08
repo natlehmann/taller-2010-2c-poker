@@ -46,6 +46,23 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 					bote->setTotal(UtilTiposDatos::getEntero((*itElementosVentana)->getTexto()));
 					ventana->agregarElementoGrafico(bote);
 				}
+				else if (MensajesUtil::sonIguales(XML_CARTASCOMUNITARIAS, (*itElementosVentana)->getNombre()))
+				{
+					// Se generan las CARTAS COMUNITARIAS
+					CartasComunitarias* cartascomunitarias = new CartasComunitarias();
+				
+					for(list<Elemento*>::iterator itCartas = (*itElementosVentana)->getHijos()->begin(); itCartas != (*itElementosVentana)->getHijos()->end(); itCartas++)
+					{
+						// Se genera las CARTAS
+						for(list<Elemento*>::iterator itCarta = (*itCartas)->getHijos()->begin(); itCarta != (*itCartas)->getHijos()->end(); itCarta++)
+						{
+							Carta* carta = generarCarta(itCarta);
+							cartascomunitarias->setCarta(carta);
+						}
+
+						ventana->agregarElementoGrafico(cartascomunitarias);
+					}
+				}
 			}
 		}
 		
@@ -108,6 +125,7 @@ Carta* FabricaDeElementosGraficos::generarCarta(list<Elemento*>::iterator itCart
 
 	carta->setNumero((*itCarta)->getAtributo("numero"));
 	carta->setPalo((*itCarta)->getAtributo("palo"));
+	carta->setPosicion(UtilTiposDatos::getEntero((*itCarta)->getAtributo("posicion")));
 	
 	if (MensajesUtil::sonIguales("true", (*itCarta)->getAtributo("visible")))
 		carta->setVisible(true);
