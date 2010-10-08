@@ -30,5 +30,11 @@ SDL_Surface* Fuente::obtenerSuperficieTexto(string texto, Color* fondo)
 
 Fuente::~Fuente(void)
 {
+	if (this->color != NULL) {
+		delete(this->color);
+	}
 
+	if (this->fuente != NULL) {
+		delete(this->fuente);
+	}
 }
