@@ -4,6 +4,7 @@
 #include "Mesa.h"
 #include "Jugador.h"
 #include "Carta.h"
+#include "CartasComunitarias.h"
 #include "Bote.h"
 #include "UtilTiposDatos.h"
 #include "ParserException.h"
@@ -18,6 +19,7 @@
 #define XML_FICHAS "fichas"
 #define XML_APUESTA "apuesta"
 #define XML_CARTAS "cartas"
+#define XML_CARTASCOMUNITARIAS "cartascomunitarias"
 
 class FabricaDeElementosGraficos
 {
