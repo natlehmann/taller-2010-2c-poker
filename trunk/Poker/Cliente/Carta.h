@@ -16,6 +16,7 @@ class Carta : public ElementoGrafico {
 		string numero;
 		string palo;
 		bool visible;
+		int posicion;
 
 		Imagen* imagen;
 
@@ -33,6 +34,8 @@ class Carta : public ElementoGrafico {
 		void setPalo(string palo);
 		bool getVisible();
 		void setVisible(bool visible);
+		int getPosicion();
+		void setPosicion(int posicion);
 
 };
 
