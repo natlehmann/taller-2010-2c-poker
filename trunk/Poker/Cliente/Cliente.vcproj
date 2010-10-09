@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Cliente"
 	ProjectGUID="{AABB0789-22C9-4C74-BA8B-189354326F8C}"
 	RootNamespace="Cliente"
@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CartasComunitarias.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Cliente.cpp"
 				>
 			</File>
@@ -268,6 +272,10 @@
 			</File>
 			<File
 				RelativePath=".\Jugador.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\JugadorAusente.cpp"
 				>
 			</File>
 			<File
@@ -417,6 +425,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CartasComunitarias.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Cliente.h"
 				>
 			</File>
@@ -498,6 +510,10 @@
 			</File>
 			<File
 				RelativePath=".\Jugador.h"
+				>
+			</File>
+			<File
+				RelativePath=".\JugadorAusente.h"
 				>
 			</File>
 			<File
