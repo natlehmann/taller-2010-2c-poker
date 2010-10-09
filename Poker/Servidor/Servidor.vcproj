@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Servidor"
 	ProjectGUID="{80034BA5-0061-4E00-B475-8FC007704BC7}"
 	RootNamespace="Servidor"
@@ -516,6 +516,42 @@
 			</File>
 			<File
 				RelativePath=".\recursos\escenario1.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario10.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario2.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario3.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario4.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario5.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario6.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario7.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario8.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario9.txt"
 				>
 			</File>
 		</Filter>
