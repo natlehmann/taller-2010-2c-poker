@@ -1,5 +1,7 @@
 #include "FabricaDeElementosGraficos.h"
 #include "Fichas.h"
+#include "ParserException.h"
+#include "JugadorAusente.h"
 
 FabricaDeElementosGraficos::FabricaDeElementosGraficos(void)
 {
@@ -31,12 +33,40 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 				}
 				else if (MensajesUtil::sonIguales(XML_JUGADORES, (*itElementosVentana)->getNombre()))
 				{
-					// Se genera los JUGADORES
-					for(list<Elemento*>::iterator itJugador = (*itElementosVentana)->getHijos()->begin(); itJugador != (*itElementosVentana)->getHijos()->end(); itJugador++) 
+					//
+					// Se generan los JUGADORES
+					//
+					if ((*itElementosVentana)->getHijos()->size() > 6) {
+						throw ParserException("El juego no admite mas de 6 jugadores.","V");
+					}
+
+					// control de posiciones ocupadas
+					bool posiciones[6];
+					for (int i = 0; i < 6; i++){
+						posiciones[i] = false;
+					}
+
+					for(list<Elemento*>::iterator itJugador = (*itElementosVentana)->getHijos()->begin(); 
+						itJugador != (*itElementosVentana)->getHijos()->end(); itJugador++) 
 					{
 						Jugador* jugador = generarJugador(itJugador);
+						if (posiciones[jugador->getPosicion() - 1]) {
+							throw ParserException(
+								"No puede haber mas de un jugador ocupando la misma posicion.","V");
+						}
+						posiciones[jugador->getPosicion() - 1] = true;
 						ventana->agregarElementoGrafico(jugador);
 					}
+
+					//se completan las posiciones vacias
+					for (int i = 0; i < 6; i++){
+						if (!posiciones[i]) {
+							JugadorAusente* jugadorAusente = new JugadorAusente();
+							jugadorAusente->setPosicion(i + 1);
+							ventana->agregarElementoGrafico(jugadorAusente);
+						}
+					}
+
 				}
 				else if (MensajesUtil::sonIguales(XML_BOTE, (*itElementosVentana)->getNombre()))
 				{
@@ -84,8 +114,6 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 		if (MensajesUtil::sonIguales(XML_IMAGEN, (*itElemento)->getNombre()))
 		{
 			// Se genera la IMAGEN y se la carga al JUGADOR
-			//string pathImagen = "..\\Servidor\\recursos\\imagenes\\";
-		    //imagen = new Imagen(pathImagen + (*itElemento)->getAtributo("nombre"));
 			imagen = new Imagen((*itElemento)->getAtributo("nombre"));
 			imagen->setTamanio(UtilTiposDatos::getEntero((*itElemento)->getAtributo("tamanio")));
 			imagen->setAncho(UtilTiposDatos::getEntero((*itElemento)->getAtributo("ancho")));
@@ -114,7 +142,12 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 	}
 
 	// La posicion se debe setear luego de cargar la imagen del jugador
-	jugador->setPosicion(UtilTiposDatos::getEntero((*itJugador)->getAtributo("posicion")));
+	int posicion = UtilTiposDatos::getEntero((*itJugador)->getAtributo("posicion"));
+	if (posicion < 1 || posicion > 6) {
+		throw ParserException("Posicion de jugador no valida: " + MensajesUtil::intToString(posicion)
+			+ ". Las posiciones validas son de 1 a 6.", "V");
+	}
+	jugador->setPosicion(posicion);
 
 	return jugador;
 }
