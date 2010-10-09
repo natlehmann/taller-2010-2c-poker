@@ -13,7 +13,7 @@ Jugador::Jugador(void) {
 	this->posicion = -1;
 	this->carta1 = NULL;
 	this->carta2 = NULL;
-	this->etiquetaNombre = new Etiqueta();
+	this->etiquetaNombre = NULL;
 	this->fichas = NULL;
 }
 
@@ -46,14 +46,21 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 		this->dibujarJugador(superficie);
 	}
 
-	this->carta1->dibujar(superficie);
-	this->carta2->dibujar(superficie);
+	if (this->carta1 != NULL) {
+		this->carta1->dibujar(superficie);
+	}
+
+	if (this->carta2 != NULL) {
+		this->carta2->dibujar(superficie);
+	}
 
 	if (this->fichas != NULL) {
 		this->fichas->dibujar(superficie);
 	}
 
-	this->etiquetaNombre->dibujar(superficie);
+	if (this->etiquetaNombre != NULL) {
+		this->etiquetaNombre->dibujar(superficie);
+	}
 
 }
 
@@ -108,6 +115,9 @@ string Jugador::getNombre() {
 
 void Jugador::setNombre(string nombre){
 	this->nombre = nombre;
+	if (this->etiquetaNombre == NULL) {
+		this->etiquetaNombre = new Etiqueta();
+	}
 	this->etiquetaNombre->setMensaje(nombre);
 }
 
@@ -171,33 +181,40 @@ void Jugador::setearDisposicionAIzq(){
 	this->imagen->setPosX(this->getPosX());
 	this->imagen->setPosY(this->getPosY());
 
-	this->etiquetaNombre->setPosX(this->getPosX());
-	this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
-	this->etiquetaNombre->setAncho(rectFoto->w);
-	if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQ_NOMBRE) {
-		this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
+	if (this->etiquetaNombre != NULL) {
+		this->etiquetaNombre->setPosX(this->getPosX());
+		this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
+		this->etiquetaNombre->setAncho(rectFoto->w);
+		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQ_NOMBRE) {
+			this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
 
-	} else {
-		this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQ_NOMBRE);
+		} else {
+			this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQ_NOMBRE);
+		}
 	}
 
 	int anchoCarta = (int)((this->getAncho() - rectFoto->w - SEPARACION_ENTRE_CARTAS * 2) / 2);
-	this->carta1->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
-	this->carta2->setPosX(this->getPosX() + this->getAncho() - anchoCarta);
 
-	this->carta1->setPosY(this->getPosY());
-	this->carta2->setPosY(this->getPosY());
+	if (this->carta1 != NULL) {
+		this->carta1->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
+		this->carta1->setPosY(this->getPosY());
+		this->carta1->setAncho(anchoCarta);
+		this->carta1->setAlto(rectFoto->h / 2);
+	}
 
-	this->carta1->setAncho(anchoCarta);
-	this->carta2->setAncho(anchoCarta);
+	if (this->carta2 != NULL) {
+		this->carta2->setPosX(this->getPosX() + this->getAncho() - anchoCarta);
+		this->carta2->setPosY(this->getPosY());
+		this->carta2->setAncho(anchoCarta);
+		this->carta2->setAlto(rectFoto->h / 2);
+	}
 
-	this->carta1->setAlto(rectFoto->h / 2);
-	this->carta2->setAlto(rectFoto->h / 2);
-
-	this->fichas->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
-	this->fichas->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_FICHAS);
-	this->fichas->setAncho(this->getAncho() - rectFoto->w);
-	this->fichas->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_FICHAS);
+	if (this->fichas != NULL) {
+		this->fichas->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
+		this->fichas->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_FICHAS);
+		this->fichas->setAncho(this->getAncho() - rectFoto->w);
+		this->fichas->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_FICHAS);
+	}
 }
 
 void Jugador::setearDisposicionADer(){
@@ -205,33 +222,40 @@ void Jugador::setearDisposicionADer(){
 	this->imagen->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
 	this->imagen->setPosY(this->getPosY());
 
-	this->etiquetaNombre->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
-	this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
-	this->etiquetaNombre->setAncho(rectFoto->w);
-	if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQ_NOMBRE) {
-		this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
+	if (this->etiquetaNombre != NULL) {
+		this->etiquetaNombre->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
+		this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
+		this->etiquetaNombre->setAncho(rectFoto->w);
+		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQ_NOMBRE) {
+			this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
 
-	} else {
-		this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQ_NOMBRE);
+		} else {
+			this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQ_NOMBRE);
+		}
 	}
 
 	int anchoCarta = (int)((this->getAncho() - rectFoto->w - SEPARACION_ENTRE_CARTAS * 2) / 2);
-	this->carta1->setPosX(this->getPosX());
-	this->carta2->setPosX(this->getPosX() + anchoCarta + SEPARACION_ENTRE_CARTAS);
 
-	this->carta1->setPosY(this->getPosY());
-	this->carta2->setPosY(this->getPosY());
+	if (this->carta1 != NULL) {
+		this->carta1->setPosX(this->getPosX());
+		this->carta1->setPosY(this->getPosY());
+		this->carta1->setAncho(anchoCarta);
+		this->carta1->setAlto(rectFoto->h / 2);
+	}
 
-	this->carta1->setAncho(anchoCarta);
-	this->carta2->setAncho(anchoCarta);
+	if (this->carta2 != NULL) {
+		this->carta2->setPosX(this->getPosX() + anchoCarta + SEPARACION_ENTRE_CARTAS);
+		this->carta2->setPosY(this->getPosY());
+		this->carta2->setAncho(anchoCarta);
+		this->carta2->setAlto(rectFoto->h / 2);
+	}
 
-	this->carta1->setAlto(rectFoto->h / 2);
-	this->carta2->setAlto(rectFoto->h / 2);
-
-	this->fichas->setPosX(this->getPosX());
-	this->fichas->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_FICHAS);
-	this->fichas->setAncho(this->getAncho() - rectFoto->w);
-	this->fichas->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_FICHAS);
+	if (this->fichas != NULL) {
+		this->fichas->setPosX(this->getPosX());
+		this->fichas->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_FICHAS);
+		this->fichas->setAncho(this->getAncho() - rectFoto->w);
+		this->fichas->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_FICHAS);
+	}
 }
 
 SDL_Rect* Jugador::calcularRectFoto(){
