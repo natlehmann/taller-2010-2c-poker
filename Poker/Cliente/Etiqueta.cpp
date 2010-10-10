@@ -40,6 +40,9 @@ void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){
 	SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(this->mensaje, this->fondo);
 
 	SDL_BlitSurface(superficieTexto, NULL, superficie, offset);
+
+	SDL_FreeSurface(superficieTexto);
+	delete (fuente);
 }
 
 void Etiqueta::setMensaje(string mensaje) {
