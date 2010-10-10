@@ -8,17 +8,33 @@
 #include <string.h>
 
 #include "Contenedor.h"
+#include "Boton.h"
+#include "Color.h"
+
 
 using namespace std;
 
 class Panel : public Contenedor
 {
+private:
+	Color* borde;
+	Color* fondo;
+	Boton* btDejarMesa;
+	Boton* btNoIr;
+	Boton* btIgualar;
+	Boton* btSubir;
+
+	void configurarBotones();
 protected:
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
 
 public:
 	Panel(void);
 	virtual ~Panel(void);
-};
 
+	Boton* getBotonDejarMesa();
+	Boton* getBotonNoIr();
+	Boton* getBotonIgualar();
+	Boton* getBotonSubir();
+};
 #endif //_PANEL_H__

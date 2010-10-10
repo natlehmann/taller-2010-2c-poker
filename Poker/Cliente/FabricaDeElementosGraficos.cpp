@@ -95,7 +95,7 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 				}
 			}
 		}
-		
+
 	}
 }
 

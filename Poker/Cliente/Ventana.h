@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
+#include "Panel.h"
 
 #include "Contenedor.h"
 
@@ -16,6 +17,7 @@ using namespace std;
 class Ventana : public Contenedor {
 private:
 	SDL_Surface* pantalla;
+	Panel* panelComando;
 
 protected:
 	virtual void dibujarSobreSup(SDL_Surface* superficie);

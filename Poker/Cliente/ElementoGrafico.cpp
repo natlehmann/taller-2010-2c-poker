@@ -1,5 +1,6 @@
 #include "ElementoGrafico.h"
 #include "ServiciosGraficos.h"
+#include "UIException.h"
 
 ElementoGrafico::ElementoGrafico(void) {
 	this->superficie = NULL;
@@ -45,6 +46,13 @@ void ElementoGrafico::dibujar(SDL_Surface* superficie){
 	} else {
 		this->dibujarSobreSup(this->superficie);
 	}
+}
+
+void ElementoGrafico::refrescar(SDL_Surface* superficie)
+{
+	if(SDL_Flip(superficie) == -1) { 
+		throw UIException("Error al redibujar la pantalla completa.","E");
+	} 
 }
 
 int ElementoGrafico::getPosX() {

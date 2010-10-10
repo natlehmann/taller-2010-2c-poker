@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Boton.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Carta.cpp"
 				>
 			</File>
@@ -422,6 +426,10 @@
 			</File>
 			<File
 				RelativePath=".\Bote.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Boton.h"
 				>
 			</File>
 			<File

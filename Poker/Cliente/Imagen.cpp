@@ -29,7 +29,7 @@ Imagen::~Imagen(void)
 
 void Imagen::dibujarSobreSup(SDL_Surface* superficie, SDL_Rect* posicionEnSup){
 
-	if (this->superficie == NULL) {
+	/*if (this->superficie == NULL) {
 
 		SDL_Surface* imagenInicial = cargarBMP(); 
 		this->superficie = imagenInicial;
@@ -46,7 +46,10 @@ void Imagen::dibujarSobreSup(SDL_Surface* superficie, SDL_Rect* posicionEnSup){
 					SDL_FreeSurface(imagenInicial);
 			}
 		}
-	}
+	}*/
+
+	//genera la superficie
+	this->generarSuperficie();
 
 	//si algo salio mal
 	if (this->superficie == NULL) {
@@ -61,6 +64,28 @@ void Imagen::dibujarSobreSup(SDL_Surface* superficie, SDL_Rect* posicionEnSup){
 void Imagen::dibujarSobreSup(SDL_Surface* superficie) {
 	this->dibujarSobreSup(superficie, this->getOffsetRect());
 }
+
+void Imagen::generarSuperficie() {
+	if (this->superficie == NULL) 
+	{
+		SDL_Surface* imagenInicial = cargarBMP(); 
+		this->superficie = imagenInicial;
+
+		if(imagenInicial != NULL) {
+		
+			// solo hacer resize si es necesario
+			if (imagenInicial->clip_rect.w != this->getAncho() 
+				|| imagenInicial->clip_rect.h != this->getAlto()) {
+			
+					this->superficie = ServiciosGraficos::resizeSuperficie(
+						imagenInicial, this->getAncho(), this->getAlto());
+
+					SDL_FreeSurface(imagenInicial);
+			}
+		}
+	}
+}
+
 
 
 string Imagen::getNombre(){

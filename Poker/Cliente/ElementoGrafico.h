@@ -34,6 +34,7 @@ public:
 	* sobre la propia superficie del elemento.
 	*/
 	virtual void dibujar(SDL_Surface* superficie);
+	virtual void refrescar(SDL_Surface* superficie);
 
 	virtual SDL_Surface* getSuperficie();
 
