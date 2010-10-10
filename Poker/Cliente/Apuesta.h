@@ -1,5 +1,5 @@
-#ifndef _FICHAS_H__
-#define _FICHAS_H__
+#ifndef _APUESTA_H__
+#define _APUESTA_H__
 
 
 #include <stdio.h>
@@ -11,9 +11,9 @@
 #include "Imagen.h"
 #include "Etiqueta.h"
 
-#define FICHAS_ALTO_ETIQUETA 0.30
+#define APUESTA_ALTO_ETIQUETA 0.30
 
-class Fichas : public ElementoGrafico {
+class Apuesta : public ElementoGrafico {
 private:
 	string cantidad;
 	Imagen* imagen;
@@ -23,11 +23,11 @@ protected:
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
 
 public:
-	Fichas(string cantidad);
-	virtual ~Fichas(void);
+	Apuesta(string cantidad);
+	virtual ~Apuesta(void);
 
 	string getCantidad();
 	void setCantidad(string cantidad);
 };
 
-#endif //_FICHAS_H__
+#endif //_APUESTA_H__
