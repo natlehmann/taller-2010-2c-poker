@@ -35,6 +35,8 @@ private:
 	void setearDisposicionAIzq();
 	void setearDisposicionADer();
 	SDL_Rect* calcularRectFoto();
+	Imagen* getImagenDefault();
+	void calcularCoordenadas();
 
 	void dibujarJugador(SDL_Surface* superficie);
 
