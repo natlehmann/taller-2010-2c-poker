@@ -12,6 +12,7 @@ ImagenRecortada::~ImagenRecortada(void){
 	if (this->colorMascara != NULL) {
 		delete (this->colorMascara);
 	}
+	this->superficie = NULL;
 }
 
 void ImagenRecortada::setAlto(int alto){
