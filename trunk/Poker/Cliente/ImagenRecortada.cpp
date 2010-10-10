@@ -57,7 +57,7 @@ SDL_Surface* ImagenRecortada::getSuperficie(){
 
 		if (this->superficie != NULL) {
 			SDL_FreeSurface(this->superficie);
-			delete (this->superficie);
+			//delete (this->superficie);
 		}
 
 		this->superficie = ServiciosGraficos::crearSuperficie(
