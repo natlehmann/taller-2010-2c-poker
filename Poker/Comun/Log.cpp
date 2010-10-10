@@ -23,14 +23,14 @@ Log::~Log(void) {
 
 void Log::escribir(Respuesta* respuesta) {
 
-	// TODO: VER SI ES NECESARIO QUE SE ESCRIBA CON FORMATO XML
+	// TODO: Si se escribe con FORMATO XML se haria el cambio aca
 	*(this->archivo) << this->getFecha() << ": (" << respuesta->getId() << ") " 
 			<<  respuesta->getValor() << endl;
 }
 
 void Log::escribir(string mensaje) {
 
-	// TODO: VER SI ES NECESARIO QUE SE ESCRIBA CON FORMATO XML
+	// TODO: Si se escribe con FORMATO XML se haria el cambio aca
 	*(this->archivo) << this->getFecha() << ": " << mensaje << endl;
 }
 
