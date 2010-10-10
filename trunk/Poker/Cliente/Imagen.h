@@ -30,6 +30,7 @@ public:
 	string getNombre();
 
 	void dibujarSobreSup(SDL_Surface* superficie, SDL_Rect* posicionEnSup);
+	void generarSuperficie();
 
 	void setTamanio(long tamanio);
 	long getTamanio();

@@ -47,15 +47,14 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 		it != this->elementos.end(); it++) {
 
 			(*it)->dibujar(this->pantalla);
-
-			// ESTO TIENE QUE ESTAR EN CADA UNO DE LOS ELEMENTOS GRAFICOS
-			//SDL_BlitSurface((*it)->getSuperficie(), (*it)->getOffsetRect(), 
-			//	this->pantalla, this->getOffsetRect()); 
 	}
 
-	if(SDL_Flip(this->pantalla) == -1) { 
-		throw UIException("Error al redibujar la pantalla completa.","E");
-	} 
+	//se genera el panel de comando
+	this->panelComando = new Panel();
+	panelComando->dibujar(this->pantalla);
+
+	//refresca la pantalla
+	this->refrescar(this->pantalla);
 
 	// TODO: ACA SE LANZARIA EL PROCESAMIENTO DE EVENTOS
 	bool listo = false;
@@ -63,8 +62,60 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 	while(!listo) {
 		while ( SDL_PollEvent(&event) ) 
 		{
-			if ( event.type == SDL_KEYDOWN )
-			listo = true;
+			switch (event.type)
+			{
+			case (SDL_KEYDOWN):
+				if (event.key.keysym.sym == SDLK_ESCAPE) 
+					listo = true;
+				break;
+			case (SDL_MOUSEMOTION):
+				this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);
+				this->panelComando->getBotonIgualar()->checkOver(this->pantalla);
+				this->panelComando->getBotonNoIr()->checkOver(this->pantalla);
+				this->panelComando->getBotonSubir()->checkOver(this->pantalla);
+				break;
+			case (SDL_MOUSEBUTTONDOWN):
+				if(this->panelComando->getBotonDejarMesa()->checkClick(this->pantalla))
+				{
+					//accion a realizar
+				}
+				else if(this->panelComando->getBotonIgualar()->checkClick(this->pantalla))
+				{
+					//accion a realizar
+				}
+				else if(this->panelComando->getBotonNoIr()->checkClick(this->pantalla))
+				{
+					//accion a realizar
+				}				
+				else if(this->panelComando->getBotonSubir()->checkClick(this->pantalla))
+				{
+					//accion a realizar
+				}
+				break;		
+			case (SDL_MOUSEBUTTONUP):
+				this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);
+				this->panelComando->getBotonIgualar()->checkOver(this->pantalla);
+				this->panelComando->getBotonNoIr()->checkOver(this->pantalla);
+				this->panelComando->getBotonSubir()->checkOver(this->pantalla);
+				break;		
+			}
+
+			//if(event.type == SDL_MOUSEMOTION)
+			//{
+			//	this->boton->checkOver(this->pantalla);
+			//}
+			//else if(event.type == SDL_KEYDOWN)
+			//{
+			//	if (event.key.keysym.sym == SDLK_ESCAPE) 
+			//		listo = true;
+			//}
+			//else if(event.type == SDL_MOUSEBUTTONDOWN)
+			//{
+			//  if(prettyredbutton.CheckClick())
+			//  {
+			//	  elf.Display(300,150);
+			//  }
+			//}
 		}
 	}
 }

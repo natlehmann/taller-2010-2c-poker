@@ -25,6 +25,7 @@ int main (int argc, char** argv)
 		operacion->ejecutar(&ventana);
 		delete(operacion);
 
+
 		ventana.dibujar(NULL);
 
 		UICliente::finalizar();
