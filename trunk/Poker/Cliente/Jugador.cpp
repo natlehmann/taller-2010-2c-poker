@@ -46,7 +46,8 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 		throw UIException("No se puede dibujar al jugador porque no se ha seteado su posicion.","E");
 	}
 
-	// TODO: Ver SI HABILITAMOS UNA IMAGEN DEFAULT EN CASO DE NO TENER NINGUNA
+	this->calcularCoordenadas();
+
 	if (this->imagen != NULL) {
 		this->dibujarJugador(superficie);
 	}
@@ -93,8 +94,10 @@ void Jugador::dibujarJugador(SDL_Surface* superficie) {
 	ServiciosGraficos::dibujarElipse(
 		supCirculo->getSuperficie(), offset, colorCirculo); 
 
+
 	// se funde la imagen de la foto y la del circulo
 	ServiciosGraficos::copiarDentro(supImagen, supCirculo->getSuperficie(), colorCirculo);
+			
 
 
 	// se dibuja el circulo con la foto dentro sobre la superficie recibida
@@ -102,11 +105,12 @@ void Jugador::dibujarJugador(SDL_Surface* superficie) {
 	supCirculo->setPosY(this->imagen->getPosY());
 	supCirculo->dibujar(superficie);
 
+
 	// limpieza
 	delete(colorCirculo);
 	delete(supCirculo);
 	SDL_FreeSurface(supImagen);
-	delete(supImagen);
+	//delete(supImagen);
 
 }
 
@@ -136,6 +140,10 @@ int Jugador::getPosicion() {
 
 void Jugador::setPosicion(int posicion) {
 	this->posicion = posicion;
+}
+
+
+void Jugador::calcularCoordenadas() {
 
 	switch(posicion) {
 		case 1:
@@ -186,6 +194,11 @@ void Jugador::setPosicion(int posicion) {
 }
 
 void Jugador::setearDisposicionAIzq(){
+
+	if (this->imagen == NULL) {
+		this->imagen = this->getImagenDefault();
+	}
+
 	SDL_Rect* rectFoto = this->calcularRectFoto();
 	this->imagen->setPosX(this->getPosX());
 	this->imagen->setPosY(this->getPosY());
@@ -238,6 +251,11 @@ void Jugador::setearDisposicionAIzq(){
 }
 
 void Jugador::setearDisposicionADer(){
+
+	if (this->imagen == NULL) {
+		this->imagen = this->getImagenDefault();
+	}
+
 	SDL_Rect* rectFoto = this->calcularRectFoto();
 	this->imagen->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
 	this->imagen->setPosY(this->getPosY());
@@ -305,15 +323,18 @@ SDL_Rect* Jugador::calcularRectFoto(){
 	return this->imagen->getContornoRect();
 }
 
+Imagen* Jugador::getImagenDefault(){
+	Imagen* imagenDefault = new Imagen(RecursosAplicacion::getClienteConfigProperties()->get(
+		"cliente.tema.default.jugador.imagen.default"));
+	return imagenDefault;
+}
+
 Imagen* Jugador::getImagen() {
 	return this->imagen;
 }
 
 void Jugador::setImagen(Imagen* imagen) {
-	this->imagen = imagen;
-
-	// TODO: VER SI ACA SE CARGA LA IMAGEN
-	
+	this->imagen = imagen;	
 }
 
 void Jugador::setCarta1(Carta* carta){
