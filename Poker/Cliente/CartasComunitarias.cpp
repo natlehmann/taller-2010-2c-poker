@@ -36,12 +36,21 @@ CartasComunitarias::~CartasComunitarias(void)
 void CartasComunitarias::dibujarSobreSup(SDL_Surface* superficie)
 {
 	this->setearPosicionCartas();
-
-	this->carta1->dibujar(superficie);
-	this->carta2->dibujar(superficie);
-	this->carta3->dibujar(superficie);
-	this->carta4->dibujar(superficie);
-	this->carta5->dibujar(superficie);
+	if (this->carta1 != NULL){
+			this->carta1->dibujar(superficie);
+	}
+	if (this->carta2 != NULL){
+			this->carta2->dibujar(superficie);
+	}	
+	if (this->carta3 != NULL){
+			this->carta3->dibujar(superficie);
+	}
+	if (this->carta4 != NULL){
+			this->carta4->dibujar(superficie);
+	}
+	if (this->carta5 != NULL){
+			this->carta5->dibujar(superficie);
+	}
 }
 
 void CartasComunitarias::setCarta(Carta* carta)
@@ -72,28 +81,34 @@ void CartasComunitarias::setCarta(Carta* carta)
 void CartasComunitarias::setearPosicionCartas()
 {
 	int anchoCarta = (int)((this->getAncho() - SEPARACION_ENTRE_CARTAS * 6) / 5);
-	
-	this->carta1->setPosX(this->getPosX() + SEPARACION_ENTRE_CARTAS);
-	this->carta2->setPosX(this->getPosX() + anchoCarta + SEPARACION_ENTRE_CARTAS*2);
-	this->carta3->setPosX(this->getPosX() + anchoCarta*2 + SEPARACION_ENTRE_CARTAS*3);
-	this->carta4->setPosX(this->getPosX() + anchoCarta*3 + SEPARACION_ENTRE_CARTAS*4);
-	this->carta5->setPosX(this->getPosX() + anchoCarta*4 + SEPARACION_ENTRE_CARTAS*5);
-	
-	this->carta1->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
-	this->carta2->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
-	this->carta3->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
-	this->carta4->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
-	this->carta5->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
-	
-	this->carta1->setAncho(anchoCarta);
-	this->carta2->setAncho(anchoCarta);
-	this->carta3->setAncho(anchoCarta);
-	this->carta4->setAncho(anchoCarta);
-	this->carta5->setAncho(anchoCarta);
-
-	this->carta1->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
-	this->carta2->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
-	this->carta3->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
-	this->carta4->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
-	this->carta5->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
+	if (this->carta1 != NULL){
+		this->carta1->setPosX(this->getPosX() + SEPARACION_ENTRE_CARTAS);
+		this->carta1->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
+		this->carta1->setAncho(anchoCarta);
+		this->carta1->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
+	}
+	if (this->carta2 != NULL){
+		this->carta2->setPosX(this->getPosX() + anchoCarta + SEPARACION_ENTRE_CARTAS*2);
+		this->carta2->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
+		this->carta2->setAncho(anchoCarta);
+		this->carta2->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
+	}
+	if (this->carta3 != NULL){
+		this->carta3->setPosX(this->getPosX() + anchoCarta*2 + SEPARACION_ENTRE_CARTAS*3);
+		this->carta3->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
+		this->carta3->setAncho(anchoCarta);
+		this->carta3->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
+	}
+	if (this->carta4 != NULL){
+		this->carta4->setPosX(this->getPosX() + anchoCarta*3 + SEPARACION_ENTRE_CARTAS*4);
+		this->carta4->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
+		this->carta4->setAncho(anchoCarta);
+		this->carta4->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
+	}
+	if (this->carta5 != NULL){
+		this->carta5->setPosX(this->getPosX() + anchoCarta*4 + SEPARACION_ENTRE_CARTAS*5);
+		this->carta5->setPosY(this->getPosY() + SEPARACION_CON_BORDE_SUP);
+		this->carta5->setAlto(this->alto - SEPARACION_CON_BORDE_INF);
+		this->carta5->setAncho(anchoCarta);
+	}
 }
