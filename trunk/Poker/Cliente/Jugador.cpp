@@ -5,6 +5,7 @@
 #include "Color.h"
 #include "ImagenRecortada.h"
 #include "RecursosAplicacion.h"
+#include "UtilTiposDatos.h"
 
 Jugador::Jugador(void) {
 	this->imagen = NULL;
@@ -14,7 +15,8 @@ Jugador::Jugador(void) {
 	this->carta1 = NULL;
 	this->carta2 = NULL;
 	this->etiquetaNombre = NULL;
-	this->fichas = NULL;
+	this->etiquetaFichas = NULL;
+	this->apuesta = NULL;
 }
 
 Jugador::~Jugador(void) {
@@ -27,11 +29,14 @@ Jugador::~Jugador(void) {
 	if (this->carta2 != NULL) {
 		delete (this->carta2);
 	}
-	if (this->fichas != NULL) {
-		delete (this->fichas);
+	if (this->apuesta != NULL) {
+		delete (this->apuesta);
 	}
 	if (this->etiquetaNombre != NULL) {
 		delete (this->etiquetaNombre);
+	}
+	if (this->etiquetaFichas != NULL) {
+		delete (this->etiquetaFichas);
 	}
 }
 
@@ -54,12 +59,16 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 		this->carta2->dibujar(superficie);
 	}
 
-	if (this->fichas != NULL) {
-		this->fichas->dibujar(superficie);
+	if (this->apuesta != NULL) {
+		this->apuesta->dibujar(superficie);
 	}
 
 	if (this->etiquetaNombre != NULL) {
 		this->etiquetaNombre->dibujar(superficie);
+	}
+
+	if (this->etiquetaFichas != NULL) {
+		this->etiquetaFichas->dibujar(superficie);
 	}
 
 }
@@ -185,11 +194,22 @@ void Jugador::setearDisposicionAIzq(){
 		this->etiquetaNombre->setPosX(this->getPosX());
 		this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
 		this->etiquetaNombre->setAncho(rectFoto->w);
-		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQ_NOMBRE) {
+		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQUETA) {
 			this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
 
 		} else {
-			this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQ_NOMBRE);
+			this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQUETA);
+		}
+	}
+
+	if (this->etiquetaFichas != NULL) {
+		this->etiquetaFichas->setPosX(this->getPosX());
+		this->etiquetaFichas->setPosY(this->getPosY() + rectFoto->h + this->etiquetaNombre->getAlto());
+		this->etiquetaFichas->setAncho(rectFoto->w);
+		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQUETA) {
+			this->etiquetaFichas->setAlto(this->getAlto() - rectFoto->h);
+		} else {
+			this->etiquetaFichas->setAlto(ALTO_MAXIMO_ETIQUETA);
 		}
 	}
 
@@ -209,11 +229,11 @@ void Jugador::setearDisposicionAIzq(){
 		this->carta2->setAlto(rectFoto->h / 2);
 	}
 
-	if (this->fichas != NULL) {
-		this->fichas->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
-		this->fichas->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_FICHAS);
-		this->fichas->setAncho(this->getAncho() - rectFoto->w);
-		this->fichas->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_FICHAS);
+	if (this->apuesta != NULL) {
+		this->apuesta->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
+		this->apuesta->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_APUESTA);
+		this->apuesta->setAncho(this->getAncho() - rectFoto->w);
+		this->apuesta->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_APUESTA);
 	}
 }
 
@@ -226,11 +246,22 @@ void Jugador::setearDisposicionADer(){
 		this->etiquetaNombre->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
 		this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
 		this->etiquetaNombre->setAncho(rectFoto->w);
-		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQ_NOMBRE) {
+		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQUETA) {
 			this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
 
 		} else {
-			this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQ_NOMBRE);
+			this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQUETA);
+		}
+	}
+
+	if (this->etiquetaFichas != NULL) {
+		this->etiquetaFichas->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
+		this->etiquetaFichas->setPosY(this->getPosY() + rectFoto->h + this->etiquetaNombre->getAlto());
+		this->etiquetaFichas->setAncho(rectFoto->w);
+		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQUETA) {
+			this->etiquetaFichas->setAlto(this->getAlto() - rectFoto->h);
+		} else {
+			this->etiquetaFichas->setAlto(ALTO_MAXIMO_ETIQUETA);
 		}
 	}
 
@@ -250,11 +281,11 @@ void Jugador::setearDisposicionADer(){
 		this->carta2->setAlto(rectFoto->h / 2);
 	}
 
-	if (this->fichas != NULL) {
-		this->fichas->setPosX(this->getPosX());
-		this->fichas->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_FICHAS);
-		this->fichas->setAncho(this->getAncho() - rectFoto->w);
-		this->fichas->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_FICHAS);
+	if (this->apuesta != NULL) {
+		this->apuesta->setPosX(this->getPosX());
+		this->apuesta->setPosY(this->getPosY() + rectFoto->h / 2 + SEPARACION_CARTAS_APUESTA);
+		this->apuesta->setAncho(this->getAncho() - rectFoto->w);
+		this->apuesta->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_APUESTA);
 	}
 }
 
@@ -315,15 +346,27 @@ void Jugador::setCarta(Carta* carta){
 	}
 }
 
-void Jugador::setFichas(string cantidad) {
-	if (this->fichas == NULL) {
-		this->fichas = new Fichas(cantidad);
+void Jugador::setApuesta(string cantidad) {
+	if (this->apuesta == NULL) {
+		this->apuesta = new Apuesta(cantidad);
 	
 	} else {
-		this->fichas->setCantidad(cantidad);
+		this->apuesta->setCantidad(cantidad);
 	}
 }
 
-Fichas* Jugador::getFichas(){
+Apuesta* Jugador::getApuesta(){
+	return this->apuesta;
+}
+
+void Jugador::setFichas(int cantidad) {
+	this->fichas = cantidad;
+	if (this->etiquetaFichas == NULL) {
+		this->etiquetaFichas = new Etiqueta();
+	}
+	this->etiquetaFichas->setMensaje(UtilTiposDatos::enteroAString(cantidad));
+}
+
+int Jugador::getFichas() {
 	return this->fichas;
 }

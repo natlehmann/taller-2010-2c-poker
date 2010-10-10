@@ -10,25 +10,27 @@
 #include "ElementoGrafico.h"
 #include "Imagen.h"
 #include "Carta.h"
-#include "Fichas.h"
+#include "Apuesta.h"
 #include "Etiqueta.h"
 
 #define ALTO_MIN_ETIQUETA	0.25
 #define ANCHO_MIN_CARTAS	0.3
 #define SEPARACION_ENTRE_CARTAS	 1
-#define SEPARACION_CARTAS_FICHAS 5
-#define ALTO_MAXIMO_ETIQ_NOMBRE  30
+#define SEPARACION_CARTAS_APUESTA 5
+#define ALTO_MAXIMO_ETIQUETA 23
 
 class Jugador : public ElementoGrafico {
 private:
 	int id;
 	string nombre;
+	int fichas;
 	int posicion;
 	Imagen* imagen;
 	Carta* carta1;
 	Carta* carta2;
-	Fichas* fichas;
+	Apuesta* apuesta;
 	Etiqueta* etiquetaNombre;
+	Etiqueta* etiquetaFichas;
 
 	void setearDisposicionAIzq();
 	void setearDisposicionADer();
@@ -64,8 +66,11 @@ public:
 	*/
 	void setCarta(Carta* carta);
 
-	void setFichas(string cantidad);
-	Fichas* getFichas();
+	void setApuesta(string cantidad);
+	Apuesta* getApuesta();
+
+	void setFichas(int cantidad);
+	int getFichas();
 };
 
 #endif //_JUGADOR_H__

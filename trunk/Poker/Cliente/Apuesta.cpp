@@ -1,13 +1,13 @@
-#include "Fichas.h"
+#include "Apuesta.h"
 #include "RecursosAplicacion.h"
 
-Fichas::Fichas(string cantidad) {
+Apuesta::Apuesta(string cantidad) {
 	this->imagen = NULL;
 	this->cantidad = cantidad;
 	this->etiqueta = NULL;
 }
 
-Fichas::~Fichas(void) {
+Apuesta::~Apuesta(void) {
 	if (this->imagen != NULL) {
 		delete(this->imagen);
 	}
@@ -16,15 +16,15 @@ Fichas::~Fichas(void) {
 	}
 }
 
-void Fichas::dibujarSobreSup(SDL_Surface* superficie){
+void Apuesta::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->imagen == NULL) {
 		this->imagen = new Imagen(
 			RecursosAplicacion::getClienteConfigProperties()->get(
-			"cliente.tema.default.imagen.fichas"));
+			"cliente.tema.default.imagen.apuesta"));
 	}
 
-	int altoEtiqueta = (int)(this->getAlto() * FICHAS_ALTO_ETIQUETA);
+	int altoEtiqueta = (int)(this->getAlto() * APUESTA_ALTO_ETIQUETA);
 
 	this->imagen->setPosX(this->getPosX());
 	this->imagen->setPosY(this->getPosY());
@@ -47,10 +47,10 @@ void Fichas::dibujarSobreSup(SDL_Surface* superficie){
 
 }
 
-string Fichas::getCantidad() {
+string Apuesta::getCantidad() {
 	return this->cantidad;
 }
 
-void Fichas::setCantidad(string cantidad) {
+void Apuesta::setCantidad(string cantidad) {
 	this->cantidad = cantidad;
 }

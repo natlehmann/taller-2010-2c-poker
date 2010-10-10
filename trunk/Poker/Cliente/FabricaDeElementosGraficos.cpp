@@ -1,5 +1,5 @@
 #include "FabricaDeElementosGraficos.h"
-#include "Fichas.h"
+#include "Apuesta.h"
 #include "ParserException.h"
 #include "JugadorAusente.h"
 
@@ -123,12 +123,12 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 		else if (MensajesUtil::sonIguales(XML_FICHAS, (*itElemento)->getNombre()))
 		{
 			// Se genera las FICHAS
-			jugador->setFichas((*itElemento)->getTexto());
+			jugador->setFichas(UtilTiposDatos::getEntero((*itElemento)->getTexto()));
 		}
 		else if (MensajesUtil::sonIguales(XML_APUESTA, (*itElemento)->getNombre()))
 		{
 			// Se genera la APUESTA
-			int cantidadApuesta = UtilTiposDatos::getEntero((*itElemento)->getTexto());
+			jugador->setApuesta((*itElemento)->getTexto());
 		}
 		else if (MensajesUtil::sonIguales(XML_CARTAS, (*itElemento)->getNombre()))
 		{
