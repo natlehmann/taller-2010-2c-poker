@@ -32,6 +32,9 @@ void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){
 	offset->w = this->getAncho();
 	offset->h = this->getAlto();
 
+	//if (this->borde != NULL) {
+	//	SDL_FillRect(superficie, offset, this->borde->toUint32(superficie));
+	//}
 	if (this->fondo != NULL) {
 		SDL_FillRect(superficie, offset, this->fondo->toUint32(superficie));
 	}
@@ -55,7 +58,7 @@ void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){
 	
 	Fuente* fuente = new Fuente(color, tamanio, estilo);
 		
-	SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(this->mensaje, this->fondo);
+	SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(this->mensaje, NULL);
 
 	this->ajustarOffset(offset, superficieTexto);
 

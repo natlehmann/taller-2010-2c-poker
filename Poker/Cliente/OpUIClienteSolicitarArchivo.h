@@ -15,7 +15,7 @@ class OpUIClienteSolicitarArchivo : public OperacionUICliente
 		OpUIClienteSolicitarArchivo(vector<string> parametros);
 		virtual ~OpUIClienteSolicitarArchivo(void);
 
-	virtual void ejecutar(Ventana* ventana);
+	virtual bool ejecutar(Ventana* ventana);
 };
 
 #endif

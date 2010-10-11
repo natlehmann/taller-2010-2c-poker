@@ -12,7 +12,7 @@ public:
 	OpUIClienteSolicitarEscenario(void);
 	virtual ~OpUIClienteSolicitarEscenario(void);
 
-	virtual void ejecutar(Ventana* ventana);
+	virtual bool ejecutar(Ventana* ventana);
 };
 
 #endif
