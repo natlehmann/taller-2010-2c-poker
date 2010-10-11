@@ -38,13 +38,21 @@ bool OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 	string msjRecibido;
 	bool recibido = cliente->recibirMsj(msjRecibido);
 
-	try {
-		DomTree* arbolEscenario = parser->toDom(msjRecibido, "escenario");
-		FabricaDeElementosGraficos::generarEscenario(arbolEscenario, ventana);
-		delete (arbolEscenario);
+	if (msjRecibido.length() > 1)
+	{
+		try {
+			DomTree* arbolEscenario = parser->toDom(msjRecibido, "escenario");
+			FabricaDeElementosGraficos::generarEscenario(arbolEscenario, ventana);
+			delete (arbolEscenario);
 
-	} catch (PokerException& e) {
-		RecursosAplicacion::getLogErroresCliente()->escribir(&(Respuesta)e.getError());
+		} catch (PokerException& e) {
+			RecursosAplicacion::getLogErroresCliente()->escribir(&(Respuesta)e.getError());
+			ok = false;
+		}
+	}
+	else
+	{
+		RecursosAplicacion::getLogErroresCliente()->escribir("El servidor no devolvio ningun escenario.");
 		ok = false;
 	}
 
