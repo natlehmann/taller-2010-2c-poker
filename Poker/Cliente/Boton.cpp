@@ -153,7 +153,7 @@ Imagen* Boton::setearImagen(string nombreImagen)
 	SDL_BlitSurface(superficieTexto, NULL, imagen->getSuperficie(), offsetTexto);
 
 	delete(fuente);
-	delete(superficieTexto);
+	SDL_FreeSurface(superficieTexto);
 
 	return imagen;
 }
