@@ -1,5 +1,5 @@
 <escenario>
-	<mesa id="1" fondo="mesa600x800.bmp"/>
+	<mesa id="1" fondo="mesa1024x768.bmp"/>
 	
 	<jugadores/>
 	
