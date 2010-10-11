@@ -6,7 +6,7 @@
 
 #define BOTE_ALTO_ETIQUETA 0.18
 #define RELACION_ANCHO 0.8
-#define RELACION_ALTO 0.5
+#define RELACION_ALTO 0.4
 
 class Bote: public ElementoGrafico
 {
