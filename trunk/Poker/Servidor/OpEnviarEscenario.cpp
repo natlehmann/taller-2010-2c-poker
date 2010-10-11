@@ -11,20 +11,21 @@ OpEnviarEscenario::~OpEnviarEscenario(void){
 
 bool OpEnviarEscenario::ejecutar(Socket* socket){
 	bool error = false;
-	Resultado* resultado = NULL;
+	Resultado* resultado = new Resultado();
+	string contenido = "";
 
 	string nombreArchivo = RecursosAplicacion::getServidorConfigProperties()->get("servidor.archivoEscenario");
 	ifstream archivo(nombreArchivo.c_str());
 
-	if (!archivo){
+	if (!archivo)
+	{
+		resultado->setValor(contenido);
 		RecursosAplicacion::getLogErroresServidor()->escribir(
 			"No se puede abrir el archivo " + nombreArchivo + " para lectura.");
 	
-	} else {
-	
-		resultado = new Resultado();
-		string contenido = "";
-
+	} 
+	else 
+	{
 		while (!archivo.eof()) {
 
 			string linea;
@@ -38,7 +39,7 @@ bool OpEnviarEscenario::ejecutar(Socket* socket){
 		resultado->setIdOperacion("OpEnviarEscenario");
 	}
 
-	if (socket != NULL){
+	if (socket != NULL && resultado!= NULL){
 		string respuesta = resultado->getValor();
 		if(!socket->enviar(respuesta))
 			error = true;
