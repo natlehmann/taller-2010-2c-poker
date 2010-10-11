@@ -18,6 +18,8 @@
 #define SEPARACION_ENTRE_CARTAS	 1
 #define SEPARACION_CARTAS_APUESTA 5
 #define ALTO_MAXIMO_ETIQUETA 23
+#define ANCHO_CARTA_PROPORCIONAL  0.70
+#define ALTO_CARTA_PROPORCIONAL  0.85
 
 class Jugador : public ElementoGrafico {
 private:
