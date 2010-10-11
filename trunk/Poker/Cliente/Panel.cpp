@@ -21,11 +21,6 @@ Panel::~Panel(void)
 {
 	delete(borde);
 	delete(fondo);
-	
-	delete(btDejarMesa);
-	delete(btNoIr);
-	delete(btIgualar);
-	delete(btSubir);
 }
 
 void Panel::dibujarSobreSup(SDL_Surface* superficie){
