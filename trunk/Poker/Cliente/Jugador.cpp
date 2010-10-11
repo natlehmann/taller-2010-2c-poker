@@ -226,20 +226,21 @@ void Jugador::setearDisposicionAIzq(){
 		}
 	}
 
-	int anchoCarta = (int)((this->getAncho() - rectFoto->w - SEPARACION_ENTRE_CARTAS * 2) / 2);
+	int anchoCarta = (int)((this->getAncho() - rectFoto->w) * ANCHO_CARTA_PROPORCIONAL);
+	int altoCarta = (int)((rectFoto->h / 2) * ALTO_CARTA_PROPORCIONAL);
 
 	if (this->carta1 != NULL) {
 		this->carta1->setPosX(this->getPosX() + rectFoto->w + SEPARACION_ENTRE_CARTAS);
 		this->carta1->setPosY(this->getPosY());
 		this->carta1->setAncho(anchoCarta);
-		this->carta1->setAlto(rectFoto->h / 2);
+		this->carta1->setAlto(altoCarta);
 	}
 
 	if (this->carta2 != NULL) {
 		this->carta2->setPosX(this->getPosX() + this->getAncho() - anchoCarta);
-		this->carta2->setPosY(this->getPosY());
+		this->carta2->setPosY(this->getPosY() + (int)(rectFoto->h / 2) - altoCarta);
 		this->carta2->setAncho(anchoCarta);
-		this->carta2->setAlto(rectFoto->h / 2);
+		this->carta2->setAlto(altoCarta);
 	}
 
 	if (this->apuesta != NULL) {
@@ -283,20 +284,21 @@ void Jugador::setearDisposicionADer(){
 		}
 	}
 
-	int anchoCarta = (int)((this->getAncho() - rectFoto->w - SEPARACION_ENTRE_CARTAS * 2) / 2);
+	int anchoCarta = (int)((this->getAncho() - rectFoto->w) * ANCHO_CARTA_PROPORCIONAL);
+	int altoCarta = (int)((rectFoto->h / 2) * ALTO_CARTA_PROPORCIONAL);
 
 	if (this->carta1 != NULL) {
 		this->carta1->setPosX(this->getPosX());
 		this->carta1->setPosY(this->getPosY());
 		this->carta1->setAncho(anchoCarta);
-		this->carta1->setAlto(rectFoto->h / 2);
+		this->carta1->setAlto(altoCarta);
 	}
 
 	if (this->carta2 != NULL) {
-		this->carta2->setPosX(this->getPosX() + anchoCarta + SEPARACION_ENTRE_CARTAS);
-		this->carta2->setPosY(this->getPosY());
+		this->carta2->setPosX(this->getPosX() + this->getAncho() - rectFoto->w - anchoCarta);
+		this->carta2->setPosY(this->getPosY() + (int)(rectFoto->h / 2) - altoCarta);
 		this->carta2->setAncho(anchoCarta);
-		this->carta2->setAlto(rectFoto->h / 2);
+		this->carta2->setAlto(altoCarta);
 	}
 
 	if (this->apuesta != NULL) {
