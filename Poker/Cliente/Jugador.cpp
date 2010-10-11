@@ -130,6 +130,8 @@ void Jugador::setNombre(string nombre){
 	this->nombre = nombre;
 	if (this->etiquetaNombre == NULL) {
 		this->etiquetaNombre = new Etiqueta();
+		this->etiquetaNombre->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
+		this->etiquetaNombre->setAlineacionVertical(ALINEACION_VERT_CENTRO);
 	}
 	this->etiquetaNombre->setMensaje(nombre);
 }
@@ -386,6 +388,8 @@ void Jugador::setFichas(int cantidad) {
 	this->fichas = cantidad;
 	if (this->etiquetaFichas == NULL) {
 		this->etiquetaFichas = new Etiqueta();
+		this->etiquetaFichas->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
+		this->etiquetaFichas->setAlineacionVertical(ALINEACION_VERT_CENTRO);
 	}
 	this->etiquetaFichas->setMensaje(UtilTiposDatos::enteroAString(cantidad));
 }

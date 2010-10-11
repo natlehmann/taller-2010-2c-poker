@@ -33,6 +33,8 @@ void Apuesta::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->etiqueta == NULL) {
 		this->etiqueta = new Etiqueta();
+		this->etiqueta->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
+		this->etiqueta->setFondo(NULL);
 	}
 
 	this->etiqueta->setPosX(this->getPosX());
