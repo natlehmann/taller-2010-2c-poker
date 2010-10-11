@@ -35,10 +35,15 @@ Ventana::Ventana(void) {
 
 	SDL_WM_SetCaption(RecursosAplicacion::getClienteConfigProperties()->get(
 		"cliente.configuracion.mensaje").c_str(), NULL); 
+
+	this->panelComando = new Panel();
 }
 
 Ventana::~Ventana(void)
 {
+	if (this->panelComando != NULL) {
+		delete(this->panelComando);
+	}
 }
 
 void Ventana::dibujarSobreSup(SDL_Surface* superficie){
@@ -50,7 +55,6 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 	}
 
 	//se genera el panel de comando
-	this->panelComando = new Panel();
 	panelComando->dibujar(this->pantalla);
 
 	//refresca la pantalla
@@ -99,23 +103,6 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 				this->panelComando->getBotonSubir()->checkOver(this->pantalla);
 				break;		
 			}
-
-			//if(event.type == SDL_MOUSEMOTION)
-			//{
-			//	this->boton->checkOver(this->pantalla);
-			//}
-			//else if(event.type == SDL_KEYDOWN)
-			//{
-			//	if (event.key.keysym.sym == SDLK_ESCAPE) 
-			//		listo = true;
-			//}
-			//else if(event.type == SDL_MOUSEBUTTONDOWN)
-			//{
-			//  if(prettyredbutton.CheckClick())
-			//  {
-			//	  elf.Display(300,150);
-			//  }
-			//}
 		}
 	}
 }
