@@ -14,6 +14,9 @@ Properties::Properties(string nombreArchivo)
 		this->archivo = NULL;
 		throw FileException("No se puede abrir el archivo " + this->nombreArchivo, "E");
 	}	
+
+	delete(this->archivo);
+	this->archivo = NULL;
 }
 
 Properties::~Properties(void)
@@ -44,7 +47,9 @@ string Properties::get(string clave){
 }
 
 void Properties::inicializar() {
+
 	this->properties = new map<string,string>();
+	this->archivo = new ifstream(this->nombreArchivo.c_str());
 
 	bool finArchivo = false;
 	while (!finArchivo) {
