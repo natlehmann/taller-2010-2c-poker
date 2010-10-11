@@ -20,7 +20,7 @@ OpUIClienteSolicitarArchivo::OpUIClienteSolicitarArchivo(vector<string> parametr
 OpUIClienteSolicitarArchivo::~OpUIClienteSolicitarArchivo(void){
 }
 
-void OpUIClienteSolicitarArchivo::ejecutar(Ventana* ventana){
+bool OpUIClienteSolicitarArchivo::ejecutar(Ventana* ventana){
 
 	string nombreArchivo = parametros.at(0);
 	string pathDestino = RecursosAplicacion::getClienteConfigProperties()->get("cliente.configuracion.imagenes.path");
@@ -69,16 +69,17 @@ void OpUIClienteSolicitarArchivo::ejecutar(Ventana* ventana){
 					newfile.write(mensaje.data(), size); 
 					newfile.close();
 
-					//return true;
+					return true;
 				}
 				else
-				{
 					RecursosAplicacion::getLogErroresCliente()->escribir("Error al escribir el archivo " + pathCompleto);
-					//return false;
-				}
 			}
+			else
+				RecursosAplicacion::getLogErroresCliente()->escribir("Error al recibir el archivo " + nombreArchivo);
 		}
 		else
-			RecursosAplicacion::getLogErroresCliente()->escribir("Error al recibir el archivo " + nombreArchivo);
+			RecursosAplicacion::getLogErroresCliente()->escribir("El servidor no encuentra el archivo solicitado: " + nombreArchivo);
 	}
+	
+	return false;
 }

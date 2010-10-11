@@ -19,8 +19,9 @@ OpUIClienteSolicitarEscenario::OpUIClienteSolicitarEscenario(void) : OperacionUI
 OpUIClienteSolicitarEscenario::~OpUIClienteSolicitarEscenario(void){
 }
 
-void OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
+bool OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 
+	bool ok = true;
 	DomTree* tree = new DomTree("operaciones");
 	Elemento* pedido = tree->agregarElemento("pedido");
 
@@ -44,10 +45,11 @@ void OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 
 	} catch (PokerException& e) {
 		RecursosAplicacion::getLogErroresCliente()->escribir(&(Respuesta)e.getError());
+		ok = false;
 	}
 
 	delete(parser);
 	delete(tree);
 
-
+	return ok;
 }

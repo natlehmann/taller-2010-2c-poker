@@ -12,7 +12,7 @@ public:
 	OperacionUICliente(void);
 	virtual ~OperacionUICliente(void);
 
-	virtual void ejecutar(Ventana* ventana) = 0;
+	virtual bool ejecutar(Ventana* ventana) = 0;
 };
 
 #endif

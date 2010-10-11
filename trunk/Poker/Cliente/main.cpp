@@ -22,11 +22,13 @@ int main (int argc, char** argv)
 		Ventana ventana;
 
 		operacion = fab.newOperacion(idOperacionInicial);
-		operacion->ejecutar(&ventana);
+		if (operacion->ejecutar(&ventana))
+			ventana.dibujar(NULL);
+		else
+			UICliente::mostrarMensaje("La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+
 		delete(operacion);
-
-
-		ventana.dibujar(NULL);
+		operacion = NULL;
 
 		UICliente::finalizar();
 
