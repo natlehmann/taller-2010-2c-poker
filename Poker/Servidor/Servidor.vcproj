@@ -515,11 +515,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\recursos\escenario.txt"
+				>
+			</File>
+			<File
 				RelativePath=".\recursos\escenario1.txt"
 				>
 			</File>
 			<File
 				RelativePath=".\recursos\escenario10.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario11.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario12.txt"
+				>
+			</File>
+			<File
+				RelativePath=".\recursos\escenario13.txt"
 				>
 			</File>
 			<File
