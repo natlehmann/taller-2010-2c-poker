@@ -11,6 +11,9 @@
 #include "Boton.h"
 #include "Color.h"
 
+#define PANEL_SEPARACION_BOTONES_H  10
+#define PANEL_SEPARACION_BOTONES_V  4
+
 
 using namespace std;
 

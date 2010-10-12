@@ -9,6 +9,8 @@
 #include "ElementoGrafico.h"
 #include "Imagen.h"
 
+#define MAXIMO_ANCHO_PANTALLA_PROP_TXT 800
+
 
 class Boton : public ElementoGrafico {
 private:
