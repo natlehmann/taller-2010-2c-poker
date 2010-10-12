@@ -9,6 +9,7 @@ Etiqueta::Etiqueta(void) {
 		"cliente.tema.default.etiquetas.fondo"));
 	this->alineacionHorizontal = ALINEACION_HORIZ_IZQUIERDA;
 	this->alineacionVertical = ALINEACION_VERT_CENTRO;
+	this->borde = NULL;
 }
 
 Etiqueta::Etiqueta(string mensaje){
@@ -18,11 +19,15 @@ Etiqueta::Etiqueta(string mensaje){
 	this->mensaje = mensaje;
 	this->alineacionHorizontal = ALINEACION_HORIZ_IZQUIERDA;
 	this->alineacionVertical = ALINEACION_VERT_CENTRO;
+	this->borde = NULL;
 }
 
 Etiqueta::~Etiqueta(void) {
 	if (this->fondo != NULL) {
 		delete(this->fondo);
+	}
+	if (this->borde != NULL) {
+		delete(this->borde);
 	}
 }
 
@@ -32,11 +37,12 @@ void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){
 	offset->w = this->getAncho();
 	offset->h = this->getAlto();
 
-	//if (this->borde != NULL) {
-	//	SDL_FillRect(superficie, offset, this->borde->toUint32(superficie));
-	//}
 	if (this->fondo != NULL) {
 		SDL_FillRect(superficie, offset, this->fondo->toUint32(superficie));
+	}
+
+	if (this->borde != NULL) {
+		ServiciosGraficos::dibujarContorno(superficie, offset, this->borde);
 	}
 
 	string color = RecursosAplicacion::getClienteConfigProperties()->get(
@@ -114,6 +120,16 @@ void Etiqueta::setFondo(Color* color){
 
 Color* Etiqueta::getFondo() {
 	return this->fondo;
+}
+
+void Etiqueta::setBorde(Color* color){
+	if (this->borde != NULL) {
+		delete (this->borde);
+	}
+	this->borde = color;
+}
+Color* Etiqueta::getBorde(){
+	return this->borde;
 }
 
 void Etiqueta::setAlineacionHorizontal(int alineacion) {

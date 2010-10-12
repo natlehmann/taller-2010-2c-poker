@@ -38,6 +38,27 @@ void ServiciosGraficos::unlock(SDL_Surface* superficie) {
 	}
 }
 
+void ServiciosGraficos::dibujarContorno(SDL_Surface* superficie, 
+			SDL_Rect* offset, Color* color){
+
+	lock(superficie);
+
+	Uint32 colorUint32 = color->toUint32(superficie);
+
+	// linea superior e inferior
+	for(int x = offset->x; x < (offset->x + offset->w); x++) {
+		ServiciosGraficos::putPixel(superficie, x, offset->y, colorUint32);
+		ServiciosGraficos::putPixel(superficie, x, offset->y + offset->h - 1, colorUint32);
+	}
+
+	// en el medio
+	for (int y = offset->y + 1; y < (offset->y + offset->h - 1); y++) {
+		ServiciosGraficos::putPixel(superficie, offset->x, y, colorUint32);
+		ServiciosGraficos::putPixel(superficie, offset->x + offset->w - 1, y, colorUint32);
+	}
+
+	unlock(superficie);
+}
 
 void ServiciosGraficos::dibujarElipse(SDL_Surface* superficie, 
 			SDL_Rect* offset, Color* color){
