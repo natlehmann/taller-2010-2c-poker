@@ -209,8 +209,9 @@ void Jugador::setearDisposicionAIzq(){
 		this->etiquetaNombre->setPosX(this->getPosX());
 		this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
 		this->etiquetaNombre->setAncho(rectFoto->w);
-		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQUETA) {
-			this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
+		if (ServiciosGraficos::getAltoVentana() < MAXIMO_ALTO_PANTALLA_PROP_TXT) {
+			this->etiquetaNombre->setAlto((int)(ServiciosGraficos::getAltoVentana() 
+				* ALTO_MAXIMO_ETIQUETA / MAXIMO_ALTO_PANTALLA_PROP_TXT));
 
 		} else {
 			this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQUETA);
@@ -221,8 +222,10 @@ void Jugador::setearDisposicionAIzq(){
 		this->etiquetaFichas->setPosX(this->getPosX());
 		this->etiquetaFichas->setPosY(this->getPosY() + rectFoto->h + this->etiquetaNombre->getAlto());
 		this->etiquetaFichas->setAncho(rectFoto->w);
-		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQUETA) {
-			this->etiquetaFichas->setAlto(this->getAlto() - rectFoto->h);
+		if (ServiciosGraficos::getAltoVentana() < MAXIMO_ALTO_PANTALLA_PROP_TXT) {
+			this->etiquetaFichas->setAlto((int)(ServiciosGraficos::getAltoVentana() 
+				* ALTO_MAXIMO_ETIQUETA / MAXIMO_ALTO_PANTALLA_PROP_TXT));
+
 		} else {
 			this->etiquetaFichas->setAlto(ALTO_MAXIMO_ETIQUETA);
 		}
@@ -267,8 +270,9 @@ void Jugador::setearDisposicionADer(){
 		this->etiquetaNombre->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
 		this->etiquetaNombre->setPosY(this->getPosY() + rectFoto->h);
 		this->etiquetaNombre->setAncho(rectFoto->w);
-		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQUETA) {
-			this->etiquetaNombre->setAlto(this->getAlto() - rectFoto->h);
+		if (ServiciosGraficos::getAltoVentana() < MAXIMO_ALTO_PANTALLA_PROP_TXT) {
+			this->etiquetaNombre->setAlto((int)(ServiciosGraficos::getAltoVentana() 
+				* ALTO_MAXIMO_ETIQUETA / MAXIMO_ALTO_PANTALLA_PROP_TXT));
 
 		} else {
 			this->etiquetaNombre->setAlto(ALTO_MAXIMO_ETIQUETA);
@@ -279,8 +283,10 @@ void Jugador::setearDisposicionADer(){
 		this->etiquetaFichas->setPosX(this->getPosX() + this->getAncho() - rectFoto->w);
 		this->etiquetaFichas->setPosY(this->getPosY() + rectFoto->h + this->etiquetaNombre->getAlto());
 		this->etiquetaFichas->setAncho(rectFoto->w);
-		if ((this->getAlto() - rectFoto->h) < ALTO_MAXIMO_ETIQUETA) {
-			this->etiquetaFichas->setAlto(this->getAlto() - rectFoto->h);
+		if (ServiciosGraficos::getAltoVentana() < MAXIMO_ALTO_PANTALLA_PROP_TXT) {
+			this->etiquetaFichas->setAlto((int)(ServiciosGraficos::getAltoVentana() 
+				* ALTO_MAXIMO_ETIQUETA / MAXIMO_ALTO_PANTALLA_PROP_TXT));
+
 		} else {
 			this->etiquetaFichas->setAlto(ALTO_MAXIMO_ETIQUETA);
 		}

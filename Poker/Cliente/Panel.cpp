@@ -4,11 +4,6 @@
 
 Panel::Panel(void)
 {
-	this->setAncho(ServiciosGraficos::getTamanioCeldaHoriz()*3);
-	this->setAlto(ServiciosGraficos::getTamanioCeldaVert()/5);
-	this->posX = ServiciosGraficos::getTamanioCeldaHoriz() + ServiciosGraficos::getBordeIzquierdo();
-	this->posY = ServiciosGraficos::getAltoVentana() - ServiciosGraficos::getBordeInferior() - this->getAlto();
-
 	//setamos el fondo del menu de operaciones
 	this->borde = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.menu.borde"));
 	this->fondo = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.menu.fondo"));
@@ -65,19 +60,31 @@ void Panel::configurarBotones()
 	this->btSubir = new Boton(textoSubir);
 	this->agregarElementoGrafico(this->btSubir);
 
+
 	//setea la posicion, alineada, separacion igual entre todos
-	int separacionH = (this->ancho - (btDejarMesa->getAncho() + btNoIr->getAncho() + btIgualar->getAncho() + btSubir->getAncho()))/5;
-	int separacionV = (this->alto - btDejarMesa->getAlto())/2;
+	this->setAncho(this->btDejarMesa->getAncho() + this->btNoIr->getAncho() 
+		+ this->btIgualar->getAncho() + this->btSubir->getAncho() + PANEL_SEPARACION_BOTONES_H * 7);
+
+	this->setAlto(this->btIgualar->getAlto() + PANEL_SEPARACION_BOTONES_V * 2);
+
+	this->posX = (int)((ServiciosGraficos::getAnchoVentana() - this->getAncho()) / 2);
+	this->posY = ServiciosGraficos::getAltoVentana() - this->getAlto();
+
 
 	SDL_Rect* offsetMenu = this->getOffsetRect();
-	this->btDejarMesa->setPosX(offsetMenu->x + separacionH);
-	this->btDejarMesa->setPosY(offsetMenu->y + separacionV);
-	this->btNoIr->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() + separacionH*2);
-	this->btNoIr->setPosY(offsetMenu->y + separacionV);
-	this->btIgualar->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() + this->btNoIr->getAncho() + separacionH*3);
-	this->btIgualar->setPosY(offsetMenu->y + separacionV);
-	this->btSubir->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() + this->btNoIr->getAncho() + this->btIgualar->getAncho() + separacionH*4);
-	this->btSubir->setPosY(offsetMenu->y + separacionV);
+	this->btDejarMesa->setPosX(offsetMenu->x + PANEL_SEPARACION_BOTONES_H*2);
+	this->btDejarMesa->setPosY(offsetMenu->y + PANEL_SEPARACION_BOTONES_V);
+
+	this->btNoIr->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() + PANEL_SEPARACION_BOTONES_H*3);
+	this->btNoIr->setPosY(offsetMenu->y + PANEL_SEPARACION_BOTONES_V);
+
+	this->btIgualar->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() 
+		+ this->btNoIr->getAncho() + PANEL_SEPARACION_BOTONES_H*4);
+	this->btIgualar->setPosY(offsetMenu->y + PANEL_SEPARACION_BOTONES_V);
+
+	this->btSubir->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() 
+		+ this->btNoIr->getAncho() + this->btIgualar->getAncho() + PANEL_SEPARACION_BOTONES_H*5);
+	this->btSubir->setPosY(offsetMenu->y + PANEL_SEPARACION_BOTONES_V);
 }
 
 Boton* Panel::getBotonDejarMesa() {

@@ -113,8 +113,18 @@ void Boton::dibujarSobreSup(SDL_Surface* superficie){
 Imagen* Boton::setearImagen(string nombreImagen)
 {
 	//Se genera el texto
-	string colorFuente = RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.boton.fuente.color");
-	int tamanioFuente = UtilTiposDatos::getEntero(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.boton.fuente.tamanio"));
+	string colorFuente = RecursosAplicacion::getClienteConfigProperties()->get(
+		"cliente.tema.default.boton.fuente.color");
+
+	int tamanioFuenteMax = UtilTiposDatos::getEntero(RecursosAplicacion::getClienteConfigProperties()->get(
+		"cliente.tema.default.boton.fuente.tamanio.maximo"));
+
+	int tamanioFuente = tamanioFuenteMax;
+	if (ServiciosGraficos::getAnchoVentana() < MAXIMO_ANCHO_PANTALLA_PROP_TXT) {
+		tamanioFuente = (int)(ServiciosGraficos::getAnchoVentana() * tamanioFuenteMax 
+			/ MAXIMO_ANCHO_PANTALLA_PROP_TXT);
+	}
+
 	string estiloFuente = RecursosAplicacion::getClienteConfigProperties()->get("cliente.configuracion.fuentes") +
 						RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.boton.fuente.estilo") + ".ttf";
 	Fuente* fuente = new Fuente(colorFuente, tamanioFuente, estiloFuente);
