@@ -67,6 +67,14 @@ public:
 	static void copiarDentro(SDL_Surface* origen, 
 		SDL_Surface* destino, Color* colorFigura);
 
+	/**
+	* Dibuja un borde a una superficie rectangular dada por el parametro 'offset'.
+	* Este parametro debe tener seteados ancho (w) y alto (h) ya que estas seran
+	* las medidas del rectangulo.
+	*/
+	static void ServiciosGraficos::dibujarContorno(SDL_Surface* superficie, 
+			SDL_Rect* offset, Color* color);
+
 	static int getTamanioCeldaHoriz();
 	static int getTamanioCeldaVert();
 

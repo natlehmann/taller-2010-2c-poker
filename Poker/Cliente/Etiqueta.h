@@ -29,6 +29,7 @@ class Etiqueta : public ElementoGrafico
 private:
 	string mensaje;
 	Color* fondo;
+	Color* borde;
 	int alineacionHorizontal;
 	int alineacionVertical;
 
@@ -47,6 +48,9 @@ public:
 
 	void setFondo(Color* color);
 	Color* getFondo();
+
+	void setBorde(Color* color);
+	Color* getBorde();
 
 	void setAlineacionHorizontal(int alineacion);
 	int getAlineacionHorizontal();
