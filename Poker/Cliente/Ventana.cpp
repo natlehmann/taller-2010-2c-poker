@@ -70,6 +70,9 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 
 		switch (event.type)
 		{
+		case (SDL_QUIT):
+				listo = true;
+			break;
 		case (SDL_KEYDOWN):
 			if (event.key.keysym.sym == SDLK_ESCAPE) 
 				listo = true;
