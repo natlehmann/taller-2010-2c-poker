@@ -137,8 +137,10 @@ Imagen* Boton::setearImagen(string nombreImagen)
 	
 	if (this->ajustarAlTexto)
 	{
-		this->setAlto(superficieTexto->h + 10);
-		this->setAncho(superficieTexto->w + 10);
+		int paddingV = ServiciosGraficos::getAnchoVentana() > MAXIMO_ANCHO_PANTALLA_PROP_TXT ? 
+				PADDING_VERT : (int)(PADDING_VERT / 2);
+		this->setAlto(superficieTexto->h + paddingV);
+		this->setAncho(superficieTexto->w + PADDING_HORIZ);
 	}
 
 	imagen->setAlto(this->getAlto());
