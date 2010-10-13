@@ -10,6 +10,8 @@
 #include "Imagen.h"
 
 #define MAXIMO_ANCHO_PANTALLA_PROP_TXT 800
+#define PADDING_HORIZ   20
+#define PADDING_VERT	20
 
 
 class Boton : public ElementoGrafico {
