@@ -114,11 +114,13 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 		if (MensajesUtil::sonIguales(XML_IMAGEN, (*itElemento)->getNombre()))
 		{
 			// Se genera la IMAGEN y se la carga al JUGADOR
-			imagen = new Imagen((*itElemento)->getAtributo("nombre"));
-			imagen->setTamanio(UtilTiposDatos::getEntero((*itElemento)->getAtributo("tamanio")));
-			imagen->setAncho(UtilTiposDatos::getEntero((*itElemento)->getAtributo("ancho")));
-			imagen->setAlto(UtilTiposDatos::getEntero((*itElemento)->getAtributo("alto")));
-			jugador->setImagen(imagen);
+			if (!MensajesUtil::esVacio((*itElemento)->getAtributo("nombre"))) {
+				imagen = new Imagen((*itElemento)->getAtributo("nombre"));
+				imagen->setTamanio(UtilTiposDatos::getEntero((*itElemento)->getAtributo("tamanio")));
+				imagen->setAncho(UtilTiposDatos::getEntero((*itElemento)->getAtributo("ancho")));
+				imagen->setAlto(UtilTiposDatos::getEntero((*itElemento)->getAtributo("alto")));
+				jugador->setImagen(imagen);
+			}
 		}
 		else if (MensajesUtil::sonIguales(XML_FICHAS, (*itElemento)->getNombre()))
 		{
