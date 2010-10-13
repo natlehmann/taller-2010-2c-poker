@@ -63,46 +63,47 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 	// TODO: ACA SE LANZARIA EL PROCESAMIENTO DE EVENTOS
 	bool listo = false;
 	SDL_Event event;
-	while(!listo) {
-		while ( SDL_PollEvent(&event) ) 
+	while(!listo) 
+	{
+        if(!SDL_WaitEvent(&event))
+            continue;
+
+		switch (event.type)
 		{
-			switch (event.type)
+		case (SDL_KEYDOWN):
+			if (event.key.keysym.sym == SDLK_ESCAPE) 
+				listo = true;
+			break;
+		case (SDL_MOUSEMOTION):
+			this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);
+			this->panelComando->getBotonIgualar()->checkOver(this->pantalla);
+			this->panelComando->getBotonNoIr()->checkOver(this->pantalla);
+			this->panelComando->getBotonSubir()->checkOver(this->pantalla);
+			break;
+		case (SDL_MOUSEBUTTONDOWN):
+			if(this->panelComando->getBotonDejarMesa()->checkClick(this->pantalla))
 			{
-			case (SDL_KEYDOWN):
-				if (event.key.keysym.sym == SDLK_ESCAPE) 
-					listo = true;
-				break;
-			case (SDL_MOUSEMOTION):
-				this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);
-				this->panelComando->getBotonIgualar()->checkOver(this->pantalla);
-				this->panelComando->getBotonNoIr()->checkOver(this->pantalla);
-				this->panelComando->getBotonSubir()->checkOver(this->pantalla);
-				break;
-			case (SDL_MOUSEBUTTONDOWN):
-				if(this->panelComando->getBotonDejarMesa()->checkClick(this->pantalla))
-				{
-					//accion a realizar
-				}
-				else if(this->panelComando->getBotonIgualar()->checkClick(this->pantalla))
-				{
-					//accion a realizar
-				}
-				else if(this->panelComando->getBotonNoIr()->checkClick(this->pantalla))
-				{
-					//accion a realizar
-				}				
-				else if(this->panelComando->getBotonSubir()->checkClick(this->pantalla))
-				{
-					//accion a realizar
-				}
-				break;		
-			case (SDL_MOUSEBUTTONUP):
-				this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);
-				this->panelComando->getBotonIgualar()->checkOver(this->pantalla);
-				this->panelComando->getBotonNoIr()->checkOver(this->pantalla);
-				this->panelComando->getBotonSubir()->checkOver(this->pantalla);
-				break;		
+				//accion a realizar
 			}
+			else if(this->panelComando->getBotonIgualar()->checkClick(this->pantalla))
+			{
+				//accion a realizar
+			}
+			else if(this->panelComando->getBotonNoIr()->checkClick(this->pantalla))
+			{
+				//accion a realizar
+			}				
+			else if(this->panelComando->getBotonSubir()->checkClick(this->pantalla))
+			{
+				//accion a realizar
+			}
+			break;		
+		case (SDL_MOUSEBUTTONUP):
+			this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);
+			this->panelComando->getBotonIgualar()->checkOver(this->pantalla);
+			this->panelComando->getBotonNoIr()->checkOver(this->pantalla);
+			this->panelComando->getBotonSubir()->checkOver(this->pantalla);
+			break;		
 		}
 	}
 }
