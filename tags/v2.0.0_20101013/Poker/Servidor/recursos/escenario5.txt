@@ -1,0 +1,35 @@
+<escenario>
+	<mesa id="1" fondo="mesa1024x768.bmp"/>
+	
+	<jugadores>
+		
+		<jugador id="4" posicion="4" nombre="jugadorCuatro">
+			<imagen nombre="jugador4.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>540</fichas>
+			<cartas>
+				<carta numero="6" palo="Trebol" visible="true" posicion="0"/> 
+				<carta numero="7" palo="Pica" visible="true" posicion="0"/> 
+			</cartas>
+		</jugador>
+		
+		<jugador id="5" posicion="5" nombre="jugadorCinco">
+			<imagen nombre="jugador2.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>540</fichas>
+			<apuesta>100</apuesta>
+		</jugador>
+
+	</jugadores>
+	
+	<bote>1782</bote>
+	
+	<cartascomunitarias>
+			<cartas>
+				<carta numero="k" palo="Diamante" visible="true" posicion="1"/> 
+				<carta numero="q" palo="Diamante" visible="false" posicion="2"/> 
+				<carta numero="j" palo="Diamante" visible="true" posicion="3"/> 
+				<carta numero="10" palo="Diamante" visible="false" posicion="4"/> 
+				<carta numero="9" palo="Diamante" visible="true" posicion="5"/> 
+			</cartas>
+	</cartascomunitarias>
+
+</escenario>

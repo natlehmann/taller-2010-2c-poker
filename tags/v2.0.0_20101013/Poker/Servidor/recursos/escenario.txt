@@ -1,0 +1,79 @@
+<escenario>
+	<mesa id="1" fondo="mesa1024x768.bmp"/>
+	
+	<jugadores>
+		<jugador id="1" posicion="1" nombre="jugadorUno">
+			<imagen nombre="jugador1.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>300</fichas>
+			<apuesta>50</apuesta>
+			<cartas>
+				<carta numero="2" palo="Corazon" visible="true" posicion="0"/> 
+				<carta numero="5" palo="Pica" visible="true" posicion="0"/> 
+			</cartas>
+		</jugador>
+		
+		<jugador id="2" posicion="2" nombre="jugadorDos">
+			<imagen nombre="jugador2.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>360</fichas>
+			<apuesta>10</apuesta>
+			<cartas>
+				<carta numero="7" palo="Trebol" visible="true" posicion="0"/> 
+				<carta numero="5" palo="Diamante" visible="true" posicion="0"/> 
+			</cartas>
+		</jugador>
+		
+		<jugador id="3" posicion="3" nombre="jugadorTres">
+			<imagen nombre="jugador3.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>540</fichas>
+			<apuesta>100</apuesta>
+			<cartas>
+				<carta numero="k" palo="Trebol" visible="true" posicion="0"/> 
+				<carta numero="a" palo="Diamante" visible="true" posicion="0"/> 
+			</cartas>
+		</jugador>	
+		
+		<jugador id="4" posicion="4" nombre="jugadorCuatro">
+			<imagen nombre="jugador4.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>540</fichas>
+			<apuesta>100</apuesta>
+			<cartas>
+				<carta numero="6" palo="Trebol" visible="true" posicion="0"/> 
+				<carta numero="7" palo="Pica" visible="true" posicion="0"/> 
+			</cartas>
+		</jugador>
+		
+		<jugador id="5" posicion="5" nombre="jugadorCinco">
+			<imagen nombre="jugador2.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>540</fichas>
+			<apuesta>100</apuesta>
+			<cartas>
+				<carta numero="a" palo="Corazon" visible="false" posicion="0"/> 
+				<carta numero="5" palo="Pica" visible="false" posicion="0"/> 
+			</cartas>
+		</jugador>
+		
+		<jugador id="6" posicion="6" nombre="jugadorSeis">
+			<imagen nombre="jugador6.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<fichas>540</fichas>
+			<apuesta>100</apuesta>
+			<cartas>
+				<carta numero="q" palo="Trebol" visible="false" posicion="0"/> 
+				<carta numero="j" palo="Corazon" visible="false" posicion="0"/> 
+			</cartas>
+		</jugador>
+
+	</jugadores>
+	
+	<bote>1782</bote>
+	
+	<cartascomunitarias>
+			<cartas>
+				<carta numero="k" palo="Diamante" visible="true" posicion="1"/> 
+				<carta numero="q" palo="Diamante" visible="false" posicion="2"/> 
+				<carta numero="j" palo="Diamante" visible="true" posicion="3"/> 
+				<carta numero="10" palo="Diamante" visible="false" posicion="4"/> 
+				<carta numero="9" palo="Diamante" visible="true" posicion="5"/> 
+			</cartas>
+	</cartascomunitarias>
+
+</escenario>

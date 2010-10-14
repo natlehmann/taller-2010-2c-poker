@@ -1,0 +1,18 @@
+<escenario>
+	<mesa id="1" fondo="mesa1024x768.bmp"/>
+	
+	<jugadores/>
+	
+	<bote>1782</bote>
+	
+	<cartascomunitarias>
+			<cartas>
+				<carta numero="k" palo="Diamante" visible="true" posicion="1"/> 
+				<carta numero="q" palo="Diamante" visible="false" posicion="2"/> 
+				<carta numero="j" palo="Diamante" visible="true" posicion="3"/> 
+				<carta numero="10" palo="Diamante" visible="false" posicion="4"/> 
+				<carta numero="9" palo="Diamante" visible="true" posicion="5"/> 
+			</cartas>
+	</cartascomunitarias>
+
+</escenario>
