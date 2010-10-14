@@ -43,7 +43,7 @@
 		</jugador>
 		
 		<jugador id="5" posicion="5" nombre="jugadorCinco">
-			<imagen nombre="jugador5.bmp" tamanio="31744" ancho="104" alto="99"/>
+			<imagen nombre="jugador2.bmp" tamanio="31744" ancho="104" alto="99"/>
 			<fichas>540</fichas>
 			<apuesta>100</apuesta>
 			<cartas>
@@ -52,7 +52,7 @@
 			</cartas>
 		</jugador>
 		
-		<jugador id="7" posicion="6" nombre="jugadorSeis">
+		<jugador id="6" posicion="6" nombre="jugadorSeis">
 			<imagen nombre="jugador6.bmp" tamanio="31744" ancho="104" alto="99"/>
 			<fichas>540</fichas>
 			<apuesta>100</apuesta>
