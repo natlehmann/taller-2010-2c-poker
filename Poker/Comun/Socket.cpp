@@ -258,10 +258,9 @@ bool Socket::recibir(string& msg)
 		{
 			cantRecibido += Aux;
 			msg.append(buf, Aux);
-		
-			if (Aux < MAXRECV) {
-				sigue = false;	
-			}
+			//if (Aux < MAXRECV) {
+			//	sigue = false;	
+			//}
 		}
 
 	}
@@ -292,10 +291,10 @@ bool Socket::recibir(string& msg, int size)
 		{
 			totalRec += cantRec;
 			msg.append(buffer, cantRec);
-		
-			if (cantRec < MAXRECV) {
-				sigue = false;	
-			}
+			//Sleep(0); 
+			//if (cantRec < MAXRECV) {
+			//	sigue = false;	
+			//}
 		}
 
 	}

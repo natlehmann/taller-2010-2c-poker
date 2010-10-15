@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 
-const int MAXRECV = 100;
+const int MAXRECV = 1024;
 
 using namespace std;
 
