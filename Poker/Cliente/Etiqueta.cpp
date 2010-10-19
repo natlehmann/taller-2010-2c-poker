@@ -2,6 +2,7 @@
 #include "RecursosAplicacion.h"
 #include "MensajesUtil.h"
 #include "ServiciosGraficos.h"
+#include "Ventana.h"
 
 Etiqueta::Etiqueta(void) {
 	this->fondo = new Color(
@@ -10,6 +11,8 @@ Etiqueta::Etiqueta(void) {
 	this->alineacionHorizontal = ALINEACION_HORIZ_IZQUIERDA;
 	this->alineacionVertical = ALINEACION_VERT_CENTRO;
 	this->borde = NULL;
+
+	this->setearFuente();
 }
 
 Etiqueta::Etiqueta(string mensaje){
@@ -20,6 +23,8 @@ Etiqueta::Etiqueta(string mensaje){
 	this->alineacionHorizontal = ALINEACION_HORIZ_IZQUIERDA;
 	this->alineacionVertical = ALINEACION_VERT_CENTRO;
 	this->borde = NULL;
+
+	this->setearFuente();
 }
 
 Etiqueta::~Etiqueta(void) {
@@ -29,21 +34,12 @@ Etiqueta::~Etiqueta(void) {
 	if (this->borde != NULL) {
 		delete(this->borde);
 	}
+	if (this->fuente != NULL) {
+		delete (this->fuente);
+	}
 }
 
-void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){ 
-
-	SDL_Rect* offset = this->getOffsetRect();
-	offset->w = this->getAncho();
-	offset->h = this->getAlto();
-
-	if (this->fondo != NULL) {
-		SDL_FillRect(superficie, offset, this->fondo->toUint32(superficie));
-	}
-
-	if (this->borde != NULL) {
-		ServiciosGraficos::dibujarContorno(superficie, offset, this->borde);
-	}
+void Etiqueta::setearFuente() {
 
 	string color = RecursosAplicacion::getClienteConfigProperties()->get(
 		"cliente.tema.default.etiquetas.fuente.color");
@@ -57,21 +53,38 @@ void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){
 	if (anchoPantalla < MAXIMO_ANCHO_PANTALLA_PROP_TXT) {
 		tamanio = (int)(anchoPantalla * tamanioMax / MAXIMO_ANCHO_PANTALLA_PROP_TXT);
 	}
-
 	
 	string estilo = RecursosAplicacion::getClienteConfigProperties()->get("cliente.configuracion.fuentes") +
 					RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.fuente.estilo") + ".ttf";
 	
-	Fuente* fuente = new Fuente(color, tamanio, estilo);
+	this->fuente = new Fuente(color, tamanio, estilo);
+}
+
+void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){ 
+
+	SDL_Rect* offset = this->getOffsetRect();
+	offset->w = this->getAncho();
+	offset->h = this->getAlto();
+
+	if (this->fondo != NULL) {
+		SDL_FillRect(superficie, offset, this->fondo->toUint32(superficie));
+	
+	} else {
+		this->getVentana()->borrarElemento(this);
+	}
+
+	if (this->borde != NULL) {
+		ServiciosGraficos::dibujarContorno(superficie, offset, this->borde);
+	}
+	
 		
-	SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(this->mensaje, NULL);
+	SDL_Surface* superficieTexto = this->fuente->obtenerSuperficieTexto(this->mensaje, NULL);
 
 	this->ajustarOffset(offset, superficieTexto);
 
 	SDL_BlitSurface(superficieTexto, NULL, superficie, offset);
 
 	SDL_FreeSurface(superficieTexto);
-	delete (fuente);
 }
 
 void Etiqueta::ajustarOffset(SDL_Rect* offset, SDL_Surface* superficie) {
@@ -105,6 +118,7 @@ void Etiqueta::ajustarOffset(SDL_Rect* offset, SDL_Surface* superficie) {
 
 void Etiqueta::setMensaje(string mensaje) {
 	this->mensaje = mensaje;
+	this->hayCambios = true;
 }
 
 string Etiqueta::getMensaje() {
@@ -116,6 +130,7 @@ void Etiqueta::setFondo(Color* color){
 		delete(this->fondo);
 	}
 	this->fondo = color;
+	this->hayCambios = true;
 }
 
 Color* Etiqueta::getFondo() {
@@ -127,6 +142,7 @@ void Etiqueta::setBorde(Color* color){
 		delete (this->borde);
 	}
 	this->borde = color;
+	this->hayCambios = true;
 }
 Color* Etiqueta::getBorde(){
 	return this->borde;
@@ -134,6 +150,7 @@ Color* Etiqueta::getBorde(){
 
 void Etiqueta::setAlineacionHorizontal(int alineacion) {
 	this->alineacionHorizontal = alineacion;
+	this->hayCambios = true;
 }
 
 int Etiqueta::getAlineacionHorizontal(){
@@ -142,6 +159,7 @@ int Etiqueta::getAlineacionHorizontal(){
 
 void Etiqueta::setAlineacionVertical(int alineacion){
 	this->alineacionVertical = alineacion;
+	this->hayCambios = true;
 }
 
 int Etiqueta::getAlineacionVertical(){

@@ -23,11 +23,8 @@
 
 class Jugador : public ElementoGrafico {
 private:
-	int id;
 	string nombre;
 	int fichas;
-	int posicion;
-	Imagen* imagen;
 	Carta* carta1;
 	Carta* carta2;
 	Apuesta* apuesta;
@@ -43,21 +40,18 @@ private:
 	void dibujarJugador(SDL_Surface* superficie);
 
 protected:
+	Imagen* imagen;
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
 
 public:
 	Jugador(void);
 	virtual ~Jugador(void);
 
-	int getId();
-	void setId(int id);
 	string getNombre();
 	void setNombre(string nombre);
-	int getPosicion();
-	void setPosicion(int posicion);
 
 	Imagen* getImagen();
-	void setImagen(Imagen* imagen);
+	void setImagen(string nombreImagen);
 
 	void setCarta1(Carta* carta);
 	void setCarta2(Carta* carta);
@@ -75,6 +69,8 @@ public:
 
 	void setFichas(int cantidad);
 	int getFichas();
+
+	ElementoGrafico* getElementoPorId(string id);
 };
 
 #endif //_JUGADOR_H__

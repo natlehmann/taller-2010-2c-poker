@@ -32,8 +32,10 @@ private:
 	Color* borde;
 	int alineacionHorizontal;
 	int alineacionVertical;
+	Fuente* fuente;
 
 	void ajustarOffset(SDL_Rect* offset, SDL_Surface* superficie);
+	void setearFuente();
 
 protected:
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
