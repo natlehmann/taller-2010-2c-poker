@@ -1,3 +1,6 @@
+#ifndef _FUENTE_H__
+#define _FUENTE_H__
+
 #include <string.h>
 #include "SDL_ttf.h"
 #include "Color.h"
@@ -20,4 +23,6 @@ class Fuente
 		virtual ~Fuente(void);
 
 };
+
+#endif //_FUENTE_H__
 

@@ -36,6 +36,16 @@ void UICliente::iniciarAplicacion()
 	if( TTF_Init() == -1 ) {
 		throw UIException("No se pudo inicializar la interfaz grafica.","E");
 	}
+
+	if( SDL_EnableUNICODE(1) == -1 ) {
+		throw UIException("No se pudo inicializar la interfaz grafica.","E");
+	}
+
+    /* Enable auto repeat for keyboard input */
+	if( SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL) == -1 ) {
+		throw UIException("No se pudo inicializar la interfaz grafica.","E");
+	}
+
 	
 	UICliente::conectarServidor();
 }

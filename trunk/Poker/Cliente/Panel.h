@@ -9,6 +9,7 @@
 
 #include "Contenedor.h"
 #include "Boton.h"
+#include "TextBox.h"
 #include "Color.h"
 
 #define PANEL_SEPARACION_BOTONES_H  10
@@ -26,6 +27,7 @@ private:
 	Boton* btNoIr;
 	Boton* btIgualar;
 	Boton* btSubir;
+	TextBox* textBox;
 
 	void configurarBotones();
 protected:
@@ -39,5 +41,6 @@ public:
 	Boton* getBotonNoIr();
 	Boton* getBotonIgualar();
 	Boton* getBotonSubir();
+	TextBox* getTextBox();
 };
 #endif //_PANEL_H__
