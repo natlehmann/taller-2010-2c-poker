@@ -5,7 +5,6 @@ ImagenRecortada::ImagenRecortada(int ancho, int alto){
 	this->setAncho(ancho);
 	this->setAlto(alto);
 	this->colorMascara = NULL;
-	this->hayCambios = false;
 }
 
 ImagenRecortada::~ImagenRecortada(void){
@@ -13,16 +12,6 @@ ImagenRecortada::~ImagenRecortada(void){
 		delete (this->colorMascara);
 	}
 	this->superficie = NULL;
-}
-
-void ImagenRecortada::setAlto(int alto){
-	this->hayCambios = true;
-	ElementoGrafico::setAlto(alto);
-}
-
-void ImagenRecortada::setAncho(int ancho){
-	this->hayCambios = true;
-	ElementoGrafico::setAncho(ancho);
 }
 
 Color* ImagenRecortada::getColorMascara() {
@@ -50,6 +39,7 @@ void ImagenRecortada::setColorMascara(Color colorMascara){
 
 SDL_Surface* ImagenRecortada::getSuperficie(){
 
+	/*
 	if (this->superficie != NULL && !this->hayCambios) {
 		return this->superficie;
 
@@ -57,7 +47,6 @@ SDL_Surface* ImagenRecortada::getSuperficie(){
 
 		if (this->superficie != NULL) {
 			SDL_FreeSurface(this->superficie);
-			//delete (this->superficie);
 		}
 
 		this->superficie = ServiciosGraficos::crearSuperficie(
@@ -68,6 +57,16 @@ SDL_Surface* ImagenRecortada::getSuperficie(){
 			this->getColorMascara()->toUint32(this->superficie));
 
 		this->hayCambios = false;
+	}
+	*/
+
+	if (this->superficie == NULL) {
+
+		this->superficie = ServiciosGraficos::crearSuperficie(
+				this->getAncho(), this->getAlto());
+
+		SDL_FillRect(this->superficie, NULL, 
+			this->getColorMascara()->toUint32(this->superficie));
 	}
 
 	return this->superficie;

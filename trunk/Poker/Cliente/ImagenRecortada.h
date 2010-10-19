@@ -14,7 +14,6 @@ class ImagenRecortada : public ElementoGrafico {
 
 private:
 	Color* colorMascara;
-	bool hayCambios;
 
 	void setMascaraDefault();
 
@@ -26,9 +25,6 @@ public:
 	virtual ~ImagenRecortada(void);
 
 	virtual SDL_Surface* getSuperficie();
-
-	virtual void setAncho(int ancho);
-	virtual void setAlto(int alto);
 
 	Color* getColorMascara();
 	void setColorMascara(Uint8 red, Uint8 green, Uint8 blue);

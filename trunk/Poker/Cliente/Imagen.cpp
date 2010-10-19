@@ -12,6 +12,8 @@ Imagen::Imagen(string nombre) {
 	this->nombre = RecursosAplicacion::getClienteConfigProperties()->get(
 		"cliente.configuracion.imagenes.path") + nombre;
 
+	this->nombreSinPath = nombre;
+
 	ifstream archivoExiste(this->nombre.c_str());
 	if (!archivoExiste.good()){
 
@@ -28,25 +30,6 @@ Imagen::~Imagen(void)
 }
 
 void Imagen::dibujarSobreSup(SDL_Surface* superficie, SDL_Rect* posicionEnSup){
-
-	/*if (this->superficie == NULL) {
-
-		SDL_Surface* imagenInicial = cargarBMP(); 
-		this->superficie = imagenInicial;
-
-		if(imagenInicial != NULL) {
-		
-			// solo hacer resize si es necesario
-			if (imagenInicial->clip_rect.w != this->getAncho() 
-				|| imagenInicial->clip_rect.h != this->getAlto()) {
-			
-					this->superficie = ServiciosGraficos::resizeSuperficie(
-						imagenInicial, this->getAncho(), this->getAlto());
-
-					SDL_FreeSurface(imagenInicial);
-			}
-		}
-	}*/
 
 	//genera la superficie
 	this->generarSuperficie();
@@ -92,13 +75,6 @@ string Imagen::getNombre(){
 	return this->nombre;
 }
 
-void Imagen::setTamanio(long tamanio){
-	this->tamanio = tamanio;
-}
-
-long Imagen::getTamanio() {
-	return this->tamanio;
-}
 
 SDL_Surface* Imagen::cargarBMP() {
 
@@ -193,4 +169,8 @@ char* Imagen::invertirBMP(char *imagenStream, BITMAPINFOHEADER encabezadoMapaDeB
 		}
 	}
 	return imagenStreamCopia;
+}
+
+string Imagen::getNombreSinPath(){
+	return this->nombreSinPath;
 }

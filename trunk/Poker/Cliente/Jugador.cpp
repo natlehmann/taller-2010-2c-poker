@@ -9,14 +9,15 @@
 
 Jugador::Jugador(void) {
 	this->imagen = NULL;
+	this->nombre = "";
 	this->setAncho(ServiciosGraficos::getTamanioCeldaHoriz());
 	this->setAlto(ServiciosGraficos::getTamanioCeldaVert());
-	this->posicion = -1;
 	this->carta1 = NULL;
 	this->carta2 = NULL;
 	this->etiquetaNombre = NULL;
 	this->etiquetaFichas = NULL;
 	this->apuesta = NULL;
+	this->fichas = 0;
 }
 
 Jugador::~Jugador(void) {
@@ -110,16 +111,7 @@ void Jugador::dibujarJugador(SDL_Surface* superficie) {
 	delete(colorCirculo);
 	delete(supCirculo);
 	SDL_FreeSurface(supImagen);
-	//delete(supImagen);
 
-}
-
-int Jugador::getId() {
-	return this->id;
-}
-
-void Jugador::setId(int id) {
-	this->id = id;
 }
 
 string Jugador::getNombre() {
@@ -127,23 +119,21 @@ string Jugador::getNombre() {
 }
 
 void Jugador::setNombre(string nombre){
-	this->nombre = nombre;
-	if (this->etiquetaNombre == NULL) {
-		this->etiquetaNombre = new Etiqueta();
-		this->etiquetaNombre->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
-		this->etiquetaNombre->setAlineacionVertical(ALINEACION_VERT_CENTRO);
-		this->etiquetaNombre->setBorde(new Color(
-			RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.borde")));
+
+	if (!MensajesUtil::sonIguales(this->getNombre(), nombre)) {
+
+		this->nombre = nombre;
+		if (this->etiquetaNombre == NULL) {
+			this->etiquetaNombre = new Etiqueta();
+			this->etiquetaNombre->setVentana(this->getVentana());
+			this->etiquetaNombre->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
+			this->etiquetaNombre->setAlineacionVertical(ALINEACION_VERT_CENTRO);
+			this->etiquetaNombre->setBorde(new Color(
+				RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.borde")));
+		}
+		this->etiquetaNombre->setMensaje(nombre);
+		this->hayCambios = true;
 	}
-	this->etiquetaNombre->setMensaje(nombre);
-}
-
-int Jugador::getPosicion() {
-	return this->posicion;
-}
-
-void Jugador::setPosicion(int posicion) {
-	this->posicion = posicion;
 }
 
 
@@ -345,16 +335,40 @@ Imagen* Jugador::getImagen() {
 	return this->imagen;
 }
 
-void Jugador::setImagen(Imagen* imagen) {
-	this->imagen = imagen;	
+void Jugador::setImagen(string nombreImagen) {
+	if (this->imagen == NULL || !MensajesUtil::sonIguales(this->imagen->getNombreSinPath(), nombreImagen)) {
+
+		if (this->imagen != NULL) {
+			delete (this->imagen);
+		}
+
+		this->imagen = new Imagen(nombreImagen);	
+		this->hayCambios = true;
+	}
 }
 
 void Jugador::setCarta1(Carta* carta){
-	this->carta1 = carta;
+	if (this->carta1 == NULL || !this->carta1->equals(carta)) {
+
+		if (this->carta1 != NULL){
+			delete (this->carta1);
+		}
+
+		this->carta1 = carta;
+		this->hayCambios = true;
+	}
 }
 
 void Jugador::setCarta2(Carta* carta){
-	this->carta2 = carta;
+	if (this->carta2 == NULL || !this->carta2->equals(carta)) {
+
+		if (this->carta2 != NULL){
+			delete (this->carta2);
+		}
+
+		this->carta2 = carta;
+		this->hayCambios = true;
+	}
 }
 
 Carta* Jugador::getCarta1() {
@@ -380,11 +394,17 @@ void Jugador::setCarta(Carta* carta){
 }
 
 void Jugador::setApuesta(string cantidad) {
-	if (this->apuesta == NULL) {
-		this->apuesta = new Apuesta(cantidad);
-	
-	} else {
-		this->apuesta->setCantidad(cantidad);
+
+	if (this->apuesta == NULL || !MensajesUtil::sonIguales(this->apuesta->getCantidad(), cantidad)) {
+
+		if (this->apuesta == NULL) {
+			this->apuesta = new Apuesta(cantidad);
+			this->apuesta->setVentana(this->getVentana());
+		
+		} else {
+			this->apuesta->setCantidad(cantidad);
+		}
+		this->hayCambios = true;
 	}
 }
 
@@ -393,17 +413,34 @@ Apuesta* Jugador::getApuesta(){
 }
 
 void Jugador::setFichas(int cantidad) {
-	this->fichas = cantidad;
-	if (this->etiquetaFichas == NULL) {
-		this->etiquetaFichas = new Etiqueta();
-		this->etiquetaFichas->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
-		this->etiquetaFichas->setAlineacionVertical(ALINEACION_VERT_CENTRO);
-		this->etiquetaFichas->setBorde(new Color(
-			RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.borde")));
+
+	if (this->fichas != cantidad) {
+		this->fichas = cantidad;
+		if (this->etiquetaFichas == NULL) {
+			this->etiquetaFichas = new Etiqueta();
+			this->etiquetaFichas->setVentana(this->getVentana());
+			this->etiquetaFichas->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
+			this->etiquetaFichas->setAlineacionVertical(ALINEACION_VERT_CENTRO);
+			this->etiquetaFichas->setBorde(new Color(
+				RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.borde")));
+		}
+		this->etiquetaFichas->setMensaje(UtilTiposDatos::enteroAString(cantidad));
+		this->hayCambios = true;
 	}
-	this->etiquetaFichas->setMensaje(UtilTiposDatos::enteroAString(cantidad));
 }
 
 int Jugador::getFichas() {
 	return this->fichas;
+}
+
+ElementoGrafico* Jugador::getElementoPorId(string id){
+	if (this->carta1 != NULL && MensajesUtil::sonIguales(this->carta1->getId(), id)) {
+		return this->carta1;
+	}
+
+	if (this->carta2 != NULL && MensajesUtil::sonIguales(this->carta2->getId(), id)) {
+		return this->carta2;
+	}
+
+	return NULL;
 }

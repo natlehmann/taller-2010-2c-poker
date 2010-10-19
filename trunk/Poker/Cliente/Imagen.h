@@ -15,7 +15,7 @@
 class Imagen : public ElementoGrafico {
 private:
 	string nombre;
-	long tamanio;
+	string nombreSinPath;
 
 	SDL_Surface* cargarBMP();
 	char* invertirBMP(char *bitmapImage, BITMAPINFOHEADER bitmapInfoHeader);
@@ -28,12 +28,10 @@ public:
 	virtual ~Imagen(void);
 
 	string getNombre();
+	string getNombreSinPath();
 
 	void dibujarSobreSup(SDL_Surface* superficie, SDL_Rect* posicionEnSup);
 	void generarSuperficie();
-
-	void setTamanio(long tamanio);
-	long getTamanio();
 };
 
 #endif //_IMAGEN_H__
