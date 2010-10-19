@@ -12,6 +12,7 @@
 #include <string.h>
 #include <fstream>
 #include <map>
+#include "SDL_Thread.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ private:
 	string nombreArchivo;
 	ifstream* archivo;
 	map<string,string>* properties;
+	SDL_sem* semaforo;
 
 	void inicializar();
 	void procesarLinea(string linea);

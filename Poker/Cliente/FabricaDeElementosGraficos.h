@@ -6,6 +6,7 @@
 #include "Carta.h"
 #include "CartasComunitarias.h"
 #include "Bote.h"
+#include "Boton.h"
 #include "UtilTiposDatos.h"
 #include "ParserException.h"
 
@@ -21,16 +22,27 @@
 #define XML_CARTAS "cartas"
 #define XML_CARTASCOMUNITARIAS "cartascomunitarias"
 
+#define XML_PANEL_COMANDO "panelComando"
+#define XML_PANEL_BOTON "boton"
+
 class FabricaDeElementosGraficos
 {
 	public:
 
+		/**
+		* Metodo sincronizado que configura a una Ventana de acuerdo a la informacion
+		* provista por un escenario.
+		*/
 		static void generarEscenario(DomTree* arbolEscenario, Ventana* ventana);
-		FabricaDeElementosGraficos(void);
+		
 		virtual ~FabricaDeElementosGraficos(void);
 
 	private:
-		static Jugador* generarJugador(list<Elemento*>::iterator itJugador);
-		static Carta* FabricaDeElementosGraficos::generarCarta(list<Elemento*>::iterator itCarta);
+		FabricaDeElementosGraficos(void);
+		static Jugador* generarJugador(list<Elemento*>::iterator itJugador, Ventana* ventana);
+		static Carta* FabricaDeElementosGraficos::generarCarta(
+			list<Elemento*>::iterator itCarta, ElementoGrafico* elem);
+		static Boton* FabricaDeElementosGraficos::generarBoton(
+			list<Elemento*>::iterator itBoton, Panel* panel);
 	
 };

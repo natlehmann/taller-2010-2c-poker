@@ -6,12 +6,13 @@
 #include "OperacionUICliente.h"
 #include "PokerException.h"
 #include "Respuesta.h"
-#include "Ventana.h"
+#include "VentanaProxy.h"
 
 
 int main (int argc, char** argv)
 {
 	OperacionUICliente* operacion = NULL;
+	Ventana* ventana = NULL;
 
 	try {
 		UICliente::iniciarAplicacion();
@@ -19,18 +20,27 @@ int main (int argc, char** argv)
 		string idOperacionInicial = 
 			RecursosAplicacion::getClienteConfigProperties()->get("cliente.operacion.inicial");
 		FabricaOperacionesCliente fab;
-		Ventana ventana;
+		ventana = new VentanaProxy();
+
+		UICliente::lanzarThreads(ventana);
 
 		operacion = fab.newOperacion(idOperacionInicial);
-		if (operacion->ejecutar(&ventana))
-			ventana.dibujar(NULL);
-		else
-			UICliente::mostrarMensaje("La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+		if (operacion->ejecutar(ventana)){
+
+			ventana->iniciar();
+
+		} else {
+			UICliente::mostrarMensaje(
+				"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+		}
 
 		delete(operacion);
 		operacion = NULL;
+		delete(ventana);
+		ventana = NULL;
 
 		UICliente::finalizar();
+
 
 	} catch (PokerException& e) {
 		RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
@@ -38,6 +48,9 @@ int main (int argc, char** argv)
 			"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
 		if (operacion != NULL) {
 			delete(operacion);
+		}
+		if (ventana != NULL) {
+			delete(ventana);
 		}
 	}
 

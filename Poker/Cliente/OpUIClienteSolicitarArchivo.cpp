@@ -43,21 +43,18 @@ bool OpUIClienteSolicitarArchivo::ejecutar(Ventana* ventana){
 
 	//envia el pedido al servidor
 	Cliente* cliente = UICliente::getCliente();
-	cliente->enviarMsj(mensaje);
+	string mensajeRecibido;
 	
 	//recibe la longitud del archivo solicitado
-	if (cliente->recibirMsj(mensaje))
-	{
+	if (cliente->enviarRecibir(mensaje, mensajeRecibido)) {
+
 		//valida y convierte el string con en tamanio del archivo a un entero
-		int size = UtilTiposDatos::stringAEntero(mensaje);
+		int size = UtilTiposDatos::stringAEntero(mensajeRecibido);
 		if (size != -1)
 		{
-			//envia el mensaje de recibido ok
-			cliente->enviarMsj("OK");
+			//envia el mensaje de recibido ok y recibe el archivo solicitado
+			if (cliente->enviarRecibir("OK", mensajeRecibido, size)) {
 
-			//recibe el archivo solicitado
-			if (cliente->recibirMsj(mensaje, size))
-			{
 				//arma el path de destino
 				string pathCompleto = pathDestino;
 				pathCompleto.append(nombreArchivo);
@@ -66,7 +63,7 @@ bool OpUIClienteSolicitarArchivo::ejecutar(Ventana* ventana){
 				if(newfile.is_open()) 
 				{ 
 					//graba el archivo en el disco
-					newfile.write(mensaje.data(), size); 
+					newfile.write(mensajeRecibido.data(), size); 
 					newfile.close();
 
 					return true;

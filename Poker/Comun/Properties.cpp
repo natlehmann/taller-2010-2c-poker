@@ -5,8 +5,11 @@
 Properties::Properties(string nombreArchivo)
 {
 	this->properties = NULL;
+	this->semaforo = SDL_CreateSemaphore(1);
 
 	this->nombreArchivo = nombreArchivo;
+
+	//SDL_SemWait(this->semaforo);
 	this->archivo = new ifstream(this->nombreArchivo.c_str());
 
 	if (!*this->archivo){
@@ -17,6 +20,7 @@ Properties::Properties(string nombreArchivo)
 
 	delete(this->archivo);
 	this->archivo = NULL;
+	//SDL_SemPost(this->semaforo);
 }
 
 Properties::~Properties(void)
@@ -29,9 +33,15 @@ Properties::~Properties(void)
 		this->properties->clear();
 		delete (this->properties);
 	}
+
+	SDL_DestroySemaphore(this->semaforo);
 }
 
 string Properties::get(string clave){
+
+	//SDL_SemWait(this->semaforo);
+	string resultado = "";
+
 	if (this->properties == NULL) {
 		this->inicializar();
 	}
@@ -39,14 +49,16 @@ string Properties::get(string clave){
 	map<string,string>::iterator it = this->properties->find(clave);
 
 	if (it != this->properties->end()) {
-		return it->second;
+		resultado = it->second;
 
-	} else {
-		return "";
 	}
+
+	//SDL_SemPost(this->semaforo);
+
+	return resultado;
 }
 
-void Properties::inicializar() {
+void Properties::inicializar() {	
 
 	this->properties = new map<string,string>();
 	this->archivo = new ifstream(this->nombreArchivo.c_str());

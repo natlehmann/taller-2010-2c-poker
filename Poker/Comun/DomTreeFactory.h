@@ -9,6 +9,7 @@
 #include <string.h>
 #include <set>
 #include <map>
+#include "SDL_Thread.h"
 
 #include "DomTree.h"
 
@@ -21,6 +22,8 @@ class DomTreeFactory
 private:
 	static map<string, DomTreeFactoryInstance> configuraciones;
 	static string defaultConfig;
+
+	static SDL_sem* semaforo;
 
 	static void inicializar();
 
@@ -43,6 +46,8 @@ public:
 	* del parser
 	*/
 	static DomTreeFactory* config(string nombreConfig);
+
+	static void finalizar();
 };
 
 #endif
