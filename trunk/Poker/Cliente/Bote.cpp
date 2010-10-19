@@ -33,6 +33,7 @@ void Bote::dibujarSobreSup(SDL_Surface* superficie)
 
 	if (this->etiqueta == NULL) {
 		this->etiqueta = new Etiqueta();
+		this->etiqueta->setVentana(this->getVentana());
 		this->etiqueta->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
 		this->etiqueta->setAlineacionVertical(ALINEACION_VERT_CENTRO);
 	}
@@ -64,4 +65,6 @@ int Bote::getTotal()
 void Bote::setTotal(int total) 
 {
 	this->total = total;
+	this->hayCambios = true;
 }
+

@@ -33,6 +33,7 @@ void Apuesta::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->etiqueta == NULL) {
 		this->etiqueta = new Etiqueta();
+		this->etiqueta->setVentana(this->getVentana());
 		this->etiqueta->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
 		this->etiqueta->setFondo(NULL);
 	}
@@ -55,4 +56,5 @@ string Apuesta::getCantidad() {
 
 void Apuesta::setCantidad(string cantidad) {
 	this->cantidad = cantidad;
+	this->hayCambios = true;
 }

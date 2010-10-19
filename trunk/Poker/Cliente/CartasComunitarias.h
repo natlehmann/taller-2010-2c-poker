@@ -28,4 +28,6 @@ class CartasComunitarias: public ElementoGrafico
 		void CartasComunitarias::setCarta(Carta* carta);
 		CartasComunitarias(void);
 		virtual ~CartasComunitarias(void);
+
+		ElementoGrafico* getElementoPorId(string id);
 };
