@@ -9,16 +9,24 @@
 
 using namespace std;
 
+class Ventana;
+
 class ElementoGrafico {
 protected:
 	int posX;
 	int posY;
 	int ancho;
 	int alto;
+	bool hayCambios;
+
+	string id;
+	int posicion;
 
 	SDL_Surface* superficie;
 	SDL_Rect* offset;
 	SDL_Rect* contorno;
+
+	Ventana* ventana;
 
 	virtual void dibujarSobreSup(SDL_Surface* superficie) = 0;
 
@@ -34,7 +42,6 @@ public:
 	* sobre la propia superficie del elemento.
 	*/
 	virtual void dibujar(SDL_Surface* superficie);
-	virtual void refrescar(SDL_Surface* superficie);
 
 	virtual SDL_Surface* getSuperficie();
 
@@ -50,14 +57,30 @@ public:
 	*/
 	virtual SDL_Rect* getContornoRect();
 
+	void setHayCambios(bool hayCambios);
+
 	int getPosX();
-	void setPosX(int posX);
+	virtual void setPosX(int posX);
 	int getPosY();
-	void setPosY(int posY);
+	virtual void setPosY(int posY);
 	int getAncho();
 	virtual void setAncho(int ancho);
 	int getAlto();
 	virtual void setAlto(int alto);
+
+	string getId();
+	void setId(string id);
+
+	int getPosicion();
+	void setPosicion(int posicion);
+
+	Ventana* getVentana();
+	void setVentana(Ventana* ventana);
+
+	/**
+	* Devuelve true si este elemento grafico tiene el mismo id que "otro".
+	*/
+	virtual bool equals(ElementoGrafico* otro);
 };
 
 #endif //_ELEMENTOGRAFICO_H__

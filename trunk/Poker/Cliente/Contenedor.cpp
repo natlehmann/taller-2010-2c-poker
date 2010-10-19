@@ -15,4 +15,5 @@ Contenedor::~Contenedor(void)
 
 void Contenedor::agregarElementoGrafico(ElementoGrafico* elemento) {
 	this->elementos.push_back(elemento);
+	this->hayCambios = true;
 }

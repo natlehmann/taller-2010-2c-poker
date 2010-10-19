@@ -11,6 +11,7 @@ TextBox::TextBox(void) {
 	this->borde = NULL;
 	this->foco = false;
 	this->cursorPosition = 0;
+	this->mensaje = "";
 }
 
 TextBox::TextBox(string mensaje){
@@ -174,7 +175,7 @@ bool TextBox::checkWrite(SDL_Surface* superficie, SDL_Event* evento, int pressed
 		
 
 		this->dibujarTexto(superficie);
-		this->refrescar(superficie);
+		//this->refrescar(superficie);
 		return true;
 	}
 
@@ -192,7 +193,7 @@ bool TextBox::checkClick(SDL_Surface* superficie)
 			this->cursorPosition = this->mensaje.size();
 			this->foco = true;
 			this->dibujarTexto(superficie);
-			this->refrescar(superficie);
+			//this->refrescar(superficie);
 		}
 		
 		return true;
@@ -203,7 +204,7 @@ bool TextBox::checkClick(SDL_Surface* superficie)
 		{
 			this->foco = false;
 			this->dibujarTexto(superficie);
-			this->refrescar(superficie);
+			//this->refrescar(superficie);
 		}
 		
 		return true;
@@ -256,7 +257,10 @@ bool TextBox::esClickDerecho()
 }
 
 void TextBox::setMensaje(string mensaje) {
-	this->mensaje = mensaje;
+	if (!MensajesUtil::sonIguales(this->getMensaje(), mensaje)) {
+		this->mensaje = mensaje;
+		this->hayCambios = true;
+	}
 }
 
 string TextBox::getMensaje() {
@@ -264,6 +268,7 @@ string TextBox::getMensaje() {
 }
 
 void TextBox::setFondoFoco(Color* color){
+	// TODO: REVISAR
 	if (this->fondoFoco != NULL) {
 		delete(this->fondoFoco);
 	}
@@ -275,6 +280,7 @@ Color* TextBox::getFondoFoco() {
 }
 
 void TextBox::setFondoNotFoco(Color* color){
+	// TODO: REVISAR
 	if (this->fondoNotFoco != NULL) {
 		delete(this->fondoNotFoco);
 	}
@@ -286,6 +292,7 @@ Color* TextBox::getFondoNotFoco() {
 }
 
 void TextBox::setBorde(Color* color){
+	// TODO: REVISAR
 	if (this->borde != NULL) {
 		delete (this->borde);
 	}
@@ -296,6 +303,7 @@ Color* TextBox::getBorde(){
 }
 
 void TextBox::setAlineacionHorizontal(int alineacion) {
+	// TODO: REVISAR
 	this->alineacionHorizontal = alineacion;
 }
 
@@ -304,6 +312,7 @@ int TextBox::getAlineacionHorizontal(){
 }
 
 void TextBox::setAlineacionVertical(int alineacion){
+	// TODO: REVISAR
 	this->alineacionVertical = alineacion;
 }
 
