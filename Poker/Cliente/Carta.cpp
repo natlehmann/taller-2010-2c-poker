@@ -3,6 +3,9 @@
 #include "RecursosAplicacion.h"
 #include "MensajesUtil.h"
 #include "UIException.h"
+#include <typeinfo.h>
+
+
 
 Carta::Carta(void)
 {
@@ -81,7 +84,10 @@ string Carta::getNumero()
 
 void Carta::setNumero(string numero) 
 {
-	this->numero = numero;
+	if (!MensajesUtil::sonIguales(this->getNumero(), numero)) {
+		this->numero = numero;
+		this->hayCambios = true;
+	}
 }
 
 string Carta::getPalo() 
@@ -91,7 +97,10 @@ string Carta::getPalo()
 
 void Carta::setPalo(string palo)
 {
-	this->palo = palo;
+	if (!MensajesUtil::sonIguales(this->getPalo(), palo)) {
+		this->palo = palo;
+		this->hayCambios = true;
+	}
 }
 
 bool Carta::getVisible() 
@@ -101,15 +110,26 @@ bool Carta::getVisible()
 
 void Carta::setVisible(bool visible) 
 {
-	this->visible = visible;
+	if (this->visible != visible) {
+		this->visible = visible;
+		this->hayCambios = true;
+	}
 }
 
-int Carta::getPosicion() 
-{
-	return this->posicion;
-}
 
-void Carta::setPosicion(int posicion) 
-{
-	this->posicion = posicion;
+bool Carta::equals(ElementoGrafico* otro){
+
+	bool iguales = false;
+	if (otro != NULL && MensajesUtil::sonIguales(typeid(*otro).name(), "class Carta")) {
+		Carta* otraCarta = (Carta*)otro;
+
+		if (MensajesUtil::sonIguales(this->getPalo(), otraCarta->getPalo()) 
+			&& MensajesUtil::sonIguales(this->getNumero(), otraCarta->getNumero()) 
+			&& this->getVisible() == otraCarta->getVisible() 
+			&& MensajesUtil::sonIguales(this->getId(), otraCarta->getId()) ){
+				iguales = true;
+		}
+	}
+
+	return iguales;
 }
