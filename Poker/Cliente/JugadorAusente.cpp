@@ -5,8 +5,8 @@
 
 JugadorAusente::JugadorAusente(void)
 {
-	this->setImagen(new Imagen(RecursosAplicacion::getClienteConfigProperties()->get(
-		"cliente.tema.default.jugador.ausente.imagen")));
+	this->imagen = new Imagen(RecursosAplicacion::getClienteConfigProperties()->get(
+		"cliente.tema.default.jugador.ausente.imagen"));
 }
 
 JugadorAusente::~JugadorAusente(void)
