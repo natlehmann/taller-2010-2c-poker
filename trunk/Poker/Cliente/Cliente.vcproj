@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Cliente"
 	ProjectGUID="{AABB0789-22C9-4C74-BA8B-189354326F8C}"
 	RootNamespace="Cliente"
@@ -303,11 +303,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClienteDejarMesa.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteIgualarApuesta.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteNoIr.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteSolicitarArchivo.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\OpUIClienteSolicitarEscenario.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteSubirApuesta.cpp"
 				>
 			</File>
 			<File
@@ -359,6 +375,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Timer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UICliente.cpp"
 				>
 			</File>
@@ -372,6 +392,10 @@
 			</File>
 			<File
 				RelativePath=".\Ventana.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaProxy.cpp"
 				>
 			</File>
 			<File
@@ -545,11 +569,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClienteDejarMesa.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteIgualarApuesta.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteNoIr.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteSolicitarArchivo.h"
 				>
 			</File>
 			<File
 				RelativePath=".\OpUIClienteSolicitarEscenario.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteSubirApuesta.h"
 				>
 			</File>
 			<File
@@ -601,6 +641,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Timer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\UICliente.h"
 				>
 			</File>
@@ -614,6 +658,10 @@
 			</File>
 			<File
 				RelativePath=".\Ventana.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaProxy.h"
 				>
 			</File>
 			<File

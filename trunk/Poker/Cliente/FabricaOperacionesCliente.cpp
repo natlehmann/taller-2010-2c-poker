@@ -4,6 +4,10 @@
 #include "MensajesUtil.h"
 #include "OpUIClienteSolicitarEscenario.h"
 #include "OpUIClienteSolicitarArchivo.h"
+#include "OpUIClienteDejarMesa.h"
+#include "OpUIClienteIgualarApuesta.h"
+#include "OpUIClienteNoIr.h"
+#include "OpUIClienteSubirApuesta.h"
 
 using namespace std;
 
@@ -36,8 +40,18 @@ OperacionUICliente* FabricaOperacionesCliente::newOperacion(string nombreOperaci
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteSolicitarArchivo")) {
 		operacion = new OpUIClienteSolicitarArchivo(parametros);
 	}
-
-	// TODO: ACA SE VERIFICARIAN TODAS LAS DEMAS OPERACIONES
+	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteDejarMesa")) {
+		operacion = new OpUIClienteDejarMesa();
+	}
+	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteIgualarApuesta")) {
+		operacion = new OpUIClienteIgualarApuesta();
+	}
+	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteNoIr")) {
+		operacion = new OpUIClienteNoIr();
+	}
+	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteSubirApuesta")) {
+		operacion = new OpUIClienteSubirApuesta();
+	}
 
 	if (operacion == NULL) {
 		Error error("V","Id de operacion invalido.",nombreOperacion);

@@ -9,10 +9,15 @@
 #include "UtilTiposDatos.h"
 #include "RecursosAplicacion.h"
 #include "UIException.h"
+#include "OperacionUICliente.h"
+#include "FabricaOperacionesCliente.h"
+#include "FabricaDeElementosGraficos.h"
+#include "DomTreeFactory.h"
 #include <fstream>
 #include <cstdlib>
 
 Cliente* UICliente::cliente = NULL;
+SDL_Thread* UICliente::threadRefresh = NULL;
 
 UICliente::UICliente(void)
 {
@@ -48,6 +53,58 @@ void UICliente::iniciarAplicacion()
 
 	
 	UICliente::conectarServidor();
+
+}
+
+
+int planificarOperacion(void* data) {
+
+	Ventana* ventana = (Ventana*)data;
+
+	try {
+
+		string idOperacion = 
+			RecursosAplicacion::getClienteConfigProperties()->get("cliente.operacion.planificada.nombre");
+		int ms = UtilTiposDatos::getEntero(RecursosAplicacion::getClienteConfigProperties()->get(
+			"cliente.operacion.planificada.delayms"));
+
+		FabricaOperacionesCliente fab;
+		OperacionUICliente* operacion = NULL;
+
+		while (true) {
+
+			try {
+				operacion = fab.newOperacion(idOperacion);
+				operacion->ejecutar(ventana);
+
+				SDL_Delay(ms);
+
+				if (operacion != NULL){
+					delete(operacion);
+					operacion = NULL;
+				}
+			
+			} catch (PokerException& e) {
+				RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
+				if (operacion != NULL){
+					delete(operacion);
+				}
+			}
+		}
+
+
+	} catch (PokerException& e) {
+		RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
+		UICliente::mostrarMensaje(
+			"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+	}
+
+	return 0;
+}
+
+void UICliente::lanzarThreads(Ventana* ventana){
+
+	UICliente::threadRefresh = SDL_CreateThread(planificarOperacion, ventana);
 }
 
 
@@ -102,8 +159,15 @@ Cliente* UICliente::getCliente(){
 
 void UICliente::finalizar()
 {
+	if (UICliente::threadRefresh != NULL) {
+		SDL_KillThread(UICliente::threadRefresh);
+	}
+
 	SDL_Quit();
 	TTF_Quit(); 
+
+	DomTreeFactory::finalizar();
+
 	UICliente::cliente->finalizarConexion();
 }
 

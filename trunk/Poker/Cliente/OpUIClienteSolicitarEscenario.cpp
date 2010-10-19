@@ -32,13 +32,9 @@ bool OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
 
 	// se envia el pedido al servidor
 	Cliente* cliente = UICliente::getCliente();
-	bool enviado = cliente->enviarMsj(parser->toString(tree));
-
-	// se recibe la respuesta y se interpreta el xml
 	string msjRecibido;
-	bool recibido = cliente->recibirMsj(msjRecibido);
 
-	if (msjRecibido.length() > 1)
+	if (cliente->enviarRecibir(parser->toString(tree), msjRecibido)) 
 	{
 		try {
 			DomTree* arbolEscenario = parser->toDom(msjRecibido, "escenario");

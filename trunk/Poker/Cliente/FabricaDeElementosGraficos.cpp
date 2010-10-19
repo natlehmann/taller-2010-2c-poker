@@ -2,6 +2,11 @@
 #include "Apuesta.h"
 #include "ParserException.h"
 #include "JugadorAusente.h"
+#include "Respuesta.h"
+#include "Panel.h"
+#include <typeinfo.h>
+
+
 
 FabricaDeElementosGraficos::FabricaDeElementosGraficos(void)
 {
@@ -13,113 +18,205 @@ FabricaDeElementosGraficos::~FabricaDeElementosGraficos(void)
 
 void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Ventana *ventana)
 {
-	if (arbolEscenario)
-	{
-		Elemento* raiz = arbolEscenario->getRaiz();
+	if (arbolEscenario)	{
+		
+		ventana->bloquear();
 
-		for(list<Elemento*>::iterator itEscenario = raiz->getHijos()->begin(); itEscenario != raiz->getHijos()->end(); itEscenario++) 
-		{
-			for(list<Elemento*>::iterator itElementosVentana = (*itEscenario)->getHijos()->begin(); itElementosVentana != (*itEscenario)->getHijos()->end(); itElementosVentana++) 
-			{
-				if (MensajesUtil::sonIguales(XML_MESA, (*itElementosVentana)->getNombre()))
-				{
-					// Se genera la MESA
-					Mesa* mesa = new Mesa();
-					mesa->setId((*itElementosVentana)->getAtributo("id"));
-					mesa->setAlto(ventana->getAlto());
-					mesa->setAncho(ventana->getAncho());
-					mesa->setFondo((*itElementosVentana)->getAtributo("fondo"));
-					ventana->agregarElementoGrafico(mesa);
-				}
-				else if (MensajesUtil::sonIguales(XML_JUGADORES, (*itElementosVentana)->getNombre()))
-				{
-					//
-					// Se generan los JUGADORES
-					//
-					if ((*itElementosVentana)->getHijos()->size() > 6) {
-						throw ParserException("El juego no admite mas de 6 jugadores.","V");
-					}
+		try {
+			Elemento* raiz = arbolEscenario->getRaiz();
 
-					// control de posiciones ocupadas
-					bool posiciones[6];
-					for (int i = 0; i < 6; i++){
-						posiciones[i] = false;
-					}
+			for(list<Elemento*>::iterator itEscenario = raiz->getHijos()->begin(); 
+				itEscenario != raiz->getHijos()->end(); itEscenario++) {
 
-					for(list<Elemento*>::iterator itJugador = (*itElementosVentana)->getHijos()->begin(); 
-						itJugador != (*itElementosVentana)->getHijos()->end(); itJugador++) 
+				for(list<Elemento*>::iterator itElementosVentana = (*itEscenario)->getHijos()->begin(); 
+					itElementosVentana != (*itEscenario)->getHijos()->end(); itElementosVentana++) {
+
+					if (MensajesUtil::sonIguales(XML_MESA, (*itElementosVentana)->getNombre()))
 					{
-						Jugador* jugador = generarJugador(itJugador);
-						if (posiciones[jugador->getPosicion() - 1]) {
-							throw ParserException(
-								"No puede haber mas de un jugador ocupando la misma posicion.","V");
-						}
-						posiciones[jugador->getPosicion() - 1] = true;
-						ventana->agregarElementoGrafico(jugador);
-					}
+						string idMesa = (*itElementosVentana)->getAtributo("id");
+						ElementoGrafico* mesaEnc = ventana->getElementoPorId(idMesa);
+						Mesa* mesa = NULL;
 
-					//se completan las posiciones vacias
-					for (int i = 0; i < 6; i++){
-						if (!posiciones[i]) {
-							JugadorAusente* jugadorAusente = new JugadorAusente();
-							jugadorAusente->setPosicion(i + 1);
-							ventana->agregarElementoGrafico(jugadorAusente);
-						}
-					}
+						if (mesaEnc != NULL && MensajesUtil::sonIguales(typeid(*mesaEnc).name(), "class Mesa")){
+							mesa = (Mesa*)mesaEnc;
+						
+						} else {
+							// Se genera la MESA
+							mesa = new Mesa();
 
-				}
-				else if (MensajesUtil::sonIguales(XML_BOTE, (*itElementosVentana)->getNombre()))
-				{
-					// Se genera el BOTE
-					//int cantidad = UtilTiposDatos::getEntero((*itElementosVentana)->getTexto());
-					Bote* bote = new Bote();
-					bote->setTotal(UtilTiposDatos::getEntero((*itElementosVentana)->getTexto()));
-					ventana->agregarElementoGrafico(bote);
-				}
-				else if (MensajesUtil::sonIguales(XML_CARTASCOMUNITARIAS, (*itElementosVentana)->getNombre()))
-				{
-					// Se generan las CARTAS COMUNITARIAS
-					CartasComunitarias* cartascomunitarias = new CartasComunitarias();
-				
-					for(list<Elemento*>::iterator itCartas = (*itElementosVentana)->getHijos()->begin(); itCartas != (*itElementosVentana)->getHijos()->end(); itCartas++)
+							if (mesaEnc != NULL){
+								ventana->borrarElementoPorId(idMesa);							
+							} 
+
+							ventana->agregarElementoGrafico(mesa);							
+						}
+						
+						mesa->setId(idMesa);
+						mesa->setAlto(ventana->getAlto());
+						mesa->setAncho(ventana->getAncho());
+						mesa->setFondo((*itElementosVentana)->getAtributo("fondo"));
+						
+					}
+					else if (MensajesUtil::sonIguales(XML_JUGADORES, (*itElementosVentana)->getNombre()))
 					{
-						// Se genera las CARTAS
-						for(list<Elemento*>::iterator itCarta = (*itCartas)->getHijos()->begin(); itCarta != (*itCartas)->getHijos()->end(); itCarta++)
+						//
+						// Se generan los JUGADORES
+						//
+						if ((*itElementosVentana)->getHijos()->size() > 6) {
+							throw ParserException("El juego no admite mas de 6 jugadores.","V");
+						}
+
+						// control de posiciones ocupadas
+						bool posiciones[6];
+						for (int i = 0; i < 6; i++){
+							posiciones[i] = false;
+						}
+
+						for(list<Elemento*>::iterator itJugador = (*itElementosVentana)->getHijos()->begin(); 
+							itJugador != (*itElementosVentana)->getHijos()->end(); itJugador++) 
 						{
-							Carta* carta = generarCarta(itCarta);
-							cartascomunitarias->setCarta(carta);
+							Jugador* jugador = generarJugador(itJugador, ventana);
+							if (posiciones[jugador->getPosicion() - 1]) {
+								throw ParserException(
+									"No puede haber mas de un jugador ocupando la misma posicion.","V");
+							}
+							posiciones[jugador->getPosicion() - 1] = true;
 						}
 
-						ventana->agregarElementoGrafico(cartascomunitarias);
+						//se completan las posiciones vacias
+						// TODO: REEMPLAZAR ESTO: QUE VENGA EN EL ESCENARIO
+						for (int i = 0; i < 6; i++){
+							if (!posiciones[i]) {
+								JugadorAusente* jugadorAusente = new JugadorAusente();
+								jugadorAusente->setPosicion(i + 1);
+								ventana->agregarElementoGrafico(jugadorAusente);
+							}
+						}
+
+					}
+					else if (MensajesUtil::sonIguales(XML_BOTE, (*itElementosVentana)->getNombre()))
+					{
+						// Se genera el BOTE
+						Bote* bote = NULL;
+						string idBote = (*itElementosVentana)->getAtributo("id");
+						ElementoGrafico* elem = ventana->getElementoPorId(idBote);
+						if (elem != NULL && MensajesUtil::sonIguales(typeid(*elem).name(), "class Bote")){
+							bote = (Bote*)elem;
+
+						} else {
+							bote = new Bote();
+							if(elem != NULL) {
+								ventana->borrarElementoPorId(idBote);
+							}
+							ventana->agregarElementoGrafico(bote);
+						}
+
+						bote->setId(idBote);
+						bote->setTotal(UtilTiposDatos::getEntero((*itElementosVentana)->getTexto()));
+						
+					}
+					else if (MensajesUtil::sonIguales(XML_CARTASCOMUNITARIAS, (*itElementosVentana)->getNombre()))
+					{
+						// Se generan las CARTAS COMUNITARIAS
+						string idCartasCom = (*itElementosVentana)->getAtributo("id");
+						CartasComunitarias* cartascomunitarias = NULL;
+						ElementoGrafico* elem = ventana->getElementoPorId(idCartasCom);
+
+						if (elem != NULL && MensajesUtil::sonIguales(typeid(*elem).name(), "class CartasComunitarias")){
+							cartascomunitarias = (CartasComunitarias*)elem;
+
+						} else {							
+							cartascomunitarias = new CartasComunitarias();
+							if (elem != NULL) {
+								ventana->borrarElementoPorId(idCartasCom);
+							}
+							ventana->agregarElementoGrafico(cartascomunitarias);
+						}
+
+						cartascomunitarias->setId(idCartasCom);
+					
+						for(list<Elemento*>::iterator itCartas = (*itElementosVentana)->getHijos()->begin(); 
+							itCartas != (*itElementosVentana)->getHijos()->end(); itCartas++)
+						{
+							// Se genera las CARTAS
+							for(list<Elemento*>::iterator itCarta = (*itCartas)->getHijos()->begin(); 
+								itCarta != (*itCartas)->getHijos()->end(); itCarta++)
+							{
+								Carta* carta = generarCarta(itCarta, 
+									cartascomunitarias->getElementoPorId((*itCarta)->getAtributo("id")));
+								cartascomunitarias->setCarta(carta);
+							}
+						}
+					}
+					else if (MensajesUtil::sonIguales(XML_PANEL_COMANDO, (*itElementosVentana)->getNombre()))
+					{
+						// Se genera el Panel de Comandos
+						Panel* panel = ventana->getPanelComando();
+
+						if (panel == NULL){
+							panel = new Panel();
+							ventana->setPanelComando(panel);
+						}
+
+						// Se generan los botones
+						for(list<Elemento*>::iterator itBoton = (*itElementosVentana)->getHijos()->begin(); 
+							itBoton != (*itElementosVentana)->getHijos()->end(); itBoton++) {
+
+								if (MensajesUtil::sonIguales(XML_PANEL_BOTON, (*itBoton)->getNombre())) {
+									Boton* boton = generarBoton(itBoton, panel);
+									panel->agregarBoton(boton, boton->getPosicion());
+								}
+						}
 					}
 				}
 			}
+
+		} catch (PokerException& e) {
+			RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
+		} catch (exception& e2) {
+			RecursosAplicacion::getLogErroresCliente()->escribir("Error al procesar el archivo escenario.");
+			RecursosAplicacion::getLogErroresCliente()->escribir(e2.what());
+		} catch (...) {
+			RecursosAplicacion::getLogErroresCliente()->escribir("Error al procesar el archivo escenario.");
 		}
 
+		ventana->desbloquear();
 	}
 }
 
-Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator itJugador)
+Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator itJugador, Ventana* ventana)
 {
-	Jugador* jugador = new Jugador();
-	Imagen* imagen;
+	string idJugador = (*itJugador)->getAtributo("id");
+	ElementoGrafico* elem = ventana->getElementoPorId(idJugador);
+
+	Jugador* jugador = NULL;
+
+	if (elem != NULL && MensajesUtil::sonIguales(typeid(*elem).name(), "class Jugador")){
+		jugador = (Jugador*)elem;
+	
+	} else {
+		jugador = new Jugador();
+
+		if (elem != NULL){
+			ventana->borrarElementoPorId(idJugador);							
+		} 
+
+		ventana->agregarElementoGrafico(jugador);							
+	}
 
 	// Se setean los atributos del JUGADOR
-	jugador->setId(UtilTiposDatos::getEntero((*itJugador)->getAtributo("id")));
+	jugador->setId(idJugador);
 	jugador->setNombre((*itJugador)->getAtributo("nombre"));
 	
 	// Se agregan las propiedades del JUGADOR
-	for(list<Elemento*>::iterator itElemento = (*itJugador)->getHijos()->begin(); itElemento != (*itJugador)->getHijos()->end(); itElemento++) 
+	for(list<Elemento*>::iterator itElemento = (*itJugador)->getHijos()->begin(); 
+		itElemento != (*itJugador)->getHijos()->end(); itElemento++) 
 	{
 		if (MensajesUtil::sonIguales(XML_IMAGEN, (*itElemento)->getNombre()))
 		{
 			// Se genera la IMAGEN y se la carga al JUGADOR
 			if (!MensajesUtil::esVacio((*itElemento)->getAtributo("nombre"))) {
-				imagen = new Imagen((*itElemento)->getAtributo("nombre"));
-				imagen->setTamanio(UtilTiposDatos::getEntero((*itElemento)->getAtributo("tamanio")));
-				imagen->setAncho(UtilTiposDatos::getEntero((*itElemento)->getAtributo("ancho")));
-				imagen->setAlto(UtilTiposDatos::getEntero((*itElemento)->getAtributo("alto")));
-				jugador->setImagen(imagen);
+				jugador->setImagen((*itElemento)->getAtributo("nombre"));
 			}
 		}
 		else if (MensajesUtil::sonIguales(XML_FICHAS, (*itElemento)->getNombre()))
@@ -134,11 +231,22 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 		}
 		else if (MensajesUtil::sonIguales(XML_CARTAS, (*itElemento)->getNombre()))
 		{
-			// Se genera las CARTAS
-			for(list<Elemento*>::iterator itCarta = (*itElemento)->getHijos()->begin(); itCarta != (*itElemento)->getHijos()->end(); itCarta++) 
-			{
-				Carta* carta = generarCarta(itCarta);
-				jugador->setCarta(carta);
+			// Se generan las CARTAS
+			if ((*itElemento)->getHijos()->size() > 0 && (*itElemento)->getHijos()->size() != 2) {
+				throw ParserException("El jugador " + jugador->getNombre() 
+					+ " tiene una cantidad invalida de cartas.","V");
+			}
+
+			if ((*itElemento)->getHijos()->size() > 0) {
+
+				list<Elemento*>::iterator itCarta = (*itElemento)->getHijos()->begin();
+				Carta* carta = generarCarta(itCarta, jugador->getElementoPorId((*itCarta)->getAtributo("id")));
+				jugador->setCarta1(carta);
+
+				itCarta++;
+
+				carta = generarCarta(itCarta, jugador->getElementoPorId((*itCarta)->getAtributo("id")));
+				jugador->setCarta2(carta);
 			}
 		}
 	}
@@ -154,18 +262,56 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 	return jugador;
 }
 
-Carta* FabricaDeElementosGraficos::generarCarta(list<Elemento*>::iterator itCarta)
+Carta* FabricaDeElementosGraficos::generarCarta(list<Elemento*>::iterator itCarta, ElementoGrafico* elem)
 {
-	Carta* carta = new Carta();
+	Carta* carta = NULL;
 
+	if (elem != NULL && MensajesUtil::sonIguales(typeid(*elem).name(), "class Carta")){
+		carta = (Carta*)elem;
+	
+	} else {
+		carta = new Carta();						
+	}
+
+	carta->setId((*itCarta)->getAtributo("id"));
 	carta->setNumero((*itCarta)->getAtributo("numero"));
 	carta->setPalo((*itCarta)->getAtributo("palo"));
 	carta->setPosicion(UtilTiposDatos::getEntero((*itCarta)->getAtributo("posicion")));
 	
-	if (MensajesUtil::sonIguales("true", (*itCarta)->getAtributo("visible")))
+	if (MensajesUtil::sonIguales("true", (*itCarta)->getAtributo("visible"))){
 		carta->setVisible(true);
-	else
+	} else {
 		carta->setVisible(false);
+	}
 	
 	 return carta;
+}
+
+Boton* FabricaDeElementosGraficos::generarBoton(list<Elemento*>::iterator itBoton, Panel* panel)
+{
+	string idBoton = (*itBoton)->getAtributo("id");
+	Boton* boton = NULL;
+	ElementoGrafico* elem = panel->getElementoPorId(idBoton);
+
+	if (elem != NULL && MensajesUtil::sonIguales(typeid(*elem).name(), "class Boton")){
+		boton = (Boton*) elem;
+		boton->setTexto((*itBoton)->getTexto());
+
+	} else {
+		boton = new Boton((*itBoton)->getTexto());
+	}
+
+	boton->setId(idBoton);
+	boton->setPosicion(UtilTiposDatos::getEntero((*itBoton)->getAtributo("posicion")) - 1);
+	
+	if (MensajesUtil::sonIguales("true", (*itBoton)->getAtributo("habilitado"))) {
+		boton->setHabilitado(true);
+
+	} else {
+		boton->setHabilitado(false);
+	}
+
+	boton->setIdOperacion((*itBoton)->getAtributo("operacion"));
+	
+	return boton;
 }
