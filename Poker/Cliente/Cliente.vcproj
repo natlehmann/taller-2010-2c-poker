@@ -355,6 +355,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TextBox.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UICliente.cpp"
 				>
 			</File>
@@ -590,6 +594,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Socket.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TextBox.h"
 				>
 			</File>
 			<File

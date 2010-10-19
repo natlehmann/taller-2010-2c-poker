@@ -76,14 +76,18 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 		case (SDL_KEYDOWN):
 			if (event.key.keysym.sym == SDLK_ESCAPE) 
 				listo = true;
+			else
+				this->panelComando->getTextBox()->checkWrite(this->pantalla, &event, 1); 
 			break;
 		case (SDL_MOUSEMOTION):
 			this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);
 			this->panelComando->getBotonIgualar()->checkOver(this->pantalla);
 			this->panelComando->getBotonNoIr()->checkOver(this->pantalla);
 			this->panelComando->getBotonSubir()->checkOver(this->pantalla);
+			this->panelComando->getTextBox()->checkOver(this->pantalla);
 			break;
 		case (SDL_MOUSEBUTTONDOWN):
+			this->panelComando->getTextBox()->checkClick(this->pantalla);
 			if(this->panelComando->getBotonDejarMesa()->checkClick(this->pantalla))
 			{
 				//accion a realizar
@@ -100,6 +104,7 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 			{
 				//accion a realizar
 			}
+
 			break;		
 		case (SDL_MOUSEBUTTONUP):
 			this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);

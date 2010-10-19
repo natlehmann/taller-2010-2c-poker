@@ -60,10 +60,16 @@ void Panel::configurarBotones()
 	this->btSubir = new Boton(textoSubir);
 	this->agregarElementoGrafico(this->btSubir);
 
+	string textoText = "";
+	this->textBox = new TextBox(textoText);
+	this->textBox->setAlto(20);
+	this->textBox->setAncho(70);
+	this->agregarElementoGrafico(this->textBox);
 
 	//setea la posicion, alineada, separacion igual entre todos
 	this->setAncho(this->btDejarMesa->getAncho() + this->btNoIr->getAncho() 
-		+ this->btIgualar->getAncho() + this->btSubir->getAncho() + PANEL_SEPARACION_BOTONES_H * 7);
+		+ this->btIgualar->getAncho() + this->btSubir->getAncho() 
+		+ this->textBox->getAncho() + PANEL_SEPARACION_BOTONES_H * 7);
 
 	this->setAlto(this->btIgualar->getAlto() + PANEL_SEPARACION_BOTONES_V * 2);
 
@@ -85,6 +91,10 @@ void Panel::configurarBotones()
 	this->btSubir->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() 
 		+ this->btNoIr->getAncho() + this->btIgualar->getAncho() + PANEL_SEPARACION_BOTONES_H*5);
 	this->btSubir->setPosY(offsetMenu->y + PANEL_SEPARACION_BOTONES_V);
+
+	this->textBox->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() 
+		+ this->btNoIr->getAncho() + this->btIgualar->getAncho() + this->btSubir->getAncho() + PANEL_SEPARACION_BOTONES_H*6);
+	this->textBox->setPosY(offsetMenu->y + (this->getAlto() - this->textBox->getAlto())/2);
 }
 
 Boton* Panel::getBotonDejarMesa() {
@@ -101,4 +111,8 @@ Boton* Panel::getBotonIgualar() {
 
 Boton* Panel::getBotonSubir() {
 	return this->btSubir;
+}
+
+TextBox* Panel::getTextBox() {
+	return this->textBox;
 }

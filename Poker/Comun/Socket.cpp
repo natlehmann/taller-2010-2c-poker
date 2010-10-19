@@ -239,28 +239,27 @@ bool Socket::recibir(string& msg)
 {
 	msg = "";
 	char buf[MAXRECV+1];
-	int cantRecibido = 0;
-	int Aux = 0;
+	int totalRec = 0;
+	int cantRec = 0;
 	bool sigue = true;
 	bool error = false;
 	 
 	while ((sigue)&&(msg.find('\0') == string::npos))
 	{
-		Aux = ::recv(this->sockfd, buf, MAXRECV, 0);
+		cantRec = ::recv(this->sockfd, buf, MAXRECV, 0);
 		
-		if (Aux < 0)
+		if (cantRec < 0)
 		{
 			error = true;
 			sigue = false;
 			this->msgError = "Se produjo una interrupcion en la recepcion de los datos";
 		}
-		else if (Aux >= 0)
+		else if (cantRec >= 0)
 		{
-			cantRecibido += Aux;
-			msg.append(buf, Aux);
-			//if (Aux < MAXRECV) {
-			//	sigue = false;	
-			//}
+			totalRec += cantRec;
+			msg.append(buf, cantRec);
+			if (cantRec == 0) 
+				sigue = false;	
 		}
 
 	}
@@ -291,10 +290,8 @@ bool Socket::recibir(string& msg, int size)
 		{
 			totalRec += cantRec;
 			msg.append(buffer, cantRec);
-			//Sleep(0); 
-			//if (cantRec < MAXRECV) {
-			//	sigue = false;	
-			//}
+			if (cantRec == 0)
+				sigue = false;	
 		}
 
 	}
