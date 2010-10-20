@@ -178,9 +178,11 @@ void Panel::configurarBotones()
 		}
 	}
 
+	/*
 	this->textBox->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() 
 		+ this->btNoIr->getAncho() + this->btIgualar->getAncho() + this->btSubir->getAncho() + PANEL_SEPARACION_BOTONES_H*6);
 	this->textBox->setPosY(offsetMenu->y + (this->getAlto() - this->textBox->getAlto())/2);
+	*/
 }
 
 ElementoGrafico* Panel::getElementoPorId(string id){
