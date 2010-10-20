@@ -4,6 +4,7 @@
 #include "JugadorAusente.h"
 #include "Respuesta.h"
 #include "Panel.h"
+#include "TextBox.h"
 #include <typeinfo.h>
 
 
@@ -159,12 +160,17 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 						}
 
 						// Se generan los botones
-						for(list<Elemento*>::iterator itBoton = (*itElementosVentana)->getHijos()->begin(); 
-							itBoton != (*itElementosVentana)->getHijos()->end(); itBoton++) {
+						for(list<Elemento*>::iterator itComponente = (*itElementosVentana)->getHijos()->begin(); 
+							itComponente != (*itElementosVentana)->getHijos()->end(); itComponente++) {
 
-								if (MensajesUtil::sonIguales(XML_PANEL_BOTON, (*itBoton)->getNombre())) {
-									Boton* boton = generarBoton(itBoton, panel);
-									panel->agregarBoton(boton, boton->getPosicion());
+								if (MensajesUtil::sonIguales(XML_PANEL_BOTON, (*itComponente)->getNombre())) {
+									Boton* boton = generarBoton(itComponente, panel);
+									panel->agregarComponente(boton, boton->getPosicion());
+								}
+
+								if (MensajesUtil::sonIguales(XML_PANEL_TEXTBOX, (*itComponente)->getNombre())) {
+									TextBox* textBox = generarTextBox(itComponente, panel);
+									panel->agregarComponente(textBox, textBox->getPosicion());
 								}
 						}
 					}
@@ -314,4 +320,34 @@ Boton* FabricaDeElementosGraficos::generarBoton(list<Elemento*>::iterator itBoto
 	boton->setIdOperacion((*itBoton)->getAtributo("operacion"));
 	
 	return boton;
+}
+
+
+TextBox* FabricaDeElementosGraficos::generarTextBox(list<Elemento*>::iterator itBoton, Panel* panel)
+{
+	string id = (*itBoton)->getAtributo("id");
+	TextBox* textBox = NULL;
+	ElementoGrafico* elem = panel->getElementoPorId(id);
+
+	if (elem != NULL && MensajesUtil::sonIguales(typeid(*elem).name(), "class TextBox")){
+		textBox = (TextBox*) elem;
+		textBox->setTexto((*itBoton)->getTexto());
+
+	} else {
+		textBox = new TextBox((*itBoton)->getTexto());
+	}
+
+	textBox->setId(id);
+	textBox->setPosicion(UtilTiposDatos::getEntero((*itBoton)->getAtributo("posicion")) - 1);
+	
+	if (MensajesUtil::sonIguales("true", (*itBoton)->getAtributo("habilitado"))) {
+		textBox->setHabilitado(true);
+
+	} else {
+		textBox->setHabilitado(false);
+	}
+
+	textBox->setIdOperacion((*itBoton)->getAtributo("operacion"));
+	
+	return textBox;
 }

@@ -3,26 +3,55 @@
 #include "MensajesUtil.h"
 #include "ServiciosGraficos.h"
 
-TextBox::TextBox(void) {
-	this->fondoFoco = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.textbox.fondofoco"));
-	this->fondoNotFoco = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.textbox.fondonotfoco"));
+TextBox::TextBox(string mensaje) : ComponentePanel(mensaje) {
+
+	this->fondoFoco = new Color(RecursosAplicacion::getClienteConfigProperties()->get(
+		"cliente.tema.default.textbox.fondofoco"));
+
+	this->fondoNotFoco = new Color(RecursosAplicacion::getClienteConfigProperties()->get(
+		"cliente.tema.default.textbox.fondonotfoco"));
+
+	this->borde = new Color(RecursosAplicacion::getClienteConfigProperties()->get(
+		"cliente.tema.default.textbox.borde"));
+
+	this->colorFuente = RecursosAplicacion::getClienteConfigProperties()->get(
+			"cliente.tema.default.textbox.fuente.color");
+
+	this->tamanioFuenteMax = UtilTiposDatos::getEntero(
+			RecursosAplicacion::getClienteConfigProperties()->get(
+				"cliente.tema.default.textbox.fuente.tamanio.maximo"));
+
+	this->estiloFuente = RecursosAplicacion::getClienteConfigProperties()->get(
+			"cliente.configuracion.fuentes") + RecursosAplicacion::getClienteConfigProperties()->get(
+						"cliente.tema.default.textbox.fuente.estilo") + ".ttf";
+
+	this->setearFuente();
+
 	this->alineacionHorizontal = ALINEACION_HORIZ_IZQUIERDA;
 	this->alineacionVertical = ALINEACION_VERT_CENTRO;
-	this->borde = NULL;
 	this->foco = false;
-	this->cursorPosition = 0;
-	this->mensaje = "";
+	this->cursorPosition = this->texto.size();
+
+	// TODO: PARAMETRIZAR
+	this->setAlto(24);
+	this->setAncho(50);
 }
 
-TextBox::TextBox(string mensaje){
-	this->fondoFoco = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.textbox.fondofoco"));
-	this->fondoNotFoco = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.textbox.fondonotfoco"));
-	this->borde = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.textbox.borde"));
-	this->mensaje = mensaje;
-	this->alineacionHorizontal = ALINEACION_HORIZ_IZQUIERDA;
-	this->alineacionVertical = ALINEACION_VERT_CENTRO;
-	this->foco = false;
-	this->cursorPosition = this->mensaje.size();
+ComponentePanel* TextBox::clonar(){
+
+	TextBox* textBox = new TextBox(this->getTexto());
+	textBox->setPosicion(this->getPosicion());
+	textBox->setAlto(this->getAlto());
+	textBox->setAncho(this->getAncho());
+	textBox->setId(this->getId());
+	textBox->setIdOperacion(this->getIdOperacion());
+	
+	textBox->setHabilitado(this->isHabilitado());
+	
+	textBox->setPosX(this->getPosX());
+	textBox->setPosY(this->getPosY());
+
+	return textBox;
 }
 
 TextBox::~TextBox(void) {
@@ -35,32 +64,17 @@ TextBox::~TextBox(void) {
 	if (this->borde != NULL) {
 		delete(this->borde);
 	}
-	if (this->fuente != NULL) {
-		delete(this->fuente);
-	}
 }
 
 void TextBox::dibujarSobreSup(SDL_Surface* superficie){ 
-
-	//se configura la fuente
-	string colorFuente = RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.textbox.fuente.color");
-	string estiloFuente = RecursosAplicacion::getClienteConfigProperties()->get("cliente.configuracion.fuentes") + RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.textbox.fuente.estilo") + ".ttf";
-	int anchoPantalla = ServiciosGraficos::getAnchoVentana();
-	int tamanioMax = UtilTiposDatos::getEntero(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.textbox.fuente.tamanio.maximo"));
-	int tamanioFuente = tamanioMax;
-	if (anchoPantalla < MAXIMO_ANCHO_PANTALLA_PROP_TXT) {
-		tamanioFuente = (int)(anchoPantalla * tamanioMax / MAXIMO_ANCHO_PANTALLA_PROP_TXT);
-	}
-	this->fuente = new Fuente(colorFuente, tamanioFuente, estiloFuente);
 		
-	//dibuja el texto
 	this->dibujarTexto(superficie);
 
 }
 
 void TextBox::dibujarTexto(SDL_Surface* superficie) {
 	//se crea la imagen del texto
-	string mensajeConCursor = this->mensaje;
+	string mensajeConCursor = this->texto;
 	if (this->foco) mensajeConCursor.insert(this->cursorPosition, "|");
 	SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(mensajeConCursor, NULL);
 	
@@ -146,9 +160,9 @@ bool TextBox::checkWrite(SDL_Surface* superficie, SDL_Event* evento, int pressed
 
 		if(evento->key.keysym.sym == SDLK_BACKSPACE)
 		{
-			if(!mensaje.empty() && this->cursorPosition > 0)
+			if(!texto.empty() && this->cursorPosition > 0)
 			{
-				mensaje.erase(this->cursorPosition - 1, 1);
+				texto.erase(this->cursorPosition - 1, 1);
 				this->cursorPosition--;
 			}
 		}
@@ -164,18 +178,18 @@ bool TextBox::checkWrite(SDL_Surface* superficie, SDL_Event* evento, int pressed
 		}
 		else if(evento->key.keysym.sym == SDLK_RIGHT)
 		{
-			if (this->mensaje.size() > this->cursorPosition)
+			if (this->texto.size() > this->cursorPosition)
 				this->cursorPosition++;
 		}
 		else if(evento->key.keysym.unicode < 0x80 && evento->key.keysym.unicode > 0) {
 			newCaracter += (char)evento->key.keysym.unicode;
-			this->mensaje.insert(this->cursorPosition, newCaracter);
+			this->texto.insert(this->cursorPosition, newCaracter);
 			this->cursorPosition++;
 		}
 		
 
 		this->dibujarTexto(superficie);
-		//this->refrescar(superficie);
+		this->hayCambios = true;
 		return true;
 	}
 
@@ -190,10 +204,10 @@ bool TextBox::checkClick(SDL_Surface* superficie)
 	{
 		if(!this->foco)
 		{
-			this->cursorPosition = this->mensaje.size();
+			this->cursorPosition = this->texto.size();
 			this->foco = true;
 			this->dibujarTexto(superficie);
-			//this->refrescar(superficie);
+			this->hayCambios = true;
 		}
 		
 		return true;
@@ -204,7 +218,7 @@ bool TextBox::checkClick(SDL_Surface* superficie)
 		{
 			this->foco = false;
 			this->dibujarTexto(superficie);
-			//this->refrescar(superficie);
+			this->hayCambios = true;
 		}
 		
 		return true;
@@ -230,42 +244,7 @@ bool TextBox::checkOver(SDL_Surface* superficie)
 	return estaSobre;
 }
 
-bool TextBox::estaSobre()
-{
-	int checkx,checky;
-	SDL_GetMouseState(&checkx, &checky);
-	if(checkx >= this->posX && checkx <= (this->posX + this->ancho) && checky >= this->posY && checky <= (this->posY + this->alto))
-		return true;
 
-	return false;
-}
-
-bool TextBox::esClickIzquierdo()
-{
-	if(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))
-		return true;
-
-	return false;
-}
-
-bool TextBox::esClickDerecho()
-{
-	if(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_RIGHT))
-		return true;
-
-	return false;
-}
-
-void TextBox::setMensaje(string mensaje) {
-	if (!MensajesUtil::sonIguales(this->getMensaje(), mensaje)) {
-		this->mensaje = mensaje;
-		this->hayCambios = true;
-	}
-}
-
-string TextBox::getMensaje() {
-	return this->mensaje;
-}
 
 void TextBox::setFondoFoco(Color* color){
 	// TODO: REVISAR

@@ -6,63 +6,38 @@
 #include <iostream>
 #include <string.h>
 
-#include "ElementoGrafico.h"
+#include "ComponentePanel.h"
 #include "Imagen.h"
-#include "Fuente.h"
-
-#define MAXIMO_ANCHO_PANTALLA_PROP_TXT 800
-#define PADDING_HORIZ   20
-#define PADDING_VERT	20
 
 
-class Boton : public ElementoGrafico {
+class Boton : public ComponentePanel {
 private:
-	string texto;
-	bool ajustarAlTexto;
 	Imagen* imagenUp;
 	Imagen* imagenDown;
 	Imagen* imagenOver;
-	Fuente* fuente;
-	bool habilitado;
-
-	string idOperacion;
 
 	char estado;
 
 	Imagen* setearImagen(string nombreImagen);
-	//void setearPosicion();
-	void setearFuente();
+	void configurar();
 
 
 protected:
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
 
 public:
-	//Boton(void);
 	Boton(string texto);
-	Boton(Boton* orig);
-	//Boton(string texto, int posx, int posy);
-	//Boton(string texto, int ancho, int alto, int posx, int posy);
-	virtual ~Boton(void);
+	virtual ~Boton(void);	
 
-	string getTexto();
-	void setTexto(string texto);
-	bool estaSobre();
-	bool esClickIzquierdo();
-	bool esClickDerecho();
-
-	bool isHabilitado();
-	void setHabilitado(bool habilitado);
-
-	string getIdOperacion();
-	void setIdOperacion(string idOperacion);
+	virtual ComponentePanel* clonar();
 
 	void dibujarOver(SDL_Surface* superficie);
 	void dibujarDown(SDL_Surface* superficie);
 	void dibujarUp(SDL_Surface* superficie);
 
-	bool checkClick(SDL_Surface* superficie);
-	bool checkOver(SDL_Surface* superficie);
+	virtual bool checkClick(SDL_Surface* superficie);
+	virtual bool checkOver(SDL_Surface* superficie);
+	virtual bool checkWrite(SDL_Surface* superficie, SDL_Event* evento, int pressed);
 
 	virtual void setPosX(int posX);
 	virtual void setPosY(int posY);

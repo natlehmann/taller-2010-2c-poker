@@ -6,56 +6,47 @@
 #include "MensajesUtil.h"
 
 
-Boton::Boton(string texto)
+Boton::Boton(string texto) : ComponentePanel(texto)
 {
+	this->colorFuente = RecursosAplicacion::getClienteConfigProperties()->get(
+			"cliente.tema.default.boton.fuente.color");
+
+	this->tamanioFuenteMax = UtilTiposDatos::getEntero(
+			RecursosAplicacion::getClienteConfigProperties()->get(
+				"cliente.tema.default.boton.fuente.tamanio.maximo"));
+
+	this->estiloFuente = RecursosAplicacion::getClienteConfigProperties()->get(
+			"cliente.configuracion.fuentes") + RecursosAplicacion::getClienteConfigProperties()->get(
+						"cliente.tema.default.boton.fuente.estilo") + ".ttf";
+
 	this->setearFuente();
 
-	this->setTexto(texto);
-	this->setAncho(0);
-	this->setAlto(0);
+	this->setAncho(-1);
+	this->setAlto(-1);
 	this->posX = 0;
 	this->posY = 0;
-	this->ajustarAlTexto = true;
 
-	string nombreImagenUp = "botonUp.bmp";
-	string nombreImagenDown = "botonDown.bmp";
-	string nombreImagenOver = "botonOver.bmp";
-	this->imagenUp = this->setearImagen(nombreImagenUp);
-	this->imagenDown = this->setearImagen(nombreImagenDown);
-	this->imagenOver = this->setearImagen(nombreImagenOver);
-
+	this->configurar();
 	this->estado = 'u';
-
-	this->habilitado = false;
-	this->idOperacion = "";
 }
 
-Boton::Boton(Boton* orig) {
+ComponentePanel* Boton::clonar() {
 
-	this->setearFuente();
-	this->ajustarAlTexto = true;
+	Boton* boton = new Boton(this->getTexto());
 
-	this->setTexto(orig->getTexto());
-	this->setPosicion(orig->getPosicion());
-	this->setAlto(orig->getAlto());
-	this->setAncho(orig->getAncho());
-	this->setId(orig->getId());
-	this->setIdOperacion(orig->getIdOperacion());
-
-	string nombreImagenUp = "botonUp.bmp";
-	string nombreImagenDown = "botonDown.bmp";
-	string nombreImagenOver = "botonOver.bmp";
-	this->imagenUp = this->setearImagen(nombreImagenUp);
-	this->imagenDown = this->setearImagen(nombreImagenDown);
-	this->imagenOver = this->setearImagen(nombreImagenOver);
-
-	this->estado = 'u';	
+	boton->setPosicion(this->getPosicion());
+	boton->setAlto(this->getAlto());
+	boton->setAncho(this->getAncho());
+	boton->setId(this->getId());
+	boton->setIdOperacion(this->getIdOperacion());
 	
-	this->setHabilitado(orig->isHabilitado());
+	boton->setHabilitado(this->isHabilitado());
 	
 	// estos metodos deben ejecutarse al final
-	this->setPosX(orig->getPosX());
-	this->setPosY(orig->getPosY());	
+	boton->setPosX(this->getPosX());
+	boton->setPosY(this->getPosY());
+
+	return boton;
 }
 
 
@@ -70,9 +61,15 @@ Boton::~Boton(void)
 	if (this->imagenUp != NULL) {
 		delete(this->imagenUp);
 	}
-	if (this->fuente != NULL) {
-		delete(this->fuente);
-	}
+}
+
+void Boton::configurar() {
+	string nombreImagenUp = "botonUp.bmp";
+	string nombreImagenDown = "botonDown.bmp";
+	string nombreImagenOver = "botonOver.bmp";
+	this->imagenUp = this->setearImagen(nombreImagenUp);
+	this->imagenDown = this->setearImagen(nombreImagenDown);
+	this->imagenOver = this->setearImagen(nombreImagenOver);
 }
 
 void Boton::dibujarSobreSup(SDL_Surface* superficie){
@@ -91,24 +88,6 @@ void Boton::dibujarSobreSup(SDL_Surface* superficie){
 	}
 }
 
-void Boton::setearFuente() {
-
-	string colorFuente = RecursosAplicacion::getClienteConfigProperties()->get(
-		"cliente.tema.default.boton.fuente.color");
-
-	int tamanioFuenteMax = UtilTiposDatos::getEntero(RecursosAplicacion::getClienteConfigProperties()->get(
-		"cliente.tema.default.boton.fuente.tamanio.maximo"));
-
-	int tamanioFuente = tamanioFuenteMax;
-	if (ServiciosGraficos::getAnchoVentana() < MAXIMO_ANCHO_PANTALLA_PROP_TXT) {
-		tamanioFuente = (int)(ServiciosGraficos::getAnchoVentana() * tamanioFuenteMax 
-			/ MAXIMO_ANCHO_PANTALLA_PROP_TXT);
-	}
-
-	string estiloFuente = RecursosAplicacion::getClienteConfigProperties()->get("cliente.configuracion.fuentes") +
-						RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.boton.fuente.estilo") + ".ttf";
-	this->fuente = new Fuente(colorFuente, tamanioFuente, estiloFuente);
-}
 
 Imagen* Boton::setearImagen(string nombreImagen)
 {
@@ -238,55 +217,6 @@ bool Boton::checkOver(SDL_Surface* superficie)
 	return redibujar;
 }
 
-bool Boton::estaSobre()
-{
-	int checkx,checky;
-	SDL_GetMouseState(&checkx, &checky);
-	if(checkx >= this->posX && checkx <= (this->posX + this->ancho) && checky >= this->posY && checky <= (this->posY + this->alto))
-		return true;
-
-	return false;
-}
-
-bool Boton::esClickIzquierdo()
-{
-	if(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT))
-		return true;
-
-	return false;
-}
-
-bool Boton::esClickDerecho()
-{
-	if(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_RIGHT))
-		return true;
-
-	return false;
-}
-
-string Boton::getTexto() {
-	return this->texto;
-}
-void Boton::setTexto(string texto) {
-	this->texto = texto;
-	this->hayCambios = true;
-}
-
-bool Boton::isHabilitado(){
-	return this->habilitado;
-}
-
-void Boton::setHabilitado(bool habilitado){
-	this->habilitado = habilitado;
-}
-
-string Boton::getIdOperacion(){
-	return this->idOperacion;
-}
-
-void Boton::setIdOperacion(string idOperacion){
-	this->idOperacion = idOperacion;
-}
 
 bool Boton::equals(ElementoGrafico* otro){
 
@@ -302,4 +232,8 @@ bool Boton::equals(ElementoGrafico* otro){
 	}
 
 	return iguales;
+}
+
+bool Boton::checkWrite(SDL_Surface* superficie, SDL_Event* evento, int pressed){
+	return false;
 }

@@ -47,7 +47,7 @@
 		<jugador id="6" posicion="6" nombre="jugadorSeis">
 			<imagen nombre="jugador6.bmp"/>
 			<fichas>540</fichas>
-			<apuesta>100</apuesta>
+			<apuesta>3</apuesta>
 			<cartas>
 				<carta numero="q" palo="Trebol" visible="false" posicion="0" id="qt"/> 
 				<carta numero="j" palo="Corazon" visible="false" posicion="0" id="jc"/> 
@@ -56,11 +56,11 @@
 
 	</jugadores>
 	
-	<bote id="bote1">1782000</bote>
+	<bote id="bote1">5</bote>
 	
 	<cartascomunitarias id="cartasCom">
 			<cartas>
-				<carta numero="k" palo="Diamante" visible="true" posicion="1" id="kd"/> 
+				<carta numero="3" palo="Diamante" visible="true" posicion="1" id="kd"/> 
 				<carta numero="q" palo="Diamante" visible="true" posicion="2" id="qd"/> 
 				<carta numero="j" palo="Diamante" visible="true" posicion="3" id="jd"/> 
 				<carta numero="10" palo="Diamante" visible="true" posicion="4" id="10d"/> 
@@ -69,14 +69,16 @@
 	</cartascomunitarias>
 	
 	<panelComando id="panelCom">
-		<boton id="btDejarMesa" posicion="2" 
+		<boton id="btDejarMesa" posicion="1" 
 				habilitado="true" operacion="OpUIClienteDejarMesa">Dejar Mesa</boton>
-		<boton id="btIgualar" posicion="1" 
+		<boton id="btIgualar" posicion="2" 
 				habilitado="true" operacion="OpUIClienteIgualarApuesta">Igualar</boton>
 		<boton id="btNoIr" posicion="3" 
 				habilitado="true" operacion="OpUIClienteNoIr">No Ir</boton>
 		<boton id="btSubir" posicion="4" 
 				habilitado="true" operacion="OpUIClienteSubirApuesta">Subir</boton>
+		<textBox id="txtApuesta" posicion="5" 
+				habilitado="true" operacion="OpUIClienteSubirApuesta"></textBox>
 	</panelComando>	
 
 </escenario>
