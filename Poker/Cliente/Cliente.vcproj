@@ -207,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ComponentePanel.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Contenedor.cpp"
 				>
 			</File>
@@ -474,6 +478,10 @@
 			</File>
 			<File
 				RelativePath=".\Color.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ComponentePanel.h"
 				>
 			</File>
 			<File

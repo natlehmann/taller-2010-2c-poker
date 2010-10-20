@@ -9,14 +9,14 @@
 #include <list>
 
 #include "Contenedor.h"
-#include "Boton.h"
+#include "ComponentePanel.h"
 #include "TextBox.h"
 #include "Color.h"
 
 #define PANEL_SEPARACION_BOTONES_H  10
 #define PANEL_SEPARACION_BOTONES_V  4
 
-#define MAX_CANT_BOTONES 6
+#define MAX_CANT_COMPONENTES 6
 
 
 using namespace std;
@@ -27,19 +27,11 @@ private:
 	Color* borde;
 	Color* fondo;
 
-	/*
-	Boton* btDejarMesa;
-	Boton* btNoIr;
-	Boton* btIgualar;
-	Boton* btSubir;
-	*/
-	TextBox* textBox;
+	ComponentePanel* componentes[MAX_CANT_COMPONENTES];
+	bool hayNuevosComponentes;
+	list<ComponentePanel*> listaComponentes;
 
-	Boton* botones[MAX_CANT_BOTONES];
-	bool hayNuevosBotones;
-	list<Boton*> listaBotones;
-
-	void configurarBotones();
+	void configurar();
 
 protected:
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
@@ -51,18 +43,10 @@ public:
 	/**
 	* Agrega un boton en una posicion determinada.
 	*/
-	void agregarBoton(Boton* boton, int posicion);
+	void agregarComponente(ComponentePanel* componente, int posicion);
 
-	list<Boton*> getBotones();
+	list<ComponentePanel*> getComponentes();
 
 	virtual ElementoGrafico* getElementoPorId(string id);
-
-	/*
-	Boton* getBotonDejarMesa();
-	Boton* getBotonNoIr();
-	Boton* getBotonIgualar();
-	Boton* getBotonSubir();
-	*/
-	TextBox* getTextBox();
 };
 #endif //_PANEL_H__

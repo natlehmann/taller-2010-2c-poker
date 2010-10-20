@@ -63,9 +63,9 @@ public:
 	virtual void setPosX(int posX);
 	int getPosY();
 	virtual void setPosY(int posY);
-	int getAncho();
+	virtual int getAncho();
 	virtual void setAncho(int ancho);
-	int getAlto();
+	virtual int getAlto();
 	virtual void setAlto(int alto);
 
 	string getId();

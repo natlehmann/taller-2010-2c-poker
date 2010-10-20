@@ -10,14 +10,11 @@ Panel::Panel(void)
 	this->borde = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.menu.borde"));
 	this->fondo = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.menu.fondo"));
 
-	//agrega botones a la pantalla
-	//this->configurarBotones();
-
-	for (int i=0; i < MAX_CANT_BOTONES; i++) {
-		this->botones[i] = NULL;
+	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
+		this->componentes[i] = NULL;
 	}
 
-	this->hayNuevosBotones = true;
+	this->hayNuevosComponentes = true;
 }
 
 Panel::~Panel(void)
@@ -25,69 +22,68 @@ Panel::~Panel(void)
 	delete(borde);
 	delete(fondo);
 
-	for (int i=0; i < MAX_CANT_BOTONES; i++) {
-		if (this->botones[i] != NULL){
-			delete (this->botones[i]);
+	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
+		if (this->componentes[i] != NULL){
+			delete (this->componentes[i]);
 		}
 	}
 
-	for (list<Boton*>::iterator it = this->listaBotones.begin(); it != this->listaBotones.end(); it++) {
+	for (list<ComponentePanel*>::iterator it = this->listaComponentes.begin(); it != this->listaComponentes.end(); it++) {
 		delete(*it);
 	}
 
-	this->listaBotones.clear();
+	this->listaComponentes.clear();
 }
 
-void Panel::agregarBoton(Boton* boton, int posicion){
+void Panel::agregarComponente(ComponentePanel* componente, int posicion){
 
-	if (posicion < MAX_CANT_BOTONES) {
+	if (posicion < MAX_CANT_COMPONENTES) {
 
-		if (this->botones[posicion] == NULL || !this->botones[posicion]->equals(boton)) {
+		if (this->componentes[posicion] == NULL || !this->componentes[posicion]->equals(componente)) {
 
-			if (this->botones[posicion] != NULL) {
-				delete(this->botones[posicion]);
+			if (this->componentes[posicion] != NULL) {
+				delete(this->componentes[posicion]);
 			}
 
-			this->botones[posicion] = boton;
-			this->hayNuevosBotones = true;
+			this->componentes[posicion] = componente;
+			this->hayNuevosComponentes = true;
 		}
 
 	} else {
-		throw PokerException("E", "Indice del array fuera de rango al acceder al los botones de un panel.");
+		throw PokerException("E", "Indice del array fuera de rango al acceder al los componentes de un panel.");
 	}
 }
 
-list<Boton*> Panel::getBotones(){
+list<ComponentePanel*> Panel::getComponentes(){
 
-	if (this->hayNuevosBotones) {
+	if (this->hayNuevosComponentes) {
 
 		
-		for (list<Boton*>::iterator it = this->listaBotones.begin(); it != this->listaBotones.end(); it++) {
+		for (list<ComponentePanel*>::iterator it = this->listaComponentes.begin(); it != this->listaComponentes.end(); it++) {
 			delete(*it);
 		}
 		
-		this->listaBotones.clear();
+		this->listaComponentes.clear();
 
-		for (int i=0; i < MAX_CANT_BOTONES; i++) {
-			if (this->botones[i] != NULL){
+		for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
+			if (this->componentes[i] != NULL){
 
-				Boton* copiaBoton = new Boton(this->botones[i]);
-				this->listaBotones.push_back(copiaBoton);
+				ComponentePanel* copia = this->componentes[i]->clonar();
+				this->listaComponentes.push_back(copia);
 			}
 		}
 
-		this->hayNuevosBotones = false;
+		this->hayNuevosComponentes = false;
 	}
-	return this->listaBotones;
+	return this->listaComponentes;
 }
 
 
 
 void Panel::dibujarSobreSup(SDL_Surface* superficie){
 
-	if (this->hayNuevosBotones) {
-		this->configurarBotones();
-		//this->hayNuevosBotones = false;
+	if (this->hayNuevosComponentes) {
+		this->configurar();
 	}
 
 	//dibuja el panel
@@ -103,56 +99,26 @@ void Panel::dibujarSobreSup(SDL_Surface* superficie){
 	SDL_FillRect(superficie, offset, this->fondo->toUint32(superficie));
 
 
-	/*
-	for (list<ElementoGrafico*>::iterator it = this->elementos.begin();
-		it != this->elementos.end(); it++) {
-			(*it)->dibujar(superficie);
-	}
-	*/
-
-	for (int i=0; i < MAX_CANT_BOTONES; i++) {
-		if (this->botones[i] != NULL){
-			this->botones[i]->dibujar(superficie);
+	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
+		if (this->componentes[i] != NULL){
+			this->componentes[i]->dibujar(superficie);
 		}
 	}
 
 	delete(offset);
 }
 
-void Panel::configurarBotones()
+void Panel::configurar()
 {
-	/*
-	//agrega botones a la pantalla
-	string textoDejarMesa = RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.boton.texto.dejarmesa");
-	this->btDejarMesa = new Boton(textoDejarMesa);
-	this->agregarElementoGrafico(this->btDejarMesa);
-
-	string textoNoIr = RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.boton.texto.noir");
-	this->btNoIr = new Boton(textoNoIr);
-	this->agregarElementoGrafico(this->btNoIr);
-
-	string textoIgualar = RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.boton.texto.igualar");
-	this->btIgualar = new Boton(textoIgualar);
-	this->agregarElementoGrafico(this->btIgualar);
-
-	string textoSubir = RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.boton.texto.subir");
-	this->btSubir = new Boton(textoSubir);
-	this->agregarElementoGrafico(this->btSubir);
-	*/
-
-	string textoText = "";
-	this->textBox = new TextBox(textoText);
-	this->textBox->setAlto(20);
-	this->textBox->setAncho(70);
-	this->agregarElementoGrafico(this->textBox);
-
-	int anchoPanel = PANEL_SEPARACION_BOTONES_H * 7;
+	int anchoPanel = PANEL_SEPARACION_BOTONES_H * 3;
 	int altoPanel = 0;
 
-	for (int i=0; i < MAX_CANT_BOTONES; i++) {
-		if (this->botones[i] != NULL){
-			anchoPanel += this->botones[i]->getAncho();
-			altoPanel = this->botones[i]->getAlto();
+	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
+		if (this->componentes[i] != NULL){
+			anchoPanel += this->componentes[i]->getAncho() + PANEL_SEPARACION_BOTONES_H;
+			if (altoPanel == 0) {
+				altoPanel = this->componentes[i]->getAlto();
+			}
 		}
 	}
 
@@ -164,34 +130,28 @@ void Panel::configurarBotones()
 	this->posY = ServiciosGraficos::getAltoVentana() - this->getAlto();
 
 
-	// se setea la posicion y tamanio de cada boton
+	// se setea la posicion y tamanio de cada componente
 	SDL_Rect* offsetMenu = this->getOffsetRect();
 	int offsetXAcum = PANEL_SEPARACION_BOTONES_H*2;
 
-	for (int i=0; i < MAX_CANT_BOTONES; i++) {
-		if (this->botones[i] != NULL){
+	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
+		if (this->componentes[i] != NULL){
 
-			this->botones[i]->setPosX(offsetMenu->x + offsetXAcum);
-			this->botones[i]->setPosY(offsetMenu->y + PANEL_SEPARACION_BOTONES_V);
+			this->componentes[i]->setPosX(offsetMenu->x + offsetXAcum);
+			this->componentes[i]->setPosY(offsetMenu->y + PANEL_SEPARACION_BOTONES_V);
 
-			offsetXAcum += this->botones[i]->getAncho() + PANEL_SEPARACION_BOTONES_H;
+			offsetXAcum += this->componentes[i]->getAncho() + PANEL_SEPARACION_BOTONES_H;
 		}
 	}
-
-	/*
-	this->textBox->setPosX(offsetMenu->x + this->btDejarMesa->getAncho() 
-		+ this->btNoIr->getAncho() + this->btIgualar->getAncho() + this->btSubir->getAncho() + PANEL_SEPARACION_BOTONES_H*6);
-	this->textBox->setPosY(offsetMenu->y + (this->getAlto() - this->textBox->getAlto())/2);
-	*/
 }
 
 ElementoGrafico* Panel::getElementoPorId(string id){
 
-	for (int i=0; i < MAX_CANT_BOTONES; i++) {
-		if (this->botones[i] != NULL){
+	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
+		if (this->componentes[i] != NULL){
 			
-			if (MensajesUtil::sonIguales(this->botones[i]->getId(), id)){
-				return this->botones[i];
+			if (MensajesUtil::sonIguales(this->componentes[i]->getId(), id)){
+				return this->componentes[i];
 			}
 		}
 	}
@@ -199,23 +159,3 @@ ElementoGrafico* Panel::getElementoPorId(string id){
 	return NULL;
 }
 
-/*
-Boton* Panel::getBotonDejarMesa() {
-	return this->btDejarMesa;
-}
-
-Boton* Panel::getBotonNoIr() {
-	return this->btNoIr;
-}
-
-Boton* Panel::getBotonIgualar() {
-	return this->btIgualar;
-}
-
-Boton* Panel::getBotonSubir() {
-	return this->btSubir;
-}
-*/
-TextBox* Panel::getTextBox() {
-	return this->textBox;
-}

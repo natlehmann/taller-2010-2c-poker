@@ -5,7 +5,7 @@
 #include "UtilTiposDatos.h"
 #include "UIException.h"
 #include "Timer.h"
-#include "Boton.h"
+#include "ComponentePanel.h"
 #include "FabricaOperacionesCliente.h"
 #include <typeinfo.h>
 
@@ -158,74 +158,41 @@ void Ventana::iniciar() {
 
 void Ventana::manejarEventos(SDL_Event* event){
 
-	list<Boton*> botones = this->getPanelComando()->getBotones();
+	list<ComponentePanel*> componentes = this->getPanelComando()->getComponentes();
+
+	for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
+		this->hayCambios = this->hayCambios || (*it)->checkWrite(this->pantalla, event, 1);
+	}
 
 	switch (event->type){	
 
 		case (SDL_MOUSEMOTION):
-			for (list<Boton*>::iterator it = botones.begin(); it != botones.end(); it++) {
+			for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
 				this->hayCambios = this->hayCambios || (*it)->checkOver(this->pantalla);
 			}
-
-			/*
-			this->hayCambios = this->hayCambios || this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);
-			this->hayCambios = this->hayCambios || this->panelComando->getBotonIgualar()->checkOver(this->pantalla);
-			this->hayCambios = this->hayCambios || this->panelComando->getBotonNoIr()->checkOver(this->pantalla);
-			this->hayCambios = this->hayCambios || this->panelComando->getBotonSubir()->checkOver(this->pantalla);
-			*/
-			this->panelComando->getTextBox()->checkOver(this->pantalla);
 			break;
 
 		case (SDL_MOUSEBUTTONDOWN):
 
-			for (list<Boton*>::iterator it = botones.begin(); it != botones.end(); it++) {
+			for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
 				if ((*it)->checkClick(this->pantalla)) {
 
 					this->hayCambios = true;
 
 					// TODO: VER SI ESTO NO DEBERIA LANZARSE EN OTRO HILO 
 					// CONSIDERAR SINCRONIZACION DE VENTANA
+					// VER QUE HACEMOS CON TEXTBOX
 					FabricaOperacionesCliente fab;
 					OperacionUICliente* operacion = fab.newOperacion((*it)->getIdOperacion());
 					operacion->ejecutar(this);
 				}
 			}
-
-
-			/*
-			if(this->panelComando->getBotonDejarMesa()->checkClick(this->pantalla))
-			{
-				this->hayCambios = true;
-				//accion a realizar
-			}
-			else if(this->panelComando->getBotonIgualar()->checkClick(this->pantalla))
-			{
-				this->hayCambios = true;
-				//accion a realizar
-			}
-			else if(this->panelComando->getBotonNoIr()->checkClick(this->pantalla))
-			{
-				this->hayCambios = true;
-				//accion a realizar
-			}				
-			else if(this->panelComando->getBotonSubir()->checkClick(this->pantalla))
-			{
-				this->hayCambios = true;
-				//accion a realizar
-			}
-			*/
 			break;		
 
 		case (SDL_MOUSEBUTTONUP):
-			for (list<Boton*>::iterator it = botones.begin(); it != botones.end(); it++) {
+			for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
 				this->hayCambios = this->hayCambios || (*it)->checkOver(this->pantalla);
 			}
-			/*
-			this->hayCambios = this->hayCambios || this->panelComando->getBotonDejarMesa()->checkOver(this->pantalla);
-			this->hayCambios = this->hayCambios || this->panelComando->getBotonIgualar()->checkOver(this->pantalla);
-			this->hayCambios = this->hayCambios || this->panelComando->getBotonNoIr()->checkOver(this->pantalla);
-			this->hayCambios = this->hayCambios || this->panelComando->getBotonSubir()->checkOver(this->pantalla);
-			*/
 			break;		
 		}
 }

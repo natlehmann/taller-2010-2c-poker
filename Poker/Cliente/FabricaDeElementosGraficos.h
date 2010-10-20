@@ -24,6 +24,7 @@
 
 #define XML_PANEL_COMANDO "panelComando"
 #define XML_PANEL_BOTON "boton"
+#define XML_PANEL_TEXTBOX "textBox"
 
 class FabricaDeElementosGraficos
 {
@@ -44,5 +45,6 @@ class FabricaDeElementosGraficos
 			list<Elemento*>::iterator itCarta, ElementoGrafico* elem);
 		static Boton* FabricaDeElementosGraficos::generarBoton(
 			list<Elemento*>::iterator itBoton, Panel* panel);
+		static TextBox* generarTextBox(list<Elemento*>::iterator itBoton, Panel* panel);
 	
 };
