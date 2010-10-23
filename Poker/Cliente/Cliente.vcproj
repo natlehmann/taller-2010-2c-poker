@@ -347,6 +347,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Planificador.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\PokerException.cpp"
 				>
 			</File>
@@ -614,6 +618,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\ParserException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Planificador.h"
 				>
 			</File>
 			<File
