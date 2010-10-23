@@ -1,4 +1,4 @@
-#include "OpUIClienteSolicitarEscenario.h"
+#include "OpUIClienteAgregarJugador.h"
 #include "DomTree.h"
 #include "DomTreeFactory.h"
 #include "Elemento.h"
@@ -10,20 +10,31 @@
 #include "Respuesta.h"
 #include "FabricaDeElementosGraficos.h"
 
-OpUIClienteSolicitarEscenario::OpUIClienteSolicitarEscenario(void) : OperacionUICliente(){
+OpUIClienteAgregarJugador::OpUIClienteAgregarJugador(vector<string> parametros) : OperacionUICliente(){
+	this->parametros = parametros;
 }
 
-OpUIClienteSolicitarEscenario::~OpUIClienteSolicitarEscenario(void){
+OpUIClienteAgregarJugador::~OpUIClienteAgregarJugador(void)
+{
 }
 
-bool OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
+bool OpUIClienteAgregarJugador::ejecutar(Ventana* ventana){
+
+	string nombreJugador = parametros.at(0);
 
 	bool ok = true;
 	DomTree* tree = new DomTree("operaciones");
 	Elemento* pedido = tree->agregarElemento("pedido");
 
 	Elemento* operacion = pedido->agregarHijo("operacion");
-	operacion->agregarAtributo("id", "OpEnviarEscenario");
+	operacion->agregarAtributo("id", "OpAgregarJugador");
+
+	Elemento* parametros = operacion->agregarHijo("parametros");
+	Elemento* parametro1 = parametros->agregarHijo("parametro");
+
+	// TODO: VER SI ES NECESARIO MANDAR PASSWORD
+	parametro1->agregarAtributo("nombre", "usuario");
+	parametro1->setTexto(nombreJugador);
 
 	XmlParser* parser = new XmlParser();
 

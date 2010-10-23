@@ -2,12 +2,16 @@
 #define _OPERACION_UI_CLIENTE_H_
 
 #include <string>
+#include <vector>
 #include "Ventana.h"
 
 using namespace std;
 
 class OperacionUICliente
 {
+protected:
+	vector<string> parametros;
+
 public:
 	OperacionUICliente(void);
 	virtual ~OperacionUICliente(void);
