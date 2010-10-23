@@ -17,8 +17,13 @@ Bote::Bote(void)
 
 Bote::~Bote(void)
 {
-	if (this->imagen != NULL) 
+	if (this->imagen != NULL) {
 		delete(this->imagen);
+	}
+
+	if (this->etiqueta != NULL) {
+		delete (this->etiqueta);
+	}
 }
 
 void Bote::dibujarSobreSup(SDL_Surface* superficie)
