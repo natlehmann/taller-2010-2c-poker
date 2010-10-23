@@ -15,8 +15,8 @@ public:
 	FabricaOperacionesServidor();
 	virtual ~FabricaOperacionesServidor();
 
-	Operacion* newOperacion(DomTree* domTree);
-	Operacion* newOperacion(string nombreOperacion, vector<string> parametros);
+	Operacion* newOperacion(DomTree* domTree, int idCliente);
+	Operacion* newOperacion(string nombreOperacion, vector<string> parametros, int idCliente);
 
 private:
 	void FabricaOperacionesServidor::validarParametro(Elemento* parametro, string idOperacion, int numeroDeParametro);

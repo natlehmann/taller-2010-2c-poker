@@ -235,6 +235,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpAgregarJugador.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpEnviarArchivo.cpp"
 				>
 			</File>
@@ -288,6 +292,10 @@
 			</File>
 			<File
 				RelativePath=".\testGeneradorRespuesta.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ThrCliente.cpp"
 				>
 			</File>
 			<File
@@ -394,6 +402,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\MensajesUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpAgregarJugador.h"
 				>
 			</File>
 			<File
