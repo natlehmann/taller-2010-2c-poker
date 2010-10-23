@@ -10,6 +10,7 @@ OpEnviarEscenario::~OpEnviarEscenario(void){
 }
 
 bool OpEnviarEscenario::ejecutar(Socket* socket){
+cout << "Enviando escenario a cliente " << this->getIdCliente() << endl;
 	bool error = false;
 	Resultado* resultado = new Resultado();
 	string contenido = "";

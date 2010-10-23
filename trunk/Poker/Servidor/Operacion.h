@@ -6,6 +6,7 @@
 #include "Resultado.h"
 #include "Error.h"
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -14,6 +15,8 @@ class Operacion {
 
 protected:
 	string id;
+	vector<string> parametros;
+	int idCliente;
 
 public:
 	Operacion();
@@ -27,6 +30,16 @@ public:
     void setId(string id)
     {
         this->id = id;
+    }
+
+	int getIdCliente() const
+    {
+		return idCliente;
+    }
+
+    void setIdCliente(int idCliente)
+    {
+        this->idCliente = idCliente;
     }
 
     virtual bool ejecutar(Socket* socket) = 0;

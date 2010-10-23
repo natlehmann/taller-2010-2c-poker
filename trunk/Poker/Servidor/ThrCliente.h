@@ -19,10 +19,13 @@ class ThrCliente: public Thread
 		bool parar;
 		Socket* sock;
 		FabricaOperacionesServidor* fabricaOperaciones;
+		int idCliente;
+		static int contadorIds;
 		
 	public:	
 		ThrCliente(){
 			this->fabricaOperaciones = new FabricaOperacionesServidor();
+			this->idCliente = ThrCliente::contadorIds++;
 		};
 				
 		ThrCliente(Socket* sockCliente)
@@ -30,6 +33,7 @@ class ThrCliente: public Thread
 			this->sock = sockCliente;
 			this->parar = false;
 			this->fabricaOperaciones = new FabricaOperacionesServidor();
+			this->idCliente = ThrCliente::contadorIds++;
 
 		};
 		
@@ -65,7 +69,7 @@ class ThrCliente: public Thread
 						parser = new XmlParser();
 						arbol = parser->toDom(msjRecibido);
 
-						operacion = this->fabricaOperaciones->newOperacion(arbol);
+						operacion = this->fabricaOperaciones->newOperacion(arbol, this->idCliente);
 						if (operacion->ejecutar(sock))
 							this->pararCliente();
 

@@ -5,6 +5,7 @@
 #include "MensajesUtil.h"
 #include "OpEnviarEscenario.h"
 #include "OpEnviarArchivo.h"
+#include "OpAgregarJugador.h"
 #include <list>
 using namespace std;
 
@@ -13,7 +14,7 @@ FabricaOperacionesServidor::FabricaOperacionesServidor() {}
 
 FabricaOperacionesServidor::~FabricaOperacionesServidor() {}
 
-Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vector<string> parametros){
+Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vector<string> parametros, int idCliente){
 
 	Operacion* operacion = NULL;
 
@@ -23,6 +24,9 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpEnviarArchivo")) {
 		operacion = new OpEnviarArchivo(parametros);
 	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpAgregarJugador")) {
+		operacion = new OpAgregarJugador(parametros);
+	}
 
 	// TODO: ACA SE VERIFICARIAN TODAS LAS DEMAS OPERACIONES
 
@@ -31,11 +35,13 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 		throw DatosInvalidosException(error);
 	}
 
+	operacion->setIdCliente(idCliente);
+
 	return operacion;
 
 }
 
-Operacion* FabricaOperacionesServidor::newOperacion(DomTree* domTree)
+Operacion* FabricaOperacionesServidor::newOperacion(DomTree* domTree, int idCliente)
 {
 	string idOperacion;
 	vector<string> parametros;
@@ -168,7 +174,7 @@ Operacion* FabricaOperacionesServidor::newOperacion(DomTree* domTree)
 			parametros.push_back(valor);
 		}
 	}
-	return this->newOperacion(idOperacion, parametros);
+	return this->newOperacion(idOperacion, parametros, idCliente);
 }
 
 
@@ -188,6 +194,16 @@ void FabricaOperacionesServidor::validarParametro(Elemento* parametro, string id
 			Error resultado("V",
 				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
 				+ string(". El atributo 'nombre' del tag 'parametro' para una transferencia de archivo debe ser 'nombreArchivo'. Se encontro '")
+				+ atributoNombre +"'.",idOperacion);
+			throw DatosInvalidosException(resultado);
+		}
+	}
+
+	if (MensajesUtil::sonIguales(idOperacion, "OpAgregarJugador")) {
+		if (strcmp("usuario",atributoNombre.c_str()) != 0) {
+			Error resultado("V",
+				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
+				+ string(". El atributo 'nombre' del tag 'parametro' para agregar un jugador debe ser 'usuario'. Se encontro '")
 				+ atributoNombre +"'.",idOperacion);
 			throw DatosInvalidosException(resultado);
 		}

@@ -6,8 +6,6 @@
 
 class OpEnviarArchivo : public Operacion
 {
-	protected:
-	vector<string> parametros;
 	public:
 	OpEnviarArchivo(vector<string> parametros);
 	virtual ~OpEnviarArchivo(void);
