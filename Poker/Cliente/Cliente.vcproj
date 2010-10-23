@@ -307,11 +307,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClienteAgregarJugador.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteDejarMesa.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\OpUIClienteIgualarApuesta.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteLogin.cpp"
 				>
 			</File>
 			<File
@@ -581,11 +589,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClienteAgregarJugador.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteDejarMesa.h"
 				>
 			</File>
 			<File
 				RelativePath=".\OpUIClienteIgualarApuesta.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteLogin.h"
 				>
 			</File>
 			<File
