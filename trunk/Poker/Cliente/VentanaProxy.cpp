@@ -35,9 +35,13 @@ void VentanaProxy::desbloquear(){
 }
 
 void VentanaProxy::iniciar(){
-	this->chequearBloquear();
+	this->bloquear();
+	Ventana::dibujar(NULL);
+	this->desbloquear();
+
+	//this->chequearBloquear();
 	Ventana::iniciar();
-	this->chequearDesbloquear();
+	//this->chequearDesbloquear();
 }
 
 void VentanaProxy::limpiar(){

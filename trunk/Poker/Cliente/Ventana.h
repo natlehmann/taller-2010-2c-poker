@@ -38,12 +38,12 @@ private:
 	SDL_Surface* superficie;
 	SDL_Rect* offset;
 	SDL_Rect* contorno;
-	void dibujar(SDL_Surface* superficie);
 
 
 protected:
 	Ventana(void);
 	void dibujarSobreSup(SDL_Surface* superficie);
+	void dibujar(SDL_Surface* superficie);
 	
 
 	/* Metodos de ElementoGrafico */

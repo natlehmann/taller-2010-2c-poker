@@ -124,7 +124,11 @@ void Ventana::borrarElemento(ElementoGrafico* elemento){
 void Ventana::iniciar() {
 
 	// se dibuja inicialmente
+	/*
+	this->bloquear();
 	this->dibujar(NULL);
+	this->desbloquear();
+	*/
 
 	Timer timer;
 
@@ -185,6 +189,7 @@ void Ventana::manejarEventos(SDL_Event* event){
 					FabricaOperacionesCliente fab;
 					OperacionUICliente* operacion = fab.newOperacion((*it)->getIdOperacion());
 					operacion->ejecutar(this);
+					delete(operacion);
 				}
 			}
 			break;		
