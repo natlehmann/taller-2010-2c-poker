@@ -13,6 +13,8 @@
 #include "FabricaOperacionesCliente.h"
 #include "FabricaDeElementosGraficos.h"
 #include "DomTreeFactory.h"
+#include "Timer.h"
+#include "Planificador.h"
 #include <fstream>
 #include <cstdlib>
 
@@ -57,54 +59,18 @@ void UICliente::iniciarAplicacion()
 }
 
 
-int planificarOperacion(void* data) {
+void UICliente::lanzarThreads(Ventana* ventana){
 
-	Ventana* ventana = (Ventana*)data;
-
+	int (*puntero)(void*) = &Planificador::planificarOperacion; 
 	try {
-
-		string idOperacion = 
-			RecursosAplicacion::getClienteConfigProperties()->get("cliente.operacion.planificada.nombre");
-		int ms = UtilTiposDatos::getEntero(RecursosAplicacion::getClienteConfigProperties()->get(
-			"cliente.operacion.planificada.delayms"));
-
-		FabricaOperacionesCliente fab;
-		OperacionUICliente* operacion = NULL;
-
-		while (true) {
-
-			try {
-				operacion = fab.newOperacion(idOperacion);
-				operacion->ejecutar(ventana);
-
-				SDL_Delay(ms);
-
-				if (operacion != NULL){
-					delete(operacion);
-					operacion = NULL;
-				}
-			
-			} catch (PokerException& e) {
-				RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
-				if (operacion != NULL){
-					delete(operacion);
-				}
-			}
-		}
-
+		Planificador::setVentana(ventana);
+		UICliente::threadRefresh = SDL_CreateThread(puntero, ventana);
 
 	} catch (PokerException& e) {
 		RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
 		UICliente::mostrarMensaje(
 			"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
 	}
-
-	return 0;
-}
-
-void UICliente::lanzarThreads(Ventana* ventana){
-
-	UICliente::threadRefresh = SDL_CreateThread(planificarOperacion, ventana);
 }
 
 
@@ -159,8 +125,13 @@ Cliente* UICliente::getCliente(){
 
 void UICliente::finalizar()
 {
+	Planificador::finalizar();
+
 	if (UICliente::threadRefresh != NULL) {
-		SDL_KillThread(UICliente::threadRefresh);
+		if (!Planificador::isFinalizado()) {
+			SDL_WaitThread(UICliente::threadRefresh,NULL);
+		}
+		//SDL_KillThread(UICliente::threadRefresh);
 	}
 
 	SDL_Quit();

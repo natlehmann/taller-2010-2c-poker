@@ -34,15 +34,18 @@ int main (int argc, char** argv)
 				"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
 		}
 
+		UICliente::finalizar();
+
 		delete(operacion);
 		operacion = NULL;
 		delete(ventana);
 		ventana = NULL;
 
-		UICliente::finalizar();
+		
 
 
 	} catch (PokerException& e) {
+
 		RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
 		UICliente::mostrarMensaje(
 			"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
