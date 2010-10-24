@@ -183,6 +183,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BoteModelo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ContextoJuego.cpp"
 				>
 			</File>
@@ -376,6 +380,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\BoteModelo.h"
+				>
+			</File>
 			<File
 				RelativePath=".\ContextoJuego.h"
 				>

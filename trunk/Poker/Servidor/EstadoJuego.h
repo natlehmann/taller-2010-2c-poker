@@ -14,6 +14,8 @@ protected:
 
 	Elemento* crearElementoEscenario();
 	void agregarMesa(Elemento* elementoEscenario);
+	void agregarBote(Elemento* elementoEscenario);
+	void agregarMensaje(Elemento* elementoEscenario, string mensaje);
 
 public:
 	virtual ~EstadoJuego(void);

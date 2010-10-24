@@ -27,3 +27,16 @@ void EstadoJuego::agregarMesa(Elemento* elementoEscenario) {
 	mesa->agregarAtributo("id", UtilTiposDatos::enteroAString(mesaModelo->getId()));
 	mesa->agregarAtributo("fondo", mesaModelo->getFondo());
 }
+
+void EstadoJuego::agregarBote(Elemento* elementoEscenario) {
+
+	BoteModelo* boteModelo = ContextoJuego::getInstancia()->getBote();
+
+	Elemento* bote = elementoEscenario->agregarHijo("bote");
+	bote->agregarAtributo("id", UtilTiposDatos::enteroAString(boteModelo->getId()));
+	bote->setTexto(UtilTiposDatos::enteroAString(boteModelo->getCantidad()));
+}
+
+void EstadoJuego::agregarMensaje(Elemento* elementoEscenario, string mensaje){
+	// TODO !!!
+}

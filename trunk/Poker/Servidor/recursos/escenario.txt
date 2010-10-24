@@ -9,8 +9,8 @@
 			<fichas>3</fichas>
 			<apuesta>198989</apuesta>
 			<cartas>
-				<carta numero="9" palo="Trebol" visible="false" posicion="0" id="7t"/> 
-				<carta numero="5" palo="Diamante" visible="true" posicion="0" id="5d"/> 
+				<carta numero="2" palo="Trebol" visible="true" posicion="0" id="7t"/> 
+				<carta numero="2" palo="Diamante" visible="true" posicion="0" id="5d"/> 
 			</cartas>
 		</jugador>
 		
@@ -19,8 +19,8 @@
 			<fichas>540</fichas>
 			<apuesta>100</apuesta>
 			<cartas>
-				<carta numero="k" palo="Trebol" visible="true" posicion="0" id="kt"/> 
-				<carta numero="a" palo="Diamante" visible="true" posicion="0" id="ad"/> 
+				<carta numero="3" palo="Trebol" visible="true" posicion="0" id="kt"/> 
+				<carta numero="4" palo="Diamante" visible="true" posicion="0" id="ad"/> 
 			</cartas>
 		</jugador>	
 		
@@ -60,7 +60,7 @@
 	
 	<cartascomunitarias id="cartasCom">
 			<cartas>
-				<carta numero="3" palo="Diamante" visible="true" posicion="1" id="kd"/> 
+				<carta numero="9" palo="Diamante" visible="true" posicion="1" id="kd"/> 
 				<carta numero="q" palo="Diamante" visible="true" posicion="2" id="qd"/> 
 				<carta numero="j" palo="Diamante" visible="true" posicion="3" id="jd"/> 
 				<carta numero="10" palo="Diamante" visible="true" posicion="4" id="10d"/> 
@@ -80,5 +80,7 @@
 		<textBox id="txtApuesta" posicion="5" 
 				habilitado="true" operacion="OpUIClienteSubirApuesta"></textBox>
 	</panelComando>	
+	
+	<mensaje id="msj" visible="false">Este es un mensaje de prueba</mensaje>
 
 </escenario>

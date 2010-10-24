@@ -224,6 +224,13 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 	}
 }
 
+void Ventana::forzarRefresh() {
+	for (list<ElementoGrafico*>::iterator it = this->elementos.begin(); it != this->elementos.end(); it++) {
+		(*it)->setHayCambios(true);
+	}
+	this->hayCambios = true;
+}
+
 void Ventana::refrescar(SDL_Surface* superficie)
 {
 	if(SDL_Flip(superficie) == -1) { 

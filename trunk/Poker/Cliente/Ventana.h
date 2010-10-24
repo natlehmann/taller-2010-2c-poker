@@ -43,7 +43,7 @@ private:
 protected:
 	Ventana(void);
 	void dibujarSobreSup(SDL_Surface* superficie);
-	void dibujar(SDL_Surface* superficie);
+	virtual void dibujar(SDL_Surface* superficie);
 	
 
 	/* Metodos de ElementoGrafico */
@@ -81,6 +81,12 @@ public:
 	virtual void borrarElementoPorId(string id);
 
 	virtual void borrarElemento(ElementoGrafico* elemento);
+
+	/**
+	* Fuerza el redibujo de todos los elementos de la ventana.
+	* Pensado para casos en que desaparece un elemento.
+	*/
+	virtual void forzarRefresh();
 
 
 	/* Metodos de Contenedor */

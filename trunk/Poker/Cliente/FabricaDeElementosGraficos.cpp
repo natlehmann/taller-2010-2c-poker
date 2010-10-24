@@ -5,6 +5,7 @@
 #include "Respuesta.h"
 #include "Panel.h"
 #include "TextBox.h"
+#include "Mensaje.h"
 #include <typeinfo.h>
 
 
@@ -173,6 +174,32 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 									panel->agregarComponente(textBox, textBox->getPosicion());
 								}
 						}
+					}
+					else if (MensajesUtil::sonIguales(XML_MENSAJE, (*itElementosVentana)->getNombre()))
+					{
+						// Se genera el Mensaje
+						Mensaje* mensaje = NULL;
+						string idMensaje = (*itElementosVentana)->getAtributo("id");
+						ElementoGrafico* elem = ventana->getElementoPorId(idMensaje);
+						if (elem != NULL && MensajesUtil::sonIguales(typeid(*elem).name(), "class Mensaje")){
+							mensaje = (Mensaje*)elem;
+
+						} else {
+							mensaje = new Mensaje("");
+							if(elem != NULL) {
+								ventana->borrarElementoPorId(idMensaje);
+							}
+							ventana->agregarElementoGrafico(mensaje);
+						}
+
+						mensaje->setId(idMensaje);
+						mensaje->setTexto((*itElementosVentana)->getTexto());
+						if (MensajesUtil::sonIguales("true", (*itElementosVentana)->getAtributo("visible"))){
+							mensaje->setVisible(true);
+						} else {
+							mensaje->setVisible(false);
+						}
+						
 					}
 				}
 			}

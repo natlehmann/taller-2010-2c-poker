@@ -27,3 +27,8 @@ MesaModelo* ContextoJuego::getMesa(){
 	//TODO: IMPLEMENTAR
 	return NULL;
 }
+
+BoteModelo* ContextoJuego::getBote() {
+	//TODO: IMPLEMENTAR
+	return NULL;
+}

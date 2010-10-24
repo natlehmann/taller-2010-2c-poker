@@ -58,6 +58,7 @@ public:
 	virtual SDL_Rect* getContornoRect();
 
 	void setHayCambios(bool hayCambios);
+	bool getHayCambios();
 
 	int getPosX();
 	virtual void setPosX(int posX);

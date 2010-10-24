@@ -100,6 +100,10 @@ void ElementoGrafico::setHayCambios(bool hayCambios){
 	this->hayCambios = hayCambios;
 }
 
+bool ElementoGrafico::getHayCambios(){
+	return this->hayCambios;
+}
+
 string ElementoGrafico::getId(){
 	return this->id;
 }

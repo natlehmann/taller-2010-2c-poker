@@ -140,45 +140,51 @@ void Jugador::setNombre(string nombre){
 void Jugador::calcularCoordenadas() {
 
 	switch(posicion) {
-		case 1:
-			this->posX = ServiciosGraficos::getBordeIzquierdo() + ServiciosGraficos::getTamanioCeldaHoriz();
-			this->posY = ServiciosGraficos::getBordeSuperior();
-			this->setearDisposicionAIzq();
-			break;
 
-		case 2:
+		case 1:
 			this->posX = ServiciosGraficos::getAnchoVentana() - ServiciosGraficos::getBordeDerecho()
 							- ServiciosGraficos::getTamanioCeldaHoriz() * 2;
 			this->posY = ServiciosGraficos::getBordeSuperior();
 			this->setearDisposicionADer();
 			break;
 
-		case 3:
-			this->posX = ServiciosGraficos::getBordeIzquierdo();
-			this->posY = ServiciosGraficos::getTamanioCeldaVert() + ServiciosGraficos::getBordeSuperior();
-			this->setearDisposicionAIzq();
-			break;
 
-		case 4:
+		case 2:
 			this->posX = ServiciosGraficos::getAnchoVentana() - ServiciosGraficos::getBordeDerecho()
 							- ServiciosGraficos::getTamanioCeldaHoriz();
 			this->posY = ServiciosGraficos::getTamanioCeldaVert() + ServiciosGraficos::getBordeSuperior();
 			this->setearDisposicionADer();
 			break;
 
-		case 5:
+
+		case 3:
+			this->posX = ServiciosGraficos::getAnchoVentana() - ServiciosGraficos::getBordeDerecho()
+							- ServiciosGraficos::getTamanioCeldaHoriz() * 2;
+			this->posY = ServiciosGraficos::getAltoVentana() - ServiciosGraficos::getBordeInferior()
+							- ServiciosGraficos::getTamanioCeldaVert();
+			this->setearDisposicionADer();
+			break;
+
+		
+		case 4:
 			this->posX = ServiciosGraficos::getTamanioCeldaHoriz() + ServiciosGraficos::getBordeIzquierdo();
 			this->posY =ServiciosGraficos::getAltoVentana() - ServiciosGraficos::getBordeInferior()
 							- ServiciosGraficos::getTamanioCeldaVert();
 			this->setearDisposicionAIzq();
 			break;
 
+
+		case 5:
+			this->posX = ServiciosGraficos::getBordeIzquierdo();
+			this->posY = ServiciosGraficos::getTamanioCeldaVert() + ServiciosGraficos::getBordeSuperior();
+			this->setearDisposicionAIzq();
+			break;
+
+
 		case 6:
-			this->posX = ServiciosGraficos::getAnchoVentana() - ServiciosGraficos::getBordeDerecho()
-							- ServiciosGraficos::getTamanioCeldaHoriz() * 2;
-			this->posY = ServiciosGraficos::getAltoVentana() - ServiciosGraficos::getBordeInferior()
-							- ServiciosGraficos::getTamanioCeldaVert();
-			this->setearDisposicionADer();
+			this->posX = ServiciosGraficos::getBordeIzquierdo() + ServiciosGraficos::getTamanioCeldaHoriz();
+			this->posY = ServiciosGraficos::getBordeSuperior();
+			this->setearDisposicionAIzq();
 			break;
 
 		default:
@@ -347,28 +353,24 @@ void Jugador::setImagen(string nombreImagen) {
 	}
 }
 
+/**
+* Solo setea la carta si no fue seteada anteriormente.
+*/
 void Jugador::setCarta1(Carta* carta){
-	if (this->carta1 == NULL || !this->carta1->equals(carta)) {
-
-		if (this->carta1 != NULL){
-			delete (this->carta1);
-		}
-
+	if (this->carta1 == NULL) {
 		this->carta1 = carta;
-		this->hayCambios = true;
 	}
+	this->hayCambios = this->hayCambios || carta->getHayCambios();
 }
 
+/**
+* Solo setea la carta si no fue seteada anteriormente.
+*/
 void Jugador::setCarta2(Carta* carta){
-	if (this->carta2 == NULL || !this->carta2->equals(carta)) {
-
-		if (this->carta2 != NULL){
-			delete (this->carta2);
-		}
-
+	if (this->carta2 == NULL) {
 		this->carta2 = carta;
-		this->hayCambios = true;
 	}
+	this->hayCambios = this->hayCambios || carta->getHayCambios();
 }
 
 Carta* Jugador::getCarta1() {

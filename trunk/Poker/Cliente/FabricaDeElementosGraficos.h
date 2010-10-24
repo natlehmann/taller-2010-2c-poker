@@ -26,6 +26,8 @@
 #define XML_PANEL_BOTON "boton"
 #define XML_PANEL_TEXTBOX "textBox"
 
+#define XML_MENSAJE "mensaje"
+
 class FabricaDeElementosGraficos
 {
 	public:
