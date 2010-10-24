@@ -32,3 +32,8 @@ BoteModelo* ContextoJuego::getBote() {
 	//TODO: IMPLEMENTAR
 	return NULL;
 }
+
+MensajeModelo* ContextoJuego::getMensaje(){
+	//TODO: IMPLEMENTAR
+	return NULL;
+}

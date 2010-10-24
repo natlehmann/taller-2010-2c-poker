@@ -4,6 +4,7 @@
 #include <string>
 #include "MesaModelo.h"
 #include "BoteModelo.h"
+#include "MensajeModelo.h"
 
 
 using namespace std;
@@ -26,6 +27,7 @@ public:
 	void iniciarJuego();
 	MesaModelo* getMesa();
 	BoteModelo* getBote();
+	MensajeModelo* getMensaje();
 
 };
 
