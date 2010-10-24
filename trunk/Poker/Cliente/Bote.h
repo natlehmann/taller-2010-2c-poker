@@ -1,3 +1,6 @@
+#ifndef _BOTE_H_
+#define _BOTE_H_
+
 #include "ElementoGrafico.h"
 #include "Imagen.h"
 #include "Etiqueta.h"
@@ -25,3 +28,5 @@ class Bote: public ElementoGrafico
 		int getTotal();
 		void setTotal(int total);
 };
+
+#endif //_BOTE_H_
