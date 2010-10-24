@@ -219,6 +219,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EstadoRondaCiega.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\FabricaOperacionesServidor.cpp"
 				>
 			</File>
@@ -244,6 +248,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\MensajesUtil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MesaModelo.cpp"
 				>
 			</File>
 			<File
@@ -405,6 +413,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EstadoRondaCiega.h"
+				>
+			</File>
+			<File
 				RelativePath=".\FabricaOperacionesServidor.h"
 				>
 			</File>
@@ -426,6 +438,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\MensajesUtil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MesaModelo.h"
 				>
 			</File>
 			<File

@@ -2,9 +2,13 @@
 #define _ESTADO_ESPERANDOJUGADORES_H_
 
 #include "EstadoJuego.h"
+#include "EstadoRondaCiega.h"
 
 class EstadoEsperandoJugadores : public EstadoJuego
 {
+private:
+	EstadoRondaCiega estadoRondaCiega;
+
 public:
 	EstadoEsperandoJugadores(void);
 	virtual ~EstadoEsperandoJugadores(void);

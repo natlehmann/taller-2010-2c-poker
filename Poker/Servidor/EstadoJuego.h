@@ -2,6 +2,7 @@
 #define _ESTADOJUEGO_H_
 
 #include <string>
+#include "Elemento.h"
 
 
 using namespace std;
@@ -10,6 +11,9 @@ class EstadoJuego
 {
 protected:
 	EstadoJuego(void);
+
+	Elemento* crearElementoEscenario();
+	void agregarMesa(Elemento* elementoEscenario);
 
 public:
 	virtual ~EstadoJuego(void);

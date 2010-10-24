@@ -2,6 +2,7 @@
 #define _CONTEXTOJUEGO_H_
 
 #include <string>
+#include "MesaModelo.h"
 
 
 using namespace std;
@@ -9,15 +10,20 @@ using namespace std;
 class ContextoJuego
 {
 private:
-	static const ContextoJuego instancia;
+	static ContextoJuego instancia;
 
 protected:
 	ContextoJuego(void);
+	MesaModelo* mesa;
 
 public:	
 	virtual ~ContextoJuego(void);
 
-	static const ContextoJuego* getInstancia();
+	static ContextoJuego* getInstancia();
+
+	int getCantidadJugadoresActivos();
+	void iniciarJuego();
+	MesaModelo* getMesa();
 };
 
 #endif //_CONTEXTOJUEGO_H_
