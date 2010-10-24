@@ -50,6 +50,12 @@ void VentanaProxy::limpiar(){
 	this->chequearDesbloquear();
 }
 
+void VentanaProxy::forzarRefresh() {
+	this->chequearBloquear();
+	Ventana::forzarRefresh();
+	this->chequearDesbloquear();
+}
+
 Panel* VentanaProxy::getPanelComando(){
 	this->chequearBloquear();
 	Panel* result = Ventana::getPanelComando();
@@ -102,5 +108,11 @@ ElementoGrafico* VentanaProxy::getElementoPorId(string id){
 void VentanaProxy::borrarElemento(ElementoGrafico* elemento){
 	this->chequearBloquear();
 	Ventana::borrarElemento(elemento);
+	this->chequearDesbloquear();
+}
+
+void VentanaProxy::dibujar(SDL_Surface* superficie){
+	this->chequearBloquear();
+	Ventana::dibujar(superficie);
 	this->chequearDesbloquear();
 }

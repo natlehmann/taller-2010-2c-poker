@@ -117,8 +117,10 @@ void Etiqueta::ajustarOffset(SDL_Rect* offset, SDL_Surface* superficie) {
 }
 
 void Etiqueta::setMensaje(string mensaje) {
-	this->mensaje = mensaje;
-	this->hayCambios = true;
+	if (!MensajesUtil::sonIguales(this->mensaje, mensaje)) {
+		this->mensaje = mensaje;
+		this->hayCambios = true;
+	}
 }
 
 string Etiqueta::getMensaje() {

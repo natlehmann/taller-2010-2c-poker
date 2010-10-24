@@ -20,5 +20,10 @@ EstadoJuego* EstadoEsperandoJugadores::getSiguienteEstado(){
 }
 
 string EstadoEsperandoJugadores::getEscenarioJuego(int idJugador){
+	Elemento* elemEscenario = EstadoJuego::crearElementoEscenario();
+	EstadoJuego::agregarMesa(elemEscenario);
+	EstadoJuego::agregarBote(elemEscenario);
+	EstadoJuego::agregarMensaje(elemEscenario, "Esperando que se sumen jugadores para iniciar el juego ...");
+
 	return "";
 }

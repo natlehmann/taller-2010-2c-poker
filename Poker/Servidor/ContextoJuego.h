@@ -3,6 +3,7 @@
 
 #include <string>
 #include "MesaModelo.h"
+#include "BoteModelo.h"
 
 
 using namespace std;
@@ -24,6 +25,8 @@ public:
 	int getCantidadJugadoresActivos();
 	void iniciarJuego();
 	MesaModelo* getMesa();
+	BoteModelo* getBote();
+
 };
 
 #endif //_CONTEXTOJUEGO_H_

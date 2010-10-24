@@ -14,6 +14,9 @@ private:
 	void chequearBloquear();
 	void chequearDesbloquear();
 
+protected:
+	virtual void dibujar(SDL_Surface* superficie);
+
 public:
 	VentanaProxy(void);
 	virtual ~VentanaProxy(void);
@@ -32,6 +35,8 @@ public:
 	virtual void borrarElementoPorId(string id);
 
 	virtual void borrarElemento(ElementoGrafico* elemento);
+
+	virtual void forzarRefresh();
 
 
 

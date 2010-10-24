@@ -1,5 +1,6 @@
 #include "CartasComunitarias.h"
 #include "MensajesUtil.h"
+#include "Ventana.h"
 
 CartasComunitarias::CartasComunitarias(void)
 {
@@ -43,22 +44,49 @@ void CartasComunitarias::dibujarSobreSup(SDL_Surface* superficie)
 {
 	this->setearPosicionCartas();
 	if (this->carta1 != NULL){
+		if (this->carta1->getVisible()) {
 			this->carta1->dibujar(superficie);
+		} else {
+			this->getVentana()->borrarElemento(this->carta1);
+		}
 	}
+
 	if (this->carta2 != NULL){
+		if (this->carta2->getVisible()) {
 			this->carta2->dibujar(superficie);
-	}	
+		} else {
+			this->getVentana()->borrarElemento(this->carta2);
+		}
+	}
+
 	if (this->carta3 != NULL){
+		if (this->carta3->getVisible()) {
 			this->carta3->dibujar(superficie);
+		} else {
+			this->getVentana()->borrarElemento(this->carta3);
+		}
 	}
+
 	if (this->carta4 != NULL){
+		if (this->carta4->getVisible()) {
 			this->carta4->dibujar(superficie);
+		} else {
+			this->getVentana()->borrarElemento(this->carta4);
+		}
 	}
+
 	if (this->carta5 != NULL){
+		if (this->carta5->getVisible()) {
 			this->carta5->dibujar(superficie);
+		} else {
+			this->getVentana()->borrarElemento(this->carta5);
+		}
 	}
 }
 
+/**
+* Solo setea la carta si no fue seteada anteriormente.
+*/
 void CartasComunitarias::setCarta(Carta* carta)
 {
 	if (carta)
@@ -66,57 +94,39 @@ void CartasComunitarias::setCarta(Carta* carta)
 		switch(carta->getPosicion())
 		{
 			case 1:	
-				if (this->carta1 == NULL || !this->carta1->equals(carta)) {
-					if (this->carta1 != NULL) {
-						delete(this->carta1);
-					}
+				if (this->carta1 == NULL) {
 					this->carta1 = carta;
-					this->hayCambios = true;
 				}
 				break;
 
 			case 2:	
-				if (this->carta2 == NULL || !this->carta2->equals(carta)) {
-					if (this->carta2 != NULL) {
-						delete(this->carta2);
-					}
+				if (this->carta2 == NULL) {
 					this->carta2 = carta;
-					this->hayCambios = true;
 				}
 				break;
 			
 			case 3:	
-				if (this->carta3 == NULL || !this->carta3->equals(carta)) {
-					if (this->carta3 != NULL) {
-						delete(this->carta3);
-					}
+				if (this->carta3 == NULL) {
 					this->carta3 = carta;
-					this->hayCambios = true;
 				}
 				break;
 			
 			case 4:	
-				if (this->carta4 == NULL || !this->carta4->equals(carta)) {
-					if (this->carta4 != NULL) {
-						delete(this->carta4);
-					}
+				if (this->carta4 == NULL) {
 					this->carta4 = carta;
-					this->hayCambios = true;
 				}
 				break;
 			
 			case 5:	
-				if (this->carta5 == NULL || !this->carta5->equals(carta)) {
-					if (this->carta5 != NULL) {
-						delete(this->carta5);
-					}
+				if (this->carta5 == NULL) {
 					this->carta5 = carta;
-					this->hayCambios = true;
 				}
 				break;
 
 			default: throw UIException("La posicion de la carta comunitaria es invalida.","V");
 		}; 
+
+		this->hayCambios = this->hayCambios || carta->getHayCambios();
 	}
 	else
 	{
