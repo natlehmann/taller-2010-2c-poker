@@ -1,6 +1,6 @@
 #include "ContextoJuego.h"
 
-const ContextoJuego ContextoJuego::instancia;
+ContextoJuego ContextoJuego::instancia;
 
 ContextoJuego::ContextoJuego(void)
 {
@@ -10,6 +10,20 @@ ContextoJuego::~ContextoJuego(void)
 {
 }
 
-const ContextoJuego* ContextoJuego::getInstancia(){
+ContextoJuego* ContextoJuego::getInstancia(){
 	return &ContextoJuego::instancia;
+}
+
+int ContextoJuego::getCantidadJugadoresActivos(){
+	//TODO: IMPLEMENTAR
+	return 0;
+}
+
+void ContextoJuego::iniciarJuego(){
+	//TODO: IMPLEMENTAR
+}
+
+MesaModelo* ContextoJuego::getMesa(){
+	//TODO: IMPLEMENTAR
+	return NULL;
 }
