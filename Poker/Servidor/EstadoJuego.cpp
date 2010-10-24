@@ -3,6 +3,7 @@
 #include "ContextoJuego.h"
 #include "MesaModelo.h"
 #include "UtilTiposDatos.h"
+#include "MensajeModelo.h"
 
 EstadoJuego::EstadoJuego(void)
 {
@@ -38,5 +39,11 @@ void EstadoJuego::agregarBote(Elemento* elementoEscenario) {
 }
 
 void EstadoJuego::agregarMensaje(Elemento* elementoEscenario, string mensaje){
-	// TODO !!!
+	
+	MensajeModelo* mensajeModelo = ContextoJuego::getInstancia()->getMensaje();
+	mensajeModelo->setTexto(mensaje);
+
+	Elemento* elemMensaje = elementoEscenario->agregarHijo("mensaje");
+	elemMensaje->agregarAtributo("id", UtilTiposDatos::enteroAString(mensajeModelo->getId()));
+	elemMensaje->setTexto(mensajeModelo->getTexto());
 }

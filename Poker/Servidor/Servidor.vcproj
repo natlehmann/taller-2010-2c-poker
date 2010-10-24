@@ -251,6 +251,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MensajeModelo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\MensajesUtil.cpp"
 				>
 			</File>
@@ -442,6 +446,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Log.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MensajeModelo.h"
 				>
 			</File>
 			<File

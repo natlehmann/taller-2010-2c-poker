@@ -23,6 +23,8 @@ string EstadoEsperandoJugadores::getEscenarioJuego(int idJugador){
 	Elemento* elemEscenario = EstadoJuego::crearElementoEscenario();
 	EstadoJuego::agregarMesa(elemEscenario);
 	EstadoJuego::agregarBote(elemEscenario);
+
+	// TODO: Ver si se manda el mensaje al archivo de configuracion
 	EstadoJuego::agregarMensaje(elemEscenario, "Esperando que se sumen jugadores para iniciar el juego ...");
 
 	return "";
