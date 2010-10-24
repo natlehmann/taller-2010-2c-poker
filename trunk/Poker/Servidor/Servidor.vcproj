@@ -183,6 +183,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ContextoJuego.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\DatosInvalidosException.cpp"
 				>
 			</File>
@@ -204,6 +208,14 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Error.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoEsperandoJugadores.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoJuego.cpp"
 				>
 			</File>
 			<File
@@ -357,6 +369,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\ContextoJuego.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\DatosInvalidosException.h"
 				>
 			</File>
@@ -378,6 +394,14 @@
 			</File>
 			<File
 				RelativePath="..\Comun\Error.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoEsperandoJugadores.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoJuego.h"
 				>
 			</File>
 			<File
