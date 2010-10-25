@@ -8,14 +8,18 @@ using namespace std;
 
 class MensajeModelo
 {
+private:
+	int id;
+	string texto;
+
 public:
-	MensajeModelo(void);
+	MensajeModelo(int id, string texto = "");
 	virtual ~MensajeModelo(void);
 
 	int getId();
 
 	string getTexto();
-	void setTexto(string mensaje);
+	void setTexto(string texto);
 };
 
 #endif //_MENSAJE_MODELO_H_

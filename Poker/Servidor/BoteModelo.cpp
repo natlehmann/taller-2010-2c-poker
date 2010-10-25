@@ -1,7 +1,10 @@
 #include "BoteModelo.h"
 
-BoteModelo::BoteModelo(void)
+BoteModelo::BoteModelo(int id, string nombreImagen)
 {
+	this->id = id;
+	this->nombreImagen = nombreImagen;
+	this->cantidad = 0;
 }
 
 BoteModelo::~BoteModelo(void)
@@ -9,12 +12,23 @@ BoteModelo::~BoteModelo(void)
 }
 
 int BoteModelo::getId(){
-	//TODO: IMPLEMENTAR
-	return 0;
+	return this->id;
+}
+
+string BoteModelo::getNombreImagen(){
+	return this->nombreImagen;
 }
 
 int BoteModelo::getCantidad(){
-	//TODO: IMPLEMENTAR
-	return 0;
+	return this->cantidad;
 }
 
+void BoteModelo::incrementar(int cantidad){
+	this->cantidad += cantidad;
+}
+
+int BoteModelo::vaciar(){
+	int total = this->cantidad;
+	this->cantidad = 0;
+	return total;
+}
