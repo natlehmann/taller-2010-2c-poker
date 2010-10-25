@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="Servidor"
 	ProjectGUID="{80034BA5-0061-4E00-B475-8FC007704BC7}"
 	RootNamespace="Servidor"
@@ -187,6 +187,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CartaModelo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CartasComunitariasModelo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ContextoJuego.cpp"
 				>
 			</File>
@@ -243,6 +251,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Jugada.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\JugadorModelo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Log.cpp"
 				>
 			</File>
@@ -296,6 +312,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\RecursosAplicacion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Repartidor.cpp"
 				>
 			</File>
 			<File
@@ -389,6 +409,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CartaModelo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CartasComunitariasModelo.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ContextoJuego.h"
 				>
 			</File>
@@ -445,6 +473,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Jugada.h"
+				>
+			</File>
+			<File
+				RelativePath=".\JugadorModelo.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Log.h"
 				>
 			</File>
@@ -494,6 +530,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\RecursosAplicacion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Repartidor.h"
 				>
 			</File>
 			<File

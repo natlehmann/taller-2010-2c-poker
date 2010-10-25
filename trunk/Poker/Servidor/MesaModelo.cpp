@@ -1,7 +1,10 @@
 #include "MesaModelo.h"
 
-MesaModelo::MesaModelo(void)
+MesaModelo::MesaModelo(int id, int smallBlind, string fondo)
 {
+	this->id = id;
+	this->smallBlind = smallBlind;
+	this->fondo = fondo;
 }
 
 MesaModelo::~MesaModelo(void)
@@ -9,11 +12,13 @@ MesaModelo::~MesaModelo(void)
 }
 
 int MesaModelo::getId(){
-	//TODO:IMPLEMENTAR
-	return 1;
+	return this->id;
+}
+
+int MesaModelo::getSmallBlind(){
+	return this->smallBlind;
 }
 
 string MesaModelo::getFondo(){
-	//TODO IMPLEMENTAR
-	return "";
+	return this->fondo;
 }

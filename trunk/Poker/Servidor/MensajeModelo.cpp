@@ -1,7 +1,9 @@
 #include "MensajeModelo.h"
 
-MensajeModelo::MensajeModelo(void)
+MensajeModelo::MensajeModelo(int id, string texto)
 {
+	this->id = id;
+	this->texto = texto;
 }
 
 MensajeModelo::~MensajeModelo(void)
@@ -9,15 +11,13 @@ MensajeModelo::~MensajeModelo(void)
 }
 
 int MensajeModelo::getId(){
-	//TODO: IMPLEMENTAR
-	return 0;
+	return this->id;
 }
 
 string MensajeModelo::getTexto(){
-	//TODO: IMPLEMENTAR
-	return "";
+	return this->texto;
 }
 
-void MensajeModelo::setTexto(string mensaje){
-	//TODO: IMPLEMENTAR
+void MensajeModelo::setTexto(string texto){
+	this->texto = texto;
 }

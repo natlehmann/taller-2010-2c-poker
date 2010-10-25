@@ -3,16 +3,24 @@
 
 #include <string>
 
+#define SMALL_BLIND 1
+#define FONDO ""
 
 using namespace std;
 
 class MesaModelo
 {
+private:
+	int id;
+	int smallBlind;
+	string fondo;
+
 public:
-	MesaModelo(void);
+	MesaModelo(int id, int smallBlind = SMALL_BLIND, string fondo = FONDO);
 	virtual ~MesaModelo(void);
 
 	int getId();
+	int getSmallBlind();
 	string getFondo();
 };
 
