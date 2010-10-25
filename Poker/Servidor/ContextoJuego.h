@@ -53,6 +53,7 @@ public:
 	void mostrarTurn();
 	void mostrarRiver();
 	int evaluarGanador();
+	void finalizarRonda();
 
 	void igualarApuesta(int idJugador);
 	void subirApuesta(int idJugador, int fichas);

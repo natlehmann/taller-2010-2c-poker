@@ -8,6 +8,7 @@ CartasComunitariasModelo::CartasComunitariasModelo(int id)
 
 CartasComunitariasModelo::~CartasComunitariasModelo(void)
 {
+	this->cartas.clear();
 }
 
 void CartasComunitariasModelo::agregarCarta(CartaModelo* carta)
@@ -24,3 +25,9 @@ list<CartaModelo*> CartasComunitariasModelo::getCartas()
 {
 	return this->cartas;
 }
+
+void CartasComunitariasModelo::limpiar()
+{
+	this->cartas.clear();
+}
+

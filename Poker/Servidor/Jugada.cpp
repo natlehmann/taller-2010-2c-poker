@@ -17,7 +17,7 @@ Jugada::~Jugada(void)
 	//for (vector<CartaModelo*>::iterator it = this->cartas.begin(); it != this->cartas.end(); ++it) {
 	//	delete *it;
 	//}
-	//this->cartas.clear();
+	this->cartas.clear();
 }
 
 vector<CartaModelo*> Jugada::getCartas() const

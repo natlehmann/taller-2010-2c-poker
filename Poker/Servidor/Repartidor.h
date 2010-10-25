@@ -11,6 +11,7 @@ class Repartidor
 {
 private:
 	list<CartaModelo*> cartas;
+	list<CartaModelo*> cartasQueSalieron;
 	int cantidadCartasDisponibles;
 
 public:
