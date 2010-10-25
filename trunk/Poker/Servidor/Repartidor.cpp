@@ -25,6 +25,7 @@ CartaModelo* Repartidor::getCarta()
 		it++;
 	}
 	CartaModelo* carta = *it;
+	this->cartasQueSalieron.push_back(carta);
 	this->cartas.erase(it);
 	this->cantidadCartasDisponibles--;
 
@@ -77,6 +78,10 @@ void Repartidor::borrarCartas()
 	for (list<CartaModelo*>::iterator it = this->cartas.begin(); it != this->cartas.end(); ++it) {
 		delete *it;
 	}
+	for (list<CartaModelo*>::iterator it = this->cartasQueSalieron.begin(); it != this->cartasQueSalieron.end(); ++it) {
+		delete *it;
+	}
 	this->cartas.clear();
+	this->cartasQueSalieron.clear();
 	this->cantidadCartasDisponibles = 0;
 }

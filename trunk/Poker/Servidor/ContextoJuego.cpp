@@ -22,6 +22,30 @@ ContextoJuego::ContextoJuego(void)
 
 ContextoJuego::~ContextoJuego(void)
 {
+	if (this->mesa) {
+		delete this->mesa;
+		this->mesa = NULL;
+	}
+	if (this->bote) {
+		delete this->bote;
+		this->bote = NULL;
+	}
+	if (this->mensaje) {
+		delete this->mensaje;
+		this->mensaje = NULL;
+	}
+	if (this->cartasComunitarias) {
+		delete this->cartasComunitarias;
+		this->cartasComunitarias = NULL;
+	}
+	if (this->repartidor) {
+		delete this->repartidor;
+		this->repartidor = NULL;
+	}
+	for (vector<JugadorModelo*>::iterator it = this->jugadores.begin(); it != this->jugadores.end(); ++it) {
+		delete *it;
+	}
+	this->jugadores.clear();
 }
 
 ContextoJuego* ContextoJuego::getInstancia(){
@@ -38,6 +62,10 @@ BoteModelo* ContextoJuego::getBote() {
 
 MensajeModelo* ContextoJuego::getMensaje(){
 	return this->mensaje;
+}
+
+CartasComunitariasModelo* ContextoJuego::getCartasComunitarias(){
+	return this->cartasComunitarias;
 }
 
 void ContextoJuego::agregarJugador(int idJugador)
@@ -116,6 +144,8 @@ void ContextoJuego::noIr(int idJugador)
 	JugadorModelo* jugador = getJugador(idJugador);
 	jugador->setJugandoRonda(false);
 	jugador->setApuesta(0);
+	jugador->setCarta1(NULL);
+	jugador->setCarta2(NULL);
 	this->cantidadJugadoresRonda--;
 	if (this->cantidadJugadoresRonda > 1 && jugador->getPosicion() == this->posicionJugadorQueAbre) {
 		calcularPosicionJugadorQueAbre();
@@ -264,7 +294,7 @@ void ContextoJuego::calcularPosicionJugadorQueAbre()
 
 	if (this->posicionJugadorQueAbre == posicionJugadorQueAbreAnterior) {
 		if (inicio == 0) {
-			throw PokerException("Ocurrio un error buscando el jugador mano.");
+			throw PokerException("Ocurrio un error buscando el jugador que abre ronda.");
 		}
 
 		for (unsigned int i = 0 ; i < jugadores.size() ; ++i) {
@@ -275,26 +305,28 @@ void ContextoJuego::calcularPosicionJugadorQueAbre()
 		}
 
 		if (this->posicionJugadorQueAbre == posicionJugadorQueAbreAnterior) {
-			throw PokerException("Ocurrio un error buscando el jugador mano.");
+			throw PokerException("Ocurrio un error buscando el jugador que abre ronda.");
 		}
 	}
 }
 
 int ContextoJuego::evaluarGanador()
 {
+	JugadorModelo* ganador;
 	if (this->cantidadJugadoresRonda < 2) {
 		for (vector<JugadorModelo*>::iterator it = this->jugadores.begin(); it != this->jugadores.end(); ++it) {
-			if ((*it)->isJugandoRonda()) {
-				(*it)->incrementarFichas(this->bote->vaciar());
-				return (*it)->getId();
+			JugadorModelo* jugador = *it;
+			if (jugador->isJugandoRonda()) {
+				ganador = jugador;
+				break;
 			}
 		}
 	} else {
 		double valorJugadaMasAlta = 0;
-		int idGanador = 0;
+		JugadorModelo* ganador = NULL;
 		for (vector<JugadorModelo*>::iterator it = this->jugadores.begin(); it != this->jugadores.end(); ++it) {
-			if ((*it)->isJugandoRonda()) {
-				JugadorModelo* jugador = *it;
+			JugadorModelo* jugador = *it;
+			if (jugador->isJugandoRonda()) {
 				Jugada* jugada = new Jugada();
 				jugada->agregarCartas(this->cartasComunitarias->getCartas());
 				jugada->agregarCarta(jugador->getCarta1());
@@ -302,16 +334,33 @@ int ContextoJuego::evaluarGanador()
 				double valorJugada = jugada->getValorJugada();
 				if (valorJugada > valorJugadaMasAlta) {
 					valorJugadaMasAlta = valorJugada;
-					idGanador = jugador->getId();
+					ganador = jugador;
 				}
 			}
 		}
-		if (idGanador) {
-			JugadorModelo* jugador = getJugador(idGanador);
-			jugador->incrementarFichas(this->bote->vaciar());
-			return idGanador;
-		}
 	}
-	throw PokerException("Ocurrio un error evaluando al ganador.");
+	if (!ganador) {
+		throw PokerException("Ocurrio un error evaluando al ganador.");
+	}
+	ganador->incrementarFichas(this->bote->vaciar());
+	ganador->setApuesta(0);
+	return ganador->getId();
 }
 
+void ContextoJuego::finalizarRonda()
+{
+	for (vector<JugadorModelo*>::iterator it = this->jugadores.begin(); it != this->jugadores.end(); ++it) {
+		JugadorModelo* jugador = *it;
+		jugador->setApuesta(0);
+		jugador->setCarta1(NULL);
+		jugador->setCarta2(NULL);
+		jugador->setJugandoRonda(false);
+	}
+	this->cartasComunitarias->limpiar();
+	this->bote->vaciar();
+	this->montoAIgualar = 0;
+	this->cantidadJugadoresRonda = 0;
+	this->posicionJugadorTurno = 0;
+	this->posicionJugadorQueAbre = 0;
+	this->posicionJugadorQueCierra = 0;
+}

@@ -16,6 +16,7 @@ public:
 
 	void agregarCarta(CartaModelo* carta);
 	list<CartaModelo*> getCartas();
+	void limpiar();
 };
 
 #endif //_CARTAS_COMUNITARIAS_MODELO_H_
