@@ -227,11 +227,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EstadoEvaluandoGanador.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\EstadoJuego.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\EstadoRondaCiega.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoRondaFlop.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoRondaRiver.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoRondaTurn.cpp"
 				>
 			</File>
 			<File
@@ -453,11 +469,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EstadoEvaluandoGanador.h"
+				>
+			</File>
+			<File
 				RelativePath=".\EstadoJuego.h"
 				>
 			</File>
 			<File
 				RelativePath=".\EstadoRondaCiega.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoRondaFlop.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoRondaRiver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EstadoRondaTurn.h"
 				>
 			</File>
 			<File
