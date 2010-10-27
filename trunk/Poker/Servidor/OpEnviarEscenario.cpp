@@ -11,7 +11,7 @@ OpEnviarEscenario::OpEnviarEscenario(int idCliente) : Operacion(idCliente) {
 OpEnviarEscenario::~OpEnviarEscenario(void){
 }
 
-bool OpEnviarEscenario::ejecutar(Socket* socket){
+bool OpEnviarEscenario::ejecutarAccion(Socket* socket){
 cout << "Enviando escenario a cliente " << this->getIdCliente() << endl;
 /*
 	bool error = false;

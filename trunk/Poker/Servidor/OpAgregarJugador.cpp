@@ -12,7 +12,7 @@ OpAgregarJugador::~OpAgregarJugador(void)
 {
 }
 
-bool OpAgregarJugador::ejecutar(Socket* socket){
+bool OpAgregarJugador::ejecutarAccion(Socket* socket){
 
 	if (ContextoJuego::getInstancia()->hayLugar()) {
 		ContextoJuego::getInstancia()->agregarJugador(this->getIdCliente());

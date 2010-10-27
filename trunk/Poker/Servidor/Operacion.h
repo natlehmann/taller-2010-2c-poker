@@ -18,6 +18,9 @@ protected:
 	vector<string> parametros;
 	int idCliente;
 
+	virtual bool ejecutarAccion(Socket* socket) = 0;
+
+
 public:
 	Operacion(int idCliente);
 	virtual ~Operacion();
@@ -42,7 +45,7 @@ public:
         this->idCliente = idCliente;
     }
 
-    virtual bool ejecutar(Socket* socket) = 0;
+    virtual bool ejecutar(Socket* socket);
 
 };
 

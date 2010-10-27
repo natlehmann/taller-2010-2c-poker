@@ -7,11 +7,12 @@ using namespace std;
 
 class OpAgregarJugador : public Operacion
 {
+protected:
+	virtual bool ejecutarAccion(Socket* socket);
+
 public:
 	OpAgregarJugador(int idCliente, vector<string> parametros);
 	virtual ~OpAgregarJugador(void);
-
-	bool ejecutar(Socket* socket);
 };
 
 #endif //_OP_AGREGARJUGADOR_H_

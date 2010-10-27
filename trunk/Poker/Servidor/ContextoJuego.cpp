@@ -9,6 +9,8 @@ ContextoJuego ContextoJuego::instancia;
 
 ContextoJuego::ContextoJuego(void)
 {
+	this->mutex = CreateMutexA(NULL, false, "MutexContexto");
+
 	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
 		// inicialmente los jugadores no tienen ningun cliente asociado
 		this->idsJugadores[i] = -1;
@@ -53,6 +55,10 @@ ContextoJuego::ContextoJuego(void)
 
 ContextoJuego::~ContextoJuego(void)
 {
+}
+
+void ContextoJuego::finalizar() {
+
 	if (this->mesa) {
 		delete this->mesa;
 		this->mesa = NULL;
@@ -84,6 +90,12 @@ ContextoJuego::~ContextoJuego(void)
 	delete (this->rondaTurn);
 	delete (this->rondaRiver);
 	delete (this->evaluandoGanador);
+
+	CloseHandle(this->mutex);
+}
+
+HANDLE ContextoJuego::getMutex(){
+	return this->mutex;
 }
 
 ContextoJuego* ContextoJuego::getInstancia(){

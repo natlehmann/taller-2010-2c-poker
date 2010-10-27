@@ -5,11 +5,12 @@
 
 class OpEnviarEscenario : public Operacion
 {
+protected:
+	virtual bool ejecutarAccion(Socket* socket);
+
 public:
 	OpEnviarEscenario(int idCliente);
 	virtual ~OpEnviarEscenario(void);
-
-	bool ejecutar(Socket* socket);
 };
 
 #endif // _OP_ENVIARESCENARIO_H_
