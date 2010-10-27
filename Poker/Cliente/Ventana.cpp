@@ -224,9 +224,11 @@ void Ventana::dibujarSobreSup(SDL_Surface* superficie){
 	}
 }
 
-void Ventana::forzarRefresh() {
+void Ventana::forzarRefresh(ElementoGrafico* elemento) {
 	for (list<ElementoGrafico*>::iterator it = this->elementos.begin(); it != this->elementos.end(); it++) {
-		(*it)->setHayCambios(true);
+		if ((*it)->hayInterseccion(elemento)) {
+			(*it)->setHayCambios(true);
+		}
 	}
 	this->hayCambios = true;
 }
