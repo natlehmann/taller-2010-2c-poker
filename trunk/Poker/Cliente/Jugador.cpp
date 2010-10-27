@@ -6,6 +6,7 @@
 #include "ImagenRecortada.h"
 #include "RecursosAplicacion.h"
 #include "UtilTiposDatos.h"
+#include "Ventana.h"
 
 Jugador::Jugador(void) {
 	this->imagen = NULL;
@@ -18,6 +19,7 @@ Jugador::Jugador(void) {
 	this->etiquetaFichas = NULL;
 	this->apuesta = NULL;
 	this->fichas = 0;
+	this->estado = JUGADOR_ACTIVO;
 }
 
 Jugador::~Jugador(void) {
@@ -59,7 +61,7 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->carta2 != NULL) {
 		this->carta2->dibujar(superficie);
-	}
+	} 
 
 	if (this->apuesta != NULL) {
 		this->apuesta->dibujar(superficie);
@@ -67,12 +69,11 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->etiquetaNombre != NULL) {
 		this->etiquetaNombre->dibujar(superficie);
-	}
+	} 
 
 	if (this->etiquetaFichas != NULL) {
 		this->etiquetaFichas->dibujar(superficie);
-	}
-
+	} 
 }
 
 void Jugador::dibujarJugador(SDL_Surface* superficie) {
@@ -359,6 +360,7 @@ void Jugador::setImagen(string nombreImagen) {
 void Jugador::setCarta1(Carta* carta){
 	if (this->carta1 == NULL) {
 		this->carta1 = carta;
+		this->carta1->setVentana(this->getVentana());
 	}
 	this->hayCambios = this->hayCambios || carta->getHayCambios();
 }
@@ -369,6 +371,7 @@ void Jugador::setCarta1(Carta* carta){
 void Jugador::setCarta2(Carta* carta){
 	if (this->carta2 == NULL) {
 		this->carta2 = carta;
+		this->carta2->setVentana(this->getVentana());
 	}
 	this->hayCambios = this->hayCambios || carta->getHayCambios();
 }
@@ -445,4 +448,68 @@ ElementoGrafico* Jugador::getElementoPorId(string id){
 	}
 
 	return NULL;
+}
+
+int Jugador::getEstado(){
+	return this->estado;
+}
+
+void Jugador::setEstado(int estado){
+	if (this->estado != estado) {
+		this->estado = estado;
+
+		if (estado == JUGADOR_AUSENTE) {
+			this->setImagen(RecursosAplicacion::getClienteConfigProperties()->get(
+				"cliente.tema.default.jugador.ausente.imagen"));
+
+			if (this->etiquetaNombre != NULL) {
+				this->etiquetaNombre->borrar();
+			}
+
+			if (this->etiquetaFichas != NULL) {
+				this->etiquetaFichas->borrar();
+			}
+			
+		}
+
+		if (estado == JUGADOR_AUSENTE || estado == JUGADOR_INACTIVO) {
+
+			if (this->apuesta != NULL) {
+				this->apuesta->borrar();
+			}
+
+			if (this->carta1 != NULL) {
+				this->carta1->borrar();
+			}
+
+			if (this->carta2 != NULL) {
+				this->carta2->borrar();
+			}
+		}
+
+		if (estado == JUGADOR_ACTIVO) {
+
+			if (this->etiquetaNombre != NULL) {
+				this->etiquetaNombre->setVisible(true);
+			}
+
+			if (this->etiquetaFichas != NULL) {
+				this->etiquetaFichas->setVisible(true);
+			}
+
+			if (this->apuesta != NULL) {
+				this->apuesta->setVisible(true);
+			}
+
+			if (this->carta1 != NULL) {
+				this->carta1->setVisible(true);
+			}
+
+			if (this->carta2 != NULL) {
+				this->carta2->setVisible(true);
+			}
+		}
+
+		this->hayCambios = true;
+	}
 }

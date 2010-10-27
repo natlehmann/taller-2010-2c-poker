@@ -44,43 +44,23 @@ void CartasComunitarias::dibujarSobreSup(SDL_Surface* superficie)
 {
 	this->setearPosicionCartas();
 	if (this->carta1 != NULL){
-		if (this->carta1->getVisible()) {
-			this->carta1->dibujar(superficie);
-		} else {
-			this->getVentana()->borrarElemento(this->carta1);
-		}
+		this->carta1->dibujar(superficie);
 	}
 
 	if (this->carta2 != NULL){
-		if (this->carta2->getVisible()) {
-			this->carta2->dibujar(superficie);
-		} else {
-			this->getVentana()->borrarElemento(this->carta2);
-		}
+		this->carta2->dibujar(superficie);
 	}
 
 	if (this->carta3 != NULL){
-		if (this->carta3->getVisible()) {
-			this->carta3->dibujar(superficie);
-		} else {
-			this->getVentana()->borrarElemento(this->carta3);
-		}
+		this->carta3->dibujar(superficie);
 	}
 
 	if (this->carta4 != NULL){
-		if (this->carta4->getVisible()) {
-			this->carta4->dibujar(superficie);
-		} else {
-			this->getVentana()->borrarElemento(this->carta4);
-		}
+		this->carta4->dibujar(superficie);
 	}
 
 	if (this->carta5 != NULL){
-		if (this->carta5->getVisible()) {
-			this->carta5->dibujar(superficie);
-		} else {
-			this->getVentana()->borrarElemento(this->carta5);
-		}
+		this->carta5->dibujar(superficie);
 	}
 }
 
@@ -96,30 +76,35 @@ void CartasComunitarias::setCarta(Carta* carta)
 			case 1:	
 				if (this->carta1 == NULL) {
 					this->carta1 = carta;
+					this->carta1->setVentana(this->getVentana());
 				}
 				break;
 
 			case 2:	
 				if (this->carta2 == NULL) {
 					this->carta2 = carta;
+					this->carta2->setVentana(this->getVentana());
 				}
 				break;
 			
 			case 3:	
 				if (this->carta3 == NULL) {
 					this->carta3 = carta;
+					this->carta3->setVentana(this->getVentana());
 				}
 				break;
 			
 			case 4:	
 				if (this->carta4 == NULL) {
 					this->carta4 = carta;
+					this->carta4->setVentana(this->getVentana());
 				}
 				break;
 			
 			case 5:	
 				if (this->carta5 == NULL) {
 					this->carta5 = carta;
+					this->carta5->setVentana(this->getVentana());
 				}
 				break;
 

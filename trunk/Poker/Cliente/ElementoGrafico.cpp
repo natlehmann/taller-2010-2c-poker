@@ -10,10 +10,12 @@ ElementoGrafico::ElementoGrafico(void) {
 	this->posY = 0;
 	this->offset = new SDL_Rect();
 	this->contorno = new SDL_Rect();
+	this->contornoConOffset = new SDL_Rect();
 	this->hayCambios = true;
 	this->id = "";
 	this->posicion = -1;
 	this->ventana = NULL;
+	this->visible = true;
 }
 
 ElementoGrafico::~ElementoGrafico(void){
@@ -23,6 +25,7 @@ ElementoGrafico::~ElementoGrafico(void){
 	}
 	delete (this->offset);
 	delete (this->contorno);
+	delete (this->contornoConOffset);
 }
 
 SDL_Surface* ElementoGrafico::getSuperficie() {
@@ -45,16 +48,72 @@ SDL_Rect* ElementoGrafico::getContornoRect() {
 	return this->contorno;
 }
 
+SDL_Rect* ElementoGrafico::getContornoConOffset() {
+	this->contornoConOffset->x = this->getPosX();
+	this->contornoConOffset->y = this->getPosY();
+	this->contornoConOffset->w = this->getAncho();
+	this->contornoConOffset->h = this->getAlto();
+
+	return this->contornoConOffset;
+}
+
 void ElementoGrafico::dibujar(SDL_Surface* superficie){
 
 	if (this->hayCambios) {
-		if (superficie != NULL) {
-			this->dibujarSobreSup(superficie);
+
+		if (this->visible) {
+
+			if (superficie != NULL) {
+				this->dibujarSobreSup(superficie);
+
+			} else {
+				this->dibujarSobreSup(this->superficie);
+			}
 
 		} else {
-			this->dibujarSobreSup(this->superficie);
+			this->getVentana()->borrarElemento(this);
 		}
+
 		this->hayCambios = false;
+	}
+}
+
+
+void ElementoGrafico::borrar(){
+	this->setVisible(false);
+}
+
+
+bool ElementoGrafico::hayInterseccion(ElementoGrafico* otro){
+	bool hayInterseccion = false;
+
+	SDL_Rect* miPos = this->getContornoConOffset();
+	SDL_Rect* otraPos = otro->getContornoConOffset();
+
+	if ( ( estaEntre(miPos->x, otraPos->x, otraPos->x + otraPos->w) 
+			|| estaEntre(miPos->x + miPos->w, otraPos->x, otraPos->x + otraPos->w) )
+		&& ( estaEntre(miPos->y, otraPos->y, otraPos->y + otraPos->h) 
+			|| estaEntre(miPos->y + miPos->h, otraPos->y, otraPos->y + otraPos->h) )
+		) {
+			hayInterseccion = true;
+		}
+
+	return hayInterseccion;
+}
+
+bool ElementoGrafico::estaEntre(int numero, int limiteUno, int limiteDos) {
+	return (limiteUno != limiteDos) && (numero >= limiteUno && numero <= limiteDos);
+}
+
+
+bool ElementoGrafico::getVisible() {
+	return this->visible;
+}
+
+void ElementoGrafico::setVisible(bool visible) {
+	if (this->visible != visible) {
+		this->visible = visible;
+		this->hayCambios = true;
 	}
 }
 

@@ -12,6 +12,9 @@ using namespace std;
 class Ventana;
 
 class ElementoGrafico {
+private:
+	bool estaEntre(int numero, int limiteUno, int limiteDos) ;
+
 protected:
 	int posX;
 	int posY;
@@ -21,10 +24,12 @@ protected:
 
 	string id;
 	int posicion;
+	bool visible;
 
 	SDL_Surface* superficie;
 	SDL_Rect* offset;
 	SDL_Rect* contorno;
+	SDL_Rect* contornoConOffset;
 
 	Ventana* ventana;
 
@@ -57,12 +62,26 @@ public:
 	*/
 	virtual SDL_Rect* getContornoRect();
 
+	/**
+	* Representa la posicion de la esquina superior izquierda de este elemento grafico
+	* con respecto a la ventana y los valores de ancho (w) y alto (h) de este elemento.
+	*/
+	virtual SDL_Rect* getContornoConOffset();
+
 	void setHayCambios(bool hayCambios);
 	bool getHayCambios();
 
-	int getPosX();
+	/**
+	* Realizar las acciones necesarias para que en el proximo redibujo de la ventana
+	* este elemento desaparezca.
+	*/
+	virtual void borrar();
+
+	bool hayInterseccion(ElementoGrafico* otro);
+
+	virtual int getPosX();
 	virtual void setPosX(int posX);
-	int getPosY();
+	virtual int getPosY();
 	virtual void setPosY(int posY);
 	virtual int getAncho();
 	virtual void setAncho(int ancho);
@@ -74,6 +93,9 @@ public:
 
 	int getPosicion();
 	void setPosicion(int posicion);
+
+	virtual bool getVisible();
+	virtual void setVisible(bool visible);
 
 	Ventana* getVentana();
 	void setVentana(Ventana* ventana);

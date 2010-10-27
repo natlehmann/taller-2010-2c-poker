@@ -15,7 +15,7 @@ class Carta : public ElementoGrafico {
 	private:
 		string numero;
 		string palo;
-		bool visible;
+		bool mostrandoReverso;
 
 		Imagen* imagen;
 
@@ -27,12 +27,13 @@ class Carta : public ElementoGrafico {
 
 		virtual void dibujarSobreSup(SDL_Surface* superficie);
 
+		bool isMostrandoReverso();
+		void setMostrandoReverso(bool mostrandoReverso);
+
 		string getNumero();
 		void setNumero(string numero);
 		string getPalo();
 		void setPalo(string palo);
-		bool getVisible();
-		void setVisible(bool visible);
 
 		virtual bool equals(ElementoGrafico* otro);
 
