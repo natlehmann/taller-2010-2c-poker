@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Elemento.h"
+#include "DomTree.h"
 
 
 using namespace std;
@@ -12,10 +13,13 @@ class EstadoJuego
 protected:
 	EstadoJuego(void);
 
-	Elemento* crearElementoEscenario();
-	void agregarMesa(Elemento* elementoEscenario);
-	void agregarBote(Elemento* elementoEscenario);
-	void agregarMensaje(Elemento* elementoEscenario, string mensaje);
+	DomTree* crearArbolEscenario();
+	void agregarMesa(DomTree* arbol);
+	void agregarBote(DomTree* arbol);
+	void agregarMensaje(DomTree* arbol, string mensaje);
+	void agregarJugadores(DomTree* arbol, int idJugador);
+
+	string arbolToString(DomTree* arbol);
 
 public:
 	virtual ~EstadoJuego(void);

@@ -6,7 +6,7 @@
 #include "Cliente.h"
 #include "XmlParser.h"
 #include "PokerException.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "Respuesta.h"
 #include "FabricaDeElementosGraficos.h"
 
@@ -49,14 +49,16 @@ bool OpUIClienteAgregarJugador::ejecutar(Ventana* ventana){
 			FabricaDeElementosGraficos::generarEscenario(arbolEscenario, ventana);
 			delete (arbolEscenario);
 
+			UICliente::lanzarThreads(ventana);
+
 		} catch (PokerException& e) {
-			RecursosAplicacion::getLogErroresCliente()->escribir(&(Respuesta)e.getError());
+			RecursosCliente::getLog()->escribir(&(Respuesta)e.getError());
 			ok = false;
 		}
 	}
 	else
 	{
-		RecursosAplicacion::getLogErroresCliente()->escribir("El servidor no devolvio ningun escenario.");
+		RecursosCliente::getLog()->escribir("El servidor no devolvio ningun escenario.");
 		ok = false;
 	}
 

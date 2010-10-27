@@ -1,5 +1,5 @@
 #include "Ventana.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "MensajesUtil.h"
 #include "DatosInvalidosException.h"
 #include "UtilTiposDatos.h"
@@ -20,7 +20,7 @@ Ventana::Ventana(void) {
 	this->id = "";
 	this->posicion = -1;
 
-	string configPantalla = RecursosAplicacion::getClienteConfigProperties()->get(
+	string configPantalla = RecursosCliente::getConfig()->get(
 		"cliente.configuracion.pantalla");
 	list<string> medidas = MensajesUtil::split(configPantalla, "x");
 
@@ -46,7 +46,7 @@ Ventana::Ventana(void) {
 		throw UIException("No se pudo inicializar la ventana de la aplicacion.","E");
 	}
 
-	SDL_WM_SetCaption(RecursosAplicacion::getClienteConfigProperties()->get(
+	SDL_WM_SetCaption(RecursosCliente::getConfig()->get(
 		"cliente.configuracion.mensaje").c_str(), NULL); 
 
 	this->panelComando = NULL;
@@ -162,44 +162,48 @@ void Ventana::iniciar() {
 
 void Ventana::manejarEventos(SDL_Event* event){
 
-	list<ComponentePanel*> componentes = this->getPanelComando()->getComponentes();
+	if (this->getPanelComando() != NULL) {
 
-	for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
-		this->hayCambios = this->hayCambios || (*it)->checkWrite(this->pantalla, event, 1);
-	}
+		list<ComponentePanel*> componentes = this->getPanelComando()->getComponentes();
 
-	switch (event->type){	
-
-		case (SDL_MOUSEMOTION):
-			for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
-				this->hayCambios = this->hayCambios || (*it)->checkOver(this->pantalla);
-			}
-			break;
-
-		case (SDL_MOUSEBUTTONDOWN):
-
-			for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
-				if ((*it)->checkClick(this->pantalla)) {
-
-					this->hayCambios = true;
-
-					// TODO: VER SI ESTO NO DEBERIA LANZARSE EN OTRO HILO 
-					// CONSIDERAR SINCRONIZACION DE VENTANA
-					// VER QUE HACEMOS CON TEXTBOX
-					FabricaOperacionesCliente fab;
-					OperacionUICliente* operacion = fab.newOperacion((*it)->getIdOperacion());
-					operacion->ejecutar(this);
-					delete(operacion);
-				}
-			}
-			break;		
-
-		case (SDL_MOUSEBUTTONUP):
-			for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
-				this->hayCambios = this->hayCambios || (*it)->checkOver(this->pantalla);
-			}
-			break;		
+		for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
+			this->hayCambios = this->hayCambios || (*it)->checkWrite(this->pantalla, event, 1);
 		}
+
+		switch (event->type){	
+
+			case (SDL_MOUSEMOTION):
+				for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
+					this->hayCambios = this->hayCambios || (*it)->checkOver(this->pantalla);
+				}
+				break;
+
+			case (SDL_MOUSEBUTTONDOWN):
+
+				for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
+					if ((*it)->checkClick(this->pantalla)) {
+
+						this->hayCambios = true;
+
+						// TODO: VER SI ESTO NO DEBERIA LANZARSE EN OTRO HILO 
+						// CONSIDERAR SINCRONIZACION DE VENTANA
+						// VER QUE HACEMOS CON TEXTBOX
+						FabricaOperacionesCliente fab;
+						OperacionUICliente* operacion = fab.newOperacion((*it)->getIdOperacion());
+						operacion->ejecutar(this);
+						delete(operacion);
+					}
+				}
+				break;		
+
+			case (SDL_MOUSEBUTTONUP):
+				for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
+					this->hayCambios = this->hayCambios || (*it)->checkOver(this->pantalla);
+				}
+				break;		
+			}
+
+	}
 }
 
 void Ventana::dibujarSobreSup(SDL_Surface* superficie){

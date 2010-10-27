@@ -1,5 +1,5 @@
 #include "Apuesta.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 
 Apuesta::Apuesta(string cantidad) {
 	this->imagen = NULL;
@@ -20,7 +20,7 @@ void Apuesta::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->imagen == NULL) {
 		this->imagen = new Imagen(
-			RecursosAplicacion::getClienteConfigProperties()->get(
+			RecursosCliente::getConfig()->get(
 			"cliente.tema.default.imagen.apuesta"));
 	}
 

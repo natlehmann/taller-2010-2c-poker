@@ -20,12 +20,14 @@ EstadoJuego* EstadoEsperandoJugadores::getSiguienteEstado(){
 }
 
 string EstadoEsperandoJugadores::getEscenarioJuego(int idJugador){
-	Elemento* elemEscenario = EstadoJuego::crearElementoEscenario();
-	EstadoJuego::agregarMesa(elemEscenario);
-	EstadoJuego::agregarBote(elemEscenario);
+	DomTree* arbol = EstadoJuego::crearArbolEscenario();
+	EstadoJuego::agregarMesa(arbol);
+	EstadoJuego::agregarBote(arbol);
 
 	// TODO: Ver si se manda el mensaje al archivo de configuracion
-	EstadoJuego::agregarMensaje(elemEscenario, "Esperando que se sumen jugadores para iniciar el juego ...");
+	EstadoJuego::agregarMensaje(arbol, "Esperando que se sumen jugadores ...");
 
-	return "";
+	EstadoJuego::agregarJugadores(arbol, idJugador);
+
+	return EstadoJuego::arbolToString(arbol);
 }

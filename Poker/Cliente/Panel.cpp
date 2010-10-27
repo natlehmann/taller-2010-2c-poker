@@ -1,14 +1,14 @@
 #include "Panel.h"
 #include "ServiciosGraficos.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "PokerException.h"
 #include "MensajesUtil.h"
 
 Panel::Panel(void)
 {
 	//setamos el fondo del menu de operaciones
-	this->borde = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.menu.borde"));
-	this->fondo = new Color(RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.menu.fondo"));
+	this->borde = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.borde"));
+	this->fondo = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.fondo"));
 
 	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
 		this->componentes[i] = NULL;

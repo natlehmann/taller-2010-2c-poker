@@ -4,7 +4,6 @@
 #include "ElementoGrafico.h"
 #include "Etiqueta.h"
 #include "ServiciosGraficos.h"
-#include "RecursosAplicacion.h"
 
 class Mensaje : public ElementoGrafico
 {

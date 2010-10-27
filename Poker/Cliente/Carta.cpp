@@ -1,6 +1,6 @@
 #include "Carta.h"
 #include "ServiciosGraficos.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "MensajesUtil.h"
 #include "UIException.h"
 #include "Ventana.h"
@@ -30,7 +30,7 @@ void Carta::dibujarSobreSup(SDL_Surface* superficie){
 		this->imagen = NULL;
 	}
 
-	string subDir = RecursosAplicacion::getClienteConfigProperties()->get(
+	string subDir = RecursosCliente::getConfig()->get(
 		"cliente.configuracion.imagenes.cartas.dir");
 
 	string nombreImagen;

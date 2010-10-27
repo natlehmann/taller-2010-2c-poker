@@ -14,6 +14,7 @@ private:
 	string palo;
 	bool visible;
 	int posicion;
+	string id;
 
 public:
 	CartaModelo(string numero = "", string palo = "");
@@ -30,6 +31,7 @@ public:
 
 	string getIdPalo();
 	int getValorNumerico();
+	string getId();
 
 };
 

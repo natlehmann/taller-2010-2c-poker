@@ -5,7 +5,7 @@
 #include "Imagen.h"
 #include "Etiqueta.h"
 #include "ServiciosGraficos.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 
 #define BOTE_ALTO_ETIQUETA 0.18
 #define RELACION_ANCHO 0.8

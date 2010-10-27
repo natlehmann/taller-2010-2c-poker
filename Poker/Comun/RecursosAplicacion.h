@@ -18,21 +18,11 @@ class RecursosAplicacion
 private:
 	RecursosAplicacion(void);
 	static Properties parserConfigProperties;
-	static Properties clienteConfigProperties;
-	static Properties servidorConfigProperties;
-
-	static Log logErroresCliente;
-	static Log logErroresServidor;
 
 public:
 	~RecursosAplicacion(void);
 
 	static Properties* getParserConfigProperties();
-	static Properties* getClienteConfigProperties();
-	static Properties* getServidorConfigProperties();
-
-	static Log* getLogErroresCliente();
-	static Log* getLogErroresServidor();
 };
 
 #endif

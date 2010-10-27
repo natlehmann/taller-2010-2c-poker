@@ -1,5 +1,7 @@
 #include "Bote.h"
+#include "RecursosCliente.h"
 #include <sstream>
+
 Bote::Bote(void)
 {
 	int anchoSeccion = ServiciosGraficos::getTamanioCeldaHoriz();
@@ -30,7 +32,7 @@ void Bote::dibujarSobreSup(SDL_Surface* superficie)
 {
 	if (this->imagen == NULL) {
 		this->imagen = new Imagen(
-			RecursosAplicacion::getClienteConfigProperties()->get(
+			RecursosCliente::getConfig()->get(
 			"cliente.tema.default.bote.imagen"));
 	}
 
@@ -54,7 +56,7 @@ void Bote::dibujarSobreSup(SDL_Surface* superficie)
 	this->etiqueta->setAlto(altoEtiqueta);
 
 	std::stringstream mensaje;
-	mensaje << RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.bote.texto") 
+	mensaje << RecursosCliente::getConfig()->get("cliente.tema.default.bote.texto") 
 		<< "  " << this->getTotal();
 	this->etiqueta->setMensaje(mensaje.str());
 

@@ -1,28 +1,28 @@
 #include "TextBox.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "MensajesUtil.h"
 #include "ServiciosGraficos.h"
 
 TextBox::TextBox(string mensaje) : ComponentePanel(mensaje) {
 
-	this->fondoFoco = new Color(RecursosAplicacion::getClienteConfigProperties()->get(
+	this->fondoFoco = new Color(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.textbox.fondofoco"));
 
-	this->fondoNotFoco = new Color(RecursosAplicacion::getClienteConfigProperties()->get(
+	this->fondoNotFoco = new Color(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.textbox.fondonotfoco"));
 
-	this->borde = new Color(RecursosAplicacion::getClienteConfigProperties()->get(
+	this->borde = new Color(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.textbox.borde"));
 
-	this->colorFuente = RecursosAplicacion::getClienteConfigProperties()->get(
+	this->colorFuente = RecursosCliente::getConfig()->get(
 			"cliente.tema.default.textbox.fuente.color");
 
 	this->tamanioFuenteMax = UtilTiposDatos::getEntero(
-			RecursosAplicacion::getClienteConfigProperties()->get(
+			RecursosCliente::getConfig()->get(
 				"cliente.tema.default.textbox.fuente.tamanio.maximo"));
 
-	this->estiloFuente = RecursosAplicacion::getClienteConfigProperties()->get(
-			"cliente.configuracion.fuentes") + RecursosAplicacion::getClienteConfigProperties()->get(
+	this->estiloFuente = RecursosCliente::getConfig()->get(
+			"cliente.configuracion.fuentes") + RecursosCliente::getConfig()->get(
 						"cliente.tema.default.textbox.fuente.estilo") + ".ttf";
 
 	this->setearFuente();

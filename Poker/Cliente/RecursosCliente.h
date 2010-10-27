@@ -1,5 +1,5 @@
-#ifndef _RECURSOSAPLICACIONCLIENTE_H__
-#define _RECURSOSAPLICACIONCLIENTE_H__
+#ifndef _RECURSOSCLIENTE_H__
+#define _RECURSOSCLIENTE_H__
 
 #define _CRT_SECURE_NO_DEPRECATE 1
 
@@ -13,21 +13,20 @@
 
 using namespace std;
 
-class RecursosAplicacionCliente
+class RecursosCliente
 {
 private:
-	RecursosAplicacionCliente(void);
-
-	static Properties parserConfig;
 	static Properties config;
 	static Log log;
 
-public:
-	~RecursosAplicacionCliente(void);
+	RecursosCliente(void);
 
-	static Properties* getParserConfig();
+public:
+	virtual ~RecursosCliente(void);
+
 	static Properties* getConfig();
 	static Log* getLog();
 };
 
-#endif //_RECURSOSAPLICACIONCLIENTE_H__
+#endif //_RECURSOSCLIENTE_H__
+

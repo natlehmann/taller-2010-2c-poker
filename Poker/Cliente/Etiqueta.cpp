@@ -1,12 +1,12 @@
 #include "Etiqueta.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "MensajesUtil.h"
 #include "ServiciosGraficos.h"
 #include "Ventana.h"
 
 Etiqueta::Etiqueta(void) {
 	this->fondo = new Color(
-		RecursosAplicacion::getClienteConfigProperties()->get(
+		RecursosCliente::getConfig()->get(
 		"cliente.tema.default.etiquetas.fondo"));
 	this->alineacionHorizontal = ALINEACION_HORIZ_IZQUIERDA;
 	this->alineacionVertical = ALINEACION_VERT_CENTRO;
@@ -17,7 +17,7 @@ Etiqueta::Etiqueta(void) {
 
 Etiqueta::Etiqueta(string mensaje){
 	this->fondo = new Color(
-		RecursosAplicacion::getClienteConfigProperties()->get(
+		RecursosCliente::getConfig()->get(
 		"cliente.tema.default.etiquetas.fondo"));
 	this->mensaje = mensaje;
 	this->alineacionHorizontal = ALINEACION_HORIZ_IZQUIERDA;
@@ -41,12 +41,12 @@ Etiqueta::~Etiqueta(void) {
 
 void Etiqueta::setearFuente() {
 
-	string color = RecursosAplicacion::getClienteConfigProperties()->get(
+	string color = RecursosCliente::getConfig()->get(
 		"cliente.tema.default.etiquetas.fuente.color");
 	
 	int anchoPantalla = ServiciosGraficos::getAnchoVentana();
 
-	int tamanioMax = UtilTiposDatos::getEntero(RecursosAplicacion::getClienteConfigProperties()->get(
+	int tamanioMax = UtilTiposDatos::getEntero(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.etiquetas.fuente.tamanio.maximo"));
 
 	int tamanio = tamanioMax;
@@ -54,8 +54,8 @@ void Etiqueta::setearFuente() {
 		tamanio = (int)(anchoPantalla * tamanioMax / MAXIMO_ANCHO_PANTALLA_PROP_TXT);
 	}
 	
-	string estilo = RecursosAplicacion::getClienteConfigProperties()->get("cliente.configuracion.fuentes") +
-					RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.fuente.estilo") + ".ttf";
+	string estilo = RecursosCliente::getConfig()->get("cliente.configuracion.fuentes") +
+					RecursosCliente::getConfig()->get("cliente.tema.default.etiquetas.fuente.estilo") + ".ttf";
 	
 	this->fuente = new Fuente(color, tamanio, estilo);
 }

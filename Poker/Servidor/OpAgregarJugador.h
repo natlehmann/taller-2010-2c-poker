@@ -8,7 +8,7 @@ using namespace std;
 class OpAgregarJugador : public Operacion
 {
 public:
-	OpAgregarJugador(vector<string> parametros);
+	OpAgregarJugador(int idCliente, vector<string> parametros);
 	virtual ~OpAgregarJugador(void);
 
 	bool ejecutar(Socket* socket);

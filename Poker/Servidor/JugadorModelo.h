@@ -20,9 +20,12 @@ private:
 	CartaModelo* carta2;
 	int apuesta;
 	bool activo;
+	bool ausente;
 	bool jugandoRonda;
 
 public:
+
+	JugadorModelo(int id, int posicion);
 	JugadorModelo(int id, string nombre, int fichas, int posicion, string nombreImagen = NOMBRE_IMAGEN);
 	virtual ~JugadorModelo(void);
 
@@ -52,6 +55,9 @@ public:
 
 	bool isActivo();
 	void setActivo(bool activo);
+
+	bool isAusente();
+	void setAusente(bool ausente);
 
 	bool isJugandoRonda();
 	void setJugandoRonda(bool jugandoRonda);
