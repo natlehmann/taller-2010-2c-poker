@@ -283,10 +283,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\JugadorAusente.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Comun\Log.cpp"
 				>
 			</File>
@@ -570,10 +566,6 @@
 			</File>
 			<File
 				RelativePath=".\Jugador.h"
-				>
-			</File>
-			<File
-				RelativePath=".\JugadorAusente.h"
 				>
 			</File>
 			<File

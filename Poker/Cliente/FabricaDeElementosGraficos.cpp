@@ -1,7 +1,6 @@
 #include "FabricaDeElementosGraficos.h"
 #include "Apuesta.h"
 #include "ParserException.h"
-#include "JugadorAusente.h"
 #include "Respuesta.h"
 #include "Panel.h"
 #include "TextBox.h"
@@ -83,16 +82,6 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 									"No puede haber mas de un jugador ocupando la misma posicion.","V");
 							}
 							posiciones[jugador->getPosicion() - 1] = true;
-						}
-
-						//se completan las posiciones vacias
-						// TODO: REEMPLAZAR ESTO: QUE VENGA EN EL ESCENARIO
-						for (int i = 0; i < 6; i++){
-							if (!posiciones[i]) {
-								JugadorAusente* jugadorAusente = new JugadorAusente();
-								jugadorAusente->setPosicion(i + 1);
-								ventana->agregarElementoGrafico(jugadorAusente);
-							}
 						}
 
 					}
@@ -240,6 +229,7 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 	// Se setean los atributos del JUGADOR
 	jugador->setId(idJugador);
 	jugador->setNombre((*itJugador)->getAtributo("nombre"));
+
 	
 	// Se agregan las propiedades del JUGADOR
 	for(list<Elemento*>::iterator itElemento = (*itJugador)->getHijos()->begin(); 
@@ -284,6 +274,21 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 		}
 	}
 
+	//estado del jugador: esto debe venir despues de setear los componentes asociados al jugador
+	string estado = (*itJugador)->getAtributo("estado");
+	if (!MensajesUtil::esVacio(estado)){
+
+		if (MensajesUtil::sonIguales(estado, "activo")){
+			jugador->setEstado(JUGADOR_ACTIVO);
+		}
+		else if (MensajesUtil::sonIguales(estado, "inactivo")){
+			jugador->setEstado(JUGADOR_INACTIVO);
+		}
+		else if (MensajesUtil::sonIguales(estado, "ausente")){
+			jugador->setEstado(JUGADOR_AUSENTE);
+		}
+	}
+
 	// La posicion se debe setear luego de cargar la imagen del jugador
 	int posicion = UtilTiposDatos::getEntero((*itJugador)->getAtributo("posicion"));
 	if (posicion < 1 || posicion > 6) {
@@ -311,10 +316,18 @@ Carta* FabricaDeElementosGraficos::generarCarta(list<Elemento*>::iterator itCart
 	carta->setPalo((*itCarta)->getAtributo("palo"));
 	carta->setPosicion(UtilTiposDatos::getEntero((*itCarta)->getAtributo("posicion")));
 	
-	if (MensajesUtil::sonIguales("true", (*itCarta)->getAtributo("visible"))){
-		carta->setVisible(true);
+	if (!MensajesUtil::esVacio((*itCarta)->getAtributo("visible"))) {
+		if (MensajesUtil::sonIguales("true", (*itCarta)->getAtributo("visible"))){
+			carta->setVisible(true);
+		} else {
+			carta->setVisible(false);
+		}
+	}
+
+	if (MensajesUtil::sonIguales("true", (*itCarta)->getAtributo("reverso"))){
+		carta->setMostrandoReverso(true);
 	} else {
-		carta->setVisible(false);
+		carta->setMostrandoReverso(false);
 	}
 	
 	 return carta;

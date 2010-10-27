@@ -62,9 +62,7 @@ void Etiqueta::setearFuente() {
 
 void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){ 
 
-	SDL_Rect* offset = this->getOffsetRect();
-	offset->w = this->getAncho();
-	offset->h = this->getAlto();
+	SDL_Rect* offset = this->getContornoConOffset();
 
 	if (this->fondo != NULL) {
 		SDL_FillRect(superficie, offset, this->fondo->toUint32(superficie));
@@ -85,7 +83,9 @@ void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){
 	SDL_BlitSurface(superficieTexto, NULL, superficie, offset);
 
 	SDL_FreeSurface(superficieTexto);
+
 }
+
 
 void Etiqueta::ajustarOffset(SDL_Rect* offset, SDL_Surface* superficie) {
 

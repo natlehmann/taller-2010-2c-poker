@@ -20,11 +20,16 @@
 #define ALTO_MAXIMO_ETIQUETA 20
 #define ANCHO_CARTA_PROPORCIONAL  0.65
 #define ALTO_CARTA_PROPORCIONAL  0.85
+#define JUGADOR_AUSENTE		0
+#define JUGADOR_ACTIVO		1
+#define JUGADOR_INACTIVO	2
+
 
 class Jugador : public ElementoGrafico {
 private:
 	string nombre;
 	int fichas;
+	int estado;
 	Carta* carta1;
 	Carta* carta2;
 	Apuesta* apuesta;
@@ -69,6 +74,9 @@ public:
 
 	void setFichas(int cantidad);
 	int getFichas();
+
+	int getEstado();
+	void setEstado(int estado);
 
 	ElementoGrafico* getElementoPorId(string id);
 };

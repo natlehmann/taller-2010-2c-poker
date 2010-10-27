@@ -3,6 +3,7 @@
 #include "RecursosAplicacion.h"
 #include "MensajesUtil.h"
 #include "UIException.h"
+#include "Ventana.h"
 #include <typeinfo.h>
 
 
@@ -12,7 +13,6 @@ Carta::Carta(void)
 	this->imagen = NULL;
 	this->numero = "";
 	this->palo = "";
-	this->visible = false;
 	this->posicion = 0;
 }
 
@@ -27,6 +27,7 @@ void Carta::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->imagen != NULL) {
 		delete (this->imagen);
+		this->imagen = NULL;
 	}
 
 	string subDir = RecursosAplicacion::getClienteConfigProperties()->get(
@@ -34,7 +35,7 @@ void Carta::dibujarSobreSup(SDL_Surface* superficie){
 
 	string nombreImagen;
 
-	if (this->getVisible()) {
+	if (!this->isMostrandoReverso()) {
 		nombreImagen = subDir + this->getNumero() + this->getIdPalo() + ".bmp";
 
 	} else {
@@ -48,6 +49,7 @@ void Carta::dibujarSobreSup(SDL_Surface* superficie){
 	this->imagen->setAncho(this->getAncho());
 
 	this->imagen->dibujar(superficie);
+
 }
 
 string Carta::getIdPalo(){
@@ -103,19 +105,15 @@ void Carta::setPalo(string palo)
 	}
 }
 
-bool Carta::getVisible() 
-{
-	return this->visible;
+bool Carta::isMostrandoReverso(){
+	return this->mostrandoReverso;
 }
-
-void Carta::setVisible(bool visible) 
-{
-	if (this->visible != visible) {
-		this->visible = visible;
+void Carta::setMostrandoReverso(bool mostrandoReverso){
+	if (this->mostrandoReverso != mostrandoReverso) {
+		this->mostrandoReverso = mostrandoReverso;
 		this->hayCambios = true;
 	}
 }
-
 
 bool Carta::equals(ElementoGrafico* otro){
 
