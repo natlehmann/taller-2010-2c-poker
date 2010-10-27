@@ -3,54 +3,62 @@
 	
 	<jugadores>
 
-		
-		<jugador id="2" posicion="2" nombre="jugadorDos">
-			<imagen nombre="jugador2.bmp"/>
+		<jugador id="11" posicion="1" estado="ausente" nombre="jugadorUno">
 			<fichas>3</fichas>
-			<apuesta>198989</apuesta>
+			<apuesta>55</apuesta>
 			<cartas>
-				<carta numero="2" palo="Trebol" visible="true" posicion="0" id="7t"/> 
-				<carta numero="2" palo="Diamante" visible="true" posicion="0" id="5d"/> 
+				<carta numero="2" palo="Trebol" posicion="0" reverso="false" id="xa"/> 
+				<carta numero="2" palo="Diamante" posicion="0" reverso="false" id="xb"/> 
 			</cartas>
 		</jugador>
 		
-		<jugador id="3" posicion="3" nombre="jugadorTres">
+		<jugador id="2" posicion="2" nombre="jugadorDos" estado="activo">
+			<imagen nombre="jugador2.bmp"/>
+			<fichas>3</fichas>
+			<apuesta>19898</apuesta>
+			<cartas>
+				<carta numero="2" palo="Trebol" posicion="0" reverso="false" id="7t"/> 
+				<carta numero="2" palo="Diamante" posicion="0" reverso="false" id="5d"/> 
+			</cartas>
+		</jugador>
+		
+		<jugador id="3" posicion="3" nombre="jugadorTres" estado="inactivo">
 			<imagen nombre="jugador3.bmp"/>
 			<fichas>540</fichas>
 			<apuesta>100</apuesta>
 			<cartas>
-				<carta numero="3" palo="Trebol" visible="true" posicion="0" id="kt"/> 
-				<carta numero="4" palo="Diamante" visible="true" posicion="0" id="ad"/> 
+				<carta numero="3" palo="Trebol" posicion="0" reverso="true" id="kt"/> 
+				<carta numero="4" palo="Diamante" posicion="0" reverso="true" id="ad"/> 
 			</cartas>
 		</jugador>	
 		
-		<jugador id="4" posicion="4" nombre="jugadorCuatro">
+		<jugador id="4" posicion="4" nombre="jugadorCuatro" estado="activo">
 			<imagen nombre="jugador4.bmp"/>
 			<fichas>540</fichas>
 			<apuesta>100</apuesta>
 			<cartas>
-				<carta numero="6" palo="Trebol" visible="true" posicion="0" id="6t"/> 
-				<carta numero="A" palo="Pica" visible="true" posicion="0" id="ap"/> 
+				<carta numero="6" palo="Trebol" posicion="0" reverso="false" id="6t"/> 
+				<carta numero="A" palo="Pica" posicion="0" reverso="false" id="ap"/> 
 			</cartas>
 		</jugador>
 		
-		<jugador id="5" posicion="5" nombre="jugador55">
+		<jugador id="5" posicion="5" nombre="jugador55" estado="activo">
 			<imagen nombre="jugador5.bmp"/>
 			<fichas>54</fichas>
 			<apuesta>1</apuesta>
 			<cartas>
-				<carta numero="k" palo="Corazon" visible="true" posicion="0" id="ac"/> 
-				<carta numero="k" palo="Pica" visible="true" posicion="0" id="5p"/> 
+				<carta numero="k" palo="Corazon" posicion="0" reverso="false" id="ac"/> 
+				<carta numero="k" palo="Pica" posicion="0" reverso="false" id="5p"/> 
 			</cartas>
 		</jugador>
 		
-		<jugador id="6" posicion="6" nombre="jugadorSeis">
+		<jugador id="6" posicion="6" nombre="jugadorSeis" estado="activo">
 			<imagen nombre="jugador6.bmp"/>
 			<fichas>540</fichas>
 			<apuesta>3</apuesta>
 			<cartas>
-				<carta numero="q" palo="Trebol" visible="false" posicion="0" id="qt"/> 
-				<carta numero="j" palo="Corazon" visible="false" posicion="0" id="jc"/> 
+				<carta numero="q" palo="Trebol" posicion="0" reverso="false" id="qt"/> 
+				<carta numero="j" palo="Corazon" posicion="0" reverso="false" id="jc"/> 
 			</cartas>
 		</jugador>
 
@@ -60,11 +68,11 @@
 	
 	<cartascomunitarias id="cartasCom">
 			<cartas>
-				<carta numero="9" palo="Diamante" visible="true" posicion="1" id="kd"/> 
-				<carta numero="q" palo="Diamante" visible="true" posicion="2" id="qd"/> 
-				<carta numero="j" palo="Diamante" visible="true" posicion="3" id="jd"/> 
-				<carta numero="10" palo="Diamante" visible="true" posicion="4" id="10d"/> 
-				<carta numero="9" palo="Diamante" visible="true" posicion="5" id="99d"/> 
+				<carta numero="9" palo="Diamante" posicion="1" reverso="false" id="kd"/> 
+				<carta numero="q" palo="Diamante" posicion="2" reverso="true" id="qd"/> 
+				<carta numero="j" palo="Diamante" posicion="3" reverso="false" id="jd"/> 
+				<carta numero="10" palo="Diamante" posicion="4" reverso="false" id="10d"/> 
+				<carta numero="9" palo="Diamante" posicion="5" reverso="false" id="99d"/> 
 			</cartas>
 	</cartascomunitarias>
 	

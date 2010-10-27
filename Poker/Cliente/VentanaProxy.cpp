@@ -50,9 +50,9 @@ void VentanaProxy::limpiar(){
 	this->chequearDesbloquear();
 }
 
-void VentanaProxy::forzarRefresh() {
+void VentanaProxy::forzarRefresh(ElementoGrafico* elemento) {
 	this->chequearBloquear();
-	Ventana::forzarRefresh();
+	Ventana::forzarRefresh(elemento);
 	this->chequearDesbloquear();
 }
 
@@ -115,4 +115,10 @@ void VentanaProxy::dibujar(SDL_Surface* superficie){
 	this->chequearBloquear();
 	Ventana::dibujar(superficie);
 	this->chequearDesbloquear();
+}
+
+void VentanaProxy::dibujarSobreSup(SDL_Surface* superficie){
+	//this->chequearBloquear();
+	Ventana::dibujarSobreSup(superficie);
+	//this->chequearDesbloquear();
 }

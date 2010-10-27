@@ -16,6 +16,7 @@ private:
 
 protected:
 	virtual void dibujar(SDL_Surface* superficie);
+	virtual void dibujarSobreSup(SDL_Surface* superficie);
 
 public:
 	VentanaProxy(void);
@@ -36,7 +37,7 @@ public:
 
 	virtual void borrarElemento(ElementoGrafico* elemento);
 
-	virtual void forzarRefresh();
+	virtual void forzarRefresh(ElementoGrafico* elemento);
 
 
 
