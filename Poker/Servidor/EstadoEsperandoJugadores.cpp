@@ -9,10 +9,14 @@ EstadoEsperandoJugadores::~EstadoEsperandoJugadores(void)
 {
 }
 
+void EstadoEsperandoJugadores::setEstadoRondaCiega(EstadoRondaCiega* rondaCiega){
+	this->estadoRondaCiega = rondaCiega;
+}
+
 EstadoJuego* EstadoEsperandoJugadores::getSiguienteEstado(){
 	if (ContextoJuego::getInstancia()->getCantidadJugadoresActivos() > 1) {
 		ContextoJuego::getInstancia()->iniciarJuego();
-		return &(this->estadoRondaCiega);
+		return this->estadoRondaCiega;
 
 	} else {
 		return this;

@@ -117,7 +117,7 @@ void JugadorModelo::setApuesta(int apuesta)
 
 bool JugadorModelo::isActivo()
 {
-	return this->activo;
+	return !this->ausente && this->activo;
 }
 
 void JugadorModelo::setActivo(bool activo)
@@ -135,7 +135,7 @@ void JugadorModelo::setAusente(bool ausente){
 
 bool JugadorModelo::isJugandoRonda()
 {
-	return this->jugandoRonda;
+	return !this->ausente && this->jugandoRonda;
 }
 
 void JugadorModelo::setJugandoRonda(bool jugandoRonda)

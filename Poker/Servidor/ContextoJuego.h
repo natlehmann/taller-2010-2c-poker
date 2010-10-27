@@ -10,6 +10,12 @@
 #include "CartasComunitariasModelo.h"
 #include "Repartidor.h"
 #include "EstadoJuego.h"
+#include "EstadoEsperandoJugadores.h"
+#include "EstadoRondaCiega.h"
+#include "EstadoRondaFlop.h"
+#include "EstadoRondaTurn.h"
+#include "EstadoRondaRiver.h"
+#include "EstadoEvaluandoGanador.h"
 
 #define MAX_CANTIDAD_JUGADORES	6
 
@@ -30,12 +36,20 @@ private:
 	int idsJugadores[MAX_CANTIDAD_JUGADORES];
 
 	EstadoJuego* estado;
+	EstadoEsperandoJugadores* esperandoJugadores;
+	EstadoRondaCiega* rondaCiega;
+	EstadoRondaFlop* rondaFlop;
+	EstadoRondaTurn* rondaTurn;
+	EstadoRondaRiver* rondaRiver;
+	EstadoEvaluandoGanador* evaluandoGanador;
 
 	int montoAIgualar;
 	int cantidadJugadoresRonda;
 	int posicionJugadorTurno;
 	int posicionJugadorQueAbre;
 	int posicionJugadorQueCierra;
+	bool rondaTerminada;
+	bool mostrandoCartas;
 
 	static ContextoJuego instancia;
 	ContextoJuego(void);
@@ -44,6 +58,7 @@ private:
 	int idClienteToIdJugador(int idCliente);
 	int idJugadorToIdCliente(int idJugador);
 	JugadorModelo* getPrimerJugadorAusente();
+	void chequearRondaTerminada();
 
 public:	
 	virtual ~ContextoJuego(void);
@@ -64,7 +79,8 @@ public:
 	int getCantidadJugadoresActivos();
 	int getCantidadJugadoresJugandoRonda();
 	int getTurnoJugador();
-	bool isTurnoJugador(int idCliente);
+	bool isTurnoJugador(int idJugador);
+	bool isTurnoCliente(int idCliente);
 
 	string getEscenarioJuego(int idCliente);
 
@@ -78,6 +94,10 @@ public:
 	void igualarApuesta(int idCliente);
 	void subirApuesta(int idCliente, int fichas);
 	void noIr(int idCliente);
+
+	bool isRondaTerminada();
+	void setMostrandoCartas(bool mostrandoCartas);
+	bool getMostrandoCartas();
 
 private:
 	void calcularPosicionJugadorTurno();

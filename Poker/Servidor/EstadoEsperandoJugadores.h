@@ -7,11 +7,13 @@
 class EstadoEsperandoJugadores : public EstadoJuego
 {
 private:
-	EstadoRondaCiega estadoRondaCiega;
+	EstadoRondaCiega* estadoRondaCiega;
 
 public:
 	EstadoEsperandoJugadores(void);
 	virtual ~EstadoEsperandoJugadores(void);
+
+	void setEstadoRondaCiega(EstadoRondaCiega* rondaCiega);
 
 	virtual EstadoJuego* getSiguienteEstado();
 

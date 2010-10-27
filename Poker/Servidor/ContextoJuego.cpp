@@ -2,7 +2,6 @@
 #include "PokerException.h"
 #include "Repartidor.h"
 #include "Jugada.h"
-#include "EstadoEsperandoJugadores.h"
 #include "RecursosServidor.h"
 #include "UtilTiposDatos.h"
 
@@ -35,8 +34,21 @@ ContextoJuego::ContextoJuego(void)
 	this->posicionJugadorQueAbre = 0;
 	this->posicionJugadorQueCierra = 0;
 	this->repartidor = new Repartidor();
+	this->rondaTerminada = false;
+	this->mostrandoCartas = false;
 
-	this->estado = new EstadoEsperandoJugadores();
+	this->esperandoJugadores = new EstadoEsperandoJugadores();
+	this->evaluandoGanador = new EstadoEvaluandoGanador();
+	this->rondaRiver = new EstadoRondaRiver(this->evaluandoGanador);
+	this->rondaTurn = new EstadoRondaTurn(this->rondaRiver);
+	this->rondaFlop = new EstadoRondaFlop(this->rondaTurn);
+	this->rondaCiega = new EstadoRondaCiega(this->rondaFlop);	
+
+	this->esperandoJugadores->setEstadoRondaCiega(this->rondaCiega);
+	this->evaluandoGanador->setEstadoRondaCiega(this->rondaCiega);
+	this->evaluandoGanador->setEstadoEsperandoJugadores(this->esperandoJugadores);
+
+	this->estado = this->esperandoJugadores;
 }
 
 ContextoJuego::~ContextoJuego(void)
@@ -66,9 +78,12 @@ ContextoJuego::~ContextoJuego(void)
 	}
 	this->jugadores.clear();
 
-	if (this->estado != NULL) {
-		delete(this->estado);
-	}
+	delete(this->esperandoJugadores);
+	delete(this->rondaCiega);
+	delete(this->rondaFlop);
+	delete (this->rondaTurn);
+	delete (this->rondaRiver);
+	delete (this->evaluandoGanador);
 }
 
 ContextoJuego* ContextoJuego::getInstancia(){
@@ -199,10 +214,14 @@ int ContextoJuego::getTurnoJugador()
 	return 0;
 }
 
-bool ContextoJuego::isTurnoJugador(int idCliente)
-{
-	int idJugador = this->idClienteToIdJugador(idCliente);
+bool ContextoJuego::isTurnoCliente(int idCliente){
 
+	int idJugador = this->idClienteToIdJugador(idCliente);
+	return this->isTurnoJugador(idJugador);
+}
+
+bool ContextoJuego::isTurnoJugador(int idJugador)
+{
 	if (this->posicionJugadorTurno > 0) {
 		//return (this->jugadores.at(this->posicionJugadorTurno - 1)->getId() == idJugador);
 		return (this->posicionJugadorTurno - 1) == idJugador; // los ids de los jugadores son iguales a sus posiciones en el array
@@ -218,6 +237,7 @@ void ContextoJuego::igualarApuesta(int idCliente)
 	jugador->apostar(montoApuesta);
 	this->bote->incrementar(montoApuesta);
 	calcularPosicionJugadorTurno();
+	chequearRondaTerminada();
 }
 
 void ContextoJuego::subirApuesta(int idCliente, int fichas)
@@ -228,6 +248,7 @@ void ContextoJuego::subirApuesta(int idCliente, int fichas)
 	this->montoAIgualar = jugador->getApuesta();
 	this->posicionJugadorQueCierra = jugador->getPosicion();
 	calcularPosicionJugadorTurno();
+	chequearRondaTerminada();
 }
 
 void ContextoJuego::noIr(int idCliente)
@@ -242,6 +263,27 @@ void ContextoJuego::noIr(int idCliente)
 		calcularPosicionJugadorQueAbre();
 	}
 	calcularPosicionJugadorTurno();
+	chequearRondaTerminada();
+}
+
+void ContextoJuego::chequearRondaTerminada() {
+
+	bool terminada = true;
+
+	if (this->cantidadJugadoresRonda > 1) {
+		for (vector<JugadorModelo*>::iterator it = this->jugadores.begin(); it != this->jugadores.end(); it++) {
+
+			if ((*it)->isJugandoRonda() && (*it)->getApuesta() != this->montoAIgualar) {
+				terminada = false;
+			}
+		}
+	}
+
+	this->rondaTerminada = terminada;
+}
+
+bool ContextoJuego::isRondaTerminada(){
+	return this->rondaTerminada;
 }
 
 void ContextoJuego::iniciarJuego()
@@ -295,6 +337,8 @@ void ContextoJuego::iniciarJuego()
 	this->bote->incrementar(mesa->getSmallBlind() * 3);
 	this->montoAIgualar = mesa->getSmallBlind() * 2;
 	this->cantidadJugadoresRonda = cantidadJugadoresActivos;
+	this->rondaTerminada = false;
+	this->mostrandoCartas = false;
 }
 
 void ContextoJuego::mostrarFlop()
@@ -448,7 +492,7 @@ void ContextoJuego::finalizarRonda()
 		jugador->setCarta2(NULL);
 		jugador->setJugandoRonda(false);
 	}
-	this->cartasComunitarias->limpiar();
+	//this->cartasComunitarias->limpiar();
 	this->bote->vaciar();
 	this->montoAIgualar = 0;
 	this->cantidadJugadoresRonda = 0;
@@ -470,4 +514,12 @@ string ContextoJuego::getEscenarioJuego(int idCliente){
 
 vector<JugadorModelo*> ContextoJuego::getJugadores() {
 	return this->jugadores;
+}
+
+void ContextoJuego::setMostrandoCartas(bool mostrandoCartas){
+	this->mostrandoCartas = mostrandoCartas;
+}
+
+bool ContextoJuego::getMostrandoCartas(){
+	return this->mostrandoCartas;
 }
