@@ -19,13 +19,13 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 	Operacion* operacion = NULL;
 
 	if (MensajesUtil::sonIguales(nombreOperacion, "OpEnviarEscenario")) {
-		operacion = new OpEnviarEscenario();
+		operacion = new OpEnviarEscenario(idCliente);
 	}
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpEnviarArchivo")) {
-		operacion = new OpEnviarArchivo(parametros);
+		operacion = new OpEnviarArchivo(idCliente, parametros);
 	}
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpAgregarJugador")) {
-		operacion = new OpAgregarJugador(parametros);
+		operacion = new OpAgregarJugador(idCliente, parametros);
 	}
 
 	// TODO: ACA SE VERIFICARIAN TODAS LAS DEMAS OPERACIONES
@@ -34,8 +34,6 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 		Error error("V","Id de operacion invalido.",nombreOperacion);
 		throw DatosInvalidosException(error);
 	}
-
-	operacion->setIdCliente(idCliente);
 
 	return operacion;
 

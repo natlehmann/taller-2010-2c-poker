@@ -2,6 +2,20 @@
 #include "PokerException.h"
 
 
+JugadorModelo::JugadorModelo(int id, int posicion)
+{
+	this->id = id;
+	this->posicion = posicion;
+	this->carta1 = NULL;
+	this->carta2 = NULL;
+	this->nombre = "";
+	this->apuesta = 0;
+	this->fichas = 0;
+	this->activo = false;
+	this->jugandoRonda = false;
+	this->ausente = true;
+}
+
 JugadorModelo::JugadorModelo(int id, string nombre, int fichas, int posicion, string nombreImagen)
 {
 	this->id = id;
@@ -14,6 +28,7 @@ JugadorModelo::JugadorModelo(int id, string nombre, int fichas, int posicion, st
 	this->apuesta = 0;
 	this->activo = false;
 	this->jugandoRonda = false;
+	this->ausente = false;
 }
 
 JugadorModelo::~JugadorModelo(void)
@@ -108,6 +123,14 @@ bool JugadorModelo::isActivo()
 void JugadorModelo::setActivo(bool activo)
 {
 	this->activo = activo;
+}
+
+bool JugadorModelo::isAusente(){
+	return this->ausente;
+}
+
+void JugadorModelo::setAusente(bool ausente){
+	this->ausente = ausente;
 }
 
 bool JugadorModelo::isJugandoRonda()

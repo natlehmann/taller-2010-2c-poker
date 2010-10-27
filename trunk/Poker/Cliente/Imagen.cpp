@@ -1,6 +1,6 @@
 #include "Imagen.h"
 #include "UIException.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "ServiciosGraficos.h"
 #include "OperacionUICliente.h"
 #include "FabricaOperacionesCliente.h"
@@ -9,7 +9,7 @@
 
 Imagen::Imagen(string nombre) {
 
-	this->nombre = RecursosAplicacion::getClienteConfigProperties()->get(
+	this->nombre = RecursosCliente::getConfig()->get(
 		"cliente.configuracion.imagenes.path") + nombre;
 
 	this->nombreSinPath = nombre;

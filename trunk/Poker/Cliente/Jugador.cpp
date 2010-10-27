@@ -4,7 +4,7 @@
 #include "MensajesUtil.h"
 #include "Color.h"
 #include "ImagenRecortada.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "UtilTiposDatos.h"
 #include "Ventana.h"
 
@@ -91,7 +91,7 @@ void Jugador::dibujarJugador(SDL_Surface* superficie) {
 	// se dibuja el circulo sobre esa superficie
 	SDL_Rect* offset = this->imagen->getContornoRect();
 
-	Color* colorCirculo = new Color(RecursosAplicacion::getClienteConfigProperties()->get(
+	Color* colorCirculo = new Color(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.jugador.color.borde"));
 	ServiciosGraficos::dibujarElipse(
 		supCirculo->getSuperficie(), offset, colorCirculo); 
@@ -130,7 +130,7 @@ void Jugador::setNombre(string nombre){
 			this->etiquetaNombre->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
 			this->etiquetaNombre->setAlineacionVertical(ALINEACION_VERT_CENTRO);
 			this->etiquetaNombre->setBorde(new Color(
-				RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.borde")));
+				RecursosCliente::getConfig()->get("cliente.tema.default.etiquetas.borde")));
 		}
 		this->etiquetaNombre->setMensaje(nombre);
 		this->hayCambios = true;
@@ -333,7 +333,7 @@ SDL_Rect* Jugador::calcularRectFoto(){
 }
 
 Imagen* Jugador::getImagenDefault(){
-	Imagen* imagenDefault = new Imagen(RecursosAplicacion::getClienteConfigProperties()->get(
+	Imagen* imagenDefault = new Imagen(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.jugador.imagen.default"));
 	return imagenDefault;
 }
@@ -427,7 +427,7 @@ void Jugador::setFichas(int cantidad) {
 			this->etiquetaFichas->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
 			this->etiquetaFichas->setAlineacionVertical(ALINEACION_VERT_CENTRO);
 			this->etiquetaFichas->setBorde(new Color(
-				RecursosAplicacion::getClienteConfigProperties()->get("cliente.tema.default.etiquetas.borde")));
+				RecursosCliente::getConfig()->get("cliente.tema.default.etiquetas.borde")));
 		}
 		this->etiquetaFichas->setMensaje(UtilTiposDatos::enteroAString(cantidad));
 		this->hayCambios = true;
@@ -459,7 +459,7 @@ void Jugador::setEstado(int estado){
 		this->estado = estado;
 
 		if (estado == JUGADOR_AUSENTE) {
-			this->setImagen(RecursosAplicacion::getClienteConfigProperties()->get(
+			this->setImagen(RecursosCliente::getConfig()->get(
 				"cliente.tema.default.jugador.ausente.imagen"));
 
 			if (this->etiquetaNombre != NULL) {

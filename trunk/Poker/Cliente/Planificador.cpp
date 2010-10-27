@@ -1,6 +1,6 @@
 #include "Planificador.h"
 #include "Timer.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "FabricaOperacionesCliente.h"
 #include "OperacionUICliente.h"
 
@@ -22,8 +22,8 @@ int Planificador::planificarOperacion(void* data) {
 	Planificador::enEjecucion = true;
 
 	string idOperacion = 
-		RecursosAplicacion::getClienteConfigProperties()->get("cliente.operacion.planificada.nombre");
-	int ms = UtilTiposDatos::getEntero(RecursosAplicacion::getClienteConfigProperties()->get(
+		RecursosCliente::getConfig()->get("cliente.operacion.planificada.nombre");
+	int ms = UtilTiposDatos::getEntero(RecursosCliente::getConfig()->get(
 		"cliente.operacion.planificada.delayms"));
 
 	FabricaOperacionesCliente fab;
@@ -51,7 +51,7 @@ int Planificador::planificarOperacion(void* data) {
 			}
 		
 		} catch (PokerException& e) {
-			RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
+			RecursosCliente::getLog()->escribir(&e.getError());
 			if (operacion != NULL){
 				delete(operacion);
 			}

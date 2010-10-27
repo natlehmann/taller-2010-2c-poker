@@ -14,6 +14,10 @@ CartaModelo::~CartaModelo(void)
 {
 }
 
+string CartaModelo::getId(){
+	return this->getIdPalo() + this->getNumero();
+}
+
 string CartaModelo::getIdPalo(){
 	if (MensajesUtil::sonIguales(this->getPalo(), "Corazon")) {
 		return "c";

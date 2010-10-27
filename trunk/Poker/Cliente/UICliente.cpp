@@ -7,7 +7,7 @@
 #include "DomTree.h"
 #include "GeneradorRespuesta.h"
 #include "UtilTiposDatos.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "UIException.h"
 #include "OperacionUICliente.h"
 #include "FabricaOperacionesCliente.h"
@@ -67,7 +67,7 @@ void UICliente::lanzarThreads(Ventana* ventana){
 		UICliente::threadRefresh = SDL_CreateThread(puntero, ventana);
 
 	} catch (PokerException& e) {
-		RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
+		RecursosCliente::getLog()->escribir(&e.getError());
 		UICliente::mostrarMensaje(
 			"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
 	}
@@ -78,9 +78,9 @@ bool UICliente::conectarServidor()
 {
 	bool conecto = false;
 
-	string ip = RecursosAplicacion::getClienteConfigProperties()->get("cliente.conexion.ip");
+	string ip = RecursosCliente::getConfig()->get("cliente.conexion.ip");
 	int puerto = UtilTiposDatos::getEntero(
-			RecursosAplicacion::getClienteConfigProperties()->get("cliente.conexion.puerto"));
+			RecursosCliente::getConfig()->get("cliente.conexion.puerto"));
 
 	if (puerto > 0)  
 	{
@@ -106,7 +106,7 @@ bool UICliente::conectarServidor()
 		if (UICliente::cliente->estaConectado())
 			UICliente::cliente->finalizarConexion();
 
-		RecursosAplicacion::getLogErroresCliente()->escribir(
+		RecursosCliente::getLog()->escribir(
 			"No se puede establecer la conexion. O bien el servidor esta caido o la IP y puerto de conexion son incorrectos.");
 
 		if (UICliente::cliente != NULL) {

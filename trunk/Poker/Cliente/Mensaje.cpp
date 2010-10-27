@@ -2,6 +2,7 @@
 #include "MensajesUtil.h"
 #include "Color.h"
 #include "Ventana.h"
+#include "RecursosCliente.h"
 
 Mensaje::Mensaje(string mensaje) {
 
@@ -9,9 +10,9 @@ Mensaje::Mensaje(string mensaje) {
 	this->etiqueta->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
 	this->etiqueta->setAlineacionVertical(ALINEACION_VERT_CENTRO);
 
-	this->etiqueta->setFondo(new Color(RecursosAplicacion::getClienteConfigProperties()->get(
+	this->etiqueta->setFondo(new Color(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.mensaje.fondo")));
-	this->etiqueta->setBorde(new Color(RecursosAplicacion::getClienteConfigProperties()->get(
+	this->etiqueta->setBorde(new Color(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.mensaje.borde")));
 
 	this->setPosX(ServiciosGraficos::getBordeDerecho() 

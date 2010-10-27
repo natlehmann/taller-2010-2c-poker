@@ -1,6 +1,6 @@
 #include "SDL.h" 
 #include <vld.h>
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "UICliente.h"
 #include "FabricaOperacionesCliente.h"
 #include "OperacionUICliente.h"
@@ -18,11 +18,11 @@ int main (int argc, char** argv)
 		UICliente::iniciarAplicacion();
 
 		string idOperacionInicial = 
-			RecursosAplicacion::getClienteConfigProperties()->get("cliente.operacion.inicial");
+			RecursosCliente::getConfig()->get("cliente.operacion.inicial");
 		FabricaOperacionesCliente fab;
 		ventana = new VentanaProxy();
 
-		UICliente::lanzarThreads(ventana);
+		//UICliente::lanzarThreads(ventana);
 
 		operacion = fab.newOperacion(idOperacionInicial);
 		if (operacion->ejecutar(ventana)){
@@ -46,7 +46,7 @@ int main (int argc, char** argv)
 
 	} catch (PokerException& e) {
 
-		RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
+		RecursosCliente::getLog()->escribir(&e.getError());
 		UICliente::mostrarMensaje(
 			"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
 		if (operacion != NULL) {

@@ -1,12 +1,12 @@
 #include "OpEnviarArchivo.h"
 #include "Resultado.h"
-#include "RecursosAplicacion.h"
+#include "RecursosServidor.h"
 #include "UtilTiposDatos.h"
 #include "MensajesUtil.h"
 #include <fstream>
 #include <sstream>
 
-OpEnviarArchivo::OpEnviarArchivo(vector<string> parametros){
+OpEnviarArchivo::OpEnviarArchivo(int idCliente, vector<string> parametros) : Operacion(idCliente) {
 	this->parametros = parametros;
 }
 
@@ -18,7 +18,7 @@ bool OpEnviarArchivo::ejecutar(Socket* socket){
 	bool error = false;
 
 	//TODO: Ver el tema del tath de origende los archivos
-	string pathOrigen = RecursosAplicacion::getServidorConfigProperties()->get("servidor.pathImagenes");
+	string pathOrigen = RecursosServidor::getConfig()->get("servidor.pathImagenes");
 	string nombreArchivo = this->parametros.at(0);
 
 	if (socket != NULL)
@@ -57,7 +57,7 @@ bool OpEnviarArchivo::ejecutar(Socket* socket){
 		}
 		else 
 		{
-			RecursosAplicacion::getLogErroresServidor()->escribir(
+			RecursosServidor::getLog()->escribir(
 				"No se puede abrir el archivo " + nombreArchivo + " para lectura.");
 			
 			string mjeError = "-1";

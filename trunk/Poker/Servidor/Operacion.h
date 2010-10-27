@@ -19,7 +19,7 @@ protected:
 	int idCliente;
 
 public:
-	Operacion();
+	Operacion(int idCliente);
 	virtual ~Operacion();
 
     string getId() const

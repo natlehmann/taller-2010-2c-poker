@@ -5,6 +5,7 @@
 #include "Panel.h"
 #include "TextBox.h"
 #include "Mensaje.h"
+#include "RecursosCliente.h"
 #include <typeinfo.h>
 
 
@@ -194,12 +195,12 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 			}
 
 		} catch (PokerException& e) {
-			RecursosAplicacion::getLogErroresCliente()->escribir(&e.getError());
+			RecursosCliente::getLog()->escribir(&e.getError());
 		} catch (exception& e2) {
-			RecursosAplicacion::getLogErroresCliente()->escribir("Error al procesar el archivo escenario.");
-			RecursosAplicacion::getLogErroresCliente()->escribir(e2.what());
+			RecursosCliente::getLog()->escribir("Error al procesar el archivo escenario.");
+			RecursosCliente::getLog()->escribir(e2.what());
 		} catch (...) {
-			RecursosAplicacion::getLogErroresCliente()->escribir("Error al procesar el archivo escenario.");
+			RecursosCliente::getLog()->escribir("Error al procesar el archivo escenario.");
 		}
 
 		ventana->desbloquear();

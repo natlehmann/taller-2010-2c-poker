@@ -6,7 +6,7 @@
 #include "Cliente.h"
 #include "XmlParser.h"
 #include "PokerException.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "Respuesta.h"
 #include "Mesa.h"
 #include "Jugador.h"
@@ -23,7 +23,7 @@ OpUIClienteSolicitarArchivo::~OpUIClienteSolicitarArchivo(void){
 bool OpUIClienteSolicitarArchivo::ejecutar(Ventana* ventana){
 
 	string nombreArchivo = parametros.at(0);
-	string pathDestino = RecursosAplicacion::getClienteConfigProperties()->get("cliente.configuracion.imagenes.path");
+	string pathDestino = RecursosCliente::getConfig()->get("cliente.configuracion.imagenes.path");
 
 	//arma el xml de solicitud de archivo
 	DomTree* tree = new DomTree("operaciones");
@@ -69,13 +69,13 @@ bool OpUIClienteSolicitarArchivo::ejecutar(Ventana* ventana){
 					return true;
 				}
 				else
-					RecursosAplicacion::getLogErroresCliente()->escribir("Error al escribir el archivo " + pathCompleto);
+					RecursosCliente::getLog()->escribir("Error al escribir el archivo " + pathCompleto);
 			}
 			else
-				RecursosAplicacion::getLogErroresCliente()->escribir("Error al recibir el archivo " + nombreArchivo);
+				RecursosCliente::getLog()->escribir("Error al recibir el archivo " + nombreArchivo);
 		}
 		else
-			RecursosAplicacion::getLogErroresCliente()->escribir("El servidor no encuentra el archivo solicitado: " + nombreArchivo);
+			RecursosCliente::getLog()->escribir("El servidor no encuentra el archivo solicitado: " + nombreArchivo);
 	}
 	
 	return false;

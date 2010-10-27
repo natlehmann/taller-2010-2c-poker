@@ -9,6 +9,9 @@
 #include "JugadorModelo.h"
 #include "CartasComunitariasModelo.h"
 #include "Repartidor.h"
+#include "EstadoJuego.h"
+
+#define MAX_CANTIDAD_JUGADORES	6
 
 using namespace std;
 
@@ -22,6 +25,12 @@ private:
 	vector<JugadorModelo*> jugadores;
 	Repartidor* repartidor;
 
+	// vector que se usa para mapear los ids de Cliente con los ids de Jugadores
+	// Los indices del array (de 0 a 5) representan los ids de Jugador
+	int idsJugadores[MAX_CANTIDAD_JUGADORES];
+
+	EstadoJuego* estado;
+
 	int montoAIgualar;
 	int cantidadJugadoresRonda;
 	int posicionJugadorTurno;
@@ -30,6 +39,11 @@ private:
 
 	static ContextoJuego instancia;
 	ContextoJuego(void);
+
+	void agregarJugadorAusente(int idJugador);
+	int idClienteToIdJugador(int idCliente);
+	int idJugadorToIdCliente(int idJugador);
+	JugadorModelo* getPrimerJugadorAusente();
 
 public:	
 	virtual ~ContextoJuego(void);
@@ -40,13 +54,19 @@ public:
 	BoteModelo* getBote();
 	MensajeModelo* getMensaje();
 	CartasComunitariasModelo* getCartasComunitarias();
-	JugadorModelo* getJugador(int idJugador);
 
-	void agregarJugador(int idJugador);
+	JugadorModelo* getJugador(int idCliente);
+	JugadorModelo* getJugadorPorPosicion(int posicion);
+	vector<JugadorModelo*> getJugadores();
+
+	bool hayLugar();
+	void agregarJugador(int idCliente);
 	int getCantidadJugadoresActivos();
 	int getCantidadJugadoresJugandoRonda();
 	int getTurnoJugador();
-	bool isTurnoJugador(int idJugador);
+	bool isTurnoJugador(int idCliente);
+
+	string getEscenarioJuego(int idCliente);
 
 	void iniciarJuego();
 	void mostrarFlop();
@@ -55,9 +75,9 @@ public:
 	int evaluarGanador();
 	void finalizarRonda();
 
-	void igualarApuesta(int idJugador);
-	void subirApuesta(int idJugador, int fichas);
-	void noIr(int idJugador);
+	void igualarApuesta(int idCliente);
+	void subirApuesta(int idCliente, int fichas);
+	void noIr(int idCliente);
 
 private:
 	void calcularPosicionJugadorTurno();

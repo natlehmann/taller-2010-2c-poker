@@ -5,22 +5,9 @@
 Properties::Properties(string nombreArchivo)
 {
 	this->properties = NULL;
-	this->semaforo = SDL_CreateSemaphore(1);
+	this->nombreArchivo = "";
 
-	this->nombreArchivo = nombreArchivo;
-
-	//SDL_SemWait(this->semaforo);
-	this->archivo = new ifstream(this->nombreArchivo.c_str());
-
-	if (!*this->archivo){
-		delete(this->archivo);
-		this->archivo = NULL;
-		throw FileException("No se puede abrir el archivo " + this->nombreArchivo, "E");
-	}	
-
-	delete(this->archivo);
-	this->archivo = NULL;
-	//SDL_SemPost(this->semaforo);
+	this->setNombreArchivo(nombreArchivo);
 }
 
 Properties::~Properties(void)
@@ -33,13 +20,29 @@ Properties::~Properties(void)
 		this->properties->clear();
 		delete (this->properties);
 	}
+}
 
-	SDL_DestroySemaphore(this->semaforo);
+void Properties::setNombreArchivo(string nombreArchivo) {
+
+	if (this->nombreArchivo.empty()) {
+
+		this->nombreArchivo = nombreArchivo;
+
+		this->archivo = new ifstream(this->nombreArchivo.c_str());
+
+		if (!*this->archivo){
+			delete(this->archivo);
+			this->archivo = NULL;
+			throw FileException("No se puede abrir el archivo " + this->nombreArchivo, "E");
+		}	
+
+		delete(this->archivo);
+		this->archivo = NULL;
+	}
 }
 
 string Properties::get(string clave){
 
-	//SDL_SemWait(this->semaforo);
 	string resultado = "";
 
 	if (this->properties == NULL) {
@@ -52,8 +55,6 @@ string Properties::get(string clave){
 		resultado = it->second;
 
 	}
-
-	//SDL_SemPost(this->semaforo);
 
 	return resultado;
 }

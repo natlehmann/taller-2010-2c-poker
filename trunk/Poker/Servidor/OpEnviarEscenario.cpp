@@ -1,9 +1,11 @@
 #include "OpEnviarEscenario.h"
 #include "Resultado.h"
-#include "RecursosAplicacion.h"
+#include "RecursosServidor.h"
+#include "ContextoJuego.h"
+#include "MensajesUtil.h"
 #include <fstream>
 
-OpEnviarEscenario::OpEnviarEscenario(void){
+OpEnviarEscenario::OpEnviarEscenario(int idCliente) : Operacion(idCliente) {
 }
 
 OpEnviarEscenario::~OpEnviarEscenario(void){
@@ -11,17 +13,18 @@ OpEnviarEscenario::~OpEnviarEscenario(void){
 
 bool OpEnviarEscenario::ejecutar(Socket* socket){
 cout << "Enviando escenario a cliente " << this->getIdCliente() << endl;
+/*
 	bool error = false;
 	Resultado* resultado = new Resultado();
 	string contenido = "";
 
-	string nombreArchivo = RecursosAplicacion::getServidorConfigProperties()->get("servidor.archivoEscenario");
+	string nombreArchivo = RecursosServidor::getConfig()->get("servidor.archivoEscenario");
 	ifstream archivo(nombreArchivo.c_str());
 
 	if (!archivo)
 	{
 		resultado->setValor(contenido);
-		RecursosAplicacion::getLogErroresServidor()->escribir(
+		RecursosServidor::getLog()->escribir(
 			"No se puede abrir el archivo " + nombreArchivo + " para lectura.");
 	
 	} 
@@ -48,5 +51,22 @@ cout << "Enviando escenario a cliente " << this->getIdCliente() << endl;
 	else
 		error = true;
 
-	return error;	
+	return error;
+*/
+
+
+	bool error = false;
+
+	string respuesta = ContextoJuego::getInstancia()->getEscenarioJuego(this->getIdCliente());
+
+	if (socket != NULL && !MensajesUtil::esVacio(respuesta)){
+		if(!socket->enviar(respuesta)) {
+			error = true;
+		}
+	}
+	else {
+		error = true;
+	}
+
+	return error;
 }

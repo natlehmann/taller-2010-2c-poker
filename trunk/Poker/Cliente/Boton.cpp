@@ -1,5 +1,5 @@
 #include "Boton.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "ServiciosGraficos.h"
 #include "UtilTiposDatos.h"
 #include "Color.h"
@@ -8,15 +8,15 @@
 
 Boton::Boton(string texto) : ComponentePanel(texto)
 {
-	this->colorFuente = RecursosAplicacion::getClienteConfigProperties()->get(
+	this->colorFuente = RecursosCliente::getConfig()->get(
 			"cliente.tema.default.boton.fuente.color");
 
 	this->tamanioFuenteMax = UtilTiposDatos::getEntero(
-			RecursosAplicacion::getClienteConfigProperties()->get(
+			RecursosCliente::getConfig()->get(
 				"cliente.tema.default.boton.fuente.tamanio.maximo"));
 
-	this->estiloFuente = RecursosAplicacion::getClienteConfigProperties()->get(
-			"cliente.configuracion.fuentes") + RecursosAplicacion::getClienteConfigProperties()->get(
+	this->estiloFuente = RecursosCliente::getConfig()->get(
+			"cliente.configuracion.fuentes") + RecursosCliente::getConfig()->get(
 						"cliente.tema.default.boton.fuente.estilo") + ".ttf";
 
 	this->setearFuente();

@@ -2,15 +2,32 @@
 #include "PokerException.h"
 #include "Repartidor.h"
 #include "Jugada.h"
+#include "EstadoEsperandoJugadores.h"
+#include "RecursosServidor.h"
+#include "UtilTiposDatos.h"
 
 ContextoJuego ContextoJuego::instancia;
 
 ContextoJuego::ContextoJuego(void)
 {
-	this->mesa = new MesaModelo(1);
-	this->bote = new BoteModelo(2);
-	this->mensaje = new MensajeModelo(3);
-	this->cartasComunitarias = new CartasComunitariasModelo(4);
+	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
+		// inicialmente los jugadores no tienen ningun cliente asociado
+		this->idsJugadores[i] = -1;
+	}
+
+	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
+		this->agregarJugadorAusente(i);
+	}
+
+	
+	this->mesa = new MesaModelo(10, 
+		UtilTiposDatos::getEntero(
+			RecursosServidor::getConfig()->get("servidor.mesa.smallBlind")), 
+		RecursosServidor::getConfig()->get("servidor.mesa.fondo"));
+		
+	this->bote = new BoteModelo(11);
+	this->mensaje = new MensajeModelo(12);
+	this->cartasComunitarias = new CartasComunitariasModelo(13);
 
 	this->montoAIgualar = 0;
 	this->cantidadJugadoresRonda = 0;
@@ -18,6 +35,8 @@ ContextoJuego::ContextoJuego(void)
 	this->posicionJugadorQueAbre = 0;
 	this->posicionJugadorQueCierra = 0;
 	this->repartidor = new Repartidor();
+
+	this->estado = new EstadoEsperandoJugadores();
 }
 
 ContextoJuego::~ContextoJuego(void)
@@ -46,6 +65,10 @@ ContextoJuego::~ContextoJuego(void)
 		delete *it;
 	}
 	this->jugadores.clear();
+
+	if (this->estado != NULL) {
+		delete(this->estado);
+	}
 }
 
 ContextoJuego* ContextoJuego::getInstancia(){
@@ -68,26 +91,88 @@ CartasComunitariasModelo* ContextoJuego::getCartasComunitarias(){
 	return this->cartasComunitarias;
 }
 
-void ContextoJuego::agregarJugador(int idJugador)
+int ContextoJuego::idClienteToIdJugador(int idCliente){
+	int idJugador = -1;
+	int i = 0;
+
+	while (i < MAX_CANTIDAD_JUGADORES && idJugador < 0){
+		if (this->idsJugadores[i] == idCliente){
+			idJugador = i;
+		}
+		i++;
+	}
+
+	return idJugador;
+}
+
+int ContextoJuego::idJugadorToIdCliente(int idJugador){
+	return this->idsJugadores[idJugador];
+}
+
+JugadorModelo* ContextoJuego::getPrimerJugadorAusente() {
+
+	vector<JugadorModelo*>::iterator it = this->jugadores.begin();
+	JugadorModelo* jugador = NULL;
+
+	while (it != this->jugadores.end() && jugador == NULL) {
+		if ((*it)->isAusente()) {
+			jugador = (*it);
+		}
+		it++;
+	}
+
+	return jugador;
+}
+
+void ContextoJuego::agregarJugador(int idCliente)
 {
-	if (this->jugadores.size() == 6)
+	JugadorModelo* jugador = this->getPrimerJugadorAusente();
+
+	if (jugador == NULL) {
 		throw PokerException("Mesa completa.");
+	}
+
+	this->idsJugadores[jugador->getId()] = idCliente;
 
 	// TODO: Aca habria que traer los datos del jugador de la base?
-	int posicion = this->jugadores.size() + 1;
-	JugadorModelo* jugador = new JugadorModelo(idJugador, "jugadorX", 1000, posicion, "");
+	// TODO: REEMPLAZAR ESTO !
+	jugador->setNombre("jugadorX");
+	jugador->setFichas(1000);
+	jugador->setApuesta(0);
+	jugador->setNombreImagen("jugador2.bmp");
+
+	jugador->setAusente(false);
 	jugador->setActivo(true);
+}
+
+void ContextoJuego::agregarJugadorAusente(int idJugador)
+{
+	int posicion = this->jugadores.size() + 1;
+	JugadorModelo* jugador = new JugadorModelo(idJugador, posicion);
 	this->jugadores.push_back(jugador);
 }
 
-JugadorModelo* ContextoJuego::getJugador(int idJugador)
-{
-	for (vector<JugadorModelo*>::iterator it = this->jugadores.begin(); it != this->jugadores.end(); ++it) {
-		if ((*it)->getId() == idJugador) {
-			return *it;
-		}
+JugadorModelo* ContextoJuego::getJugadorPorPosicion(int posicion){
+
+	if (posicion <= MAX_CANTIDAD_JUGADORES && posicion > 0) {
+
+		return this->jugadores.at(posicion - 1);
+	
+	} else {
+		throw PokerException("Posicion de jugador invalida");
 	}
-	return NULL;
+}
+
+JugadorModelo* ContextoJuego::getJugador(int idCliente)
+{
+	int idJugador = this->idClienteToIdJugador(idCliente);
+
+	if (idJugador > 0) {
+		return this->jugadores.at(idJugador);
+
+	} else {
+		return NULL;
+	}
 }
 
 int ContextoJuego::getCantidadJugadoresActivos()
@@ -108,30 +193,36 @@ int ContextoJuego::getCantidadJugadoresJugandoRonda()
 
 int ContextoJuego::getTurnoJugador()
 {
+	// TODo: Deberia devolver id de jugador o id de cliente??
 	if (this->posicionJugadorTurno > 0)
 		return this->jugadores.at(this->posicionJugadorTurno - 1)->getId();
 	return 0;
 }
 
-bool ContextoJuego::isTurnoJugador(int idJugador)
+bool ContextoJuego::isTurnoJugador(int idCliente)
 {
-	if (this->posicionJugadorTurno > 0)
-		return (this->jugadores.at(this->posicionJugadorTurno - 1)->getId() == idJugador);
+	int idJugador = this->idClienteToIdJugador(idCliente);
+
+	if (this->posicionJugadorTurno > 0) {
+		//return (this->jugadores.at(this->posicionJugadorTurno - 1)->getId() == idJugador);
+		return (this->posicionJugadorTurno - 1) == idJugador; // los ids de los jugadores son iguales a sus posiciones en el array
+	}
+
 	return false;
 }
 
-void ContextoJuego::igualarApuesta(int idJugador)
+void ContextoJuego::igualarApuesta(int idCliente)
 {
-	JugadorModelo* jugador = getJugador(idJugador);
+	JugadorModelo* jugador = getJugador(idCliente);
 	int montoApuesta = this->montoAIgualar - jugador->getApuesta();
 	jugador->apostar(montoApuesta);
 	this->bote->incrementar(montoApuesta);
 	calcularPosicionJugadorTurno();
 }
 
-void ContextoJuego::subirApuesta(int idJugador, int fichas)
+void ContextoJuego::subirApuesta(int idCliente, int fichas)
 {
-	JugadorModelo* jugador = getJugador(idJugador);
+	JugadorModelo* jugador = getJugador(idCliente);
 	jugador->apostar(fichas);
 	this->bote->incrementar(fichas);
 	this->montoAIgualar = jugador->getApuesta();
@@ -139,9 +230,9 @@ void ContextoJuego::subirApuesta(int idJugador, int fichas)
 	calcularPosicionJugadorTurno();
 }
 
-void ContextoJuego::noIr(int idJugador)
+void ContextoJuego::noIr(int idCliente)
 {
-	JugadorModelo* jugador = getJugador(idJugador);
+	JugadorModelo* jugador = getJugador(idCliente);
 	jugador->setJugandoRonda(false);
 	jugador->setApuesta(0);
 	jugador->setCarta1(NULL);
@@ -310,6 +401,7 @@ void ContextoJuego::calcularPosicionJugadorQueAbre()
 	}
 }
 
+// TODO: Deberia devolver id de CLiente o de Jugador ??
 int ContextoJuego::evaluarGanador()
 {
 	JugadorModelo* ganador;
@@ -363,4 +455,19 @@ void ContextoJuego::finalizarRonda()
 	this->posicionJugadorTurno = 0;
 	this->posicionJugadorQueAbre = 0;
 	this->posicionJugadorQueCierra = 0;
+}
+
+bool ContextoJuego::hayLugar(){
+	return this->getPrimerJugadorAusente() != NULL;
+}
+
+string ContextoJuego::getEscenarioJuego(int idCliente){
+
+	int idJugador = this->idClienteToIdJugador(idCliente);
+	this->estado = this->estado->getSiguienteEstado();
+	return this->estado->getEscenarioJuego(idJugador);
+}
+
+vector<JugadorModelo*> ContextoJuego::getJugadores() {
+	return this->jugadores;
 }

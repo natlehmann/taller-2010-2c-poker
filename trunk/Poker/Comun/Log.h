@@ -26,6 +26,8 @@ public:
 
 	void escribir(Respuesta* respuesta);
 	void escribir(string mensaje);
+
+	void setNombreArchivo(string nombreArchivo);
 };
 
 #endif //_LOG_H_

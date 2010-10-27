@@ -2,7 +2,7 @@
 #include "UtilTiposDatos.h"
 #include "DomTree.h"
 #include "XmlParser.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include <fstream>
 
 Cliente::Cliente()
@@ -71,7 +71,7 @@ bool Cliente::enviarRecibir(const string mensajeEnviado, string& mensajeRecibido
 		recibido = this->recibirMsj(mensajeRecibido);
 	
 	} catch (...) {
-		RecursosAplicacion::getLogErroresCliente()->escribir(
+		RecursosCliente::getLog()->escribir(
 			"Error al enviar el siguiente mensaje al servidor: " + mensajeEnviado);
 	}
 
@@ -92,7 +92,7 @@ bool Cliente::enviarRecibir(const string mensajeEnviado, string& mensajeRecibido
 		recibido = this->recibirMsj(mensajeRecibido, tamanio);
 	
 	} catch (...) {
-		RecursosAplicacion::getLogErroresCliente()->escribir(
+		RecursosCliente::getLog()->escribir(
 			"Error al enviar el siguiente mensaje al servidor: " + mensajeEnviado);
 	}
 

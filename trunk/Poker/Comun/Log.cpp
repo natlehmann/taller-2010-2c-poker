@@ -7,18 +7,26 @@
 
 
 Log::Log(string nombreArchivo) {
-	this->nombreArchivo = nombreArchivo;
-	this->archivo = new ofstream(nombreArchivo.c_str(), ios::out | ios::app);
-
-	if (MensajesUtil::esVacio(nombreArchivo) || !archivo->is_open()) {
-		cout << "No se ha podido abrir el archivo " + nombreArchivo + " para escritura." << endl;
-		exit(1);
-	}
+	this->nombreArchivo = "";
+	this->setNombreArchivo(nombreArchivo);
 }
 
 Log::~Log(void) {
 	this->archivo->close();
 	delete(this->archivo);
+}
+
+void Log::setNombreArchivo(string nombreArchivo){
+	if (this->nombreArchivo.empty()) {
+
+		this->nombreArchivo = nombreArchivo;
+		this->archivo = new ofstream(nombreArchivo.c_str(), ios::out | ios::app);
+
+		if (MensajesUtil::esVacio(nombreArchivo) || !archivo->is_open()) {
+			cout << "No se ha podido abrir el archivo " + nombreArchivo + " para escritura." << endl;
+			exit(1);
+		}
+	}
 }
 
 void Log::escribir(Respuesta* respuesta) {

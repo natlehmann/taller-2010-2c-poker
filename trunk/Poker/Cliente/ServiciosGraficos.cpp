@@ -1,6 +1,6 @@
 #include "ServiciosGraficos.h"
 #include "UIException.h"
-#include "RecursosAplicacion.h"
+#include "RecursosCliente.h"
 #include "UtilTiposDatos.h"
 #include "UIException.h"
 
@@ -331,7 +331,7 @@ int ServiciosGraficos::getBordeSuperior() {
 	if (ServiciosGraficos::bordeSuperior < 0) {
 
 		ServiciosGraficos::bordeSuperior = UtilTiposDatos::getEntero(
-			RecursosAplicacion::getClienteConfigProperties()->get(
+			RecursosCliente::getConfig()->get(
 			"cliente.configuracion.pantalla.borde.superior"));
 
 		if (ServiciosGraficos::bordeSuperior < 0) {
@@ -347,7 +347,7 @@ int ServiciosGraficos::getBordeInferior() {
 	if (ServiciosGraficos::bordeInferior < 0) {
 
 		ServiciosGraficos::bordeInferior = UtilTiposDatos::getEntero(
-			RecursosAplicacion::getClienteConfigProperties()->get(
+			RecursosCliente::getConfig()->get(
 			"cliente.configuracion.pantalla.borde.inferior"));
 
 		if (ServiciosGraficos::bordeInferior < 0) {
@@ -363,7 +363,7 @@ int ServiciosGraficos::getBordeDerecho() {
 	if (ServiciosGraficos::bordeDerecho < 0) {
 
 		ServiciosGraficos::bordeDerecho = UtilTiposDatos::getEntero(
-			RecursosAplicacion::getClienteConfigProperties()->get(
+			RecursosCliente::getConfig()->get(
 			"cliente.configuracion.pantalla.borde.derecho"));
 
 		if (ServiciosGraficos::bordeDerecho < 0) {
@@ -379,7 +379,7 @@ int ServiciosGraficos::getBordeIzquierdo() {
 	if (ServiciosGraficos::bordeIzquierdo < 0) {
 
 		ServiciosGraficos::bordeIzquierdo = UtilTiposDatos::getEntero(
-			RecursosAplicacion::getClienteConfigProperties()->get(
+			RecursosCliente::getConfig()->get(
 			"cliente.configuracion.pantalla.borde.izquierdo"));
 
 		if (ServiciosGraficos::bordeIzquierdo < 0) {

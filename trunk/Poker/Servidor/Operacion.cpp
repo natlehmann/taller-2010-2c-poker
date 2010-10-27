@@ -1,5 +1,7 @@
 #include "Operacion.h"
 
-Operacion::Operacion() {}
+Operacion::Operacion(int idCliente) {
+	this->setIdCliente(idCliente);
+}
 
 Operacion::~Operacion() {}

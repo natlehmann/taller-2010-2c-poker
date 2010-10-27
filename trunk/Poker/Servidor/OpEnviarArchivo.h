@@ -7,7 +7,7 @@
 class OpEnviarArchivo : public Operacion
 {
 	public:
-	OpEnviarArchivo(vector<string> parametros);
+	OpEnviarArchivo(int idCliente, vector<string> parametros);
 	virtual ~OpEnviarArchivo(void);
 
 	bool ejecutar(Socket* socket);

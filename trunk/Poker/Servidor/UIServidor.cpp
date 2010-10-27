@@ -1,6 +1,6 @@
 #include "UIServidor.h"
 #include "UtilTiposDatos.h"
-#include "RecursosAplicacion.h"
+#include "RecursosServidor.h"
 
 #include <cstdlib>
 
@@ -87,7 +87,7 @@ void UIServidor::iniciarServidor()
 	bool salir = false;
 	bool preguntar = true;
 	int puerto = UtilTiposDatos::getEntero(
-		RecursosAplicacion::getServidorConfigProperties()->get("servidor.conexion.puerto"));
+		RecursosServidor::getConfig()->get("servidor.conexion.puerto"));
 
 	while (!salir)
 	{
@@ -115,7 +115,7 @@ void UIServidor::iniciarServidor()
 		else
 		{
 			mostrarMensaje("NO SE HA PODIDO LEVANTAR EL SERVIDOR EN EL PUERTO "
-				+ RecursosAplicacion::getServidorConfigProperties()->get("servidor.conexion.puerto"), false);
+				+ RecursosServidor::getConfig()->get("servidor.conexion.puerto"), false);
 			exit(1);
 		}
 	}

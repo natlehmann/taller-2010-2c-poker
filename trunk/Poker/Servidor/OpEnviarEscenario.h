@@ -6,7 +6,7 @@
 class OpEnviarEscenario : public Operacion
 {
 public:
-	OpEnviarEscenario(void);
+	OpEnviarEscenario(int idCliente);
 	virtual ~OpEnviarEscenario(void);
 
 	bool ejecutar(Socket* socket);

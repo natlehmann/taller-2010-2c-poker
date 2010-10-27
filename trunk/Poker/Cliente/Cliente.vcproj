@@ -371,6 +371,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RecursosCliente.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Respuesta.cpp"
 				>
 			</File>
@@ -650,6 +654,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\RecursosAplicacion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RecursosCliente.h"
 				>
 			</File>
 			<File
