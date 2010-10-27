@@ -8,6 +8,9 @@
 #include "JugadorModelo.h"
 #include "MensajesUtil.h"
 #include "UtilTiposDatos.h"
+#include "CartasComunitariasModelo.h"
+#include "CartaModelo.h"
+#include <list>
 #include <vector>
 
 EstadoJuego::EstadoJuego(void)
@@ -54,6 +57,18 @@ void EstadoJuego::agregarMensaje(DomTree* arbol, string mensaje){
 	Elemento* elemMensaje = elementoEscenario->agregarHijo("mensaje", "escenario");
 	elemMensaje->agregarAtributo("id", UtilTiposDatos::enteroAString(mensajeModelo->getId()));
 	elemMensaje->agregarAtributo("visible", "true");
+	elemMensaje->setTexto(mensajeModelo->getTexto());
+}
+
+void EstadoJuego::borrarMensaje(DomTree* arbol){
+	
+	Elemento* elementoEscenario = arbol->getRaiz()->getHijos()->front();
+	MensajeModelo* mensajeModelo = ContextoJuego::getInstancia()->getMensaje();
+	mensajeModelo->setTexto("");
+
+	Elemento* elemMensaje = elementoEscenario->agregarHijo("mensaje", "escenario");
+	elemMensaje->agregarAtributo("id", UtilTiposDatos::enteroAString(mensajeModelo->getId()));
+	elemMensaje->agregarAtributo("visible", "false");
 	elemMensaje->setTexto(mensajeModelo->getTexto());
 }
 
@@ -136,6 +151,90 @@ void EstadoJuego::agregarJugadores(DomTree* arbol, int idJugador){
 
 		}
 	}
+}
+
+void EstadoJuego::agregarCartasComunitarias(DomTree* arbol){
+
+	Elemento* elementoEscenario = arbol->getRaiz()->getHijos()->front();
+	Elemento* elemCartasCom = elementoEscenario->agregarHijo("cartascomunitarias", "escenario");
+
+	CartasComunitariasModelo* cartasComunitarias = ContextoJuego::getInstancia()->getCartasComunitarias();
+	elemCartasCom->agregarAtributo("id", UtilTiposDatos::enteroAString(cartasComunitarias->getId()));
+
+	list<CartaModelo*> cartas = cartasComunitarias->getCartas();
+	if (!cartas.empty()) {
+
+		Elemento* elemCartas = elemCartasCom->agregarHijo("cartas", "escenario");
+
+		for (list<CartaModelo*>::iterator it = cartas.begin(); it != cartas.end(); it++) {
+
+			Elemento* elemCarta = elemCartas->agregarHijo("carta", "escenario");
+			elemCarta->agregarAtributo("id", (*it)->getId());
+			elemCarta->agregarAtributo("posicion", UtilTiposDatos::enteroAString((*it)->getPosicion()));
+			elemCarta->agregarAtributo("reverso", "true");
+			
+			// TODO: AGREGAR CHEQUEO PARA FUNCIONALIDAD DE "VER TODAS LAS CARTAS"
+
+			if (ContextoJuego::getInstancia()->getMostrandoCartas()) {
+				elemCarta->agregarAtributo("numero", (*it)->getNumero());
+				elemCarta->agregarAtributo("palo", (*it)->getPalo());
+				elemCarta->agregarAtributo("reverso", "false");
+			}
+		}
+	}
+}
+
+void EstadoJuego::agregarPanelBotones(DomTree* arbol, int idJugador){
+
+	Elemento* elementoEscenario = arbol->getRaiz()->getHijos()->front();
+	Elemento* elemPanel = elementoEscenario->agregarHijo("panelComando", "escenario");
+	elemPanel->agregarAtributo("id", "panelCom");
+
+	// TODO: VER SI LOS TEXTOS LOS PONEMOS EN EL ARCHIVO DE PROPERTIES
+	Elemento* boton1 = elemPanel->agregarHijo("boton", "escenario");
+	boton1->agregarAtributo("id", "btDejarMesa");
+	boton1->agregarAtributo("posicion", "1");
+	boton1->agregarAtributo("operacion", "OpUIClienteDejarMesa");
+	boton1->setTexto("Dejar Mesa");
+
+	Elemento* boton2 = elemPanel->agregarHijo("boton", "escenario");
+	boton2->agregarAtributo("id", "btIgualar");
+	boton2->agregarAtributo("posicion", "2");
+	boton2->agregarAtributo("operacion", "OpUIClienteIgualarApuesta");
+	boton2->setTexto("Igualar");
+
+	Elemento* boton3 = elemPanel->agregarHijo("boton", "escenario");
+	boton3->agregarAtributo("id", "btNoIr");
+	boton3->agregarAtributo("posicion", "3");
+	boton3->agregarAtributo("operacion", "OpUIClienteNoIr");
+	boton3->setTexto("No Ir");
+
+	Elemento* boton4 = elemPanel->agregarHijo("boton", "escenario");
+	boton4->agregarAtributo("id", "btSubir");
+	boton4->agregarAtributo("posicion", "4");
+	boton4->agregarAtributo("operacion", "OpUIClienteSubirApuesta");
+	boton4->setTexto("Subir");
+
+	Elemento* textBox = elemPanel->agregarHijo("textBox", "escenario");
+	textBox->agregarAtributo("id", "txtApuesta");
+	textBox->agregarAtributo("posicion", "5");
+	textBox->agregarAtributo("operacion", "OpUIClienteSubirApuesta");
+
+	if (ContextoJuego::getInstancia()->isTurnoJugador(idJugador)) {
+		boton1->agregarAtributo("habilitado", "true");
+		boton2->agregarAtributo("habilitado", "true");
+		boton3->agregarAtributo("habilitado", "true");
+		boton4->agregarAtributo("habilitado", "true");
+		textBox->agregarAtributo("habilitado", "true");
+	
+	} else {
+		boton1->agregarAtributo("habilitado", "false");
+		boton2->agregarAtributo("habilitado", "false");
+		boton3->agregarAtributo("habilitado", "false");
+		boton4->agregarAtributo("habilitado", "false");
+		textBox->agregarAtributo("habilitado", "false");
+	}
+
 }
 
 string EstadoJuego::arbolToString(DomTree* arbol){

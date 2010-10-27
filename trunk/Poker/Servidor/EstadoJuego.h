@@ -5,7 +5,6 @@
 #include "Elemento.h"
 #include "DomTree.h"
 
-
 using namespace std;
 
 class EstadoJuego
@@ -18,6 +17,9 @@ protected:
 	void agregarBote(DomTree* arbol);
 	void agregarMensaje(DomTree* arbol, string mensaje);
 	void agregarJugadores(DomTree* arbol, int idJugador);
+	void agregarCartasComunitarias(DomTree* arbol);
+	void agregarPanelBotones(DomTree* arbol, int idJugador);
+	void borrarMensaje(DomTree* arbol);
 
 	string arbolToString(DomTree* arbol);
 

@@ -14,6 +14,8 @@ public:
 	CartasComunitariasModelo(int id);
 	virtual ~CartasComunitariasModelo(void);
 
+	int getId();
+
 	void agregarCarta(CartaModelo* carta);
 	list<CartaModelo*> getCartas();
 	void limpiar();

@@ -11,6 +11,10 @@ CartasComunitariasModelo::~CartasComunitariasModelo(void)
 	this->cartas.clear();
 }
 
+int CartasComunitariasModelo::getId(){
+	return this->id;
+}
+
 void CartasComunitariasModelo::agregarCarta(CartaModelo* carta)
 {
 	if (this->cartas.size() > 4) {

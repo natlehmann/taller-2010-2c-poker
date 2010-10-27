@@ -2,12 +2,18 @@
 #define _ESTADO_RONDACIEGA_H_
 
 #include "EstadoJuego.h"
+#include "EstadoRondaFlop.h"
 
 class EstadoRondaCiega : public EstadoJuego
 {
+private:
+	EstadoRondaFlop* rondaFlop;
+
 public:
-	EstadoRondaCiega(void);
+	EstadoRondaCiega(EstadoRondaFlop* rondaFlop);
 	virtual ~EstadoRondaCiega(void);
+
+	void setEstadoRondaFlop(EstadoRondaFlop* rondaFlop);
 
 	virtual EstadoJuego* getSiguienteEstado();
 
