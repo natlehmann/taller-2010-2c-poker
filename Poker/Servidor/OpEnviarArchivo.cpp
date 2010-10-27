@@ -13,7 +13,7 @@ OpEnviarArchivo::OpEnviarArchivo(int idCliente, vector<string> parametros) : Ope
 OpEnviarArchivo::~OpEnviarArchivo(void){
 }
 
-bool OpEnviarArchivo::ejecutar(Socket* socket){
+bool OpEnviarArchivo::ejecutarAccion(Socket* socket){
 
 	bool error = false;
 

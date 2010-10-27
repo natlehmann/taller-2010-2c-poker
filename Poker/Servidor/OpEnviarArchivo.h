@@ -6,11 +6,12 @@
 
 class OpEnviarArchivo : public Operacion
 {
-	public:
+protected:
+	virtual bool ejecutarAccion(Socket* socket);
+
+public:
 	OpEnviarArchivo(int idCliente, vector<string> parametros);
 	virtual ~OpEnviarArchivo(void);
-
-	bool ejecutar(Socket* socket);
 };
 
 #endif // _OP_ENVIARARCHIVO_H_

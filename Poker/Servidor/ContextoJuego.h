@@ -16,6 +16,7 @@
 #include "EstadoRondaTurn.h"
 #include "EstadoRondaRiver.h"
 #include "EstadoEvaluandoGanador.h"
+#include <windows.h>
 
 #define MAX_CANTIDAD_JUGADORES	6
 
@@ -24,6 +25,7 @@ using namespace std;
 class ContextoJuego
 {
 private:
+	HANDLE mutex;
 	MesaModelo* mesa;
 	BoteModelo* bote;
 	MensajeModelo* mensaje;
@@ -65,6 +67,8 @@ public:
 
 	static ContextoJuego* getInstancia();
 
+	HANDLE getMutex();
+
 	MesaModelo* getMesa();
 	BoteModelo* getBote();
 	MensajeModelo* getMensaje();
@@ -98,6 +102,11 @@ public:
 	bool isRondaTerminada();
 	void setMostrandoCartas(bool mostrandoCartas);
 	bool getMostrandoCartas();
+
+	/**
+	* Para ser llamado al finalizar la aplicacion
+	*/
+	void finalizar();
 
 private:
 	void calcularPosicionJugadorTurno();
