@@ -79,9 +79,7 @@ void TextBox::dibujarTexto(SDL_Surface* superficie) {
 	SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(mensajeConCursor, NULL);
 	
 	//se configura el borde
-	SDL_Rect* offset = this->getOffsetRect();
-	offset->w = this->getAncho();
-	offset->h = this->getAlto();
+	SDL_Rect* offset = this->getContornoConOffset();
 	if (this->borde != NULL) {
 		ServiciosGraficos::dibujarContorno(superficie, offset, this->borde);
 	}

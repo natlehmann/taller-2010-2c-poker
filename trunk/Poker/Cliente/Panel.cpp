@@ -87,9 +87,7 @@ void Panel::dibujarSobreSup(SDL_Surface* superficie){
 	}
 
 	//dibuja el panel
-	SDL_Rect* offsetBorde = this->getOffsetRect();
-	offsetBorde->w = this->getAncho();
-	offsetBorde->h = this->getAlto();
+	SDL_Rect* offsetBorde = this->getContornoConOffset();
 	SDL_FillRect(superficie, offsetBorde, this->borde->toUint32(superficie));
 	SDL_Rect* offset = new SDL_Rect();
 	offset->x = offsetBorde->x + 1;

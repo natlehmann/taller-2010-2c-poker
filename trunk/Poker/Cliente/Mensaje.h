@@ -10,7 +10,6 @@ class Mensaje : public ElementoGrafico
 {
 private:
 	Etiqueta* etiqueta;
-	bool visible;
 
 public:
 	Mensaje(string texto);
@@ -21,7 +20,6 @@ public:
 	string getTexto();
 	void setTexto(string texto);
 
-	bool isVisible();
 	void setVisible(bool visible);
 };
 
