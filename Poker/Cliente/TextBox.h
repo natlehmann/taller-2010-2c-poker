@@ -19,6 +19,7 @@ class TextBox : public ComponentePanel
 private:
 	Color* fondoFoco;
 	Color* fondoNotFoco;
+	Color* fondoDeshabilitado;
 	Color* borde;
 
 	bool foco;

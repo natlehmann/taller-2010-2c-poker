@@ -8,11 +8,12 @@ using namespace std;
 
 class OpUIClienteDejarMesa : public OperacionUICliente 
 {
+protected:
+	virtual bool ejecutarAccion(Ventana* ventana);
+
 public:
 	OpUIClienteDejarMesa(void);
 	virtual ~OpUIClienteDejarMesa(void);
-
-	virtual bool ejecutar(Ventana* ventana);
 };
 
 #endif //_OPERACION_UI_CLIENTE_DEJARMESA_H_

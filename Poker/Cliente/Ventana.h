@@ -12,11 +12,13 @@
 #include <list>
 #include "Panel.h"
 #include "Mesa.h"
+#include <windows.h>
 
 using namespace std;
 
 class Ventana {
 private:
+	HANDLE mutex;
 	SDL_Surface* pantalla;
 	Panel* panelComando;
 	void manejarEventos(SDL_Event* event);
@@ -41,7 +43,6 @@ private:
 
 
 protected:
-	Ventana(void);
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
 	virtual void dibujar(SDL_Surface* superficie);
 	
@@ -64,7 +65,10 @@ protected:
 	bool equals(Ventana* otro);
 
 public:
+	Ventana(void);
 	virtual ~Ventana(void);
+
+	HANDLE getMutex();
 
 	virtual void iniciar();
 	virtual void limpiar();

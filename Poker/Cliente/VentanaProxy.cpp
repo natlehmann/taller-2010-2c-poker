@@ -25,8 +25,10 @@ void VentanaProxy::chequearDesbloquear(){
 }
 
 void VentanaProxy::bloquear(){
-	SDL_SemWait(this->semaforo);
-	this->bloqueoExterno = true;
+	if (!this->bloqueoExterno) {
+		SDL_SemWait(this->semaforo);
+		this->bloqueoExterno = true;
+	}
 }
 
 void VentanaProxy::desbloquear(){

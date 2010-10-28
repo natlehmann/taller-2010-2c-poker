@@ -11,6 +11,9 @@ TextBox::TextBox(string mensaje) : ComponentePanel(mensaje) {
 	this->fondoNotFoco = new Color(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.textbox.fondonotfoco"));
 
+	this->fondoDeshabilitado = new Color(RecursosCliente::getConfig()->get(
+		"cliente.tema.default.textbox.fondoDeshabilitado"));
+
 	this->borde = new Color(RecursosCliente::getConfig()->get(
 		"cliente.tema.default.textbox.borde"));
 
@@ -64,6 +67,9 @@ TextBox::~TextBox(void) {
 	if (this->borde != NULL) {
 		delete(this->borde);
 	}
+	if (this->fondoDeshabilitado != NULL) {
+		delete(this->fondoDeshabilitado);
+	}
 }
 
 void TextBox::dibujarSobreSup(SDL_Surface* superficie){ 
@@ -73,52 +79,62 @@ void TextBox::dibujarSobreSup(SDL_Surface* superficie){
 }
 
 void TextBox::dibujarTexto(SDL_Surface* superficie) {
-	//se crea la imagen del texto
-	string mensajeConCursor = this->texto;
-	if (this->foco) mensajeConCursor.insert(this->cursorPosition, "|");
-	SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(mensajeConCursor, NULL);
-	
-	//se configura el borde
-	SDL_Rect* offset = this->getContornoConOffset();
-	if (this->borde != NULL) {
-		ServiciosGraficos::dibujarContorno(superficie, offset, this->borde);
+
+	if (this->isHabilitado()) {
+
+		//se crea la imagen del texto
+		string mensajeConCursor = this->texto;
+		if (this->foco) mensajeConCursor.insert(this->cursorPosition, "|");
+		SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(mensajeConCursor, NULL);
+		
+		//se configura el borde
+		SDL_Rect* offset = this->getContornoConOffset();
+		if (this->borde != NULL) {
+			ServiciosGraficos::dibujarContorno(superficie, offset, this->borde);
+		}
+
+		//se configura el fondo
+		SDL_Rect* offsetBox = new SDL_Rect();
+		offsetBox->x = offset->x;
+		offsetBox->y = offset->y;
+		offsetBox->w = offset->w;
+		offsetBox->h = offset->h;
+		if (this->fondoFoco != NULL && this->fondoNotFoco != NULL) {
+			offsetBox->x += 1;
+			offsetBox->y += 1;
+			offsetBox->w -= 2;
+			offsetBox->h -= 2;
+
+			if (this->foco)
+				SDL_FillRect(superficie, offsetBox, this->fondoFoco->toUint32(superficie));
+			else
+				SDL_FillRect(superficie, offsetBox, this->fondoNotFoco->toUint32(superficie));
+		}
+
+		//se pega en la pantalla y se libera recursos
+		if (superficieTexto != NULL) {
+			//se configura el texto visible
+			SDL_Rect* offsetTexto = new SDL_Rect();
+			offsetTexto->x = (superficieTexto->w > offsetBox->w ? superficieTexto->w - offsetBox->w : 0);
+			offsetTexto->y = 0;
+			offsetTexto->w = offsetBox->w;
+			offsetTexto->h = offsetBox->h;
+			offsetBox->y += (superficieTexto->h > offsetBox->h ? 0 : (offsetBox->h - superficieTexto->h)/2);
+
+			SDL_BlitSurface(superficieTexto, offsetTexto, superficie, offsetBox);
+
+			delete(offsetTexto);
+		}
+
+		delete(offsetBox);
+		SDL_FreeSurface(superficieTexto);
+
+	} else {
+		// si esta deshabilitado
+		SDL_FillRect(superficie, this->getContornoConOffset(), 
+			this->fondoDeshabilitado->toUint32(superficie));
 	}
 
-	//se configura el fondo
-	SDL_Rect* offsetBox = new SDL_Rect();
-	offsetBox->x = offset->x;
-	offsetBox->y = offset->y;
-	offsetBox->w = offset->w;
-	offsetBox->h = offset->h;
-	if (this->fondoFoco != NULL && this->fondoNotFoco != NULL) {
-		offsetBox->x += 1;
-		offsetBox->y += 1;
-		offsetBox->w -= 2;
-		offsetBox->h -= 2;
-
-		if (this->foco)
-			SDL_FillRect(superficie, offsetBox, this->fondoFoco->toUint32(superficie));
-		else
-			SDL_FillRect(superficie, offsetBox, this->fondoNotFoco->toUint32(superficie));
-	}
-
-	//se pega en la pantalla y se libera recursos
-	if (superficieTexto != NULL) {
-		//se configura el texto visible
-		SDL_Rect* offsetTexto = new SDL_Rect();
-		offsetTexto->x = (superficieTexto->w > offsetBox->w ? superficieTexto->w - offsetBox->w : 0);
-		offsetTexto->y = 0;
-		offsetTexto->w = offsetBox->w;
-		offsetTexto->h = offsetBox->h;
-		offsetBox->y += (superficieTexto->h > offsetBox->h ? 0 : (offsetBox->h - superficieTexto->h)/2);
-
-		SDL_BlitSurface(superficieTexto, offsetTexto, superficie, offsetBox);
-
-		delete(offsetTexto);
-	}
-
-	delete(offsetBox);
-	SDL_FreeSurface(superficieTexto);
 }
 
 void TextBox::ajustarOffset(SDL_Rect* offset, SDL_Surface* superficie) {
@@ -152,43 +168,46 @@ void TextBox::ajustarOffset(SDL_Rect* offset, SDL_Surface* superficie) {
 
 bool TextBox::checkWrite(SDL_Surface* superficie, SDL_Event* evento, int pressed)
 {
-	if (this->foco) 
-	{
-		string newCaracter;
+	if (this->isHabilitado()) {
 
-		if(evento->key.keysym.sym == SDLK_BACKSPACE)
+		if (this->foco) 
 		{
-			if(!texto.empty() && this->cursorPosition > 0)
+			string newCaracter;
+
+			if(evento->key.keysym.sym == SDLK_BACKSPACE)
 			{
-				texto.erase(this->cursorPosition - 1, 1);
-				this->cursorPosition--;
+				if(!texto.empty() && this->cursorPosition > 0)
+				{
+					texto.erase(this->cursorPosition - 1, 1);
+					this->cursorPosition--;
+				}
 			}
-		}
-		else if(evento->key.keysym.sym == SDLK_RETURN ||
-				evento->key.keysym.sym == SDLK_TAB)
-		{
-			this->foco = false;
-		}
-		else if(evento->key.keysym.sym == SDLK_LEFT)
-		{
-			if (this->cursorPosition > 0)
-				this->cursorPosition--;
-		}
-		else if(evento->key.keysym.sym == SDLK_RIGHT)
-		{
-			if (this->texto.size() > this->cursorPosition)
+			else if(evento->key.keysym.sym == SDLK_RETURN ||
+					evento->key.keysym.sym == SDLK_TAB)
+			{
+				this->foco = false;
+			}
+			else if(evento->key.keysym.sym == SDLK_LEFT)
+			{
+				if (this->cursorPosition > 0)
+					this->cursorPosition--;
+			}
+			else if(evento->key.keysym.sym == SDLK_RIGHT)
+			{
+				if (this->texto.size() > this->cursorPosition)
+					this->cursorPosition++;
+			}
+			else if(evento->key.keysym.unicode < 0x80 && evento->key.keysym.unicode > 0) {
+				newCaracter += (char)evento->key.keysym.unicode;
+				this->texto.insert(this->cursorPosition, newCaracter);
 				this->cursorPosition++;
-		}
-		else if(evento->key.keysym.unicode < 0x80 && evento->key.keysym.unicode > 0) {
-			newCaracter += (char)evento->key.keysym.unicode;
-			this->texto.insert(this->cursorPosition, newCaracter);
-			this->cursorPosition++;
-		}
-		
+			}
+			
 
-		this->dibujarTexto(superficie);
-		this->hayCambios = true;
-		return true;
+			this->dibujarTexto(superficie);
+			this->hayCambios = true;
+			return true;
+		}
 	}
 
 	return false;
@@ -196,30 +215,33 @@ bool TextBox::checkWrite(SDL_Surface* superficie, SDL_Event* evento, int pressed
 
 bool TextBox::checkClick(SDL_Surface* superficie)
 {
-	bool fuePresionado = this->esClickIzquierdo();
-	bool estaSobre = this->estaSobre();
-	if(estaSobre && fuePresionado)
-	{
-		if(!this->foco)
+	if (this->isHabilitado()) {
+
+		bool fuePresionado = this->esClickIzquierdo();
+		bool estaSobre = this->estaSobre();
+		if(estaSobre && fuePresionado)
 		{
-			this->cursorPosition = this->texto.size();
-			this->foco = true;
-			this->dibujarTexto(superficie);
-			this->hayCambios = true;
+			if(!this->foco)
+			{
+				this->cursorPosition = this->texto.size();
+				this->foco = true;
+				this->dibujarTexto(superficie);
+				this->hayCambios = true;
+			}
+			
+			return true;
 		}
-		
-		return true;
-	}
-	else if(!estaSobre && fuePresionado)
-	{
-		if(this->foco)
+		else if(!estaSobre && fuePresionado)
 		{
-			this->foco = false;
-			this->dibujarTexto(superficie);
-			this->hayCambios = true;
+			if(this->foco)
+			{
+				this->foco = false;
+				this->dibujarTexto(superficie);
+				this->hayCambios = true;
+			}
+			
+			return true;
 		}
-		
-		return true;
 	}
 
 	return false;
@@ -227,19 +249,24 @@ bool TextBox::checkClick(SDL_Surface* superficie)
 
 bool TextBox::checkOver(SDL_Surface* superficie)
 {
-	bool estaSobre = this->estaSobre();
-	
-	if(estaSobre)
-	{
-		//Si el puntero es de felchita, hay que cambiar el puntero a escritura	
-	}
-	else
-	{
-		//Si el puntero es de escritura, hay que cambiar el puntero a flecha
+	if (this->isHabilitado()) {
 
+		bool estaSobre = this->estaSobre();
+		
+		if(estaSobre)
+		{
+			//Si el puntero es de felchita, hay que cambiar el puntero a escritura	
+		}
+		else
+		{
+			//Si el puntero es de escritura, hay que cambiar el puntero a flecha
+
+		}
+
+		return estaSobre;
 	}
 
-	return estaSobre;
+	return false;
 }
 
 

@@ -11,6 +11,8 @@
 
 Ventana::Ventana(void) {
 
+	this->mutex = CreateMutexA(NULL, false, "MutexVentana");
+
 	this->superficie = NULL;
 	this->posX = 0;
 	this->posY = 0;
@@ -72,6 +74,7 @@ Ventana::~Ventana(void)
 	delete (this->offset);
 	delete (this->contorno);
 
+	CloseHandle(this->mutex);
 }
 
 void Ventana::agregarElementoGrafico(ElementoGrafico* elemento) {
@@ -254,6 +257,11 @@ void Ventana::setPanelComando(Panel* panel){
 	}
 	this->panelComando = panel;
 	this->hayCambios = true;
+}
+
+
+HANDLE Ventana::getMutex(){
+	return this->mutex;
 }
 
 // metodos vacios, pensados para ser redefinidos

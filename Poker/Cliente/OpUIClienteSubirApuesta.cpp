@@ -8,7 +8,7 @@ OpUIClienteSubirApuesta::~OpUIClienteSubirApuesta(void)
 {
 }
 
-bool OpUIClienteSubirApuesta::ejecutar(Ventana* ventana) {
+bool OpUIClienteSubirApuesta::ejecutarAccion(Ventana* ventana) {
 
 	// TODO: REEMPLAZAR 
 	cout << "CLICK EN EL BOTON SUBIR APUESTA" << endl;

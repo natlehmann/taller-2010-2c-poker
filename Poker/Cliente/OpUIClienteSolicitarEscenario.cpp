@@ -16,7 +16,7 @@ OpUIClienteSolicitarEscenario::OpUIClienteSolicitarEscenario(void) : OperacionUI
 OpUIClienteSolicitarEscenario::~OpUIClienteSolicitarEscenario(void){
 }
 
-bool OpUIClienteSolicitarEscenario::ejecutar(Ventana* ventana){
+bool OpUIClienteSolicitarEscenario::ejecutarAccion(Ventana* ventana){
 
 	bool ok = true;
 	DomTree* tree = new DomTree("operaciones");

@@ -61,30 +61,42 @@ Boton::~Boton(void)
 	if (this->imagenUp != NULL) {
 		delete(this->imagenUp);
 	}
+	if (this->imagenDeshabilitado != NULL) {
+		delete(this->imagenDeshabilitado);
+	}
 }
 
 void Boton::configurar() {
 	string nombreImagenUp = "botonUp.bmp";
 	string nombreImagenDown = "botonDown.bmp";
 	string nombreImagenOver = "botonOver.bmp";
+	string nombreImagenDeshabilitado = "botonDeshabilitado.bmp";
+
 	this->imagenUp = this->setearImagen(nombreImagenUp);
 	this->imagenDown = this->setearImagen(nombreImagenDown);
 	this->imagenOver = this->setearImagen(nombreImagenOver);
+	this->imagenDeshabilitado = this->setearImagen(nombreImagenDeshabilitado);
 }
 
 void Boton::dibujarSobreSup(SDL_Surface* superficie){
 
-	switch (this->estado)
-	{
-	case 'u':
-		this->imagenUp->dibujar(superficie);
-		break;
-	case 'd':
-		this->imagenDown->dibujar(superficie);
-		break;
-	case 'o':
-		this->imagenOver->dibujar(superficie);
-		break;
+	if (this->isHabilitado()) {
+
+		switch (this->estado)
+		{
+		case 'u':
+			this->imagenUp->dibujar(superficie);
+			break;
+		case 'd':
+			this->imagenDown->dibujar(superficie);
+			break;
+		case 'o':
+			this->imagenOver->dibujar(superficie);
+			break;
+		}
+
+	} else {
+		this->imagenDeshabilitado->dibujar(superficie);
 	}
 }
 
@@ -138,6 +150,7 @@ void Boton::setPosX(int posX){
 	this->imagenUp->setPosX(posX);
 	this->imagenDown->setPosX(posX);
 	this->imagenOver->setPosX(posX);
+	this->imagenDeshabilitado->setPosX(posX);
 }
 
 void Boton::setPosY(int posY){
@@ -145,6 +158,7 @@ void Boton::setPosY(int posY){
 	this->imagenUp->setPosY(posY);
 	this->imagenDown->setPosY(posY);
 	this->imagenOver->setPosY(posY);
+	this->imagenDeshabilitado->setPosY(posY);
 }
 
 
@@ -172,15 +186,18 @@ void Boton::dibujarUp(SDL_Surface* superficie)
 
 bool Boton::checkClick(SDL_Surface* superficie)
 {
-	bool estaSobre = this->estaSobre();
-	if(estaSobre)
-	{
-		bool fuePresionado = this->esClickIzquierdo();
-		if(fuePresionado)
+	if (this->isHabilitado()) {
+
+		bool estaSobre = this->estaSobre();
+		if(estaSobre)
 		{
-			if(estado != 'd') {
-				dibujarDown(superficie);			
-				return true;
+			bool fuePresionado = this->esClickIzquierdo();
+			if(fuePresionado)
+			{
+				if(estado != 'd') {
+					dibujarDown(superficie);			
+					return true;
+				}
 			}
 		}
 	}
@@ -189,28 +206,31 @@ bool Boton::checkClick(SDL_Surface* superficie)
 
 bool Boton::checkOver(SDL_Surface* superficie)
 {
-	bool estaSobre = this->estaSobre();
 	bool redibujar = false;
-	
-	if(estaSobre)
-	{
-		if(estado != 'o')
-		{
-			bool fuePresionado = this->esClickIzquierdo();
-			if(!fuePresionado) {
-				dibujarOver(superficie);
-				redibujar = true;
+	if(this->isHabilitado()) {
 
-			} else {
-				checkClick(superficie);
+		bool estaSobre = this->estaSobre();
+		
+		if(estaSobre)
+		{
+			if(estado != 'o')
+			{
+				bool fuePresionado = this->esClickIzquierdo();
+				if(!fuePresionado) {
+					dibujarOver(superficie);
+					redibujar = true;
+
+				} else {
+					checkClick(superficie);
+				}
 			}
 		}
-	}
-	else
-	{
-		if(estado != 'u') {
-			dibujarUp(superficie);
-			redibujar = true;
+		else
+		{
+			if(estado != 'u') {
+				dibujarUp(superficie);
+				redibujar = true;
+			}
 		}
 	}
 
