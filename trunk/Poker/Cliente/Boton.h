@@ -15,6 +15,7 @@ private:
 	Imagen* imagenUp;
 	Imagen* imagenDown;
 	Imagen* imagenOver;
+	Imagen* imagenDeshabilitado;
 
 	char estado;
 

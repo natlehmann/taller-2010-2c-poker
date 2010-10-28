@@ -8,7 +8,7 @@ OpUIClienteNoIr::~OpUIClienteNoIr(void)
 {
 }
 
-bool OpUIClienteNoIr::ejecutar(Ventana* ventana) {
+bool OpUIClienteNoIr::ejecutarAccion(Ventana* ventana) {
 
 	// TODO: REEMPLAZAR 
 	cout << "CLICK EN EL BOTON No Ir" << endl;

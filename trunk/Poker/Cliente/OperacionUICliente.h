@@ -12,11 +12,13 @@ class OperacionUICliente
 protected:
 	vector<string> parametros;
 
+	virtual bool ejecutarAccion(Ventana* ventana) = 0;
+
 public:
 	OperacionUICliente(void);
 	virtual ~OperacionUICliente(void);
 
-	virtual bool ejecutar(Ventana* ventana) = 0;
+	virtual bool ejecutar(Ventana* ventana);
 };
 
 #endif

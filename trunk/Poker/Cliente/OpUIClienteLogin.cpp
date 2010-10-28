@@ -9,7 +9,7 @@ OpUIClienteLogin::~OpUIClienteLogin(void)
 {
 }
 
-bool OpUIClienteLogin::ejecutar(Ventana* ventana){
+bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana){
 
 	// TODO: ACA HACER LOGIN !!!!
 

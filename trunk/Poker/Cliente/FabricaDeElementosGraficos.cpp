@@ -22,7 +22,7 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 {
 	if (arbolEscenario)	{
 		
-		ventana->bloquear();
+		//ventana->bloquear();
 
 		try {
 			Elemento* raiz = arbolEscenario->getRaiz();
@@ -203,7 +203,7 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 			RecursosCliente::getLog()->escribir("Error al procesar el archivo escenario.");
 		}
 
-		ventana->desbloquear();
+		//ventana->desbloquear();
 	}
 }
 

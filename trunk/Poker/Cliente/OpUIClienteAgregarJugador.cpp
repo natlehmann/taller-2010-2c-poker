@@ -18,7 +18,7 @@ OpUIClienteAgregarJugador::~OpUIClienteAgregarJugador(void)
 {
 }
 
-bool OpUIClienteAgregarJugador::ejecutar(Ventana* ventana){
+bool OpUIClienteAgregarJugador::ejecutarAccion(Ventana* ventana){
 
 	string nombreJugador = parametros.at(0);
 

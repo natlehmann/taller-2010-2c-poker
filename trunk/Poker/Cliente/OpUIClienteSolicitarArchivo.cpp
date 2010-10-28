@@ -20,7 +20,7 @@ OpUIClienteSolicitarArchivo::OpUIClienteSolicitarArchivo(vector<string> parametr
 OpUIClienteSolicitarArchivo::~OpUIClienteSolicitarArchivo(void){
 }
 
-bool OpUIClienteSolicitarArchivo::ejecutar(Ventana* ventana){
+bool OpUIClienteSolicitarArchivo::ejecutarAccion(Ventana* ventana){
 
 	string nombreArchivo = parametros.at(0);
 	string pathDestino = RecursosCliente::getConfig()->get("cliente.configuracion.imagenes.path");

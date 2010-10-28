@@ -8,11 +8,12 @@ using namespace std;
 
 class OpUIClienteSolicitarEscenario : public OperacionUICliente
 {
+protected:
+	virtual bool ejecutarAccion(Ventana* ventana);
+
 public:
 	OpUIClienteSolicitarEscenario(void);
 	virtual ~OpUIClienteSolicitarEscenario(void);
-
-	virtual bool ejecutar(Ventana* ventana);
 };
 
 #endif
