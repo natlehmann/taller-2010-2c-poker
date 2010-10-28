@@ -1,5 +1,7 @@
 #include "EstadoEsperandoJugadores.h"
 #include "ContextoJuego.h"
+#include "RecursosServidor.h"
+#include "UtilTiposDatos.h"
 
 EstadoEsperandoJugadores::EstadoEsperandoJugadores(void)
 {
@@ -14,7 +16,13 @@ void EstadoEsperandoJugadores::setEstadoRondaCiega(EstadoRondaCiega* rondaCiega)
 }
 
 EstadoJuego* EstadoEsperandoJugadores::getSiguienteEstado(){
-	if (ContextoJuego::getInstancia()->getCantidadJugadoresActivos() > 1) {
+
+	int tiempoMinimo = UtilTiposDatos::getEntero( 
+		RecursosServidor::getConfig()->get("servidor.logica.timeout.esperandoJugadores") );
+
+	if (ContextoJuego::getInstancia()->getCantidadJugadoresActivos() > 1
+		&& ContextoJuego::getInstancia()->getTiempoEsperandoJugadores() >= tiempoMinimo ) {
+
 		ContextoJuego::getInstancia()->iniciarJuego();
 		return this->estadoRondaCiega;
 

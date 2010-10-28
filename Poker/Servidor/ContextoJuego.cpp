@@ -51,6 +51,7 @@ ContextoJuego::ContextoJuego(void)
 	this->evaluandoGanador->setEstadoEsperandoJugadores(this->esperandoJugadores);
 
 	this->estado = this->esperandoJugadores;
+	this->timerEsperandoJugadores.iniciar();
 }
 
 ContextoJuego::~ContextoJuego(void)
@@ -100,6 +101,10 @@ HANDLE ContextoJuego::getMutex(){
 
 ContextoJuego* ContextoJuego::getInstancia(){
 	return &ContextoJuego::instancia;
+}
+
+int ContextoJuego::getTiempoEsperandoJugadores(){
+	return this->timerEsperandoJugadores.getSegundos();
 }
 
 MesaModelo* ContextoJuego::getMesa(){

@@ -371,6 +371,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TimerServidor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\UIException.cpp"
 				>
 			</File>
@@ -602,6 +606,10 @@
 			</File>
 			<File
 				RelativePath=".\Thread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TimerServidor.h"
 				>
 			</File>
 			<File
