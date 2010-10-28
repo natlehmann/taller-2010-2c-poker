@@ -16,6 +16,7 @@
 #include "EstadoRondaTurn.h"
 #include "EstadoRondaRiver.h"
 #include "EstadoEvaluandoGanador.h"
+#include "TimerServidor.h"
 #include <windows.h>
 
 #define MAX_CANTIDAD_JUGADORES	6
@@ -26,6 +27,8 @@ class ContextoJuego
 {
 private:
 	HANDLE mutex;
+	TimerServidor timerEsperandoJugadores;
+
 	MesaModelo* mesa;
 	BoteModelo* bote;
 	MensajeModelo* mensaje;
@@ -102,6 +105,8 @@ public:
 	bool isRondaTerminada();
 	void setMostrandoCartas(bool mostrandoCartas);
 	bool getMostrandoCartas();
+
+	int getTiempoEsperandoJugadores();
 
 	/**
 	* Para ser llamado al finalizar la aplicacion
