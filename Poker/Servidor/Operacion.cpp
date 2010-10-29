@@ -28,6 +28,9 @@ bool Operacion::ejecutar(Socket* socket){
 	} catch(PokerException& e){
 		RecursosServidor::getLog()->escribir(&(e.getError()));
 
+	} catch(exception& e){
+		RecursosServidor::getLog()->escribir("Se produjo un error ejecutando la operacion. " + string(e.what()));
+
 	} catch(...){
 		RecursosServidor::getLog()->escribir("Se produjo un error ejecutando la operacion.");
 	}
