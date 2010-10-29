@@ -17,7 +17,7 @@ OperacionUICliente::~OperacionUICliente(void)
 bool OperacionUICliente::ejecutar(Ventana* ventana){
 
 	bool resultado = false;
-
+/*
 	HANDLE mutexVentana = ventana->getMutex();
 	
 	// TODO: VERIFICAR TIMEOUT
@@ -26,9 +26,10 @@ bool OperacionUICliente::ejecutar(Ventana* ventana){
 		cout << "DIO TIMEOUT !!!!" << endl;
 
 	} 
+	*/
 	
 
-	//ventana->bloquear();
+	ventana->bloquear();
 
 	try {
 		resultado = this->ejecutarAccion(ventana);
@@ -36,12 +37,15 @@ bool OperacionUICliente::ejecutar(Ventana* ventana){
 	} catch(PokerException& e){
 		RecursosCliente::getLog()->escribir(&(e.getError()));
 
+	} catch(exception& e){
+		RecursosCliente::getLog()->escribir("Se produjo un error ejecutando la operacion. " + string(e.what()));
+
 	} catch(...){
 		RecursosCliente::getLog()->escribir("Se produjo un error ejecutando la operacion.");
 	}
 
-	ReleaseMutex(mutexVentana);
-	//ventana->desbloquear();
+	//ReleaseMutex(mutexVentana);
+	ventana->desbloquear();
 	return resultado;
 }
 
