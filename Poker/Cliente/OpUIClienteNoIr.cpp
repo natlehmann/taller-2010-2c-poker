@@ -10,8 +10,5 @@ OpUIClienteNoIr::~OpUIClienteNoIr(void)
 
 bool OpUIClienteNoIr::ejecutarAccion(Ventana* ventana) {
 
-	// TODO: REEMPLAZAR 
-	cout << "CLICK EN EL BOTON No Ir" << endl;
-
-	return true;
+	return this->enviarPedido("OpNoIr", ventana);
 }

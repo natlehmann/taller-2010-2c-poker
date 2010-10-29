@@ -14,9 +14,9 @@ void EstadoRondaRiver::setEstadoEvaluandoGanador(EstadoEvaluandoGanador* evaluan
 }
 
 EstadoJuego* EstadoRondaRiver::getSiguienteEstado(){
-	return NULL;
+	return this; // TODO!!!!!!!!!!!!
 }
 
 string EstadoRondaRiver::getEscenarioJuego(int idJugador){
-	return "";
+	return this->getEscenarioEstandar(idJugador);
 }

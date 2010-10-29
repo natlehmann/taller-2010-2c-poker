@@ -11,7 +11,7 @@ VentanaProxy::~VentanaProxy(void)
 {
 	SDL_DestroySemaphore(this->semaforo);
 }
-
+/*
 void VentanaProxy::chequearBloquear(){
 	if (!this->bloqueoExterno) {
 		SDL_SemWait(this->semaforo);
@@ -23,6 +23,7 @@ void VentanaProxy::chequearDesbloquear(){
 		SDL_SemPost(this->semaforo);
 	}
 }
+*/
 
 void VentanaProxy::bloquear(){
 	if (!this->bloqueoExterno) {
@@ -32,10 +33,10 @@ void VentanaProxy::bloquear(){
 }
 
 void VentanaProxy::desbloquear(){
-	SDL_SemPost(this->semaforo);
 	this->bloqueoExterno = false;
+	SDL_SemPost(this->semaforo);
 }
-
+/*
 void VentanaProxy::iniciar(){
 	this->bloquear();
 	Ventana::dibujar(NULL);
@@ -124,3 +125,4 @@ void VentanaProxy::dibujarSobreSup(SDL_Surface* superficie){
 	Ventana::dibujarSobreSup(superficie);
 	//this->chequearDesbloquear();
 }
+*/

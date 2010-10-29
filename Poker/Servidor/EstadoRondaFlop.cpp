@@ -1,4 +1,5 @@
 #include "EstadoRondaFlop.h"
+#include "ContextoJuego.h"
 
 EstadoRondaFlop::EstadoRondaFlop(EstadoRondaTurn* rondaTurn)
 {
@@ -14,9 +15,19 @@ void EstadoRondaFlop::setEstadoRondaTurn(EstadoRondaTurn* rondaTurn){
 }
 
 EstadoJuego* EstadoRondaFlop::getSiguienteEstado(){
-	return NULL;
+	
+	if (ContextoJuego::getInstancia()->isRondaTerminada()) {
+
+		ContextoJuego::getInstancia()->mostrarTurn();
+		ContextoJuego::getInstancia()->iniciarJuego();
+
+		return this->rondaTurn;
+
+	} else {
+		return this;
+	}
 }
 
 string EstadoRondaFlop::getEscenarioJuego(int idJugador){
-	return "";
+	return this->getEscenarioEstandar(idJugador);
 }

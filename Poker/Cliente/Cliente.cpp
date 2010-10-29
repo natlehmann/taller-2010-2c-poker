@@ -64,7 +64,7 @@ bool Cliente::enviarRecibir(const string mensajeEnviado, string& mensajeRecibido
 	bool enviado = false;
 	bool recibido = false;
 
-	SDL_SemWait(this->semaforo);
+	//SDL_SemWait(this->semaforo);
 	try {
 
 		enviado = this->enviarMsj(mensajeEnviado);
@@ -75,7 +75,7 @@ bool Cliente::enviarRecibir(const string mensajeEnviado, string& mensajeRecibido
 			"Error al enviar el siguiente mensaje al servidor: " + mensajeEnviado);
 	}
 
-	SDL_SemPost(this->semaforo);
+	//SDL_SemPost(this->semaforo);
 
 	return enviado && recibido;
 }
@@ -85,7 +85,7 @@ bool Cliente::enviarRecibir(const string mensajeEnviado, string& mensajeRecibido
 	bool enviado = false;
 	bool recibido = false;
 
-	SDL_SemWait(this->semaforo);
+	//SDL_SemWait(this->semaforo);
 	try {
 
 		enviado = this->enviarMsj(mensajeEnviado);
@@ -96,7 +96,7 @@ bool Cliente::enviarRecibir(const string mensajeEnviado, string& mensajeRecibido
 			"Error al enviar el siguiente mensaje al servidor: " + mensajeEnviado);
 	}
 
-	SDL_SemPost(this->semaforo);
+	//SDL_SemPost(this->semaforo);
 
 	return enviado && recibido;
 }

@@ -6,6 +6,9 @@
 #include "OpEnviarEscenario.h"
 #include "OpEnviarArchivo.h"
 #include "OpAgregarJugador.h"
+#include "OpNoIr.h"
+#include "OpIgualarApuesta.h"
+#include "OpDejarMesa.h"
 #include <list>
 using namespace std;
 
@@ -26,6 +29,15 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 	}
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpAgregarJugador")) {
 		operacion = new OpAgregarJugador(idCliente, parametros);
+	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpNoIr")) {
+		operacion = new OpNoIr(idCliente);
+	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpIgualarApuesta")) {
+		operacion = new OpIgualarApuesta(idCliente);
+	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpDejarMesa")) {
+		operacion = new OpDejarMesa(idCliente);
 	}
 
 	// TODO: ACA SE VERIFICARIAN TODAS LAS DEMAS OPERACIONES
