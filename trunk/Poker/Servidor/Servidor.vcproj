@@ -299,6 +299,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpDejarMesa.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpEnviarArchivo.cpp"
 				>
 			</File>
@@ -308,6 +312,14 @@
 			</File>
 			<File
 				RelativePath=".\Operacion.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpIgualarApuesta.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpNoIr.cpp"
 				>
 			</File>
 			<File
@@ -541,6 +553,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpDejarMesa.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OpEnviarArchivo.h"
 				>
 			</File>
@@ -550,6 +566,14 @@
 			</File>
 			<File
 				RelativePath=".\Operacion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpIgualarApuesta.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpNoIr.h"
 				>
 			</File>
 			<File

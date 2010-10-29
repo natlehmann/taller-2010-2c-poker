@@ -20,14 +20,11 @@ OpUIClienteAgregarJugador::~OpUIClienteAgregarJugador(void)
 
 bool OpUIClienteAgregarJugador::ejecutarAccion(Ventana* ventana){
 
-	string nombreJugador = parametros.at(0);
-
 	bool ok = true;
 	DomTree* tree = new DomTree("operaciones");
-	Elemento* pedido = tree->agregarElemento("pedido");
+	Elemento* operacion = this->agregarOperacion(tree, "OpAgregarJugador");
 
-	Elemento* operacion = pedido->agregarHijo("operacion");
-	operacion->agregarAtributo("id", "OpAgregarJugador");
+	string nombreJugador = parametros.at(0);
 
 	Elemento* parametros = operacion->agregarHijo("parametros");
 	Elemento* parametro1 = parametros->agregarHijo("parametro");

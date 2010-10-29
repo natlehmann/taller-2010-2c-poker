@@ -22,6 +22,7 @@ protected:
 	void borrarMensaje(DomTree* arbol);
 
 	string arbolToString(DomTree* arbol);
+	string getEscenarioEstandar(int idJugador);
 
 public:
 	virtual ~EstadoJuego(void);

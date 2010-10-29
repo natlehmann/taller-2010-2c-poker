@@ -25,7 +25,7 @@ DomTreeFactory* DomTreeFactory::config(string nombreConfig){
 
 	DomTreeFactory* resultado = NULL;
 
-	SDL_SemWait(DomTreeFactory::semaforo);
+	//SDL_SemWait(DomTreeFactory::semaforo);
 
 	if (DomTreeFactory::configuraciones.empty()) {
 		DomTreeFactory::inicializar();
@@ -36,7 +36,7 @@ DomTreeFactory* DomTreeFactory::config(string nombreConfig){
 		resultado = &(it->second);	
 	}
 
-	SDL_SemPost(DomTreeFactory::semaforo);
+	//SDL_SemPost(DomTreeFactory::semaforo);
 
 	if (resultado == NULL) {
 		throw ParserException("La configuracion del parser " + nombreConfig + " no es valida.", "V");

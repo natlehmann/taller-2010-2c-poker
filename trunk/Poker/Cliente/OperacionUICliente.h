@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include "Ventana.h"
+#include "DomTree.h"
+#include "Elemento.h"
 
 using namespace std;
 
@@ -11,6 +13,10 @@ class OperacionUICliente
 {
 protected:
 	vector<string> parametros;
+
+	bool enviarPedido(string nombreOperacion, Ventana* ventana);
+	Elemento* agregarOperacion(DomTree* arbol, string nombreOperacion);
+	virtual bool enviarMensaje(DomTree* tree, Ventana* ventana);
 
 	virtual bool ejecutarAccion(Ventana* ventana) = 0;
 

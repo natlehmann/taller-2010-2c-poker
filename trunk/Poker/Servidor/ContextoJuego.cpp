@@ -199,7 +199,7 @@ JugadorModelo* ContextoJuego::getJugador(int idCliente)
 {
 	int idJugador = this->idClienteToIdJugador(idCliente);
 
-	if (idJugador > 0) {
+	if (idJugador >= 0) {
 		return this->jugadores.at(idJugador);
 
 	} else {

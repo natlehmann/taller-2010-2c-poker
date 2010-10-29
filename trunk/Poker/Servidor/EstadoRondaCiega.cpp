@@ -30,13 +30,5 @@ EstadoJuego* EstadoRondaCiega::getSiguienteEstado(){
 
 string EstadoRondaCiega::getEscenarioJuego(int idJugador){
 
-	DomTree* arbol = EstadoJuego::crearArbolEscenario();
-	EstadoJuego::agregarMesa(arbol);
-	EstadoJuego::agregarBote(arbol);
-	EstadoJuego::agregarJugadores(arbol, idJugador);
-	EstadoJuego::agregarCartasComunitarias(arbol);
-	EstadoJuego::agregarPanelBotones(arbol, idJugador);
-	EstadoJuego::borrarMensaje(arbol);
-
-	return EstadoJuego::arbolToString(arbol);
+	return this->getEscenarioEstandar(idJugador);
 }

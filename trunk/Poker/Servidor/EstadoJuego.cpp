@@ -242,3 +242,16 @@ string EstadoJuego::arbolToString(DomTree* arbol){
 	XmlParser parser;
 	return parser.toString(arbol);
 }
+
+string EstadoJuego::getEscenarioEstandar(int idJugador){
+
+	DomTree* arbol = this->crearArbolEscenario();
+	this->agregarMesa(arbol);
+	this->agregarBote(arbol);
+	this->agregarJugadores(arbol, idJugador);
+	this->agregarCartasComunitarias(arbol);
+	this->agregarPanelBotones(arbol, idJugador);
+	this->borrarMensaje(arbol);
+
+	return this->arbolToString(arbol);
+}

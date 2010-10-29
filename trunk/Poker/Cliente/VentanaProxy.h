@@ -10,21 +10,22 @@ private:
 	SDL_sem* semaforo;
 	bool bloqueada;
 	bool bloqueoExterno;
-
+/*
 	void chequearBloquear();
 	void chequearDesbloquear();
+
 
 protected:
 	virtual void dibujar(SDL_Surface* superficie);
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
-
+*/
 public:
 	VentanaProxy(void);
 	virtual ~VentanaProxy(void);
 
 	virtual void bloquear();
 	virtual void desbloquear();
-
+/*
 	virtual void iniciar();
 	virtual void limpiar();
 
@@ -40,14 +41,11 @@ public:
 	virtual void forzarRefresh(ElementoGrafico* elemento);
 
 
-
-	/* Metodos de Contenedor */
 	virtual void agregarElementoGrafico(ElementoGrafico* elemento);
 
-	
-	/* Metodos de ElementoGrafico */
 	virtual int getAncho();
 	virtual int getAlto();
+*/
 };
 
 #endif //_VENTANAPROXY_H__
