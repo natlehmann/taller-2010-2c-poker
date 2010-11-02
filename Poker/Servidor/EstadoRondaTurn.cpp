@@ -19,7 +19,7 @@ EstadoJuego* EstadoRondaTurn::getSiguienteEstado(){
 	if (ContextoJuego::getInstancia()->isRondaTerminada()) {
 
 		ContextoJuego::getInstancia()->mostrarRiver();
-		ContextoJuego::getInstancia()->iniciarJuego();
+		ContextoJuego::getInstancia()->iniciarRonda();
 
 		return this->rondaRiver;
 

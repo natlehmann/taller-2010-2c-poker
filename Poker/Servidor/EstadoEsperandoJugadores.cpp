@@ -41,5 +41,8 @@ string EstadoEsperandoJugadores::getEscenarioJuego(int idJugador){
 
 	EstadoJuego::agregarJugadores(arbol, idJugador);
 
-	return EstadoJuego::arbolToString(arbol);
+	string resultado = EstadoJuego::arbolToString(arbol);
+	delete(arbol);
+
+	return resultado;
 }

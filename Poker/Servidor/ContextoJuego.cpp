@@ -303,13 +303,19 @@ bool ContextoJuego::isRondaTerminada(){
 	return this->rondaTerminada;
 }
 
-void ContextoJuego::iniciarJuego()
+void ContextoJuego::iniciarJuego() {
+	repartidor->mezclar();
+	this->bote->vaciar();
+	this->mostrandoCartas = false;
+
+	this->iniciarRonda();
+}
+
+void ContextoJuego::iniciarRonda()
 {
 	int cantidadJugadoresActivos = getCantidadJugadoresActivos();
 	if (cantidadJugadoresActivos < 2)
 		throw PokerException("No hay suficientes jugadores para iniciar la ronda.");
-
-	repartidor->mezclar();
 
 	int numeroDeJugador = 1;
 	for (vector<JugadorModelo*>::iterator it = this->jugadores.begin(); it != this->jugadores.end(); ++it) {
@@ -350,12 +356,11 @@ void ContextoJuego::iniciarJuego()
 			numeroDeJugador++;
 		}
 	}
-	this->bote->vaciar();
+	
 	this->bote->incrementar(mesa->getSmallBlind() * 3);
 	this->montoAIgualar = mesa->getSmallBlind() * 2;
 	this->cantidadJugadoresRonda = cantidadJugadoresActivos;
 	this->rondaTerminada = false;
-	this->mostrandoCartas = false;
 }
 
 void ContextoJuego::mostrarFlop()

@@ -91,6 +91,7 @@ public:
 
 	string getEscenarioJuego(int idCliente);
 
+	void iniciarRonda();
 	void iniciarJuego();
 	void mostrarFlop();
 	void mostrarTurn();
