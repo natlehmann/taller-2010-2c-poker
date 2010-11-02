@@ -85,17 +85,21 @@ void Boton::dibujarSobreSup(SDL_Surface* superficie){
 		switch (this->estado)
 		{
 		case 'u':
+			this->imagenUp->setHayCambios(true);
 			this->imagenUp->dibujar(superficie);
 			break;
 		case 'd':
+			this->imagenDown->setHayCambios(true);
 			this->imagenDown->dibujar(superficie);
 			break;
 		case 'o':
+			this->imagenOver->setHayCambios(true);
 			this->imagenOver->dibujar(superficie);
 			break;
 		}
 
 	} else {
+		this->imagenDeshabilitado->setHayCambios(true);
 		this->imagenDeshabilitado->dibujar(superficie);
 	}
 }
@@ -186,6 +190,7 @@ void Boton::dibujarUp(SDL_Surface* superficie)
 
 bool Boton::checkClick(SDL_Surface* superficie)
 {
+
 	if (this->isHabilitado()) {
 
 		bool estaSobre = this->estaSobre();
