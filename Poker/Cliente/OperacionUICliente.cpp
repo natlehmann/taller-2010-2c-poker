@@ -5,6 +5,8 @@
 #include "Cliente.h"
 #include "UICliente.h"
 #include "FabricaDeElementosGraficos.h"
+#include "VentanaAuxiliar.h"
+#include "Sincronizador.h"
 
 OperacionUICliente::OperacionUICliente(void)
 {
@@ -17,22 +19,11 @@ OperacionUICliente::~OperacionUICliente(void)
 bool OperacionUICliente::ejecutar(Ventana* ventana){
 
 	bool resultado = false;
-/*
-	HANDLE mutexVentana = ventana->getMutex();
 	
-	// TODO: VERIFICAR TIMEOUT
-	if(WaitForSingleObject(mutexVentana, 10000)==WAIT_TIMEOUT) {
-	   // TODO: handle time-out error
-		cout << "DIO TIMEOUT !!!!" << endl;
-
-	} 
-	*/
-	
-
-	ventana->bloquear();
+	Ventana* aux = Sincronizador::getInstancia()->getVentanaAuxiliar();
 
 	try {
-		resultado = this->ejecutarAccion(ventana);
+		resultado = this->ejecutarAccion(aux);
 
 	} catch(PokerException& e){
 		RecursosCliente::getLog()->escribir(&(e.getError()));
@@ -44,8 +35,19 @@ bool OperacionUICliente::ejecutar(Ventana* ventana){
 		RecursosCliente::getLog()->escribir("Se produjo un error ejecutando la operacion.");
 	}
 
-	//ReleaseMutex(mutexVentana);
-	ventana->desbloquear();
+	/*
+	SDL_Event event;
+
+	event.type = SDL_USEREVENT;
+	event.user.code = 1;
+	event.user.data1 = "";
+	event.user.data2 = 0;
+
+	ventana->PushEvent(&event);
+	*/
+
+	Sincronizador::getInstancia()->notificarCambio();
+
 	return resultado;
 }
 

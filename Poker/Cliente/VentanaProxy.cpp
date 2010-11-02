@@ -1,15 +1,17 @@
 #include "VentanaProxy.h"
 
-VentanaProxy::VentanaProxy(void) : Ventana()
+VentanaProxy::VentanaProxy(void) : VentanaImpl()
 {
 	this->semaforo = SDL_CreateSemaphore(1);
 	this->bloqueada = false;
 	this->bloqueoExterno = false;
+	this->ventanaMutex = SDL_CreateMutex();
 }
 
 VentanaProxy::~VentanaProxy(void)
 {
 	SDL_DestroySemaphore(this->semaforo);
+	SDL_DestroyMutex(this->ventanaMutex);
 }
 /*
 void VentanaProxy::chequearBloquear(){
@@ -27,14 +29,18 @@ void VentanaProxy::chequearDesbloquear(){
 
 void VentanaProxy::bloquear(){
 	if (!this->bloqueoExterno) {
-		SDL_SemWait(this->semaforo);
+		//SDL_SemWait(this->semaforo);
+		//Ventana::bloquear();
+		SDL_LockMutex(this->ventanaMutex);
 		this->bloqueoExterno = true;
 	}
 }
 
 void VentanaProxy::desbloquear(){
 	this->bloqueoExterno = false;
-	SDL_SemPost(this->semaforo);
+	//SDL_SemPost(this->semaforo);
+	//Ventana::desbloquear();
+	SDL_UnlockMutex(this->ventanaMutex);
 }
 /*
 void VentanaProxy::iniciar(){

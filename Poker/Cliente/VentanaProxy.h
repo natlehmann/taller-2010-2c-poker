@@ -2,12 +2,13 @@
 #define _VENTANAPROXY_H__
 
 #include "SDL_Thread.h"
-#include "Ventana.h"
+#include "VentanaImpl.h"
 
-class VentanaProxy : public Ventana
+class VentanaProxy : public VentanaImpl
 {
 private:
 	SDL_sem* semaforo;
+	SDL_mutex* ventanaMutex;
 	bool bloqueada;
 	bool bloqueoExterno;
 /*

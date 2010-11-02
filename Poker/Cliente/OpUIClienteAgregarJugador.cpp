@@ -46,8 +46,6 @@ bool OpUIClienteAgregarJugador::ejecutarAccion(Ventana* ventana){
 			FabricaDeElementosGraficos::generarEscenario(arbolEscenario, ventana);
 			delete (arbolEscenario);
 
-			UICliente::lanzarThreads(ventana);
-
 		} catch (PokerException& e) {
 			RecursosCliente::getLog()->escribir(&(Respuesta)e.getError());
 			ok = false;

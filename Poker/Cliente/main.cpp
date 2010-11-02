@@ -7,6 +7,8 @@
 #include "PokerException.h"
 #include "Respuesta.h"
 #include "VentanaProxy.h"
+#include "VentanaImpl.h"
+#include "Sincronizador.h"
 
 
 int main (int argc, char** argv)
@@ -20,9 +22,12 @@ int main (int argc, char** argv)
 		string idOperacionInicial = 
 			RecursosCliente::getConfig()->get("cliente.operacion.inicial");
 		FabricaOperacionesCliente fab;
-		ventana = new VentanaProxy();
 
-		//UICliente::lanzarThreads(ventana);
+		//ventana = new VentanaProxy();
+		ventana = new VentanaImpl();
+		Sincronizador::getInstancia()->registrarVentana(ventana);
+
+		UICliente::lanzarThreads(ventana);
 
 		operacion = fab.newOperacion(idOperacionInicial);
 		if (operacion->ejecutar(ventana)){
@@ -41,6 +46,7 @@ int main (int argc, char** argv)
 		delete(ventana);
 		ventana = NULL;
 
+		delete(Sincronizador::getInstancia());
 		
 
 

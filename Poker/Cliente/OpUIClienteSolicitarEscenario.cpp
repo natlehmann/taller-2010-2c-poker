@@ -9,6 +9,7 @@
 #include "RecursosCliente.h"
 #include "Respuesta.h"
 #include "FabricaDeElementosGraficos.h"
+#include "VentanaAuxiliar.h"
 
 OpUIClienteSolicitarEscenario::OpUIClienteSolicitarEscenario(void) : OperacionUICliente(){
 }
