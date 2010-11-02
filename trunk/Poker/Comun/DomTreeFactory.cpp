@@ -26,10 +26,11 @@ DomTreeFactory* DomTreeFactory::config(string nombreConfig){
 	DomTreeFactory* resultado = NULL;
 
 	//SDL_SemWait(DomTreeFactory::semaforo);
-
+/*
 	if (DomTreeFactory::configuraciones.empty()) {
 		DomTreeFactory::inicializar();
 	}
+	*/
 
 	map<string, DomTreeFactoryInstance>::iterator it = DomTreeFactory::configuraciones.find(nombreConfig);
 	if (it != DomTreeFactory::configuraciones.end()) {

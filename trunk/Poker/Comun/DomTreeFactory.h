@@ -25,12 +25,13 @@ private:
 
 	static SDL_sem* semaforo;
 
-	static void inicializar();
-
 protected:
 	DomTreeFactory(void);
 
 public:
+
+	static void inicializar();
+
 	/**
 	* Crea un elemento del DomTree para la configuracion default del parser
 	*/

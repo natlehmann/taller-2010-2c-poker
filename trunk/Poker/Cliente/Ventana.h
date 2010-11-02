@@ -16,92 +16,47 @@
 
 using namespace std;
 
+class VentanaAuxiliar;
+
 class Ventana {
-private:
-	HANDLE mutex;
-	SDL_Surface* pantalla;
-	Panel* panelComando;
-	void manejarEventos(SDL_Event* event);
-	void refrescar(SDL_Surface* superficie);
-	Mesa* mesa;
-
-
-	/* Atributos de Contenedor */
-	list<ElementoGrafico*> elementos;
-
-	/* Atributos y metodos de ElementoGrafico */
-	int posX;
-	int posY;
-	int ancho;
-	int alto;
-	bool hayCambios;
-	string id;
-	int posicion;
-	SDL_Surface* superficie;
-	SDL_Rect* offset;
-	SDL_Rect* contorno;
-
 
 protected:
-	virtual void dibujarSobreSup(SDL_Surface* superficie);
-	virtual void dibujar(SDL_Surface* superficie);
-	
-
-	/* Metodos de ElementoGrafico */
-	SDL_Surface* getSuperficie();
-	SDL_Rect* getOffsetRect();
-	SDL_Rect* getContornoRect();
-	void setHayCambios(bool hayCambios);
-	int getPosX();
-	void setPosX(int posX);
-	int getPosY();
-	void setPosY(int posY);	
-	void setAncho(int ancho);
-	void setAlto(int alto);
-	string getId();
-	void setId(string id);
-	int getPosicion();
-	void setPosicion(int posicion);
-	bool equals(Ventana* otro);
+	Ventana(void);
 
 public:
-	Ventana(void);
 	virtual ~Ventana(void);
 
-	HANDLE getMutex();
+	virtual void iniciar() = 0;
+	virtual void limpiar() = 0;
 
-	virtual void iniciar();
-	virtual void limpiar();
+	virtual int PushEvent(SDL_Event *event) = 0;
 
-	virtual Panel* getPanelComando();
-	virtual void setPanelComando(Panel* panel);
+	virtual void merge(SDL_Surface* superficie) = 0;
 
+	virtual Panel* getPanelComando() = 0;
+	virtual void setPanelComando(Panel* panel) = 0;
 
-	virtual void bloquear();
-	virtual void desbloquear();
+	virtual ElementoGrafico* getElementoPorId(string id) = 0;
 
-	virtual ElementoGrafico* getElementoPorId(string id);
+	virtual void borrarElementoPorId(string id) = 0;
 
-	virtual void borrarElementoPorId(string id);
-
-	virtual void borrarElemento(ElementoGrafico* elemento);
+	virtual void borrarElemento(ElementoGrafico* elemento) = 0;
 
 	/**
 	* Fuerza el redibujo de todos los elementos de la ventana que se intersecten con el elemento
 	* recibido por parametro.
 	* Pensado para casos en que desaparece un elemento.
 	*/
-	virtual void forzarRefresh(ElementoGrafico* elemento);
+	virtual void forzarRefresh(ElementoGrafico* elemento) = 0;
 
 
 	/* Metodos de Contenedor */
-	virtual void agregarElementoGrafico(ElementoGrafico* elemento);
+	virtual void agregarElementoGrafico(ElementoGrafico* elemento) = 0;
 
 	
 	/* Metodos de ElementoGrafico */
-	virtual int getAncho();
-	virtual int getAlto();
-
+	virtual int getAncho() = 0;
+	virtual int getAlto() = 0;
 	
 
 };

@@ -99,6 +99,7 @@ void Panel::dibujarSobreSup(SDL_Surface* superficie){
 
 	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
 		if (this->componentes[i] != NULL){
+			this->componentes[i]->setHayCambios(true);
 			this->componentes[i]->dibujar(superficie);
 		}
 	}

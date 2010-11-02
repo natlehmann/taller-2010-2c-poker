@@ -53,6 +53,7 @@ void UICliente::iniciarAplicacion()
 		throw UIException("No se pudo inicializar la interfaz grafica.","E");
 	}
 
+	DomTreeFactory::inicializar();
 	
 	UICliente::conectarServidor();
 

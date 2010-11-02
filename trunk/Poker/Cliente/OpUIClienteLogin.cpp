@@ -16,7 +16,7 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana){
 	FabricaOperacionesCliente fab;
 	// TODO: REEMPLAZAR PARAMETRO POR EL NOMBRE DEL JUGADOR
 	OperacionUICliente* operacion = fab.newOperacion("OpUIClienteAgregarJugador", "fulanito");
-	bool resultado = operacion->ejecutar(ventana);
+	bool resultado = operacion->ejecutarAccion(ventana);
 	delete(operacion);
 
 	return resultado;
