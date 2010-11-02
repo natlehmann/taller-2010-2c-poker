@@ -387,6 +387,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Sincronizador.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Socket.cpp"
 				>
 			</File>
@@ -412,6 +416,14 @@
 			</File>
 			<File
 				RelativePath=".\Ventana.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaAuxiliar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaImpl.cpp"
 				>
 			</File>
 			<File
@@ -673,6 +685,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Sincronizador.h"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Socket.h"
 				>
 			</File>
@@ -698,6 +714,14 @@
 			</File>
 			<File
 				RelativePath=".\Ventana.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaAuxiliar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaImpl.h"
 				>
 			</File>
 			<File
