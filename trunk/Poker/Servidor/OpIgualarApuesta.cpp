@@ -15,13 +15,23 @@ OpIgualarApuesta::~OpIgualarApuesta(void)
 
 bool OpIgualarApuesta::ejecutarAccion(Socket* socket){
 
-	ContextoJuego::getInstancia()->igualarApuesta(this->getIdCliente());
-	
-	FabricaOperacionesServidor fab;
-	vector<string> parametros;
-	Operacion* opEnviarEscenario = fab.newOperacion("OpEnviarEscenario", parametros, this->getIdCliente());
-	bool resultado = opEnviarEscenario->ejecutarAccion(socket);
-	delete (opEnviarEscenario);
+	bool error = false;
 
-	return resultado;
+	if (ContextoJuego::getInstancia()->isTurnoCliente(this->getIdCliente())) {
+
+		ContextoJuego::getInstancia()->igualarApuesta(this->getIdCliente());
+	}
+
+	string respuesta = ContextoJuego::getInstancia()->getEscenarioJuego(this->getIdCliente());
+cout << respuesta << endl << endl;
+	if (socket != NULL && !MensajesUtil::esVacio(respuesta)){
+		if(!socket->enviar(respuesta)) {
+			error = true;
+		}
+	}
+	else {
+		error = true;
+	}
+
+	return error;
 }

@@ -9,6 +9,7 @@ int main (int argc, char** argv)
 
 	ui.iniciarAplicacion();
 	ContextoJuego::getInstancia()->finalizar();
+	delete(ContextoJuego::getInstancia());
 
 	return 0;
 }

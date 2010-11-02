@@ -15,13 +15,23 @@ OpNoIr::~OpNoIr(void)
 
 bool OpNoIr::ejecutarAccion(Socket* socket){
 
-	ContextoJuego::getInstancia()->noIr(this->getIdCliente());
-	
-	FabricaOperacionesServidor fab;
-	vector<string> parametros;
-	Operacion* opEnviarEscenario = fab.newOperacion("OpEnviarEscenario", parametros, this->getIdCliente());
-	bool resultado = opEnviarEscenario->ejecutarAccion(socket);
-	delete (opEnviarEscenario);
+	bool error = false;
 
-	return resultado;
+	if (ContextoJuego::getInstancia()->isTurnoCliente(this->getIdCliente())) {
+
+		ContextoJuego::getInstancia()->noIr(this->getIdCliente());
+	}
+	
+	string respuesta = ContextoJuego::getInstancia()->getEscenarioJuego(this->getIdCliente());
+cout << respuesta << endl << endl;
+	if (socket != NULL && !MensajesUtil::esVacio(respuesta)){
+		if(!socket->enviar(respuesta)) {
+			error = true;
+		}
+	}
+	else {
+		error = true;
+	}
+
+	return error;
 }

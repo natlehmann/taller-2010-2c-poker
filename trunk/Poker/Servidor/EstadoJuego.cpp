@@ -253,5 +253,8 @@ string EstadoJuego::getEscenarioEstandar(int idJugador){
 	this->agregarPanelBotones(arbol, idJugador);
 	this->borrarMensaje(arbol);
 
-	return this->arbolToString(arbol);
+	string resultado = this->arbolToString(arbol);
+	delete (arbol);
+
+	return resultado;
 }

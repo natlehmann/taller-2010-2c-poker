@@ -19,7 +19,7 @@ EstadoJuego* EstadoRondaFlop::getSiguienteEstado(){
 	if (ContextoJuego::getInstancia()->isRondaTerminada()) {
 
 		ContextoJuego::getInstancia()->mostrarTurn();
-		ContextoJuego::getInstancia()->iniciarJuego();
+		ContextoJuego::getInstancia()->iniciarRonda();
 
 		return this->rondaTurn;
 

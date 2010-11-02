@@ -16,7 +16,7 @@ bool Operacion::ejecutar(Socket* socket){
 	HANDLE mutexContexto = ContextoJuego::getInstancia()->getMutex();
 	
 	// TODO: VERIFICAR TIMEOUT
-	if(WaitForSingleObject(mutexContexto, 10000)==WAIT_TIMEOUT) {
+	if(WaitForSingleObject(mutexContexto, INFINITE)==WAIT_TIMEOUT) {
 	   // TODO: handle time-out error
 		cout << "DIO TIMEOUT !!!! ID CLIENTE: " << this->getIdCliente() << endl;
 
