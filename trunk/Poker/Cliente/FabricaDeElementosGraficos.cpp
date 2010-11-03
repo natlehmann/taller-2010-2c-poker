@@ -156,14 +156,13 @@ void FabricaDeElementosGraficos::generarEscenario(DomTree *arbolEscenario, Venta
 
 								if (MensajesUtil::sonIguales(XML_PANEL_BOTON, (*itComponente)->getNombre())) {
 									Boton* boton = generarBoton(itComponente, panel);
-									panel->agregarComponente(boton, boton->getPosicion());
 								}
 
 								if (MensajesUtil::sonIguales(XML_PANEL_TEXTBOX, (*itComponente)->getNombre())) {
 									TextBox* textBox = generarTextBox(itComponente, panel);
-									panel->agregarComponente(textBox, textBox->getPosicion());
 								}
 						}
+
 					}
 					else if (MensajesUtil::sonIguales(XML_MENSAJE, (*itElementosVentana)->getNombre()))
 					{
@@ -346,10 +345,11 @@ Boton* FabricaDeElementosGraficos::generarBoton(list<Elemento*>::iterator itBoto
 
 	} else {
 		boton = new Boton((*itBoton)->getTexto());
+		boton->setId(idBoton);
+		boton->setPosicion(UtilTiposDatos::getEntero((*itBoton)->getAtributo("posicion")) - 1);
+		panel->agregarComponente(boton, boton->getPosicion());
 	}
 
-	boton->setId(idBoton);
-	boton->setPosicion(UtilTiposDatos::getEntero((*itBoton)->getAtributo("posicion")) - 1);
 	
 	if (MensajesUtil::sonIguales("true", (*itBoton)->getAtributo("habilitado"))) {
 		boton->setHabilitado(true);
@@ -376,10 +376,11 @@ TextBox* FabricaDeElementosGraficos::generarTextBox(list<Elemento*>::iterator it
 
 	} else {
 		textBox = new TextBox((*itBoton)->getTexto());
+		textBox->setId(id);
+		textBox->setPosicion(UtilTiposDatos::getEntero((*itBoton)->getAtributo("posicion")) - 1);
+		panel->agregarComponente(textBox, textBox->getPosicion());
 	}
 
-	textBox->setId(id);
-	textBox->setPosicion(UtilTiposDatos::getEntero((*itBoton)->getAtributo("posicion")) - 1);
 	
 	if (MensajesUtil::sonIguales("true", (*itBoton)->getAtributo("habilitado"))) {
 		textBox->setHabilitado(true);
