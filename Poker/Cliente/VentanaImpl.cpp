@@ -189,10 +189,12 @@ void VentanaImpl::manejarEventos(SDL_Event* event){
 
 	if (this->getPanelComando() != NULL) {
 
-		list<ComponentePanel*> componentes = this->getPanelComando()->getComponentes();
+		ComponentePanel** componentes = this->getPanelComando()->getComponentes();
 
-		for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
-			this->hayCambios = this->hayCambios || (*it)->checkWrite(this->pantalla, event, 1);
+		for (int i = 0; i < MAX_CANT_COMPONENTES; i++) {
+			if (componentes[i] != NULL) {
+				this->hayCambios = this->hayCambios || componentes[i]->checkWrite(this->pantalla, event, 1);
+			}
 		}
 
 		switch (event->type){	
@@ -205,18 +207,21 @@ void VentanaImpl::manejarEventos(SDL_Event* event){
 */
 			case (SDL_MOUSEBUTTONDOWN):
 
-				for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
-					if ((*it)->checkClick(this->pantalla)) {
+				for (int i = 0; i < MAX_CANT_COMPONENTES; i++) {
+					if (componentes[i] != NULL) {
 
-						this->hayCambios = true;
+						if (componentes[i]->checkClick(this->pantalla)) {
 
-						// TODO: VER SI ESTO NO DEBERIA LANZARSE EN OTRO HILO 
-						// CONSIDERAR SINCRONIZACION DE VENTANA
-						// VER QUE HACEMOS CON TEXTBOX
-						FabricaOperacionesCliente fab;
-						OperacionUICliente* operacion = fab.newOperacion((*it)->getIdOperacion());
-						operacion->ejecutar(this);
-						delete(operacion);
+							this->hayCambios = true;
+
+							// TODO: VER SI ESTO NO DEBERIA LANZARSE EN OTRO HILO 
+							// CONSIDERAR SINCRONIZACION DE VENTANA
+							// VER QUE HACEMOS CON TEXTBOX
+							FabricaOperacionesCliente fab;
+							OperacionUICliente* operacion = fab.newOperacion(componentes[i]->getIdOperacion());
+							operacion->ejecutar(this);
+							delete(operacion);
+						}
 					}
 				}
 				break;		
