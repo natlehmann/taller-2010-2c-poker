@@ -27,12 +27,6 @@ Panel::~Panel(void)
 			delete (this->componentes[i]);
 		}
 	}
-
-	for (list<ComponentePanel*>::iterator it = this->listaComponentes.begin(); it != this->listaComponentes.end(); it++) {
-		delete(*it);
-	}
-
-	this->listaComponentes.clear();
 }
 
 void Panel::agregarComponente(ComponentePanel* componente, int posicion){
@@ -54,28 +48,9 @@ void Panel::agregarComponente(ComponentePanel* componente, int posicion){
 	}
 }
 
-list<ComponentePanel*> Panel::getComponentes(){
+ComponentePanel** Panel::getComponentes(){
 
-	if (this->hayNuevosComponentes) {
-
-		
-		for (list<ComponentePanel*>::iterator it = this->listaComponentes.begin(); it != this->listaComponentes.end(); it++) {
-			delete(*it);
-		}
-		
-		this->listaComponentes.clear();
-
-		for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
-			if (this->componentes[i] != NULL){
-
-				ComponentePanel* copia = this->componentes[i]->clonar();
-				this->listaComponentes.push_back(copia);
-			}
-		}
-
-		this->hayNuevosComponentes = false;
-	}
-	return this->listaComponentes;
+	return this->componentes;
 }
 
 

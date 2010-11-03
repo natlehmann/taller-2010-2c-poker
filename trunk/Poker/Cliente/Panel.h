@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
-#include <list>
 
 #include "Contenedor.h"
 #include "ComponentePanel.h"
@@ -29,7 +28,6 @@ private:
 
 	ComponentePanel* componentes[MAX_CANT_COMPONENTES];
 	bool hayNuevosComponentes;
-	list<ComponentePanel*> listaComponentes;
 
 	void configurar();
 
@@ -45,7 +43,7 @@ public:
 	*/
 	void agregarComponente(ComponentePanel* componente, int posicion);
 
-	list<ComponentePanel*> getComponentes();
+	ComponentePanel** getComponentes();
 
 	virtual ElementoGrafico* getElementoPorId(string id);
 };
