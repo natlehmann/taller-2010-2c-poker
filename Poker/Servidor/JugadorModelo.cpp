@@ -16,12 +16,13 @@ JugadorModelo::JugadorModelo(int id, int posicion)
 	this->ausente = true;
 }
 
-JugadorModelo::JugadorModelo(int id, string nombre, int fichas, int posicion, string nombreImagen)
+JugadorModelo::JugadorModelo(int id, string nombre, int fichas, int posicion, string password, string nombreImagen)
 {
 	this->id = id;
 	this->nombre = nombre;
 	this->fichas = fichas;
 	this->posicion = posicion;
+	this->password = password;
 	this->nombreImagen = nombreImagen;
 	this->carta1 = NULL;
 	this->carta2 = NULL;
@@ -74,6 +75,17 @@ void JugadorModelo::setPosicion(int posicion)
 {
 	this->posicion = posicion;
 }
+
+string JugadorModelo::getPassword()
+{
+	return this->password;
+}
+
+void JugadorModelo::setPassword(string password)
+{
+	this->password = password;
+}
+
 
 string JugadorModelo::getNombreImagen()
 {
