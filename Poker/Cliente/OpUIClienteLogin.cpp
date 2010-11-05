@@ -18,11 +18,20 @@ OpUIClienteLogin::~OpUIClienteLogin(void)
 bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 {
 	bool ok = true;
+
+	// TODO: BORRRAR ESTO
+	string usuario = "pepe";
+	string password = "pass";
+	string esVirtual = "false";
+	string esObservador = "false";
 	
+	//TODO: SE ANULA ESTO HASTA QUE ESTE IMPLEMENTADA LA FUNCIONALIDAD
+	/*
 	string usuario = this->parametros.at(0);
 	string password = this->parametros.at(1);
 	string esVirtual = this->parametros.at(2);
 	string esObservador = this->parametros.at(3);
+	*/
 
 	DomTree* tree = new DomTree("operaciones");
 	Elemento* pedido = tree->agregarElemento("pedido");

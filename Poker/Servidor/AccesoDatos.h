@@ -6,6 +6,9 @@
 #include "JugadorModelo.h"
 #include "MensajesUtil.h"
 
+
+#define _CRT_SECURE_NO_DEPRECATE 1
+
 using namespace std;
 
 class AccesoDatos
