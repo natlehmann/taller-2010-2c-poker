@@ -5,6 +5,7 @@
 #include "MensajesUtil.h"
 #include "OpEnviarEscenario.h"
 #include "OpEnviarArchivo.h"
+#include "OpLogin.h"
 #include "OpAgregarJugador.h"
 #include "OpNoIr.h"
 #include "OpIgualarApuesta.h"
@@ -26,6 +27,9 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 	}
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpEnviarArchivo")) {
 		operacion = new OpEnviarArchivo(idCliente, parametros);
+	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpLogin")) {
+		operacion = new OpLogin(idCliente, parametros);
 	}
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpAgregarJugador")) {
 		operacion = new OpAgregarJugador(idCliente, parametros);
