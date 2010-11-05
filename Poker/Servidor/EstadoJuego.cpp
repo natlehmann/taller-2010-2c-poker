@@ -77,19 +77,19 @@ void EstadoJuego::agregarJugadores(DomTree* arbol, int idJugador){
 	Elemento* elementoEscenario = arbol->getRaiz()->getHijos()->front();
 	Elemento* elemJugadores = elementoEscenario->agregarHijo("jugadores", "escenario");
 
-	vector<JugadorModelo*> jugadores = ContextoJuego::getInstancia()->getJugadores();
-	for (vector<JugadorModelo*>::iterator it = jugadores.begin(); it != jugadores.end(); it++) {
+	JugadorModelo** jugadores = ContextoJuego::getInstancia()->getJugadores();
+	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
 
 		Elemento* elemJugador = elemJugadores->agregarHijo("jugador", "escenario");
-		elemJugador->agregarAtributo("id", UtilTiposDatos::enteroAString((*it)->getId()));
-		elemJugador->agregarAtributo("posicion", UtilTiposDatos::enteroAString((*it)->getPosicion()));
-		elemJugador->agregarAtributo("nombre", (*it)->getNombre());
+		elemJugador->agregarAtributo("id", UtilTiposDatos::enteroAString(jugadores[i]->getId()));
+		elemJugador->agregarAtributo("posicion", UtilTiposDatos::enteroAString(jugadores[i]->getPosicion()));
+		elemJugador->agregarAtributo("nombre", jugadores[i]->getNombre());
 
-		if ((*it)->isAusente()) {
+		if (jugadores[i]->isAusente()) {
 			elemJugador->agregarAtributo("estado", "ausente");
 
 		} else {
-			if ((*it)->isActivo()) {
+			if (jugadores[i]->isActivo()) {
 				elemJugador->agregarAtributo("estado", "activo");
 
 			} else {
@@ -98,12 +98,12 @@ void EstadoJuego::agregarJugadores(DomTree* arbol, int idJugador){
 		}
 
 
-		if (!(*it)->isAusente()) {
+		if (!jugadores[i]->isAusente()) {
 
 			// se agrega la imagen
 			Elemento* elemImagen = elemJugador->agregarHijo("imagen", "escenario");
-			if ( (*it)->isActivo() && !MensajesUtil::esVacio((*it)->getNombreImagen()) ) {
-				elemImagen->agregarAtributo("nombre", (*it)->getNombreImagen());
+			if ( jugadores[i]->isActivo() && !MensajesUtil::esVacio(jugadores[i]->getNombreImagen()) ) {
+				elemImagen->agregarAtributo("nombre", jugadores[i]->getNombreImagen());
 			
 			} else {
 				// TODO: VER SI SE MANDA NOMBRE IMAGEN A ARCHIVO PROPERTIES
@@ -113,33 +113,33 @@ void EstadoJuego::agregarJugadores(DomTree* arbol, int idJugador){
 
 			// se agregan las fichas
 			Elemento* elemFichas = elemJugador->agregarHijo("fichas", "escenario");
-			elemFichas->setTexto(UtilTiposDatos::enteroAString((*it)->getFichas()));
+			elemFichas->setTexto(UtilTiposDatos::enteroAString(jugadores[i]->getFichas()));
 
 			// se agregan la apuesta
 			Elemento* elemApuesta = elemJugador->agregarHijo("apuesta", "escenario");
-			elemApuesta->setTexto(UtilTiposDatos::enteroAString((*it)->getApuesta()));
+			elemApuesta->setTexto(UtilTiposDatos::enteroAString(jugadores[i]->getApuesta()));
 
 			// se agregan las cartas
-			if ((*it)->getCarta1() != NULL && (*it)->getCarta2() != NULL) {
+			if (jugadores[i]->getCarta1() != NULL && jugadores[i]->getCarta2() != NULL) {
 
 				Elemento* elemCartas = elemJugador->agregarHijo("cartas", "escenario");
 				Elemento* elemCarta1 = elemCartas->agregarHijo("carta", "escenario");
 				Elemento* elemCarta2 = elemCartas->agregarHijo("carta", "escenario");
 
-				elemCarta1->agregarAtributo("id", (*it)->getCarta1()->getId());
-				elemCarta2->agregarAtributo("id", (*it)->getCarta2()->getId());
+				elemCarta1->agregarAtributo("id", jugadores[i]->getCarta1()->getId());
+				elemCarta2->agregarAtributo("id", jugadores[i]->getCarta2()->getId());
 
 				// TODO: AGREGAR CHEQUEO PARA FUNCIONALIDAD DE "VER TODAS LAS CARTAS"
 
 				// para el jugador que inicio el pedido
-				if ((*it)->getId() == idJugador) {
+				if (jugadores[i]->getId() == idJugador) {
 
-					elemCarta1->agregarAtributo("numero", (*it)->getCarta1()->getNumero());
-					elemCarta1->agregarAtributo("palo", (*it)->getCarta1()->getPalo());
+					elemCarta1->agregarAtributo("numero", jugadores[i]->getCarta1()->getNumero());
+					elemCarta1->agregarAtributo("palo", jugadores[i]->getCarta1()->getPalo());
 					elemCarta1->agregarAtributo("reverso", "false");
 
-					elemCarta2->agregarAtributo("numero", (*it)->getCarta2()->getNumero());
-					elemCarta2->agregarAtributo("palo", (*it)->getCarta2()->getPalo());
+					elemCarta2->agregarAtributo("numero", jugadores[i]->getCarta2()->getNumero());
+					elemCarta2->agregarAtributo("palo", jugadores[i]->getCarta2()->getPalo());
 					elemCarta2->agregarAtributo("reverso", "false");
 				
 				} else {
@@ -171,15 +171,9 @@ void EstadoJuego::agregarCartasComunitarias(DomTree* arbol){
 			Elemento* elemCarta = elemCartas->agregarHijo("carta", "escenario");
 			elemCarta->agregarAtributo("id", (*it)->getId());
 			elemCarta->agregarAtributo("posicion", UtilTiposDatos::enteroAString((*it)->getPosicion()));
-			elemCarta->agregarAtributo("reverso", "true");
-			
-			// TODO: AGREGAR CHEQUEO PARA FUNCIONALIDAD DE "VER TODAS LAS CARTAS"
-
-			if (ContextoJuego::getInstancia()->getMostrandoCartas()) {
-				elemCarta->agregarAtributo("numero", (*it)->getNumero());
-				elemCarta->agregarAtributo("palo", (*it)->getPalo());
-				elemCarta->agregarAtributo("reverso", "false");
-			}
+			elemCarta->agregarAtributo("numero", (*it)->getNumero());
+			elemCarta->agregarAtributo("palo", (*it)->getPalo());
+			elemCarta->agregarAtributo("reverso", "false");
 		}
 	}
 }
