@@ -502,11 +502,11 @@ void Jugador::setEstado(int estado){
 			}
 
 			if (this->carta1 != NULL) {
-				this->carta1->setVisible(true);
+				//this->carta1->setVisible(true);
 			}
 
 			if (this->carta2 != NULL) {
-				this->carta2->setVisible(true);
+				//this->carta2->setVisible(true);
 			}
 		}
 

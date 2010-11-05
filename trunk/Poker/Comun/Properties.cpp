@@ -17,6 +17,8 @@ Properties::~Properties(void)
 	}
 
 	if (this->properties != NULL) {
+
+		this->properties->erase(this->properties->begin(), this->properties->end());
 		this->properties->clear();
 		delete (this->properties);
 	}

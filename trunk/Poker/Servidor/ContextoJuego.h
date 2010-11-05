@@ -28,6 +28,7 @@ class ContextoJuego
 private:
 	HANDLE mutex;
 	TimerServidor timerEsperandoJugadores;
+	TimerServidor timerMostrandoGanador;
 
 	AdministradorJugadores* admJugadores;
 
@@ -47,16 +48,18 @@ private:
 
 	int montoAIgualar;
 	int cantidadJugadoresRonda;
-	int posicionJugadorTurno;
-	int posicionJugadorQueAbre;
-	int posicionJugadorQueCierra;
 	bool rondaTerminada;
 	bool mostrandoCartas;
+	string nombreGanador;
 
 	static ContextoJuego instancia;
 	ContextoJuego(void);
 
 	void chequearRondaTerminada();
+
+	/* Devuelve ID de Jugador */
+	int evaluarGanador();
+
 
 public:	
 	virtual ~ContextoJuego(void);
@@ -88,19 +91,22 @@ public:
 	void mostrarFlop();
 	void mostrarTurn();
 	void mostrarRiver();
-	int evaluarGanador();
 	void finalizarRonda();
 
 	void igualarApuesta(int idCliente);
 	bool puedeSubirApuesta(int idCliente, int fichas);
+	bool esApuestaValida(int idCliente, int fichas);
 	void subirApuesta(int idCliente, int fichas);
 	void noIr(int idCliente);
 
 	bool isRondaTerminada();
 	void setMostrandoCartas(bool mostrandoCartas);
 	bool getMostrandoCartas();
+	string getNombreGanador();
 
 	int getTiempoEsperandoJugadores();
+	void resetTimerEsperandoJugadores();
+	bool isTiempoMostrandoGanadorCumplido();
 
 	/**
 	* Para ser llamado al finalizar la aplicacion

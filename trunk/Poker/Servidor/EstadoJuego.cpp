@@ -120,23 +120,25 @@ void EstadoJuego::agregarJugadores(DomTree* arbol, int idJugador){
 			elemApuesta->setTexto(UtilTiposDatos::enteroAString(jugadores[i]->getApuesta()));
 
 			// se agregan las cartas
-			if (jugadores[i]->getCarta1() != NULL && jugadores[i]->getCarta2() != NULL) {
+			Elemento* elemCartas = elemJugador->agregarHijo("cartas", "escenario");
+			Elemento* elemCarta1 = elemCartas->agregarHijo("carta", "escenario");
+			Elemento* elemCarta2 = elemCartas->agregarHijo("carta", "escenario");
 
-				Elemento* elemCartas = elemJugador->agregarHijo("cartas", "escenario");
-				Elemento* elemCarta1 = elemCartas->agregarHijo("carta", "escenario");
-				Elemento* elemCarta2 = elemCartas->agregarHijo("carta", "escenario");
+			elemCarta1->agregarAtributo("id", UtilTiposDatos::enteroAString(jugadores[i]->getId()) + "_c1");
+			elemCarta2->agregarAtributo("id", UtilTiposDatos::enteroAString(jugadores[i]->getId()) + "_c2");
 
-				elemCarta1->agregarAtributo("id", jugadores[i]->getCarta1()->getId());
-				elemCarta2->agregarAtributo("id", jugadores[i]->getCarta2()->getId());
+			if (jugadores[i]->getCarta1() != NULL && jugadores[i]->getCarta2() != NULL) {	
+				elemCarta1->agregarAtributo("visible", "true");
+				elemCarta2->agregarAtributo("visible", "true");
 
 				// TODO: AGREGAR CHEQUEO PARA FUNCIONALIDAD DE "VER TODAS LAS CARTAS"
 
-				// para el jugador que inicio el pedido
-				if (jugadores[i]->getId() == idJugador) {
+				// si el jugador puede ver las cartas
+				if (jugadores[i]->getId() == idJugador || ContextoJuego::getInstancia()->getMostrandoCartas()) {
 
 					elemCarta1->agregarAtributo("numero", jugadores[i]->getCarta1()->getNumero());
 					elemCarta1->agregarAtributo("palo", jugadores[i]->getCarta1()->getPalo());
-					elemCarta1->agregarAtributo("reverso", "false");
+					elemCarta1->agregarAtributo("reverso", "false");					
 
 					elemCarta2->agregarAtributo("numero", jugadores[i]->getCarta2()->getNumero());
 					elemCarta2->agregarAtributo("palo", jugadores[i]->getCarta2()->getPalo());
@@ -147,6 +149,10 @@ void EstadoJuego::agregarJugadores(DomTree* arbol, int idJugador){
 					elemCarta1->agregarAtributo("reverso", "true");
 					elemCarta2->agregarAtributo("reverso", "true");
 				}
+
+			} else {
+				elemCarta1->agregarAtributo("visible", "false");
+				elemCarta2->agregarAtributo("visible", "false");
 			}
 
 		}
@@ -161,24 +167,42 @@ void EstadoJuego::agregarCartasComunitarias(DomTree* arbol){
 	CartasComunitariasModelo* cartasComunitarias = ContextoJuego::getInstancia()->getCartasComunitarias();
 	elemCartasCom->agregarAtributo("id", UtilTiposDatos::enteroAString(cartasComunitarias->getId()));
 
-	list<CartaModelo*> cartas = cartasComunitarias->getCartas();
-	if (!cartas.empty()) {
+	Elemento* elemCartas = elemCartasCom->agregarHijo("cartas", "escenario");
 
-		Elemento* elemCartas = elemCartasCom->agregarHijo("cartas", "escenario");
+
+	list<CartaModelo*> cartas = cartasComunitarias->getCartas();
+	if (!cartas.empty()) {		
 
 		for (list<CartaModelo*>::iterator it = cartas.begin(); it != cartas.end(); it++) {
 
 			Elemento* elemCarta = elemCartas->agregarHijo("carta", "escenario");
-			elemCarta->agregarAtributo("id", (*it)->getId());
+			elemCarta->agregarAtributo("id", string("cc") + UtilTiposDatos::enteroAString((*it)->getPosicion()));
 			elemCarta->agregarAtributo("posicion", UtilTiposDatos::enteroAString((*it)->getPosicion()));
 			elemCarta->agregarAtributo("numero", (*it)->getNumero());
 			elemCarta->agregarAtributo("palo", (*it)->getPalo());
 			elemCarta->agregarAtributo("reverso", "false");
+			elemCarta->agregarAtributo("visible", "true");
+		}
+	
+	} else {
+		// blanqueo de cartas
+		for (int i = 1; i <= 5; i++) {
+
+			Elemento* elemCarta = elemCartas->agregarHijo("carta", "escenario");
+			elemCarta->agregarAtributo("id", string("cc") + UtilTiposDatos::enteroAString(i));
+			elemCarta->agregarAtributo("posicion", UtilTiposDatos::enteroAString(i));
+			elemCarta->agregarAtributo("visible", "false");
 		}
 	}
 }
 
 void EstadoJuego::agregarPanelBotones(DomTree* arbol, int idJugador){
+
+	this->agregarPanelBotones(arbol, ContextoJuego::getInstancia()->isTurnoJugador(idJugador));
+}
+
+
+void EstadoJuego::agregarPanelBotones(DomTree* arbol, bool habilitados){
 
 	Elemento* elementoEscenario = arbol->getRaiz()->getHijos()->front();
 	Elemento* elemPanel = elementoEscenario->agregarHijo("panelComando", "escenario");
@@ -215,21 +239,22 @@ void EstadoJuego::agregarPanelBotones(DomTree* arbol, int idJugador){
 	textBox->agregarAtributo("posicion", "5");
 	textBox->agregarAtributo("operacion", "OpUIClienteSubirApuesta");
 
-	if (ContextoJuego::getInstancia()->isTurnoJugador(idJugador)) {
-		boton1->agregarAtributo("habilitado", "true");
-		boton2->agregarAtributo("habilitado", "true");
-		boton3->agregarAtributo("habilitado", "true");
-		boton4->agregarAtributo("habilitado", "true");
-		textBox->agregarAtributo("habilitado", "true");
+	this->agregarAtributoHabilitado(boton1, habilitados);
+	this->agregarAtributoHabilitado(boton2, habilitados);
+	this->agregarAtributoHabilitado(boton3, habilitados);
+	this->agregarAtributoHabilitado(boton4, habilitados);
+	this->agregarAtributoHabilitado(textBox, habilitados);
+}
+
+
+void EstadoJuego::agregarAtributoHabilitado(Elemento* elemento, bool habilitado) {
+
+	if (habilitado) {
+		elemento->agregarAtributo("habilitado", "true");
 	
 	} else {
-		boton1->agregarAtributo("habilitado", "false");
-		boton2->agregarAtributo("habilitado", "false");
-		boton3->agregarAtributo("habilitado", "false");
-		boton4->agregarAtributo("habilitado", "false");
-		textBox->agregarAtributo("habilitado", "false");
+		elemento->agregarAtributo("habilitado", "false");
 	}
-
 }
 
 string EstadoJuego::arbolToString(DomTree* arbol){
