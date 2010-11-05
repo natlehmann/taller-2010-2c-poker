@@ -17,9 +17,9 @@
 #include "EstadoRondaRiver.h"
 #include "EstadoEvaluandoGanador.h"
 #include "TimerServidor.h"
+#include "AdministradorJugadores.h"
 #include <windows.h>
 
-#define MAX_CANTIDAD_JUGADORES	6
 
 using namespace std;
 
@@ -29,16 +29,13 @@ private:
 	HANDLE mutex;
 	TimerServidor timerEsperandoJugadores;
 
+	AdministradorJugadores* admJugadores;
+
 	MesaModelo* mesa;
 	BoteModelo* bote;
 	MensajeModelo* mensaje;
 	CartasComunitariasModelo* cartasComunitarias;
-	vector<JugadorModelo*> jugadores;
 	Repartidor* repartidor;
-
-	// vector que se usa para mapear los ids de Cliente con los ids de Jugadores
-	// Los indices del array (de 0 a 5) representan los ids de Jugador
-	int idsJugadores[MAX_CANTIDAD_JUGADORES];
 
 	EstadoJuego* estado;
 	EstadoEsperandoJugadores* esperandoJugadores;
@@ -59,10 +56,6 @@ private:
 	static ContextoJuego instancia;
 	ContextoJuego(void);
 
-	void agregarJugadorAusente(int idJugador);
-	int idClienteToIdJugador(int idCliente);
-	int idJugadorToIdCliente(int idJugador);
-	JugadorModelo* getPrimerJugadorAusente();
 	void chequearRondaTerminada();
 
 public:	
@@ -77,15 +70,13 @@ public:
 	MensajeModelo* getMensaje();
 	CartasComunitariasModelo* getCartasComunitarias();
 
-	JugadorModelo* getJugador(int idCliente);
-	JugadorModelo* getJugadorPorPosicion(int posicion);
-	vector<JugadorModelo*> getJugadores();
+	JugadorModelo** getJugadores();
 
 	bool hayLugar();
 	void agregarJugador(int idCliente);
 	int getCantidadJugadoresActivos();
 	int getCantidadJugadoresJugandoRonda();
-	int getTurnoJugador();
+
 	bool isTurnoJugador(int idJugador);
 	bool isTurnoCliente(int idCliente);
 
@@ -113,10 +104,6 @@ public:
 	* Para ser llamado al finalizar la aplicacion
 	*/
 	void finalizar();
-
-private:
-	void calcularPosicionJugadorTurno();
-	void calcularPosicionJugadorQueAbre();
 
 };
 
