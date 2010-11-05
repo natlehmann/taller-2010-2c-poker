@@ -343,7 +343,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpMostrarMensaje.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpNoIr.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpSubirApuesta.cpp"
 				>
 			</File>
 			<File
@@ -621,7 +629,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpMostrarMensaje.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OpNoIr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpSubirApuesta.h"
 				>
 			</File>
 			<File

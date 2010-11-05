@@ -42,6 +42,9 @@ public:
 
 	virtual void borrarElemento(ElementoGrafico* elemento) = 0;
 
+
+	virtual void mostrarMensaje(string mensaje) = 0;
+
 	/**
 	* Fuerza el redibujo de todos los elementos de la ventana que se intersecten con el elemento
 	* recibido por parametro.

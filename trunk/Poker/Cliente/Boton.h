@@ -33,8 +33,8 @@ public:
 	virtual ComponentePanel* clonar();
 
 	void dibujarOver(SDL_Surface* superficie);
-	void dibujarDown(SDL_Surface* superficie);
-	void dibujarUp(SDL_Surface* superficie);
+	virtual void dibujarDown(SDL_Surface* superficie);
+	virtual void dibujarUp(SDL_Surface* superficie);
 
 	virtual bool checkClick(SDL_Surface* superficie);
 	virtual bool checkOver(SDL_Surface* superficie);

@@ -345,8 +345,10 @@ Boton* FabricaDeElementosGraficos::generarBoton(list<Elemento*>::iterator itBoto
 
 	} else {
 		boton = new Boton((*itBoton)->getTexto());
+		// atributos que no pueden llegar a cambiar
 		boton->setId(idBoton);
 		boton->setPosicion(UtilTiposDatos::getEntero((*itBoton)->getAtributo("posicion")) - 1);
+		boton->setIdComponentePanelRelacionado((*itBoton)->getAtributo("idComponentePanelRelacionado"));
 		panel->agregarComponente(boton, boton->getPosicion());
 	}
 
@@ -372,16 +374,17 @@ TextBox* FabricaDeElementosGraficos::generarTextBox(list<Elemento*>::iterator it
 
 	if (elem != NULL && MensajesUtil::sonIguales(typeid(*elem).name(), "class TextBox")){
 		textBox = (TextBox*) elem;
-		textBox->setTexto((*itBoton)->getTexto());
+		//textBox->setTexto((*itBoton)->getTexto());
 
 	} else {
 		textBox = new TextBox((*itBoton)->getTexto());
+		// atributos que no pueden llegar a cambiar
 		textBox->setId(id);
 		textBox->setPosicion(UtilTiposDatos::getEntero((*itBoton)->getAtributo("posicion")) - 1);
+		textBox->setIdComponentePanelRelacionado((*itBoton)->getAtributo("idComponentePanelRelacionado"));
 		panel->agregarComponente(textBox, textBox->getPosicion());
 	}
 
-	
 	if (MensajesUtil::sonIguales("true", (*itBoton)->getAtributo("habilitado"))) {
 		textBox->setHabilitado(true);
 

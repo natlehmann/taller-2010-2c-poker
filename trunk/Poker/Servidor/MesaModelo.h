@@ -13,6 +13,7 @@ class MesaModelo
 private:
 	int id;
 	int smallBlind;
+	int apuestaMaxima;
 	string fondo;
 
 public:
@@ -22,6 +23,10 @@ public:
 	int getId();
 	int getSmallBlind();
 	string getFondo();
+
+	void setApuestaMaxima(int apuestaMaxima);
+	int getApuestaMaxima();
+
 };
 
 #endif //_MESA_MODELO_H_

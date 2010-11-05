@@ -1,6 +1,7 @@
 #include "ComponentePanel.h"
 #include "ServiciosGraficos.h"
 #include "MensajesUtil.h"
+#include "Panel.h"
 
 
 ComponentePanel::ComponentePanel(string texto) {
@@ -9,6 +10,8 @@ ComponentePanel::ComponentePanel(string texto) {
 	this->ajustarAlTexto = true;
 	this->habilitado = false;
 	this->idOperacion = "";
+	this->panel = NULL;
+	this->idComponentePanelRelacionado = "";
 }
 
 ComponentePanel::~ComponentePanel(void)
@@ -86,5 +89,20 @@ void ComponentePanel::setIdOperacion(string idOperacion){
 		this->idOperacion = idOperacion;
 		this->hayCambios = true;
 	}
+}
+
+string ComponentePanel::getIdComponentePanelRelacionado(){
+	return this->idComponentePanelRelacionado;
+}
+
+void ComponentePanel::setIdComponentePanelRelacionado(string idComponentePanelRelacionado){
+	if (!MensajesUtil::sonIguales(this->getIdComponentePanelRelacionado(), idComponentePanelRelacionado)) {
+		this->idComponentePanelRelacionado = idComponentePanelRelacionado;
+		this->hayCambios = true;
+	}
+}
+
+void ComponentePanel::setPanel(Panel* panel) {
+	this->panel = panel;
 }
 

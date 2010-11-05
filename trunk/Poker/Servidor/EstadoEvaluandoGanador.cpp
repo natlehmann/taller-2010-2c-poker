@@ -25,3 +25,7 @@ EstadoJuego* EstadoEvaluandoGanador::getSiguienteEstado(){
 string EstadoEvaluandoGanador::getEscenarioJuego(int idJugador){
 	return "";
 }
+
+string EstadoEvaluandoGanador::getEscenarioJuego(int idJugador, string mensaje){
+	return "";
+}

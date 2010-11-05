@@ -31,3 +31,7 @@ EstadoJuego* EstadoRondaTurn::getSiguienteEstado(){
 string EstadoRondaTurn::getEscenarioJuego(int idJugador){
 	return this->getEscenarioEstandar(idJugador);
 }
+
+string EstadoRondaTurn::getEscenarioJuego(int idJugador, string mensaje){
+	return this->getEscenarioConMensaje(idJugador, mensaje);
+}

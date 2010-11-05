@@ -17,9 +17,9 @@ Mensaje::Mensaje(string mensaje) {
 
 	this->setPosX(ServiciosGraficos::getBordeDerecho() 
 		+ (int)(ServiciosGraficos::getTamanioCeldaHoriz() * 1.5));
-	this->setPosY(ServiciosGraficos::getBordeSuperior() + ServiciosGraficos::getTamanioCeldaVert());
+	this->setPosY(ServiciosGraficos::getBordeSuperior() + (int)(ServiciosGraficos::getTamanioCeldaVert() * 1.7));
 	this->setAncho(ServiciosGraficos::getTamanioCeldaHoriz() * 2);
-	this->setAlto((int)(ServiciosGraficos::getTamanioCeldaVert() / 2));
+	this->setAlto((int)(ServiciosGraficos::getTamanioCeldaVert() / 4));
 
 	this->etiqueta->setPosX(this->getPosX());
 	this->etiqueta->setPosY(this->getPosY());
@@ -42,7 +42,10 @@ string Mensaje::getTexto(){
 }
 
 void Mensaje::setTexto(string texto){
-	this->etiqueta->setMensaje(texto);
+	if (!MensajesUtil::sonIguales(this->etiqueta->getMensaje(), texto)) {
+		this->etiqueta->setMensaje(texto);
+		this->hayCambios = true;
+	}
 }
 
 

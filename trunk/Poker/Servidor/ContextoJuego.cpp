@@ -19,6 +19,8 @@ ContextoJuego::ContextoJuego(void)
 		UtilTiposDatos::getEntero(
 			RecursosServidor::getConfig()->get("servidor.mesa.smallBlind")), 
 		RecursosServidor::getConfig()->get("servidor.mesa.fondo"));
+	this->mesa->setApuestaMaxima(UtilTiposDatos::getEntero(
+			RecursosServidor::getConfig()->get("servidor.mesa.apuestaMaxima")));
 		
 	this->bote = new BoteModelo(11);
 	this->mensaje = new MensajeModelo(12);
@@ -145,6 +147,11 @@ void ContextoJuego::subirApuesta(int idCliente, int fichas)
 	//calcularPosicionJugadorTurno();
 	this->admJugadores->incrementarTurno();
 	chequearRondaTerminada();
+}
+
+bool ContextoJuego::puedeSubirApuesta(int idCliente, int fichas){
+	JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
+	return (fichas <= jugador->getFichas() && fichas <= this->mesa->getApuestaMaxima());
 }
 
 void ContextoJuego::noIr(int idCliente)
@@ -410,6 +417,13 @@ string ContextoJuego::getEscenarioJuego(int idCliente){
 	int idJugador = this->admJugadores->idClienteToIdJugador(idCliente);
 	this->estado = this->estado->getSiguienteEstado();
 	return this->estado->getEscenarioJuego(idJugador);
+}
+
+string ContextoJuego::getEscenarioJuego(int idCliente, string mensaje){
+
+	int idJugador = this->admJugadores->idClienteToIdJugador(idCliente);
+	this->estado = this->estado->getSiguienteEstado();
+	return this->estado->getEscenarioJuego(idJugador, mensaje);
 }
 
 JugadorModelo** ContextoJuego::getJugadores() {

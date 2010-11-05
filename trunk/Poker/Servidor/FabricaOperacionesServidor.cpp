@@ -10,6 +10,9 @@
 #include "OpNoIr.h"
 #include "OpIgualarApuesta.h"
 #include "OpDejarMesa.h"
+#include "OpSubirApuesta.h"
+#include "RecursosServidor.h"
+#include "OpMostrarMensaje.h"
 #include <list>
 using namespace std;
 
@@ -43,10 +46,17 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpDejarMesa")) {
 		operacion = new OpDejarMesa(idCliente);
 	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpSubirApuesta")) {
+		operacion = new OpSubirApuesta(idCliente, parametros);
+	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpMostrarMensaje")) {
+		operacion = new OpMostrarMensaje(idCliente, parametros);
+	}
 
 	// TODO: ACA SE VERIFICARIAN TODAS LAS DEMAS OPERACIONES
 
 	if (operacion == NULL) {
+		RecursosServidor::getLog()->escribir(string("Se solicito un Id de operacion invalido: ") + nombreOperacion);
 		Error error("V","Id de operacion invalido.",nombreOperacion);
 		throw DatosInvalidosException(error);
 	}
@@ -218,6 +228,16 @@ void FabricaOperacionesServidor::validarParametro(Elemento* parametro, string id
 			Error resultado("V",
 				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
 				+ string(". El atributo 'nombre' del tag 'parametro' para agregar un jugador debe ser 'usuario'. Se encontro '")
+				+ atributoNombre +"'.",idOperacion);
+			throw DatosInvalidosException(resultado);
+		}
+	}
+
+	if (MensajesUtil::sonIguales(idOperacion, "OpSubirApuesta")) {
+		if (strcmp("fichas",atributoNombre.c_str()) != 0) {
+			Error resultado("V",
+				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
+				+ string(". El atributo 'nombre' del tag 'parametro' para subir la apuesta de un jugador debe ser 'fichas'. Se encontro '")
 				+ atributoNombre +"'.",idOperacion);
 			throw DatosInvalidosException(resultado);
 		}

@@ -23,6 +23,7 @@ protected:
 
 	string arbolToString(DomTree* arbol);
 	string getEscenarioEstandar(int idJugador);
+	string getEscenarioConMensaje(int idJugador, string mensaje);
 
 public:
 	virtual ~EstadoJuego(void);
@@ -30,6 +31,7 @@ public:
 	virtual EstadoJuego* getSiguienteEstado() = 0;
 
 	virtual string getEscenarioJuego(int idJugador) = 0;
+	virtual string getEscenarioJuego(int idJugador, string mensaje) = 0;
 };
 
 #endif //_ESTADOJUEGO_H_

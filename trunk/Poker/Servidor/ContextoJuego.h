@@ -81,6 +81,7 @@ public:
 	bool isTurnoCliente(int idCliente);
 
 	string getEscenarioJuego(int idCliente);
+	string getEscenarioJuego(int idCliente, string mensaje);
 
 	void iniciarRonda();
 	void iniciarJuego();
@@ -91,6 +92,7 @@ public:
 	void finalizarRonda();
 
 	void igualarApuesta(int idCliente);
+	bool puedeSubirApuesta(int idCliente, int fichas);
 	void subirApuesta(int idCliente, int fichas);
 	void noIr(int idCliente);
 

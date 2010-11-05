@@ -20,3 +20,7 @@ EstadoJuego* EstadoRondaRiver::getSiguienteEstado(){
 string EstadoRondaRiver::getEscenarioJuego(int idJugador){
 	return this->getEscenarioEstandar(idJugador);
 }
+
+string EstadoRondaRiver::getEscenarioJuego(int idJugador, string mensaje){
+	return this->getEscenarioConMensaje(idJugador, mensaje);
+}
