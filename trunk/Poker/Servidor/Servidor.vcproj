@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Servidor"
 	ProjectGUID="{80034BA5-0061-4E00-B475-8FC007704BC7}"
 	RootNamespace="Servidor"
@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AdministradorJugadores.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\ArrayUtil.cpp"
 				>
 			</File>
@@ -268,6 +272,18 @@
 			</File>
 			<File
 				RelativePath="..\Comun\GeneradorRespuesta.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IteradorRonda.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IteradorRondaActivos.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IteradorRondaJugando.cpp"
 				>
 			</File>
 			<File
@@ -453,6 +469,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AdministradorJugadores.h"
+				>
+			</File>
+			<File
 				RelativePath=".\BoteModelo.h"
 				>
 			</File>
@@ -534,6 +554,18 @@
 			</File>
 			<File
 				RelativePath="..\Comun\GeneradorRespuesta.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IteradorRonda.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IteradorRondaActivos.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IteradorRondaJugando.h"
 				>
 			</File>
 			<File
