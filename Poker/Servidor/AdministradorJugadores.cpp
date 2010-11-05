@@ -15,6 +15,7 @@ AdministradorJugadores::AdministradorJugadores(void)
 
 	this->jugadorTurno = -1;
 	this->dealer = -1;
+	this->dealerAnterior = -1;
 }
 
 AdministradorJugadores::~AdministradorJugadores(void)
@@ -201,6 +202,18 @@ IteradorRondaJugando* AdministradorJugadores::getIteradorRondaJugando(int indice
 	return new IteradorRondaJugando(this->jugadores, indiceInicial);
 }
 
+void AdministradorJugadores::incrementarDealerTemp(){
+	this->dealerAnterior = this->dealer;
+	this->incrementarDealer();
+}
+
+void AdministradorJugadores::resetearDealer() {
+	if (this->dealerAnterior >= 0) {
+		this->dealer = this->dealerAnterior;
+	}
+	this->dealerAnterior = -1;
+}
+
 void AdministradorJugadores::incrementarDealer(){
 	bool encontrado = false;
 
@@ -217,4 +230,5 @@ void AdministradorJugadores::incrementarDealer(){
 		}
 	}
 
+	this->resetearJugadorTurno();
 }

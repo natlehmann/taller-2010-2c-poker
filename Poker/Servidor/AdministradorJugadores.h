@@ -23,7 +23,7 @@ private:
 	int jugadorTurno;
 
 	int dealer;
-
+	int dealerAnterior;
 
 	void agregarJugadorAusente(int idJugador);
 	JugadorModelo* getPrimerJugadorAusente();
@@ -48,7 +48,12 @@ public:
 	void incrementarTurno();
 	int getIndiceJugadorMano();
 
+	void resetearDealer();
 	void incrementarDealer();
+
+	/* Se incrementa el dealer temporalmente, hasta que termine la ronda.
+	   Para restituir el valor original se debe ejecutar resetearDealer(). */
+	void incrementarDealerTemp();
 
 	bool hayLugar();
 	void agregarJugador(int idCliente);

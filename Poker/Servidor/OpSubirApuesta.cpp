@@ -36,6 +36,10 @@ bool OpSubirApuesta::ejecutarAccion(Socket* socket){
 			nombreOperacion = "OpMostrarMensaje";
 			parametros.push_back("La apuesta excede los limites.");
 
+		} else if (!ContextoJuego::getInstancia()->esApuestaValida(this->getIdCliente(), fichas)) {
+			nombreOperacion = "OpMostrarMensaje";
+			parametros.push_back("La apuesta debe superar a las de los demas jugadores.");		
+		
 		} else {
 			ContextoJuego::getInstancia()->subirApuesta(this->getIdCliente(), fichas);
 		}

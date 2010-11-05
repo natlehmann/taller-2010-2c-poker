@@ -19,6 +19,8 @@ protected:
 	void agregarJugadores(DomTree* arbol, int idJugador);
 	void agregarCartasComunitarias(DomTree* arbol);
 	void agregarPanelBotones(DomTree* arbol, int idJugador);
+	void agregarPanelBotones(DomTree* arbol, bool habilitados);
+	void agregarAtributoHabilitado(Elemento* elemento, bool habilitado);
 	void borrarMensaje(DomTree* arbol);
 
 	string arbolToString(DomTree* arbol);

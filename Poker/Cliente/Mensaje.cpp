@@ -16,9 +16,9 @@ Mensaje::Mensaje(string mensaje) {
 		"cliente.tema.default.mensaje.borde")));
 
 	this->setPosX(ServiciosGraficos::getBordeDerecho() 
-		+ (int)(ServiciosGraficos::getTamanioCeldaHoriz() * 1.5));
-	this->setPosY(ServiciosGraficos::getBordeSuperior() + (int)(ServiciosGraficos::getTamanioCeldaVert() * 1.7));
-	this->setAncho(ServiciosGraficos::getTamanioCeldaHoriz() * 2);
+		+ (int)(ServiciosGraficos::getTamanioCeldaHoriz() * 1.25));
+	this->setPosY(ServiciosGraficos::getBordeSuperior() + (int)(ServiciosGraficos::getTamanioCeldaVert() * 1.6));
+	this->setAncho((int)(ServiciosGraficos::getTamanioCeldaHoriz() * 2.5));
 	this->setAlto((int)(ServiciosGraficos::getTamanioCeldaVert() / 4));
 
 	this->etiqueta->setPosX(this->getPosX());
