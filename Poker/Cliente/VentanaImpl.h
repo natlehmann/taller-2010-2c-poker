@@ -12,6 +12,7 @@
 #include <windows.h>
 #include "VentanaAuxiliar.h"
 #include "Ventana.h"
+#include "Mensaje.h"
 
 using namespace std;
 
@@ -25,6 +26,7 @@ private:
 	void manejarEventos(SDL_Event* event);
 	void refrescar(SDL_Surface* superficie);
 	Mesa* mesa;
+	Mensaje* mensaje;
 
 	SDL_Rect* contornoConOffset;
 
@@ -89,6 +91,8 @@ public:
 	virtual void borrarElementoPorId(string id);
 
 	virtual void borrarElemento(ElementoGrafico* elemento);
+
+	virtual void mostrarMensaje(string mensaje);
 
 	/**
 	* Fuerza el redibujo de todos los elementos de la ventana que se intersecten con el elemento

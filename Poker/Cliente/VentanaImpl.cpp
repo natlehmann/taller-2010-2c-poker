@@ -66,6 +66,7 @@ VentanaImpl::VentanaImpl(void) {
 
 	this->panelComando = NULL;
 	this->mesa = NULL;
+	this->mensaje = NULL;
 }
 
 VentanaImpl::~VentanaImpl(void)
@@ -97,6 +98,10 @@ void VentanaImpl::agregarElementoGrafico(ElementoGrafico* elemento) {
 
 	if (MensajesUtil::sonIguales(typeid(*elemento).name(), "class Mesa")){
 		this->mesa = (Mesa*)elemento;
+	}
+
+	if (MensajesUtil::sonIguales(typeid(*elemento).name(), "class Mensaje")){
+		this->mensaje = (Mensaje*)elemento;
 	}
 
 	this->hayCambios = true;
@@ -176,7 +181,7 @@ void VentanaImpl::iniciar() {
 		
 		// dormir el tiempo que falta para cumplir con la tasa de cuadros por segundo
 		int msPorFrame = (int)(1000 / FRAMES_PER_SECOND);
-		if(timer.getMs() < msPorFrame) {
+		if(timer.getMs() < msPorFrame && !listo) {
             SDL_Delay( msPorFrame - timer.getMs() );
         }
 		
@@ -190,21 +195,30 @@ void VentanaImpl::manejarEventos(SDL_Event* event){
 	if (this->getPanelComando() != NULL) {
 
 		ComponentePanel** componentes = this->getPanelComando()->getComponentes();
+		this->hayCambios = false;
 
 		for (int i = 0; i < MAX_CANT_COMPONENTES; i++) {
 			if (componentes[i] != NULL) {
-				this->hayCambios = this->hayCambios || componentes[i]->checkWrite(this->pantalla, event, 1);
+				this->hayCambios = componentes[i]->checkWrite(this->pantalla, event, 1) || this->hayCambios;
+			}
+			if (this->hayCambios) {
+				this->refrescar(this->pantalla);
+				this->hayCambios = false;
 			}
 		}
 
 		switch (event->type){	
-/*
+
 			case (SDL_MOUSEMOTION):
-				for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
-					this->hayCambios = this->hayCambios || (*it)->checkOver(this->pantalla);
+				/*
+				for (int i = 0; i < MAX_CANT_COMPONENTES; i++) {
+					if (componentes[i] != NULL) {
+						this->hayCambios = this->hayCambios || componentes[i]->checkOver(this->pantalla);
+					}
 				}
+				*/
 				break;
-*/
+
 			case (SDL_MOUSEBUTTONDOWN):
 
 				for (int i = 0; i < MAX_CANT_COMPONENTES; i++) {
@@ -213,25 +227,43 @@ void VentanaImpl::manejarEventos(SDL_Event* event){
 						if (componentes[i]->checkClick(this->pantalla)) {
 
 							this->hayCambios = true;
+							componentes[i]->dibujarDown(this->pantalla);
+							this->refrescar(this->pantalla);
 
 							// TODO: VER SI ESTO NO DEBERIA LANZARSE EN OTRO HILO 
-							// CONSIDERAR SINCRONIZACION DE VENTANA
-							// VER QUE HACEMOS CON TEXTBOX
 							FabricaOperacionesCliente fab;
-							OperacionUICliente* operacion = fab.newOperacion(componentes[i]->getIdOperacion());
+							vector<string> parametros;
+							if (!MensajesUtil::esVacio(componentes[i]->getIdComponentePanelRelacionado())) {
+								parametros.push_back(componentes[i]->getIdComponentePanelRelacionado());
+							}
+
+							OperacionUICliente* operacion = fab.newOperacion(
+									componentes[i]->getIdOperacion(), parametros);
 							operacion->ejecutar(this);
 							delete(operacion);
+
+							componentes[i]->dibujarUp(this->pantalla);
+							this->refrescar(this->pantalla);
 						}
 					}
 				}
 				break;		
-/*
+
+			/*
 			case (SDL_MOUSEBUTTONUP):
-				for (list<ComponentePanel*>::iterator it = componentes.begin(); it != componentes.end(); it++) {
-					this->hayCambios = this->hayCambios || (*it)->checkOver(this->pantalla);
+				this->hayCambios = false;
+				for (int i = 0; i < MAX_CANT_COMPONENTES; i++) {
+					if (componentes[i] != NULL) {
+						this->hayCambios = componentes[i]->checkOver(this->pantalla) ||  this->hayCambios;
+					}
+				}
+				if (this->hayCambios) {
+					this->refrescar(this->pantalla);
+					this->hayCambios = false;
 				}
 				break;	
-*/
+			*/
+
 		}
 	}
 
@@ -472,4 +504,11 @@ void VentanaImpl::merge(SDL_Surface* superficie){
 
 	SDL_BlitSurface(superficie, this->getContornoConOffset(), this->pantalla, this->getContornoConOffset());
 	this->refrescar(this->pantalla);
+}
+
+void VentanaImpl::mostrarMensaje(string mensaje){
+	if (this->mensaje != NULL) {
+		this->mensaje->setTexto(mensaje);
+		this->mensaje->setVisible(true);
+	}
 }

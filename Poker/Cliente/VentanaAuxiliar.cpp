@@ -21,6 +21,7 @@ VentanaAuxiliar::VentanaAuxiliar(void) {
 
 	this->panelComando = NULL;
 	this->mesa = NULL;
+	this->mensaje = NULL;
 }
 
 VentanaAuxiliar::~VentanaAuxiliar(void)
@@ -48,6 +49,10 @@ void VentanaAuxiliar::agregarElementoGrafico(ElementoGrafico* elemento) {
 
 	if (MensajesUtil::sonIguales(typeid(*elemento).name(), "class Mesa")){
 		this->mesa = (Mesa*)elemento;
+	}
+
+	if (MensajesUtil::sonIguales(typeid(*elemento).name(), "class Mensaje")){
+		this->mensaje = (Mensaje*)elemento;
 	}
 
 	this->hayCambios = true;
@@ -267,4 +272,11 @@ int VentanaAuxiliar::PushEvent(SDL_Event *event){
 }
 
 void VentanaAuxiliar::merge(SDL_Surface* superficie){
+}
+
+void VentanaAuxiliar::mostrarMensaje(string mensaje){
+	if (this->mensaje != NULL) {
+		this->mensaje->setTexto(mensaje);
+		this->mensaje->setVisible(true);
+	}
 }

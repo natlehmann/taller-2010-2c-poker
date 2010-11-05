@@ -170,22 +170,28 @@ void Boton::dibujarOver(SDL_Surface* superficie)
 {
 	this->imagenOver->setHayCambios(true);
 	this->hayCambios = true;
-	this->imagenOver->dibujar(superficie);
 	estado = 'o';
+	if (this->habilitado) {
+		this->imagenOver->dibujar(superficie);
+	}
 }
 void Boton::dibujarDown(SDL_Surface* superficie)
 {
 	this->imagenDown->setHayCambios(true);
 	this->hayCambios = true;
-	this->imagenDown->dibujar(superficie);
 	estado = 'd';
+	if (this->habilitado) {
+		this->imagenDown->dibujar(superficie);
+	}
 }
 void Boton::dibujarUp(SDL_Surface* superficie)
 {
 	this->imagenUp->setHayCambios(true);
 	this->hayCambios = true;
-	this->imagenUp->dibujar(superficie);
 	estado = 'u';
+	if (this->habilitado) {
+		this->imagenUp->dibujar(superficie);
+	}
 }
 
 bool Boton::checkClick(SDL_Surface* superficie)
@@ -199,10 +205,13 @@ bool Boton::checkClick(SDL_Surface* superficie)
 			bool fuePresionado = this->esClickIzquierdo();
 			if(fuePresionado)
 			{
+				/*
 				if(estado != 'd') {
 					dibujarDown(superficie);			
 					return true;
 				}
+				*/
+				return true;
 			}
 		}
 	}

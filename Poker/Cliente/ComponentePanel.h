@@ -25,6 +25,7 @@
 #define PADDING_HORIZ   20
 #define PADDING_VERT	20
 
+class Panel;
 
 class ComponentePanel : public ElementoGrafico
 {
@@ -35,6 +36,9 @@ protected:
 	bool habilitado;
 
 	string idOperacion;
+	string idComponentePanelRelacionado;
+
+	Panel* panel;
 
 	string colorFuente;
 	int tamanioFuenteMax;
@@ -61,9 +65,17 @@ public:
 	string getIdOperacion();
 	void setIdOperacion(string idOperacion);
 
+	string getIdComponentePanelRelacionado();
+	void setIdComponentePanelRelacionado(string idComponentePanelRelacionado);
+
+	void setPanel(Panel* panel);
+
 	virtual bool checkClick(SDL_Surface* superficie) = 0;
 	virtual bool checkOver(SDL_Surface* superficie) = 0;
 	virtual bool checkWrite(SDL_Surface* superficie, SDL_Event* evento, int pressed) = 0;
+
+	virtual void dibujarDown(SDL_Surface* superficie) = 0;
+	virtual void dibujarUp(SDL_Surface* superficie) = 0;
 
 };
 

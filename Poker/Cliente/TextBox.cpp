@@ -229,7 +229,7 @@ bool TextBox::checkClick(SDL_Surface* superficie)
 				this->hayCambios = true;
 			}
 			
-			return true;
+			//return true;
 		}
 		else if(!estaSobre && fuePresionado)
 		{
@@ -240,7 +240,7 @@ bool TextBox::checkClick(SDL_Surface* superficie)
 				this->hayCambios = true;
 			}
 			
-			return true;
+			//return true;
 		}
 	}
 
@@ -322,4 +322,9 @@ void TextBox::setAlineacionVertical(int alineacion){
 
 int TextBox::getAlineacionVertical(){
 	return this->alineacionVertical;
+}
+
+void TextBox::dibujarDown(SDL_Surface* superficie){
+}
+void TextBox::dibujarUp(SDL_Surface* superficie){
 }

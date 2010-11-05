@@ -12,6 +12,7 @@
 #include "Panel.h"
 #include "Mesa.h"
 #include "Ventana.h"
+#include "Mensaje.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ class VentanaAuxiliar : public Ventana
 private:
 	Panel* panelComando;
 	Mesa* mesa;
+	Mensaje* mensaje;
 
 
 	/* Atributos de Contenedor */
@@ -72,6 +74,8 @@ public:
 	virtual void borrarElementoPorId(string id);
 
 	virtual void borrarElemento(ElementoGrafico* elemento);
+
+	virtual void mostrarMensaje(string mensaje);
 
 	/**
 	* Fuerza el redibujo de todos los elementos de la ventana que se intersecten con el elemento

@@ -207,6 +207,7 @@ void EstadoJuego::agregarPanelBotones(DomTree* arbol, int idJugador){
 	boton4->agregarAtributo("id", "btSubir");
 	boton4->agregarAtributo("posicion", "4");
 	boton4->agregarAtributo("operacion", "OpUIClienteSubirApuesta");
+	boton4->agregarAtributo("idComponentePanelRelacionado", "txtApuesta");
 	boton4->setTexto("Subir");
 
 	Elemento* textBox = elemPanel->agregarHijo("textBox", "escenario");
@@ -252,3 +253,20 @@ string EstadoJuego::getEscenarioEstandar(int idJugador){
 
 	return resultado;
 }
+
+string EstadoJuego::getEscenarioConMensaje(int idJugador, string mensaje){
+
+	DomTree* arbol = this->crearArbolEscenario();
+	this->agregarMesa(arbol);
+	this->agregarBote(arbol);
+	this->agregarJugadores(arbol, idJugador);
+	this->agregarCartasComunitarias(arbol);
+	this->agregarPanelBotones(arbol, idJugador);
+	this->agregarMensaje(arbol, mensaje);
+
+	string resultado = this->arbolToString(arbol);
+	delete (arbol);
+
+	return resultado;
+}
+

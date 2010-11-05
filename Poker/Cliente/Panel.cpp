@@ -40,6 +40,7 @@ void Panel::agregarComponente(ComponentePanel* componente, int posicion){
 			}
 
 			this->componentes[posicion] = componente;
+			componente->setPanel(this);
 			this->hayNuevosComponentes = true;
 		}
 

@@ -46,3 +46,8 @@ string EstadoEsperandoJugadores::getEscenarioJuego(int idJugador){
 
 	return resultado;
 }
+
+string EstadoEsperandoJugadores::getEscenarioJuego(int idJugador, string mensaje){
+	// MEtodo vacio: nunca puede llamarse
+	return "";
+}

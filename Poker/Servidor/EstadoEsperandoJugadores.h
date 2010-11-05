@@ -18,6 +18,7 @@ public:
 	virtual EstadoJuego* getSiguienteEstado();
 
 	virtual string getEscenarioJuego(int idJugador);
+	virtual string getEscenarioJuego(int idJugador, string mensaje);
 };
 
 #endif //_ESTADO_ESPERANDOJUGADORES_H_

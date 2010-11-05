@@ -35,31 +35,8 @@ bool OpUIClienteAgregarJugador::ejecutarAccion(Ventana* ventana){
 	parametro1->agregarAtributo("nombre", "usuario");
 	parametro1->setTexto(nombreJugador);
 
-	XmlParser* parser = new XmlParser();
+	ok = this->enviarMensaje(tree, ventana);
 
-	// se envia el pedido al servidor
-	Cliente* cliente = UICliente::getCliente();
-	string msjRecibido;
-
-	if (cliente->enviarRecibir(parser->toString(tree), msjRecibido)) 
-	{
-		try {
-			DomTree* arbolEscenario = parser->toDom(msjRecibido, "escenario");
-			FabricaDeElementosGraficos::generarEscenario(arbolEscenario, ventana);
-			delete (arbolEscenario);
-
-		} catch (PokerException& e) {
-			RecursosCliente::getLog()->escribir(&(Respuesta)e.getError());
-			ok = false;
-		}
-	}
-	else
-	{
-		RecursosCliente::getLog()->escribir("El servidor no devolvio ningun escenario.");
-		ok = false;
-	}
-
-	delete(parser);
 	delete(tree);
 
 	return ok;

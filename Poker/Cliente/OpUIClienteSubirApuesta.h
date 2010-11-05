@@ -12,7 +12,7 @@ protected:
 	virtual bool ejecutarAccion(Ventana* ventana);
 
 public:
-	OpUIClienteSubirApuesta(void);
+	OpUIClienteSubirApuesta(vector<string> parametros);
 	virtual ~OpUIClienteSubirApuesta(void);
 };
 

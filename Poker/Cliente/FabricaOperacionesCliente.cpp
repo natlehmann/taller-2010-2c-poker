@@ -52,7 +52,7 @@ OperacionUICliente* FabricaOperacionesCliente::newOperacion(string nombreOperaci
 		operacion = new OpUIClienteNoIr();
 	}
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteSubirApuesta")) {
-		operacion = new OpUIClienteSubirApuesta();
+		operacion = new OpUIClienteSubirApuesta(parametros);
 	}
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteAgregarJugador")) {
 		operacion = new OpUIClienteAgregarJugador(parametros);

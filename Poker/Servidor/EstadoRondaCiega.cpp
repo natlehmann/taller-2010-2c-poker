@@ -32,3 +32,7 @@ string EstadoRondaCiega::getEscenarioJuego(int idJugador){
 
 	return this->getEscenarioEstandar(idJugador);
 }
+
+string EstadoRondaCiega::getEscenarioJuego(int idJugador, string mensaje){
+	return this->getEscenarioConMensaje(idJugador, mensaje);
+}
