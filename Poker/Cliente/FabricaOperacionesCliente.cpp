@@ -58,7 +58,7 @@ OperacionUICliente* FabricaOperacionesCliente::newOperacion(string nombreOperaci
 		operacion = new OpUIClienteAgregarJugador(parametros);
 	}
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteLogin")) {
-		operacion = new OpUIClienteLogin();
+		operacion = new OpUIClienteLogin(parametros);
 	}
 
 	if (operacion == NULL) {
