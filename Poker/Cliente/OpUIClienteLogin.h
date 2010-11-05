@@ -11,7 +11,7 @@ protected:
 	virtual bool ejecutarAccion(Ventana* ventana);
 
 public:
-	OpUIClienteLogin(void);
+	OpUIClienteLogin(vector<string> parametros);
 	virtual ~OpUIClienteLogin(void);
 };
 
