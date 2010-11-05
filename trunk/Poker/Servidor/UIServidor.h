@@ -25,6 +25,9 @@ class UIServidor
 		void limpiarPantalla();
 		void mostrarMensaje(string msg, bool ingresaDatos = true);
 		void hacerUnaPausa();
+
+		// Esta funcion sirve crea las tablas del sistema en caso de que no existan
+		void inicializarDatos();
 		
 	public:
 		UIServidor(void);

@@ -1,6 +1,7 @@
 #include "UIServidor.h"
 #include "UtilTiposDatos.h"
 #include "RecursosServidor.h"
+#include "AccesoDatos.h"
 
 #include <cstdlib>
 
@@ -101,6 +102,9 @@ void UIServidor::iniciarServidor()
 			mostrarMensaje("EL SERVIDOR A SIDO INICIADO EN FORMA EXITOSA !!!", false);
 			mostrarMensaje("PARA DESCONECTAR EL SERVIDOR PULSE EL CARACTER 'x'", false);
 
+			// Esta funcion genera las tablas del sistema en el caso de que se ejecute por primera vez el servidor
+			this->inicializarDatos();
+			
 			while (!salir)
 			{
 				leerEntrada();
@@ -146,4 +150,10 @@ void UIServidor::hacerUnaPausa()
 	string buffer;
 	this->mostrarMensaje("\n\nPRESIONE INTRO PARA CONTINUAR...",false);
 	getline(cin, buffer);
+}
+
+void UIServidor::inicializarDatos()
+{
+	AccesoDatos ac;
+	ac.inicializarBaseDatos();
 }
