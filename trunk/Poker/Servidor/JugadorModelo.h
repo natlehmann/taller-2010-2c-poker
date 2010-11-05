@@ -15,6 +15,7 @@ private:
 	string nombre;
 	int fichas;
 	int posicion;
+	string password;
 	string nombreImagen;
 	CartaModelo* carta1;
 	CartaModelo* carta2;
@@ -26,7 +27,7 @@ private:
 public:
 
 	JugadorModelo(int id, int posicion);
-	JugadorModelo(int id, string nombre, int fichas, int posicion, string nombreImagen = NOMBRE_IMAGEN);
+	JugadorModelo(int id, string nombre, int fichas, int posicion, string password, string nombreImagen = NOMBRE_IMAGEN);
 	virtual ~JugadorModelo(void);
 
 	int getId();
@@ -40,6 +41,9 @@ public:
 
 	int getPosicion();
 	void setPosicion(int posicion);
+
+	string getPassword();
+	void setPassword(string Password);
 
 	string getNombreImagen();
 	void setNombreImagen(string nombreImagen);
