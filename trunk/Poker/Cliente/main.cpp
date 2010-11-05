@@ -29,6 +29,14 @@ int main (int argc, char** argv)
 
 		UICliente::lanzarThreads(ventana);
 
+		/* Prueba envio de la solicitud de logueo */
+		/*vector<string> parametros;
+		parametros.push_back("Jose89");
+		parametros.push_back("xxx");
+		parametros.push_back("S");
+		parametros.push_back("N");
+		operacion = fab.newOperacion(idOperacionInicial, parametros);*/
+
 		operacion = fab.newOperacion(idOperacionInicial);
 		if (operacion->ejecutar(ventana)){
 
