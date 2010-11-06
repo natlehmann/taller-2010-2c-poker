@@ -239,5 +239,4 @@ void AdministradorJugadores::incrementarDealer(){
 		}
 	}
 
-	this->resetearJugadorTurno();
 }
