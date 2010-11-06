@@ -35,6 +35,8 @@ private:
 	Apuesta* apuesta;
 	Etiqueta* etiquetaNombre;
 	Etiqueta* etiquetaFichas;
+	bool dealer;
+	Imagen* imagenDealer;
 
 	void setearDisposicionAIzq();
 	void setearDisposicionADer();
@@ -77,6 +79,9 @@ public:
 
 	int getEstado();
 	void setEstado(int estado);
+
+	bool isDealer();
+	void setDealer(bool esDealer);
 
 	ElementoGrafico* getElementoPorId(string id);
 };

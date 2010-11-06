@@ -230,6 +230,14 @@ Jugador* FabricaDeElementosGraficos::generarJugador(list<Elemento*>::iterator it
 	jugador->setId(idJugador);
 	jugador->setNombre((*itJugador)->getAtributo("nombre"));
 
+	if (!MensajesUtil::esVacio((*itJugador)->getAtributo("dealer"))
+		&& MensajesUtil::sonIguales((*itJugador)->getAtributo("dealer"), "true")) {
+			jugador->setDealer(true);
+
+	} else {
+		jugador->setDealer(false);
+	}
+
 	
 	// Se agregan las propiedades del JUGADOR
 	for(list<Elemento*>::iterator itElemento = (*itJugador)->getHijos()->begin(); 

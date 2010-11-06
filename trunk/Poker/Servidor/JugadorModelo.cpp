@@ -14,6 +14,7 @@ JugadorModelo::JugadorModelo(int id, int posicion)
 	this->activo = false;
 	this->jugandoRonda = false;
 	this->ausente = true;
+	this->dealer = false;
 }
 
 JugadorModelo::JugadorModelo(int id, string nombre, int fichas, int posicion, string password, string nombreImagen)
@@ -167,4 +168,12 @@ void JugadorModelo::apostar(int fichas)
 void JugadorModelo::incrementarFichas(int cantidad)
 {
 	this->fichas += cantidad;
+}
+
+bool JugadorModelo::isDealer(){
+	return this->dealer;
+}
+
+void JugadorModelo::setDealer(bool esDealer){
+	this->dealer = esDealer;
 }

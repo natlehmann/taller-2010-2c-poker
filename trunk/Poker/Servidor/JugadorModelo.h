@@ -23,6 +23,7 @@ private:
 	bool activo;
 	bool ausente;
 	bool jugandoRonda;
+	bool dealer;
 
 public:
 
@@ -65,6 +66,9 @@ public:
 
 	bool isJugandoRonda();
 	void setJugandoRonda(bool jugandoRonda);
+
+	bool isDealer();
+	void setDealer(bool esDealer);
 
 	void apostar(int fichas);
 	void incrementarFichas(int cantidad);

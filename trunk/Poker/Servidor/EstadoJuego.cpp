@@ -85,6 +85,13 @@ void EstadoJuego::agregarJugadores(DomTree* arbol, int idJugador){
 		elemJugador->agregarAtributo("posicion", UtilTiposDatos::enteroAString(jugadores[i]->getPosicion()));
 		elemJugador->agregarAtributo("nombre", jugadores[i]->getNombre());
 
+		if (jugadores[i]->isDealer()) {
+			elemJugador->agregarAtributo("dealer", "true");
+
+		} else {
+			elemJugador->agregarAtributo("dealer", "false");
+		}
+
 		if (jugadores[i]->isAusente()) {
 			elemJugador->agregarAtributo("estado", "ausente");
 

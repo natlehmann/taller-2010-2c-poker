@@ -20,6 +20,9 @@ Jugador::Jugador(void) {
 	this->apuesta = NULL;
 	this->fichas = 0;
 	this->estado = JUGADOR_ACTIVO;
+	this->dealer = false;
+
+	this->imagenDealer = new Imagen("dealer.bmp");
 }
 
 Jugador::~Jugador(void) {
@@ -41,6 +44,8 @@ Jugador::~Jugador(void) {
 	if (this->etiquetaFichas != NULL) {
 		delete (this->etiquetaFichas);
 	}
+
+	delete(this->imagenDealer);
 }
 
 void Jugador::dibujarSobreSup(SDL_Surface* superficie){
@@ -53,6 +58,13 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->imagen != NULL) {
 		this->dibujarJugador(superficie);
+	}
+
+	if (this->isDealer()) {
+		this->imagenDealer->dibujar(superficie);
+	
+	} else {
+		this->ventana->borrarElemento(this->imagenDealer);
 	}
 
 	if (this->carta1 != NULL) {
@@ -253,6 +265,11 @@ void Jugador::setearDisposicionAIzq(){
 		this->apuesta->setAncho(this->getAncho() - rectFoto->w);
 		this->apuesta->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_APUESTA);
 	}
+
+	this->imagenDealer->setAncho(ALTO_MAXIMO_ETIQUETA);
+	this->imagenDealer->setAlto(ALTO_MAXIMO_ETIQUETA);
+	this->imagenDealer->setPosX(this->getPosX() + rectFoto->w + SEPARACION_CARTAS_APUESTA);
+	this->imagenDealer->setPosY(this->getPosY() + rectFoto->h + ALTO_MAXIMO_ETIQUETA);
 }
 
 void Jugador::setearDisposicionADer(){
@@ -314,6 +331,12 @@ void Jugador::setearDisposicionADer(){
 		this->apuesta->setAncho(this->getAncho() - rectFoto->w);
 		this->apuesta->setAlto(rectFoto->h / 2 - SEPARACION_CARTAS_APUESTA);
 	}
+
+	this->imagenDealer->setAncho(ALTO_MAXIMO_ETIQUETA);
+	this->imagenDealer->setAlto(ALTO_MAXIMO_ETIQUETA);
+	this->imagenDealer->setPosX(this->getPosX() + this->getAncho() - rectFoto->w 
+		- this->imagenDealer->getAncho() - SEPARACION_CARTAS_APUESTA);
+	this->imagenDealer->setPosY(this->getPosY() + rectFoto->h + ALTO_MAXIMO_ETIQUETA);
 }
 
 SDL_Rect* Jugador::calcularRectFoto(){
@@ -502,14 +525,26 @@ void Jugador::setEstado(int estado){
 			}
 
 			if (this->carta1 != NULL) {
-				//this->carta1->setVisible(true);
+				//this->carta1->setVisible(true);  //controlado por servidor
 			}
 
 			if (this->carta2 != NULL) {
-				//this->carta2->setVisible(true);
+				//this->carta2->setVisible(true);  //controlado por servidor
 			}
 		}
 
 		this->hayCambios = true;
+	}
+}
+
+bool Jugador::isDealer(){
+	return this->dealer;
+}
+
+void Jugador::setDealer(bool esDealer){
+	if (this->dealer != esDealer) {
+		this->dealer = esDealer;
+		this->hayCambios = true;
+		this->imagenDealer->setHayCambios(true);
 	}
 }
