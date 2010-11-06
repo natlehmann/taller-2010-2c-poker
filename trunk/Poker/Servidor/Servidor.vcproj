@@ -295,6 +295,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\JugadorVirtual.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Log.cpp"
 				>
 			</File>
@@ -598,6 +602,10 @@
 			</File>
 			<File
 				RelativePath=".\JugadorModelo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\JugadorVirtual.h"
 				>
 			</File>
 			<File
