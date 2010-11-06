@@ -164,7 +164,6 @@ bool ContextoJuego::esApuestaValida(int idCliente, int fichas){
 void ContextoJuego::noIr(int idCliente)
 {
 	JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
-	jugador->setJugandoRonda(false);
 	jugador->setApuesta(0);
 	jugador->setCarta1(NULL);
 	jugador->setCarta2(NULL);
@@ -178,8 +177,14 @@ void ContextoJuego::noIr(int idCliente)
 		this->admJugadores->incrementarTurno();
 		chequearRondaTerminada();
 
+		// se debe hacer al final
+		jugador->setJugandoRonda(false);
+
 	} else {
-		// TODO: CHEQUEAR SI SE TERMINO EL JUEGO
+		
+		jugador->setJugandoRonda(false);
+		this->finalizarRonda();
+		this->estado = this->evaluandoGanador;
 	}
 
 }
@@ -228,6 +233,7 @@ void ContextoJuego::iniciarJuego() {
 
 	this->admJugadores->resetearDealer();
 	this->admJugadores->incrementarDealer();
+	this->admJugadores->resetearJugadorTurno();
 
 
 	int blind = 1;
@@ -332,7 +338,9 @@ int ContextoJuego::evaluarGanador()
 
 void ContextoJuego::finalizarRonda()
 {
-	this->mostrandoCartas = true;
+	if (this->cantidadJugadoresRonda > 1) {
+		this->mostrandoCartas = true;
+	}
 
 	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
 		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
