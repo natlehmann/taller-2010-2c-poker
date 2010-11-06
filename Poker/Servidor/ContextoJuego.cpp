@@ -223,6 +223,7 @@ void ContextoJuego::iniciarJuego() {
 			this->admJugadores->getJugadores()[i]->setJugandoRonda(true);
 		}
 		this->admJugadores->getJugadores()[i]->setApuesta(0);
+		this->admJugadores->getJugadores()[i]->setDealer(false);
 	}
 
 	this->admJugadores->resetearDealer();

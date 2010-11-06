@@ -215,6 +215,11 @@ void AdministradorJugadores::resetearDealer() {
 }
 
 void AdministradorJugadores::incrementarDealer(){
+
+	if (this->dealer >= 0) {
+		this->jugadores[this->dealer]->setDealer(false);
+	}
+
 	bool encontrado = false;
 
 	while (!encontrado) {
@@ -227,6 +232,7 @@ void AdministradorJugadores::incrementarDealer(){
 
 		if (this->jugadores[this->dealer]->isActivo()) {
 			encontrado = true;
+			this->jugadores[this->dealer]->setDealer(true);
 		}
 	}
 
