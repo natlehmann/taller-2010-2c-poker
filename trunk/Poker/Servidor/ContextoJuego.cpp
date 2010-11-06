@@ -375,8 +375,9 @@ bool ContextoJuego::hayLugar(){
 	return this->admJugadores->hayLugar();
 }
 
-void ContextoJuego::agregarJugador(int idCliente){
-	this->admJugadores->agregarJugador(idCliente);
+void ContextoJuego::agregarJugador(int idCliente, string nombreJugador, 
+			string nombreImagen, int fichas, bool esVirtual){
+	this->admJugadores->agregarJugador(idCliente, nombreJugador, nombreImagen, fichas, esVirtual);
 }
 
 int ContextoJuego::getCantidadJugadoresActivos(){
@@ -393,4 +394,27 @@ bool ContextoJuego::isTurnoCliente(int idCliente){
 
 string ContextoJuego::getNombreGanador(){
 	return this->nombreGanador;
+}
+
+int ContextoJuego::idClienteToIdJugador(int idCliente){
+	return this->admJugadores->idClienteToIdJugador(idCliente);
+}
+
+int ContextoJuego::idJugadorToIdCliente(int idJugador){
+	return this->admJugadores->idJugadorToIdCliente(idJugador);
+}
+
+int ContextoJuego::getMontoAIgualar(){
+	return this->montoAIgualar;
+}
+
+void ContextoJuego::chequearJugadorVirtual(int idCliente) {
+	JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
+	if (jugador != NULL && jugador->isVirtual() 
+		&& this->estado != this->esperandoJugadores 
+		&& this->estado != this->evaluandoGanador 
+		&& this->isTurnoJugador(jugador->getId())) {
+
+		jugador->jugar();	
+	}
 }

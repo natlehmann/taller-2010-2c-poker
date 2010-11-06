@@ -10,6 +10,7 @@
 #include "Operacion.h"
 #include "DatosInvalidosException.h"
 #include "GeneradorRespuesta.h"
+#include "SincronizadorThreads.h"
 #include <vector>
 
 
@@ -21,6 +22,7 @@ class ThrCliente: public Thread
 		FabricaOperacionesServidor* fabricaOperaciones;
 		int idCliente;
 		static int contadorIds;
+		static SincronizadorThreads sincronizador;
 		
 	public:	
 		ThrCliente(){
@@ -53,6 +55,12 @@ class ThrCliente: public Thread
 		{	
 			while (!this->parar) 
 			{
+				/*
+				while (sincronizador.getSiguienteId() != this->idCliente) {
+					Sleep(100); ///////////////////////////////NO FUNCIONA
+				}
+				*/
+
 				string msjRecibido = "";
 				bool recibidoOK;
 				

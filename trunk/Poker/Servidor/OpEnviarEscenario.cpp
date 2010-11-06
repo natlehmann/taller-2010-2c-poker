@@ -17,6 +17,7 @@ cout << "Enviando escenario a cliente " << this->getIdCliente() << endl;
 
 	bool error = false;
 
+	ContextoJuego::getInstancia()->chequearJugadorVirtual(this->getIdCliente());
 	string respuesta = ContextoJuego::getInstancia()->getEscenarioJuego(this->getIdCliente());
 //cout << respuesta << endl;
 	if (socket != NULL && !MensajesUtil::esVacio(respuesta)){
