@@ -3,6 +3,7 @@
 #include "MensajesUtil.h"
 #include "OpEnviarEscenario.h"
 #include "FabricaOperacionesServidor.h"
+#include "JugadorModelo.h"
 #include <vector>
 
 
@@ -17,7 +18,15 @@ OpAgregarJugador::~OpAgregarJugador(void)
 bool OpAgregarJugador::ejecutarAccion(Socket* socket){
 
 	if (ContextoJuego::getInstancia()->hayLugar()) {
-		ContextoJuego::getInstancia()->agregarJugador(this->getIdCliente());
+
+		// TODO: REEMPLAZAR ESTO SACANDO LOS DATOS DE LA BASE!!
+		string nombreJugador = "jugadorX";
+		string nombreImagen = "jugador5.bmp";
+		int fichas = 1000;
+		bool esVirtual = true;
+
+		ContextoJuego::getInstancia()->agregarJugador(
+			this->getIdCliente(), nombreJugador, nombreImagen, fichas, esVirtual);
 
 	} else{
 		// TODO !!!!!

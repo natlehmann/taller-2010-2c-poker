@@ -1,6 +1,7 @@
 #include "AdministradorJugadores.h"
 #include "PokerException.h"
 #include "IteradorRondaJugando.h"
+#include "JugadorModelo.h"
 
 AdministradorJugadores::AdministradorJugadores(void)
 {
@@ -58,7 +59,8 @@ JugadorModelo* AdministradorJugadores::getPrimerJugadorAusente() {
 	return jugador;
 }
 
-void AdministradorJugadores::agregarJugador(int idCliente)
+void AdministradorJugadores::agregarJugador(int idCliente, 
+		string nombreJugador, string nombreImagen, int fichas, bool esVirtual)
 {
 	JugadorModelo* jugador = this->getPrimerJugadorAusente();
 
@@ -68,12 +70,11 @@ void AdministradorJugadores::agregarJugador(int idCliente)
 
 	this->idsJugadores[jugador->getId()] = idCliente;
 
-	// TODO: Aca habria que traer los datos del jugador de la base?
-	// TODO: REEMPLAZAR ESTO !
-	jugador->setNombre("jugadorX");
-	jugador->setFichas(1000);
+	jugador->setNombre(nombreJugador);
+	jugador->setFichas(fichas);
 	jugador->setApuesta(0);
-	jugador->setNombreImagen("jugador2.bmp");
+	jugador->setNombreImagen(nombreImagen);
+	jugador->setVirtual(esVirtual);
 
 	jugador->setAusente(false);
 	jugador->setActivo(true);
@@ -182,8 +183,10 @@ void AdministradorJugadores::incrementarTurno(){
 
 	IteradorRondaJugando* it = this->getIteradorRondaJugando(this->jugadorTurno);
 	it->getSiguiente(); // descarto al jugador del turno actual
-	this->jugadorTurno = it->getSiguiente()->getPosicion() - 1;
-	delete (it);
+
+	JugadorModelo* jugador = it->getSiguiente();
+	this->jugadorTurno = jugador->getPosicion() - 1;
+	delete (it); 
 }
 
 IteradorRonda* AdministradorJugadores::getIteradorRonda(){

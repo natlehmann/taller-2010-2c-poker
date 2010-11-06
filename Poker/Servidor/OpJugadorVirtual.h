@@ -1,13 +1,24 @@
-#pragma once
+#ifndef OPERACION_JUGADORVIRTUAL_H_
+#define OPERACION_JUGADORVIRTUAL_H_
 
-class OpJugadorVirtual
+#include "Operacion.h"
+#include <string>
+
+
+using namespace std;
+
+class OpJugadorVirtual : public Operacion
 {
-private:
-	int idCliente;
 public:
 	OpJugadorVirtual(int idCliente);
 	~OpJugadorVirtual();
-	int getIdCliente();
-	void setIdCliente(int idCliente);
-	virtual void ejecutarAccion() = 0;
+
+	/* Metodo NO sincronizado */
+    virtual bool ejecutar(Socket* socket);
+
+	virtual bool ejecutarAccion(Socket* socket) = 0;
+
 };
+
+#endif //OPERACION_JUGADORVIRTUAL_H_
+

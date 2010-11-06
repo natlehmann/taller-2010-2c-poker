@@ -1,19 +1,14 @@
 #include "OpJugadorVirtual.h"
 
-OpJugadorVirtual::OpJugadorVirtual(int idCliente)
+OpJugadorVirtual::OpJugadorVirtual(int idCliente) : Operacion(idCliente)
 {
-	this->idCliente = idCliente;
 }
 
 OpJugadorVirtual::~OpJugadorVirtual()
 {
 }
 
-int OpJugadorVirtual::getIdCliente()
-{
-	return this->idCliente;
-}
-void OpJugadorVirtual::setIdCliente(int idCliente)
-{
-	this->idCliente = idCliente;
+bool OpJugadorVirtual::ejecutar(Socket* socket){
+
+	return this->ejecutarAccion(socket);
 }

@@ -56,7 +56,8 @@ public:
 	void incrementarDealerTemp();
 
 	bool hayLugar();
-	void agregarJugador(int idCliente);
+	void agregarJugador(int idCliente, string nombreJugador, 
+		string nombreImagen, int fichas, bool esVirtual);
 	int getCantidadJugadoresActivos();
 
 	bool isTurnoJugador(int idJugador);

@@ -76,7 +76,8 @@ public:
 	JugadorModelo** getJugadores();
 
 	bool hayLugar();
-	void agregarJugador(int idCliente);
+	void agregarJugador(int idCliente, string nombreJugador, 
+		string nombreImagen, int fichas, bool esVirtual);
 	int getCantidadJugadoresActivos();
 	int getCantidadJugadoresJugandoRonda();
 
@@ -103,10 +104,15 @@ public:
 	void setMostrandoCartas(bool mostrandoCartas);
 	bool getMostrandoCartas();
 	string getNombreGanador();
+	int getMontoAIgualar();
+	void chequearJugadorVirtual(int idCliente);
 
 	int getTiempoEsperandoJugadores();
 	void resetTimerEsperandoJugadores();
 	bool isTiempoMostrandoGanadorCumplido();
+
+	int idClienteToIdJugador(int idCliente);
+	int idJugadorToIdCliente(int idJugador);
 
 	/**
 	* Para ser llamado al finalizar la aplicacion
