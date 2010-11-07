@@ -17,6 +17,8 @@ OpAgregarJugador::~OpAgregarJugador(void)
 
 bool OpAgregarJugador::ejecutarAccion(Socket* socket){
 
+	bool error = false;
+
 	if (ContextoJuego::getInstancia()->hayLugar()) {
 
 		// TODO: REEMPLAZAR ESTO SACANDO LOS DATOS DE LA BASE!!
@@ -33,15 +35,27 @@ bool OpAgregarJugador::ejecutarAccion(Socket* socket){
 		ContextoJuego::getInstancia()->agregarJugador(
 			this->getIdCliente(), nombreJugador, nombreImagen, fichas, esVirtual, esObservador);
 
+		FabricaOperacionesServidor fab;
+		vector<string> parametros;
+		Operacion* opEnviarEscenario = fab.newOperacion("OpEnviarEscenario", parametros, this->getIdCliente());
+		error = opEnviarEscenario->ejecutarAccion(socket);
+		delete (opEnviarEscenario);
+
+
 	} else{
-		// TODO !!!!!
+		
+		string respuesta = ContextoJuego::getInstancia()->getEscenarioJuego(
+			this->getIdCliente(), "No hay lugar en esta mesa.");
+
+		if (socket != NULL && !MensajesUtil::esVacio(respuesta)){
+			if(!socket->enviar(respuesta)) {
+				error = true;
+			}
+		}
+		else {
+			error = true;
+		}
 	}
 
-	FabricaOperacionesServidor fab;
-	vector<string> parametros;
-	Operacion* opEnviarEscenario = fab.newOperacion("OpEnviarEscenario", parametros, this->getIdCliente());
-	bool resultado = opEnviarEscenario->ejecutarAccion(socket);
-	delete (opEnviarEscenario);
-
-	return resultado;
+	return error;
 }

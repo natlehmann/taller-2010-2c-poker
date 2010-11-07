@@ -99,7 +99,7 @@ void AdministradorJugadores::quitarJugador(int idCliente)
 		this->jugadores[idJugador] = jugador;
 		this->idsJugadores[idJugador] = -1;
 	} else {
-		throw PokerException("Jugador inexistente en la mesa.");
+		// nada. podría tratarse de un jugador que no pudo entrar
 	}
 }
 
