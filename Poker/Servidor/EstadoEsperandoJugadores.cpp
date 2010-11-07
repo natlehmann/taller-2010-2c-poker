@@ -33,15 +33,16 @@ EstadoJuego* EstadoEsperandoJugadores::getSiguienteEstado(){
 
 string EstadoEsperandoJugadores::getEscenarioJuego(int idJugador){
 	DomTree* arbol = EstadoJuego::crearArbolEscenario();
-	EstadoJuego::agregarMesa(arbol);
-	EstadoJuego::agregarBote(arbol);
+	this->agregarMesa(arbol);
+	this->agregarBote(arbol);
 
 	// TODO: Ver si se manda el mensaje al archivo de configuracion
-	EstadoJuego::agregarMensaje(arbol, "Esperando que se sumen jugadores ...");
+	this->agregarMensaje(arbol, "Esperando que se sumen jugadores ...");
 
-	EstadoJuego::agregarJugadores(arbol, idJugador);
+	this->agregarJugadores(arbol, idJugador);
+	this->agregarPanelBotones(arbol, false);
 
-	string resultado = EstadoJuego::arbolToString(arbol);
+	string resultado = this->arbolToString(arbol);
 	delete(arbol);
 
 	return resultado;

@@ -1,5 +1,6 @@
 #include "Apuesta.h"
 #include "RecursosCliente.h"
+#include "MensajesUtil.h"
 
 Apuesta::Apuesta(string cantidad) {
 	this->imagen = NULL;
@@ -30,6 +31,8 @@ void Apuesta::dibujarSobreSup(SDL_Surface* superficie){
 	this->imagen->setPosY(this->getPosY());
 	this->imagen->setAncho(this->getAncho());
 	this->imagen->setAlto(this->getAlto() - altoEtiqueta);
+	this->imagen->setVisible(true);
+	this->imagen->setHayCambios(true);
 
 	if (this->etiqueta == NULL) {
 		this->etiqueta = new Etiqueta();
@@ -55,6 +58,8 @@ string Apuesta::getCantidad() {
 }
 
 void Apuesta::setCantidad(string cantidad) {
-	this->cantidad = cantidad;
-	this->hayCambios = true;
+	if (!MensajesUtil::sonIguales(this->cantidad, cantidad)) {
+		this->cantidad = cantidad;
+		this->hayCambios = true;
+	}
 }

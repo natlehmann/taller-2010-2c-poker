@@ -46,10 +46,7 @@ string EstadoEvaluandoGanador::getEscenarioJuego(int idJugador){
 	this->agregarBote(arbol);
 	this->agregarJugadores(arbol, idJugador);
 	this->agregarCartasComunitarias(arbol);
-
-	if (!ContextoJuego::getInstancia()->getJugador(idJugador)->isVirtual()) {
-		this->agregarPanelBotones(arbol, false);
-	}
+	this->agregarPanelBotones(arbol, false);
 
 	this->agregarMensaje(arbol, ContextoJuego::getInstancia()->getNombreGanador() 
 		+  string(" gana esta mano."));
