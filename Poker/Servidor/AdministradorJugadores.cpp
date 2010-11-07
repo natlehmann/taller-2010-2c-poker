@@ -87,6 +87,21 @@ void AdministradorJugadores::agregarJugadorAusente(int idJugador)
 	this->jugadores[idJugador] = jugador;
 }
 
+void AdministradorJugadores::quitarJugador(int idCliente)
+{
+	int idJugador = this->idClienteToIdJugador(idCliente);
+	if (idJugador >= 0) {
+		JugadorModelo* jugador = this->jugadores[idJugador];
+		delete jugador;
+		int posicion = idJugador + 1;
+		jugador = new JugadorModelo(idJugador, posicion);
+		this->jugadores[idJugador] = jugador;
+		this->idsJugadores[idJugador] = -1;
+	} else {
+		throw PokerException("Jugador inexistente en la mesa.");
+	}
+}
+
 JugadorModelo* AdministradorJugadores::getJugadorPorPosicion(int posicion){
 
 	if (posicion <= MAX_CANTIDAD_JUGADORES && posicion > 0) {

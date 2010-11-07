@@ -347,10 +347,12 @@ void ContextoJuego::finalizarRonda()
 		jugador->setApuesta(0);
 	}
 
-	int idGanador = this->evaluarGanador();
-	//TODO: VER SI MANDAMOS INFORMACION DEL GANADOR A LA VENTANA PARA DIBUJARLO
+	if (this->cantidadJugadoresRonda > 0) {
+		int idGanador = this->evaluarGanador();
+		//TODO: VER SI MANDAMOS INFORMACION DEL GANADOR A LA VENTANA PARA DIBUJARLO
 
-	this->timerMostrandoGanador.iniciar();
+		this->timerMostrandoGanador.iniciar();
+	}
 }
 
 string ContextoJuego::getEscenarioJuego(int idCliente){
@@ -386,6 +388,27 @@ bool ContextoJuego::hayLugar(){
 void ContextoJuego::agregarJugador(int idCliente, string nombreJugador, 
 			string nombreImagen, int fichas, bool esVirtual){
 	this->admJugadores->agregarJugador(idCliente, nombreJugador, nombreImagen, fichas, esVirtual);
+}
+
+void ContextoJuego::quitarJugador(int idCliente){
+	if (this->isTurnoCliente(idCliente)) {
+		this->noIr(idCliente);
+	} else {
+		if (this->cantidadJugadoresRonda > 0) {
+			this->cantidadJugadoresRonda--;
+		}
+		if (this->cantidadJugadoresRonda > 1) {
+			int idJugador = admJugadores->idClienteToIdJugador(idCliente);
+			if (this->admJugadores->isDealerJugador(idJugador)) {
+				this->admJugadores->incrementarDealerTemp();
+			}
+			chequearRondaTerminada();
+		} else {
+			this->finalizarRonda();
+			this->estado = this->evaluandoGanador;
+		}
+	}
+	this->admJugadores->quitarJugador(idCliente);
 }
 
 int ContextoJuego::getCantidadJugadoresActivos(){
