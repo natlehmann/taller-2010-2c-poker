@@ -24,9 +24,14 @@ bool OpAgregarJugador::ejecutarAccion(Socket* socket){
 		string nombreImagen = "jugador5.bmp";
 		int fichas = 1000;
 		bool esVirtual = false;
+		bool esObservador;
+		if (ContextoJuego::getInstancia()->getCantidadJugadoresActivos() == 0)
+			esObservador = true;
+		else
+			esObservador = false;
 
 		ContextoJuego::getInstancia()->agregarJugador(
-			this->getIdCliente(), nombreJugador, nombreImagen, fichas, esVirtual);
+			this->getIdCliente(), nombreJugador, nombreImagen, fichas, esVirtual, esObservador);
 
 	} else{
 		// TODO !!!!!

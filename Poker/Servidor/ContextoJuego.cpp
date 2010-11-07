@@ -413,8 +413,8 @@ bool ContextoJuego::hayLugar(){
 }
 
 void ContextoJuego::agregarJugador(int idCliente, string nombreJugador, 
-			string nombreImagen, int fichas, bool esVirtual){
-	this->admJugadores->agregarJugador(idCliente, nombreJugador, nombreImagen, fichas, esVirtual);
+			string nombreImagen, int fichas, bool esVirtual, bool esObservador){
+	this->admJugadores->agregarJugador(idCliente, nombreJugador, nombreImagen, fichas, esVirtual, esObservador);
 }
 
 void ContextoJuego::quitarJugador(int idCliente){

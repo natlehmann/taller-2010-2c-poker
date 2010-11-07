@@ -138,10 +138,10 @@ void EstadoJuego::agregarJugadores(DomTree* arbol, int idJugador){
 				elemCarta1->agregarAtributo("visible", "true");
 				elemCarta2->agregarAtributo("visible", "true");
 
-				// TODO: AGREGAR CHEQUEO PARA FUNCIONALIDAD DE "VER TODAS LAS CARTAS"
-
 				// si el jugador puede ver las cartas
-				if (jugadores[i]->getId() == idJugador || ContextoJuego::getInstancia()->getMostrandoCartas()) {
+				if (jugadores[i]->getId() == idJugador 
+					|| ContextoJuego::getInstancia()->getMostrandoCartas()
+					|| jugadores[idJugador]->isObservador()) {
 
 					elemCarta1->agregarAtributo("numero", jugadores[i]->getCarta1()->getNumero());
 					elemCarta1->agregarAtributo("palo", jugadores[i]->getCarta1()->getPalo());
