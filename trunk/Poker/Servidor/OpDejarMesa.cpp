@@ -18,11 +18,13 @@ bool OpDejarMesa::ejecutarAccion(Socket* socket){
 	// TODO: Aca habría que resguardar las fichas en la base?
 	ContextoJuego::getInstancia()->quitarJugador(this->getIdCliente());
 	
-	FabricaOperacionesServidor fab;
-	vector<string> parametros;
-	Operacion* opEnviarEscenario = fab.newOperacion("OpEnviarEscenario", parametros, this->getIdCliente());
-	bool resultado = opEnviarEscenario->ejecutarAccion(socket);
-	delete (opEnviarEscenario);
+	//FabricaOperacionesServidor fab;
+	//vector<string> parametros;
+	//Operacion* opEnviarEscenario = fab.newOperacion("OpEnviarEscenario", parametros, this->getIdCliente());
+	//bool resultado = opEnviarEscenario->ejecutarAccion(socket);
+	//delete (opEnviarEscenario);
 
-	return resultado;
+	//return resultado;
+
+	return true;
 }
