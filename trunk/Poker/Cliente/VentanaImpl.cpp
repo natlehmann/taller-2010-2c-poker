@@ -171,6 +171,13 @@ void VentanaImpl::iniciar() {
 
 			if( (event.type == SDL_QUIT)
 				|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ){
+
+				FabricaOperacionesCliente fab;
+				vector<string> parametros;
+				OperacionUICliente* operacion = fab.newOperacion("OpUIClienteDejarMesa", parametros);
+				operacion->ejecutar(this);
+				delete(operacion);
+
                 listo = true;
             }
 
@@ -244,6 +251,11 @@ void VentanaImpl::manejarEventos(SDL_Event* event){
 
 							componentes[i]->dibujarUp(this->pantalla);
 							this->refrescar(this->pantalla);
+
+							if (MensajesUtil::sonIguales(componentes[i]->getIdOperacion(),"OpUIClienteDejarMesa")) {
+								event->type = SDL_QUIT;
+								break;
+							}
 						}
 					}
 				}

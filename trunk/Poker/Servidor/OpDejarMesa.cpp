@@ -15,7 +15,8 @@ OpDejarMesa::~OpDejarMesa(void)
 
 bool OpDejarMesa::ejecutarAccion(Socket* socket){
 
-	// TODO !!!!!!!!!!!!!!!!
+	// TODO: Aca habría que resguardar las fichas en la base?
+	ContextoJuego::getInstancia()->quitarJugador(this->getIdCliente());
 	
 	FabricaOperacionesServidor fab;
 	vector<string> parametros;
