@@ -205,7 +205,12 @@ void EstadoJuego::agregarCartasComunitarias(DomTree* arbol){
 
 void EstadoJuego::agregarPanelBotones(DomTree* arbol, int idJugador){
 
-	this->agregarPanelBotones(arbol, ContextoJuego::getInstancia()->isTurnoJugador(idJugador));
+	if (idJugador >= 0 && !ContextoJuego::getInstancia()->getJugador(idJugador)->isVirtual()) {
+		this->agregarPanelBotones(arbol, ContextoJuego::getInstancia()->isTurnoJugador(idJugador));
+
+	} else {
+		this->agregarPanelBotones(arbol, false);
+	}
 }
 
 
@@ -221,6 +226,8 @@ void EstadoJuego::agregarPanelBotones(DomTree* arbol, bool habilitados){
 	boton1->agregarAtributo("posicion", "1");
 	boton1->agregarAtributo("operacion", "OpUIClienteDejarMesa");
 	boton1->setTexto("Dejar Mesa");
+	this->agregarAtributoHabilitado(boton1, true);
+
 
 	Elemento* boton2 = elemPanel->agregarHijo("boton", "escenario");
 	boton2->agregarAtributo("id", "btIgualar");
@@ -253,7 +260,6 @@ void EstadoJuego::agregarPanelBotones(DomTree* arbol, bool habilitados){
 	textBox->agregarAtributo("posicion", "5");
 	textBox->agregarAtributo("operacion", "OpUIClienteSubirApuesta");
 
-	this->agregarAtributoHabilitado(boton1, habilitados);
 	this->agregarAtributoHabilitado(boton2, habilitados);
 	this->agregarAtributoHabilitado(boton3, habilitados);
 	this->agregarAtributoHabilitado(boton4, habilitados);
@@ -284,10 +290,7 @@ string EstadoJuego::getEscenarioEstandar(int idJugador){
 	this->agregarBote(arbol);
 	this->agregarJugadores(arbol, idJugador);
 	this->agregarCartasComunitarias(arbol);
-
-	if (!ContextoJuego::getInstancia()->getJugador(idJugador)->isVirtual()) {
-		this->agregarPanelBotones(arbol, idJugador);
-	}
+	this->agregarPanelBotones(arbol, idJugador);
 
 	this->borrarMensaje(arbol);
 
@@ -304,10 +307,7 @@ string EstadoJuego::getEscenarioConMensaje(int idJugador, string mensaje){
 	this->agregarBote(arbol);
 	this->agregarJugadores(arbol, idJugador);
 	this->agregarCartasComunitarias(arbol);
-	
-	if (!ContextoJuego::getInstancia()->getJugador(idJugador)->isVirtual()) {
-		this->agregarPanelBotones(arbol, idJugador);
-	}
+	this->agregarPanelBotones(arbol, idJugador);
 
 	this->agregarMensaje(arbol, mensaje);
 

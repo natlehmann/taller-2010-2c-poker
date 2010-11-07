@@ -423,7 +423,7 @@ void Jugador::setCarta(Carta* carta){
 
 void Jugador::setApuesta(string cantidad) {
 
-	if (this->apuesta == NULL || !MensajesUtil::sonIguales(this->apuesta->getCantidad(), cantidad)) {
+	//if (this->apuesta == NULL || !MensajesUtil::sonIguales(this->apuesta->getCantidad(), cantidad)) {
 
 		if (this->apuesta == NULL) {
 			this->apuesta = new Apuesta(cantidad);
@@ -433,7 +433,7 @@ void Jugador::setApuesta(string cantidad) {
 			this->apuesta->setCantidad(cantidad);
 		}
 		this->hayCambios = true;
-	}
+	//}
 }
 
 Apuesta* Jugador::getApuesta(){
