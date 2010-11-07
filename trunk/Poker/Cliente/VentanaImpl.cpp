@@ -164,8 +164,8 @@ void VentanaImpl::iniciar() {
 		while(SDL_PollEvent(&event)) {
 		*/
 
-		//while(this->WaitEvent(&event) && !listo) {
-		while(this->PollEvent(&event) && !listo) {
+		while(SDL_WaitEvent(&event) && !listo) {
+		//while(this->PollEvent(&event) && !listo) {
 
 			this->manejarEventos(&event);
 
@@ -185,12 +185,13 @@ void VentanaImpl::iniciar() {
 
 		
 
-		
+		/*
 		// dormir el tiempo que falta para cumplir con la tasa de cuadros por segundo
 		int msPorFrame = (int)(1000 / FRAMES_PER_SECOND);
 		if(timer.getMs() < msPorFrame && !listo) {
             SDL_Delay( msPorFrame - timer.getMs() );
         }
+		*/
 		
 	
 	}

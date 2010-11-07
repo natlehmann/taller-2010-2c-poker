@@ -28,6 +28,9 @@ Boton::Boton(string texto) : ComponentePanel(texto)
 
 	this->configurar();
 	this->estado = 'u';
+
+	this->superficieTexto = NULL;
+	this->hayCambiosTexto = true;
 }
 
 ComponentePanel* Boton::clonar() {
@@ -64,6 +67,8 @@ Boton::~Boton(void)
 	if (this->imagenDeshabilitado != NULL) {
 		delete(this->imagenDeshabilitado);
 	}
+
+	SDL_FreeSurface(this->superficieTexto);
 }
 
 void Boton::configurar() {
@@ -80,35 +85,39 @@ void Boton::configurar() {
 
 void Boton::dibujarSobreSup(SDL_Surface* superficie){
 
+	Imagen* imagenADibujar = NULL;
+
 	if (this->isHabilitado()) {
 
 		switch (this->estado)
 		{
 		case 'u':
-			this->imagenUp->setHayCambios(true);
-			this->imagenUp->dibujar(superficie);
+			imagenADibujar = this->imagenUp;
 			break;
 		case 'd':
-			this->imagenDown->setHayCambios(true);
-			this->imagenDown->dibujar(superficie);
+			imagenADibujar = this->imagenDown;
 			break;
 		case 'o':
-			this->imagenOver->setHayCambios(true);
-			this->imagenOver->dibujar(superficie);
+			imagenADibujar = this->imagenOver;
 			break;
 		}
 
 	} else {
-		this->imagenDeshabilitado->setHayCambios(true);
-		this->imagenDeshabilitado->dibujar(superficie);
+		imagenADibujar = this->imagenDeshabilitado;
 	}
+
+	this->dibujarBoton(superficie, imagenADibujar);
+	
 }
 
 
 Imagen* Boton::setearImagen(string nombreImagen)
 {
 	//Se genera el texto
-	SDL_Surface* superficieTexto = this->fuente->obtenerSuperficieTexto(this->texto, NULL);
+	if (this->superficieTexto == NULL || this->hayCambiosTexto) {
+		this->superficieTexto = this->fuente->obtenerSuperficieTexto(this->texto, NULL);
+		this->hayCambiosTexto = false;
+	}
 
 	//se configura la imagen 
 	Imagen* imagen = new Imagen(nombreImagen);
@@ -125,28 +134,30 @@ Imagen* Boton::setearImagen(string nombreImagen)
 
 	imagen->setAlto(this->getAlto());
 	imagen->setAncho(this->getAncho());
-	imagen->generarSuperficie();
-	SDL_Surface* superficieImagen = imagen->getSuperficie();
+	imagen->generarSuperficie();	
 
-	//se configura offset texto
+	return imagen;
+}
+
+SDL_Rect* Boton::getOffsetTexto() {
+
 	SDL_Rect* offsetTexto = new SDL_Rect();
 	offsetTexto->w = superficieTexto->w;
 	offsetTexto->h = superficieTexto->h;
 
-	if (this->ancho > superficieTexto->w)
-		offsetTexto->x = (this->ancho - superficieTexto->w)/2;
-	else
+	if (this->ancho > superficieTexto->w) {
+		offsetTexto->x = (this->ancho - superficieTexto->w)/2 + this->getPosX();
+	} else {
 		offsetTexto->x = this->posX;
-	if (this->alto > superficieTexto->h)
-		offsetTexto->y = (this->alto - superficieTexto->h)/2;
-	else
+	}
+
+	if (this->alto > superficieTexto->h) {
+		offsetTexto->y = (this->alto - superficieTexto->h)/2 + this->getPosY();
+	} else {
 		offsetTexto->y = this->posY;
+	}
 
-	SDL_BlitSurface(superficieTexto, NULL, imagen->getSuperficie(), offsetTexto);
-
-	SDL_FreeSurface(superficieTexto);
-
-	return imagen;
+	return offsetTexto;
 }
 
 void Boton::setPosX(int posX){
@@ -166,31 +177,44 @@ void Boton::setPosY(int posY){
 }
 
 
+void Boton::dibujarBoton(SDL_Surface* superficie, Imagen* imagen){
+
+	if (this->superficieTexto == NULL || this->hayCambiosTexto) {
+		this->superficieTexto = this->fuente->obtenerSuperficieTexto(this->texto, NULL);
+		this->hayCambiosTexto = false;
+	}
+
+	imagen->setHayCambios(true);
+	imagen->dibujar(superficie);
+
+	SDL_Rect* offsetTexto = this->getOffsetTexto();
+	SDL_BlitSurface(this->superficieTexto, NULL, superficie, offsetTexto);
+	delete(offsetTexto);
+}
+
+
 void Boton::dibujarOver(SDL_Surface* superficie)
 {
-	this->imagenOver->setHayCambios(true);
 	this->hayCambios = true;
 	estado = 'o';
 	if (this->habilitado) {
-		this->imagenOver->dibujar(superficie);
+		this->dibujarBoton(superficie, this->imagenOver);
 	}
 }
 void Boton::dibujarDown(SDL_Surface* superficie)
 {
-	this->imagenDown->setHayCambios(true);
 	this->hayCambios = true;
 	estado = 'd';
 	if (this->habilitado) {
-		this->imagenDown->dibujar(superficie);
+		this->dibujarBoton(superficie, this->imagenDown);
 	}
 }
 void Boton::dibujarUp(SDL_Surface* superficie)
 {
-	this->imagenUp->setHayCambios(true);
 	this->hayCambios = true;
 	estado = 'u';
 	if (this->habilitado) {
-		this->imagenUp->dibujar(superficie);
+		this->dibujarBoton(superficie, this->imagenUp);
 	}
 }
 
@@ -270,4 +294,11 @@ bool Boton::equals(ElementoGrafico* otro){
 
 bool Boton::checkWrite(SDL_Surface* superficie, SDL_Event* evento, int pressed){
 	return false;
+}
+
+void Boton::setTexto(string texto) {
+	if (!MensajesUtil::sonIguales(this->texto, texto)) {
+		this->texto = texto;
+		this->hayCambiosTexto = true;
+	}
 }

@@ -53,7 +53,7 @@ public:
 	virtual ComponentePanel* clonar() = 0;
 
 	string getTexto();
-	void setTexto(string texto);
+	virtual void setTexto(string texto);
 
 	bool estaSobre();
 	bool esClickIzquierdo();

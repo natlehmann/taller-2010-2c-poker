@@ -327,6 +327,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClientePasar.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteSolicitarArchivo.cpp"
 				>
 			</File>
@@ -622,6 +626,10 @@
 			</File>
 			<File
 				RelativePath=".\OpUIClienteNoIr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClientePasar.h"
 				>
 			</File>
 			<File

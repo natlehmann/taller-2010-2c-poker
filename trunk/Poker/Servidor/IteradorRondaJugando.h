@@ -15,6 +15,7 @@ public:
 	virtual ~IteradorRondaJugando(void);
 
 	virtual JugadorModelo* getSiguiente();
+	virtual JugadorModelo* getUltimo();
 	virtual void reset(int indiceInicial);
 };
 

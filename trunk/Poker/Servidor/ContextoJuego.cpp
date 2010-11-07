@@ -31,6 +31,7 @@ ContextoJuego::ContextoJuego(void)
 	this->repartidor = new Repartidor();
 	this->rondaTerminada = false;
 	this->mostrandoCartas = false;
+	this->sePuedePasar = false;
 
 	this->esperandoJugadores = new EstadoEsperandoJugadores();
 	this->evaluandoGanador = new EstadoEvaluandoGanador();
@@ -141,6 +142,26 @@ void ContextoJuego::igualarApuesta(int idCliente)
 	chequearRondaTerminada();
 }
 
+void ContextoJuego::pasar(int idCliente){
+
+	if (this->sePuedePasar) {
+
+		JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
+		IteradorRondaJugando* it = this->admJugadores->getIteradorRondaJugando();
+
+		this->admJugadores->incrementarTurno();
+
+		// si es el ultimo jugador se da la ronda por terminada
+		if (it->getUltimo()->getId() == jugador->getId()) {
+			this->rondaTerminada = true;
+		}
+		delete(it);
+
+	} else {
+		throw PokerException("Se solicito 'pasar' cuando esta no era una jugada permitida.");
+	}
+}
+
 void ContextoJuego::subirApuesta(int idCliente, int fichas)
 {
 	JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
@@ -148,6 +169,7 @@ void ContextoJuego::subirApuesta(int idCliente, int fichas)
 	this->bote->incrementar(fichas);
 	this->montoAIgualar = jugador->getApuesta();
 	this->admJugadores->incrementarTurno();
+	this->sePuedePasar = false;
 	chequearRondaTerminada();
 }
 
@@ -175,10 +197,9 @@ void ContextoJuego::noIr(int idCliente)
 			this->admJugadores->incrementarDealerTemp();
 		}
 		this->admJugadores->incrementarTurno();
+		jugador->setJugandoRonda(false);
 		chequearRondaTerminada();
 
-		// se debe hacer al final
-		jugador->setJugandoRonda(false);
 
 	} else {
 		
@@ -221,6 +242,7 @@ void ContextoJuego::iniciarJuego() {
 	repartidor->mezclar();
 	this->bote->vaciar();
 	this->mostrandoCartas = false;
+	this->sePuedePasar = false;
 
 	// TODO: VER SI SACAMOS A LOS NO ACTIVOS DE LA MESA
 	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
@@ -271,6 +293,7 @@ void ContextoJuego::iniciarJuego() {
 void ContextoJuego::iniciarRonda() {
 
 	this->admJugadores->resetearJugadorTurno();
+	this->sePuedePasar = true;
 }
 
 void ContextoJuego::mostrarFlop()
@@ -373,6 +396,10 @@ JugadorModelo** ContextoJuego::getJugadores() {
 	return this->admJugadores->getJugadores();
 }
 
+JugadorModelo* ContextoJuego::getJugador(int idJugador){
+	return this->admJugadores->getJugadorPorPosicion(idJugador + 1);
+}
+
 void ContextoJuego::setMostrandoCartas(bool mostrandoCartas){
 	this->mostrandoCartas = mostrandoCartas;
 }
@@ -448,4 +475,8 @@ void ContextoJuego::chequearJugadorVirtual(int idCliente) {
 
 		jugador->jugar();	
 	}
+}
+
+bool ContextoJuego::puedePasar(){
+	return this->sePuedePasar;
 }
