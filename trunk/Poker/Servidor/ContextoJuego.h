@@ -79,7 +79,7 @@ public:
 
 	bool hayLugar();
 	void agregarJugador(int idCliente, string nombreJugador, 
-		string nombreImagen, int fichas, bool esVirtual);
+		string nombreImagen, int fichas, bool esVirtual, bool esObservador);
 	void quitarJugador(int idCliente);
 	int getCantidadJugadoresActivos();
 	int getCantidadJugadoresJugandoRonda();

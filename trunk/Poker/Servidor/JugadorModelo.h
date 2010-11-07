@@ -27,6 +27,7 @@ private:
 	bool jugandoRonda;
 	bool dealer;
 	bool esVirtual;
+	bool observador;
 
 	double nivelDeConfianza;
 	int apuestaPatron;
@@ -78,8 +79,11 @@ public:
 
 	bool isVirtual();
 	void setVirtual(bool esVirtual);
-	void jugar();
 
+	bool isObservador();
+	void setObservador(bool orbservador);
+
+	void jugar();
 	void apostar(int fichas);
 	void incrementarFichas(int cantidad);
 };

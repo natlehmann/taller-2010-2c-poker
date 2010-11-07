@@ -60,7 +60,7 @@ JugadorModelo* AdministradorJugadores::getPrimerJugadorAusente() {
 }
 
 void AdministradorJugadores::agregarJugador(int idCliente, 
-		string nombreJugador, string nombreImagen, int fichas, bool esVirtual)
+		string nombreJugador, string nombreImagen, int fichas, bool esVirtual, bool esObservador)
 {
 	JugadorModelo* jugador = this->getPrimerJugadorAusente();
 
@@ -75,6 +75,7 @@ void AdministradorJugadores::agregarJugador(int idCliente,
 	jugador->setApuesta(0);
 	jugador->setNombreImagen(nombreImagen);
 	jugador->setVirtual(esVirtual);
+	jugador->setObservador(esObservador);
 
 	jugador->setAusente(false);
 	jugador->setActivo(true);

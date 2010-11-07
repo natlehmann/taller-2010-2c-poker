@@ -10,16 +10,20 @@
 JugadorModelo::JugadorModelo(int id, int posicion)
 {
 	this->id = id;
+	this->nombre = "";
+	this->fichas = 0;
 	this->posicion = posicion;
+	this->password = "";
+	this->nombreImagen = "";
 	this->carta1 = NULL;
 	this->carta2 = NULL;
-	this->nombre = "";
 	this->apuesta = 0;
-	this->fichas = 0;
 	this->activo = false;
 	this->jugandoRonda = false;
 	this->ausente = true;
 	this->dealer = false;
+	this->esVirtual = false;
+	this->observador = false;
 
 	srand ((unsigned int)(time(NULL)));
 
@@ -40,7 +44,10 @@ JugadorModelo::JugadorModelo(int id, string nombre, int fichas, int posicion, st
 	this->apuesta = 0;
 	this->activo = false;
 	this->jugandoRonda = false;
-	this->ausente = false;
+	this->ausente = false; // TODO: esta bien que sea false?
+	this->dealer = false;
+	this->esVirtual = false;
+	this->observador = false;
 
 	srand ((unsigned int)(time(NULL)));
 
@@ -199,6 +206,14 @@ bool JugadorModelo::isVirtual(){
 
 void JugadorModelo::setVirtual(bool esVirtual){
 	this->esVirtual = esVirtual;
+}
+
+bool JugadorModelo::isObservador(){
+	return this->observador;
+}
+
+void JugadorModelo::setObservador(bool observador){
+	this->observador = observador;
 }
 
 void JugadorModelo::jugar()
