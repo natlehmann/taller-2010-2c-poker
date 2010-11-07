@@ -421,16 +421,18 @@ void ContextoJuego::quitarJugador(int idCliente){
 	if (this->isTurnoCliente(idCliente)) {
 		this->noIr(idCliente);
 	} else {
+		JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
 		if (this->cantidadJugadoresRonda > 0) {
 			this->cantidadJugadoresRonda--;
 		}
 		if (this->cantidadJugadoresRonda > 1) {
-			int idJugador = admJugadores->idClienteToIdJugador(idCliente);
-			if (this->admJugadores->isDealerJugador(idJugador)) {
+			if (this->admJugadores->isDealerJugador(jugador->getId())) {
 				this->admJugadores->incrementarDealerTemp();
 			}
+			jugador->setJugandoRonda(false);
 			chequearRondaTerminada();
 		} else {
+			jugador->setJugandoRonda(false);
 			this->finalizarRonda();
 			this->estado = this->evaluandoGanador;
 		}
