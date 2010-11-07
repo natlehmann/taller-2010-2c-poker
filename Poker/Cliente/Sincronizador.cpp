@@ -14,9 +14,11 @@ Sincronizador::Sincronizador(void)
 Sincronizador::~Sincronizador(void)
 {
 	SDL_DestroyMutex(this->syncMutex);
+	this->syncMutex = NULL;
 
 	if (this->ventanaAuxiliar != NULL) {
 		delete (this->ventanaAuxiliar);
+		this->ventanaAuxiliar = NULL;
 	}
 
 	/*
@@ -47,19 +49,24 @@ VentanaAuxiliar* Sincronizador::getVentanaAuxiliar(){
 
 void Sincronizador::notificarCambio(){
 
-	if (this->superficie == NULL) {
-		this->superficie = ServiciosGraficos::crearSuperficie(
-			this->ventanaAuxiliar->getAncho(), this->ventanaAuxiliar->getAlto());
+	if (this->ventanaAuxiliar != NULL) {
+
+		if (this->superficie == NULL) {
+			this->superficie = ServiciosGraficos::crearSuperficie(
+				this->ventanaAuxiliar->getAncho(), this->ventanaAuxiliar->getAlto());
+		}
+
+		this->ventanaAuxiliar->setSuperficie(this->superficie);
+		this->ventanaAuxiliar->dibujar(this->superficie);
+
+		ventana->merge(this->superficie);
+
+		ventana->setPanelComando(this->ventanaAuxiliar->getPanelComando());
 	}
 
-	this->ventanaAuxiliar->setSuperficie(this->superficie);
-	this->ventanaAuxiliar->dibujar(this->superficie);
-
-	ventana->merge(this->superficie);
-
-	ventana->setPanelComando(this->ventanaAuxiliar->getPanelComando());
-
-	SDL_UnlockMutex(this->syncMutex);
+	if (this->syncMutex != NULL) {
+		SDL_UnlockMutex(this->syncMutex);
+	}
 }
 
 void Sincronizador::registrarVentana(Ventana* ventana){
