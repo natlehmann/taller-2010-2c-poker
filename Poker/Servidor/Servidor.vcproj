@@ -363,6 +363,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpPasar.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpSubirApuesta.cpp"
 				>
 			</File>
@@ -666,6 +670,10 @@
 			</File>
 			<File
 				RelativePath=".\OpNoIrJugadorVirtual.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpPasar.h"
 				>
 			</File>
 			<File

@@ -231,8 +231,15 @@ cout << "numero al azar " << azar << endl;
 		} else if (azar < rango * 4) {
 
 			// caso 2: Igualar apuesta
-			ContextoJuego::getInstancia()->igualarApuesta(
-				ContextoJuego::getInstancia()->idJugadorToIdCliente(this->getId()));
+			if (ContextoJuego::getInstancia()->puedePasar()) {
+				ContextoJuego::getInstancia()->pasar(
+					ContextoJuego::getInstancia()->idJugadorToIdCliente(this->getId()));
+
+			} else {
+
+				ContextoJuego::getInstancia()->igualarApuesta(
+					ContextoJuego::getInstancia()->idJugadorToIdCliente(this->getId()));
+			}
 			
 
 		} else {

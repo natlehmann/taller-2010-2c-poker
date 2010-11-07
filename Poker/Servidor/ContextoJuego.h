@@ -50,6 +50,7 @@ private:
 	int cantidadJugadoresRonda;
 	bool rondaTerminada;
 	bool mostrandoCartas;
+	bool sePuedePasar;
 	string nombreGanador;
 
 	static ContextoJuego instancia;
@@ -74,6 +75,7 @@ public:
 	CartasComunitariasModelo* getCartasComunitarias();
 
 	JugadorModelo** getJugadores();
+	JugadorModelo* getJugador(int idJugador);
 
 	bool hayLugar();
 	void agregarJugador(int idCliente, string nombreJugador, 
@@ -100,6 +102,8 @@ public:
 	bool esApuestaValida(int idCliente, int fichas);
 	void subirApuesta(int idCliente, int fichas);
 	void noIr(int idCliente);
+	bool puedePasar();
+	void pasar(int idCliente);
 
 	bool isRondaTerminada();
 	void setMostrandoCartas(bool mostrandoCartas);

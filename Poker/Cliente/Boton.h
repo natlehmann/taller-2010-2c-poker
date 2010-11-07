@@ -17,10 +17,15 @@ private:
 	Imagen* imagenOver;
 	Imagen* imagenDeshabilitado;
 
+	SDL_Surface* superficieTexto;
+	bool hayCambiosTexto;
+
 	char estado;
 
 	Imagen* setearImagen(string nombreImagen);
+	SDL_Rect* getOffsetTexto();
 	void configurar();
+	void dibujarBoton(SDL_Surface* superficie, Imagen* imagen);
 
 
 protected:
@@ -42,6 +47,8 @@ public:
 
 	virtual void setPosX(int posX);
 	virtual void setPosY(int posY);
+
+	virtual void setTexto(string texto);
 
 	virtual bool equals(ElementoGrafico* otro);
 };

@@ -225,8 +225,15 @@ void EstadoJuego::agregarPanelBotones(DomTree* arbol, bool habilitados){
 	Elemento* boton2 = elemPanel->agregarHijo("boton", "escenario");
 	boton2->agregarAtributo("id", "btIgualar");
 	boton2->agregarAtributo("posicion", "2");
-	boton2->agregarAtributo("operacion", "OpUIClienteIgualarApuesta");
-	boton2->setTexto("Igualar");
+
+	if (ContextoJuego::getInstancia()->puedePasar()) {		
+		boton2->agregarAtributo("operacion", "OpUIClientePasar");
+		boton2->setTexto("Pasar");
+
+	} else {
+		boton2->agregarAtributo("operacion", "OpUIClienteIgualarApuesta");
+		boton2->setTexto("Igualar");	
+	}	
 
 	Elemento* boton3 = elemPanel->agregarHijo("boton", "escenario");
 	boton3->agregarAtributo("id", "btNoIr");
@@ -277,7 +284,11 @@ string EstadoJuego::getEscenarioEstandar(int idJugador){
 	this->agregarBote(arbol);
 	this->agregarJugadores(arbol, idJugador);
 	this->agregarCartasComunitarias(arbol);
-	this->agregarPanelBotones(arbol, idJugador);
+
+	if (!ContextoJuego::getInstancia()->getJugador(idJugador)->isVirtual()) {
+		this->agregarPanelBotones(arbol, idJugador);
+	}
+
 	this->borrarMensaje(arbol);
 
 	string resultado = this->arbolToString(arbol);
@@ -293,7 +304,11 @@ string EstadoJuego::getEscenarioConMensaje(int idJugador, string mensaje){
 	this->agregarBote(arbol);
 	this->agregarJugadores(arbol, idJugador);
 	this->agregarCartasComunitarias(arbol);
-	this->agregarPanelBotones(arbol, idJugador);
+	
+	if (!ContextoJuego::getInstancia()->getJugador(idJugador)->isVirtual()) {
+		this->agregarPanelBotones(arbol, idJugador);
+	}
+
 	this->agregarMensaje(arbol, mensaje);
 
 	string resultado = this->arbolToString(arbol);

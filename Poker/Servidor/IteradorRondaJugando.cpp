@@ -84,3 +84,7 @@ JugadorModelo* IteradorRondaJugando::getSiguiente(){
 	return jugador;
 
 }
+
+JugadorModelo* IteradorRondaJugando::getUltimo(){
+	return this->jugadores[this->indiceFinal];
+}
