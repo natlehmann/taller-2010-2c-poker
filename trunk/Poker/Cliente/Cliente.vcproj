@@ -231,6 +231,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Ejecutor.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Comun\Elemento.cpp"
 				>
 			</File>
@@ -534,6 +538,10 @@
 			</File>
 			<File
 				RelativePath="..\Comun\DomTreeFactoryInstance.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Ejecutor.h"
 				>
 			</File>
 			<File

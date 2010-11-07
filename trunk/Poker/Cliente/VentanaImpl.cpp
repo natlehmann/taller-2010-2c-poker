@@ -8,6 +8,7 @@
 #include "ComponentePanel.h"
 #include "FabricaOperacionesCliente.h"
 #include "ServiciosGraficos.h"
+#include "Ejecutor.h"
 #include <typeinfo.h>
 #include <cstdlib>
 
@@ -234,28 +235,25 @@ void VentanaImpl::manejarEventos(SDL_Event* event){
 
 						if (componentes[i]->checkClick(this->pantalla)) {
 
-							this->hayCambios = true;
-							componentes[i]->dibujarDown(this->pantalla);
-							this->refrescar(this->pantalla);
+							if (!Ejecutor::isEnEjecucion()) {
 
-							// TODO: VER SI ESTO NO DEBERIA LANZARSE EN OTRO HILO 
-							FabricaOperacionesCliente fab;
-							vector<string> parametros;
-							if (!MensajesUtil::esVacio(componentes[i]->getIdComponentePanelRelacionado())) {
-								parametros.push_back(componentes[i]->getIdComponentePanelRelacionado());
-							}
+								this->hayCambios = true;
+								componentes[i]->dibujarDown(this->pantalla);
+								this->refrescar(this->pantalla);
 
-							OperacionUICliente* operacion = fab.newOperacion(
-									componentes[i]->getIdOperacion(), parametros);
-							operacion->ejecutar(this);
-							delete(operacion);
+								Ejecutor::ejecutar(componentes[i]->getIdOperacion(),
+									componentes[i]->getIdComponentePanelRelacionado(), this);
 
-							componentes[i]->dibujarUp(this->pantalla);
-							this->refrescar(this->pantalla);
+								// TODO: VERIFICAR. Para darle tiempo al otro thread a ejecutarse
+								SDL_Delay(1000);
 
-							if (MensajesUtil::sonIguales(componentes[i]->getIdOperacion(),"OpUIClienteDejarMesa")) {
-								event->type = SDL_QUIT;
-								break;
+								componentes[i]->dibujarUp(this->pantalla);
+								this->refrescar(this->pantalla);
+
+								if (MensajesUtil::sonIguales(componentes[i]->getIdOperacion(),"OpUIClienteDejarMesa")) {
+									event->type = SDL_QUIT;
+									break;
+								}
 							}
 						}
 					}
