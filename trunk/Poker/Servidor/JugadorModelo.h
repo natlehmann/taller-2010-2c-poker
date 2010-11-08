@@ -5,8 +5,9 @@
 #include "CartaModelo.h"
 
 #define NOMBRE_IMAGEN ""
-#define CONFIANZA 0.7
+#define NIVEL_DE_CONFIANZA 0.70
 #define APUESTA_PATRON 20
+#define NIVEL_DE_CONFIANZA_SUBIR 0.5
 
 using namespace std;
 
@@ -28,9 +29,6 @@ private:
 	bool dealer;
 	bool esVirtual;
 	bool observador;
-
-	double nivelDeConfianza;
-	int apuestaPatron;
 
 public:
 
@@ -86,6 +84,9 @@ public:
 	void jugar();
 	void apostar(int fichas);
 	void incrementarFichas(int cantidad);
+
+	bool subeApuesta(double azar, double confianzaEnJugada, int &fichas);
+
 };
 
 #endif //_JUGADOR_MODELO_H_

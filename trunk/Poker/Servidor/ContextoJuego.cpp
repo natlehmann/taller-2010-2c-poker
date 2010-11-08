@@ -485,3 +485,8 @@ void ContextoJuego::chequearJugadorVirtual(int idCliente) {
 bool ContextoJuego::puedePasar(){
 	return this->sePuedePasar;
 }
+
+int ContextoJuego::getApuestaAIgualar()
+{
+	return this->montoAIgualar;
+}
