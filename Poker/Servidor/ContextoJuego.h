@@ -119,6 +119,8 @@ public:
 	int idClienteToIdJugador(int idCliente);
 	int idJugadorToIdCliente(int idJugador);
 
+	int getApuestaAIgualar();
+
 	/**
 	* Para ser llamado al finalizar la aplicacion
 	*/
