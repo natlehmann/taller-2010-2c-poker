@@ -74,7 +74,7 @@ void AdministradorJugadores::agregarJugador(int idCliente,
 	jugador->setFichas(fichas);
 	jugador->setApuesta(0);
 	jugador->setNombreImagen(nombreImagen);
-	jugador->setVirtual(true);
+	jugador->setVirtual(esVirtual);
 	jugador->setObservador(esObservador);
 
 	jugador->setAusente(false);
