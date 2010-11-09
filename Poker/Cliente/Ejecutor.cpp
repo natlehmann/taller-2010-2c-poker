@@ -7,6 +7,7 @@ bool Ejecutor::enEjecucion = false;
 string Ejecutor::parametro = "";
 string Ejecutor::idOperacion = "";
 Ventana* Ejecutor::ventana = NULL;
+SDL_Thread* Ejecutor::thread = NULL;
 
 Ejecutor::Ejecutor(void)
 {
@@ -35,8 +36,12 @@ void Ejecutor::ejecutar(string idOperacion, string parametro, Ventana* ventana){
 
 		int (*puntero)(void*) = &Ejecutor::ejecutarAsync; 
 
-		SDL_CreateThread(puntero, NULL);
+		Ejecutor::thread = SDL_CreateThread(puntero, NULL);
 	}
+}
+
+SDL_Thread* Ejecutor::getThread(){
+	return Ejecutor::thread;
 }
 
 int Ejecutor::ejecutarAsync(void* data) {

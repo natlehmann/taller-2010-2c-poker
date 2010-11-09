@@ -39,27 +39,6 @@ void ImagenRecortada::setColorMascara(Color colorMascara){
 
 SDL_Surface* ImagenRecortada::getSuperficie(){
 
-	/*
-	if (this->superficie != NULL && !this->hayCambios) {
-		return this->superficie;
-
-	} else {
-
-		if (this->superficie != NULL) {
-			SDL_FreeSurface(this->superficie);
-		}
-
-		this->superficie = ServiciosGraficos::crearSuperficie(
-				this->getAncho(), this->getAlto());
-
-		// se rellena con el color de la mascara
-		SDL_FillRect(this->superficie, NULL, 
-			this->getColorMascara()->toUint32(this->superficie));
-
-		this->hayCambios = false;
-	}
-	*/
-
 	if (this->superficie == NULL) {
 
 		this->superficie = ServiciosGraficos::crearSuperficie(

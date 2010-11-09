@@ -23,6 +23,11 @@ Jugador::Jugador(void) {
 	this->dealer = false;
 
 	this->imagenDealer = new Imagen("dealer.bmp");
+	this->supImagen = NULL;
+	this->supCirculo = NULL;
+
+	this->colorCirculo = new Color(RecursosCliente::getConfig()->get(
+		"cliente.tema.default.jugador.color.borde"));
 }
 
 Jugador::~Jugador(void) {
@@ -46,6 +51,9 @@ Jugador::~Jugador(void) {
 	}
 
 	delete(this->imagenDealer);
+	delete(this->colorCirculo);
+	SDL_FreeSurface(this->supImagen);
+	delete(this->supCirculo);
 }
 
 void Jugador::dibujarSobreSup(SDL_Surface* superficie){
@@ -90,41 +98,49 @@ void Jugador::dibujarSobreSup(SDL_Surface* superficie){
 
 void Jugador::dibujarJugador(SDL_Surface* superficie) {
 
-	// se procesa la foto del jugador en una superficie
-	SDL_Surface* supImagen = ServiciosGraficos::crearSuperficie(
+	// se procesa la foto del jugador en una superficie auxiliar
+	if (this->supImagen == NULL || this->supCirculo == NULL) {
+		this->configurar();
+	}
+
+	if (this->imagen->getHayCambios()) {
+	
+		this->imagen->dibujarSobreSup(this->supImagen, this->imagen->getContornoRect());
+
+
+		// se dibuja el circulo sobre una superficie que sirve de mascara
+		SDL_Rect* offset = this->imagen->getContornoRect();
+
+		ServiciosGraficos::dibujarElipse(
+			supCirculo->getSuperficie(), offset, this->colorCirculo); 
+
+
+		// se funde la imagen de la foto y la del circulo
+		ServiciosGraficos::copiarDentro(supImagen, supCirculo->getSuperficie(), this->colorCirculo);				
+
+
+		// se dibuja el circulo con la foto dentro sobre la superficie recibida
+		supCirculo->setPosX(this->imagen->getPosX());
+		supCirculo->setPosY(this->imagen->getPosY());
+		supCirculo->dibujar(superficie);	
+	}
+}
+
+void Jugador::configurar() {
+
+	if (this->supImagen != NULL) {
+		SDL_FreeSurface(this->supImagen);
+	}
+
+	if (this->supCirculo != NULL) {
+		delete(this->supCirculo);
+	}
+
+	this->supImagen = ServiciosGraficos::crearSuperficie(
 		this->imagen->getAncho(), this->imagen->getAlto());
-	this->imagen->dibujarSobreSup(supImagen, this->imagen->getContornoRect());
 
-
-	// se crea una superficie de igual tamaño y se pinta como la mascara
-	ImagenRecortada* supCirculo = new ImagenRecortada(
+	this->supCirculo = new ImagenRecortada(
 		this->imagen->getAncho(), this->imagen->getAlto());
-
-	// se dibuja el circulo sobre esa superficie
-	SDL_Rect* offset = this->imagen->getContornoRect();
-
-	Color* colorCirculo = new Color(RecursosCliente::getConfig()->get(
-		"cliente.tema.default.jugador.color.borde"));
-	ServiciosGraficos::dibujarElipse(
-		supCirculo->getSuperficie(), offset, colorCirculo); 
-
-
-	// se funde la imagen de la foto y la del circulo
-	ServiciosGraficos::copiarDentro(supImagen, supCirculo->getSuperficie(), colorCirculo);
-			
-
-
-	// se dibuja el circulo con la foto dentro sobre la superficie recibida
-	supCirculo->setPosX(this->imagen->getPosX());
-	supCirculo->setPosY(this->imagen->getPosY());
-	supCirculo->dibujar(superficie);
-
-
-	// limpieza
-	delete(colorCirculo);
-	delete(supCirculo);
-	SDL_FreeSurface(supImagen);
-
 }
 
 string Jugador::getNombre() {
@@ -374,6 +390,7 @@ void Jugador::setImagen(string nombreImagen) {
 
 		this->imagen = new Imagen(nombreImagen);	
 		this->hayCambios = true;
+		this->imagen->setHayCambios(true);
 	}
 }
 
@@ -481,6 +498,10 @@ void Jugador::setEstado(int estado){
 	if (this->estado != estado) {
 		this->estado = estado;
 
+		if (this->supCirculo != NULL) {
+			this->supCirculo->setHayCambios(true);
+		}
+
 		if (estado == JUGADOR_AUSENTE) {
 			this->setImagen(RecursosCliente::getConfig()->get(
 				"cliente.tema.default.jugador.ausente.imagen"));
@@ -524,6 +545,11 @@ void Jugador::setEstado(int estado){
 				this->apuesta->setVisible(true);
 			}
 
+			if (this->imagen != NULL) {
+				this->imagen->setHayCambios(true);
+			}
+
+			/*
 			if (this->carta1 != NULL) {
 				//this->carta1->setVisible(true);  //controlado por servidor
 			}
@@ -531,6 +557,7 @@ void Jugador::setEstado(int estado){
 			if (this->carta2 != NULL) {
 				//this->carta2->setVisible(true);  //controlado por servidor
 			}
+			*/
 		}
 
 		this->hayCambios = true;
