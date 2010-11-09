@@ -30,12 +30,15 @@ Etiqueta::Etiqueta(string mensaje){
 Etiqueta::~Etiqueta(void) {
 	if (this->fondo != NULL) {
 		delete(this->fondo);
+		this->fondo = NULL;
 	}
 	if (this->borde != NULL) {
 		delete(this->borde);
+		this->borde = NULL;
 	}
 	if (this->fuente != NULL) {
 		delete (this->fuente);
+		this->fuente = NULL;
 	}
 }
 
@@ -131,12 +134,24 @@ void Etiqueta::setFondo(Color* color){
 	if (this->fondo != NULL) {
 		delete(this->fondo);
 	}
-	this->fondo = color;
+	this->fondo = new Color(color->getRed(), color->getGreen(), color->getBlue());
 	this->hayCambios = true;
 }
 
 Color* Etiqueta::getFondo() {
 	return this->fondo;
+}
+
+void Etiqueta::setFuente(Fuente* fuente){
+	if (this->fuente != NULL) {
+		delete(this->fuente);
+	}
+	this->fuente = fuente;
+	this->hayCambios = true;
+}
+
+Fuente* Etiqueta::getFuente() {
+	return this->fuente;
 }
 
 void Etiqueta::setBorde(Color* color){

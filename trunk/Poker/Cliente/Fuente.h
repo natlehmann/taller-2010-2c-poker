@@ -22,6 +22,11 @@ class Fuente
 		SDL_Surface* Fuente::obtenerSuperficieTexto(string texto, Color* fondo);
 		virtual ~Fuente(void);
 
+		void setColor(Color* color);
+		Color* getColor();
+		void setTamanio(int tamanio);
+		int getTamanio();
+
 };
 
 #endif //_FUENTE_H__

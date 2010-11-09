@@ -16,7 +16,7 @@
 
 using namespace std;
 
-class VentanaAuxiliar;
+//class VentanaAuxiliar;
 
 class Ventana {
 
@@ -30,32 +30,25 @@ public:
 	virtual void limpiar() = 0;
 
 	virtual int PushEvent(SDL_Event *event) = 0;
-
 	virtual void merge(SDL_Surface* superficie) = 0;
 
 	virtual Panel* getPanelComando() = 0;
 	virtual void setPanelComando(Panel* panel) = 0;
 
-	virtual ElementoGrafico* getElementoPorId(string id) = 0;
-
+	/* Metodos de Contenedor */
+	virtual void agregarElementoGrafico(ElementoGrafico* elemento) = 0;
 	virtual void borrarElementoPorId(string id) = 0;
-
 	virtual void borrarElemento(ElementoGrafico* elemento) = 0;
+	virtual ElementoGrafico* getElementoPorId(string id) = 0;
 
 
 	virtual void mostrarMensaje(string mensaje) = 0;
-
 	/**
 	* Fuerza el redibujo de todos los elementos de la ventana que se intersecten con el elemento
 	* recibido por parametro.
 	* Pensado para casos en que desaparece un elemento.
 	*/
 	virtual void forzarRefresh(ElementoGrafico* elemento) = 0;
-
-
-	/* Metodos de Contenedor */
-	virtual void agregarElementoGrafico(ElementoGrafico* elemento) = 0;
-
 	
 	/* Metodos de ElementoGrafico */
 	virtual int getAncho() = 0;
