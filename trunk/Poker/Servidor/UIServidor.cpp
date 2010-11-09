@@ -154,6 +154,6 @@ void UIServidor::hacerUnaPausa()
 
 void UIServidor::inicializarDatos()
 {
-	AccesoDatos ac;
-	ac.inicializarBaseDatos();
+	AccesoDatos ad;
+	ad.inicializarBaseDatos();
 }

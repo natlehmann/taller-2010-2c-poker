@@ -1,4 +1,4 @@
-#include "OpUIClienteLogin.h"
+#include "OpUIClienteRegistrarJugador.h"
 #include "DomTree.h"
 #include "UICliente.h"
 #include "Cliente.h"
@@ -7,38 +7,29 @@
 #include "FabricaOperacionesCliente.h"
 #include "MensajesUtil.h"
 
-#define XML_TAG_ERRORES "errores"
-#define XML_TAG_RESULTADOS "resultados"
-
-OpUIClienteLogin::OpUIClienteLogin(vector<string> parametros): OperacionUICliente()
+OpUIClienteRegistrarJugador::OpUIClienteRegistrarJugador(vector<string> parametros): OperacionUICliente()
 {
 	this->parametros = parametros;
 }
 
-OpUIClienteLogin::~OpUIClienteLogin(void)
+OpUIClienteRegistrarJugador::~OpUIClienteRegistrarJugador(void)
 {
 }
 
-bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
+bool OpUIClienteRegistrarJugador::ejecutarAccion(Ventana* ventana)
 {
 	bool ok = false;
 
-	//// TODO: BORRRAR ESTO
-	//string usuario = "pepe";
-	//string password = "pass";
-	//string esVirtual = "false";
-	//string esObservador = "false";
-	
 	string usuario = this->parametros.at(0);
 	string password = this->parametros.at(1);
-	string esVirtual = this->parametros.at(2);
-	string esObservador = this->parametros.at(3);
+	string nombre = this->parametros.at(2);
+	string apellido = this->parametros.at(3);
 
 	DomTree* tree = new DomTree("operaciones");
 	Elemento* pedido = tree->agregarElemento("pedido");
 
 	Elemento* operacion = pedido->agregarHijo("operacion");
-	operacion->agregarAtributo("id", "OpLogin");
+	operacion->agregarAtributo("id", "OpRegistrarJugador");
 
 	Elemento* params = operacion->agregarHijo("parametros");
 	Elemento* param1 = params->agregarHijo("parametro");
@@ -50,10 +41,10 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 	param1->setTexto(usuario);
 	param2->agregarAtributo("nombre", "password");
 	param2->setTexto(password);
-	param3->agregarAtributo("nombre", "virtual");
-	param3->setTexto(esVirtual);
-	param4->agregarAtributo("nombre", "observador");
-	param4->setTexto(esObservador);
+	param3->agregarAtributo("nombre", "nombre");
+	param3->setTexto(nombre);
+	param4->agregarAtributo("nombre", "apellido");
+	param4->setTexto(apellido);
 
 	XmlParser* parser = new XmlParser();
 
@@ -73,11 +64,8 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 				}
 				else
 				{
-					// parametrosRecibidos.at(0) TIENE LA DESCRIPCION DEL ERROR AL VALIDAR EL LOGUEO
-					// * USUARIO INEXISTENTE
-					// * PASSWORD INCORRECTA
-					// * ERROR GENERAL
-					// PASAR EL MSJ DE ERROR EN EL LOGUEO A LA PANTALLA DEL LOGIN
+					// parametrosRecibidos.at(0) TIENE LA DESCRIPCION DEL ERROR AL INTENTAR REGISTRAR EL USUARIO
+					// PASAR EL MSJ DE ERROR EN EL LOGUEO A LA PANTALLA DE REGISTRO DE USUARIOS
 				}
 			}
 		} 
@@ -95,4 +83,5 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 	delete(tree);
 
 	return ok;
+
 }

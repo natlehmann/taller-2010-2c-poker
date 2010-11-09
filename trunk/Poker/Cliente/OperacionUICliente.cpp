@@ -8,6 +8,10 @@
 #include "VentanaAuxiliar.h"
 #include "Sincronizador.h"
 
+#define XML_TAG_ERRORES "errores"
+#define XML_TAG_RESULTADOS "resultados"
+#define RESPUESTA_OK "OK"
+
 OperacionUICliente::OperacionUICliente(void)
 {
 }
@@ -102,5 +106,55 @@ bool OperacionUICliente::enviarMensaje(DomTree* tree, Ventana* ventana) {
 	}
 
 	delete(parser);
+	return ok;
+}
+
+bool OperacionUICliente::cargarRespuestaServidor(string respuesta)
+{
+	bool ok = true;
+
+	try 
+	{
+		XmlParser* xmlParser = new XmlParser();
+		DomTree* domTree = xmlParser->toDom(respuesta);
+		delete(xmlParser);
+		string mensajeRespuesta;
+
+		if (domTree)
+		{
+			Elemento* domRaiz = domTree->getRaiz();
+			for(list<Elemento*>::iterator it = domRaiz->getHijos()->begin(); 
+				it != domRaiz->getHijos()->end(); it++) 
+			{
+				for(list<Elemento*>::iterator it0 = (*it)->getHijos()->begin(); 
+				it0 != (*it)->getHijos()->end(); it0++) 
+				{
+						if (MensajesUtil::sonIguales((*it0)->getNombre(), XML_TAG_ERRORES))
+						{
+							for(list<Elemento*>::iterator it1 = (*it0)->getHijos()->begin(); 
+								it1 != (*it0)->getHijos()->end(); it1++) 
+							{					
+									parametrosRecibidos.push_back((*it1)->getTexto());
+									ok = false;
+							}
+						}
+						else if (MensajesUtil::sonIguales((*it0)->getNombre(), XML_TAG_RESULTADOS))
+						{
+							for(list<Elemento*>::iterator it2 = (*it0)->getHijos()->begin(); 
+								it2 != (*it0)->getHijos()->end(); it2++) 
+							{					
+									parametrosRecibidos.push_back((*it2)->getTexto());
+							}
+						}
+				}
+			}
+		}
+	} 
+	catch (PokerException& e) 
+	{
+		RecursosCliente::getLog()->escribir(&(Respuesta)e.getError());
+		ok = false;
+	}
+
 	return ok;
 }

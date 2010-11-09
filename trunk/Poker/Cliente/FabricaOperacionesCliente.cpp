@@ -10,7 +10,8 @@
 #include "OpUIClienteSubirApuesta.h"
 #include "OpUIClienteAgregarJugador.h"
 #include "OpUIClienteLogin.h"
-#include "OpUIClientePasar.h"
+#include "OpUIClienteRegistrarJugador.h"
+#include "OpUIClienteComprarFichas.h"
 
 using namespace std;
 
@@ -61,8 +62,11 @@ OperacionUICliente* FabricaOperacionesCliente::newOperacion(string nombreOperaci
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteLogin")) {
 		operacion = new OpUIClienteLogin(parametros);
 	}
-	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClientePasar")) {
-		operacion = new OpUIClientePasar();
+	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteRegistrarJugador")) {
+		operacion = new OpUIClienteRegistrarJugador(parametros);
+	}
+	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteComprarFichas")) {
+		operacion = new OpUIClienteComprarFichas(parametros);
 	}
 
 	if (operacion == NULL) {

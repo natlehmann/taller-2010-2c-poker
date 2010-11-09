@@ -7,12 +7,12 @@ using namespace std;
 
 class OpUIClienteLogin : public OperacionUICliente
 {
-protected:
-	virtual bool ejecutarAccion(Ventana* ventana);
+	protected:
+		virtual bool ejecutarAccion(Ventana* ventana);
 
-public:
-	OpUIClienteLogin(vector<string> parametros);
-	virtual ~OpUIClienteLogin(void);
+	public:
+		OpUIClienteLogin(vector<string> parametros);
+		virtual ~OpUIClienteLogin(void);
 };
 
 #endif //_OPUICLIENTE_LOGIN_H_
