@@ -18,6 +18,7 @@ private:
 	static string parametro;
 	static string idOperacion;
 	static Ventana* ventana;
+	static SDL_Thread* thread;
 
 	Ejecutor(void);
 
@@ -29,6 +30,8 @@ public:
 	static bool isEnEjecucion();
 	static void ejecutar(string idOperacion, Ventana* ventana);
 	static void ejecutar(string idOperacion, string parametro, Ventana* ventana);
+
+	static SDL_Thread* getThread();
 };
 
 #endif //_EJECUTOR_H__

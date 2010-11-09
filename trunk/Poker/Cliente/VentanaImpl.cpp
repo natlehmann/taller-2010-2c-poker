@@ -173,11 +173,18 @@ void VentanaImpl::iniciar() {
 			if( (event.type == SDL_QUIT)
 				|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ){
 
+				/*
 				FabricaOperacionesCliente fab;
 				vector<string> parametros;
 				OperacionUICliente* operacion = fab.newOperacion("OpUIClienteDejarMesa", parametros);
 				operacion->ejecutar(this);
 				delete(operacion);
+				*/
+				//if (!Ejecutor::isEnEjecucion()) {
+
+					Ejecutor::ejecutar("OpUIClienteDejarMesa", "", this);
+					SDL_WaitThread(Ejecutor::getThread(), NULL);
+				//}
 
                 listo = true;
             }
@@ -241,8 +248,14 @@ void VentanaImpl::manejarEventos(SDL_Event* event){
 								componentes[i]->dibujarDown(this->pantalla);
 								this->refrescar(this->pantalla);
 
-								Ejecutor::ejecutar(componentes[i]->getIdOperacion(),
-									componentes[i]->getIdComponentePanelRelacionado(), this);
+								if (MensajesUtil::sonIguales(componentes[i]->getIdOperacion(),"OpUIClienteDejarMesa")) {
+									event->type = SDL_QUIT;
+
+								} else {
+
+									Ejecutor::ejecutar(componentes[i]->getIdOperacion(),
+										componentes[i]->getIdComponentePanelRelacionado(), this);
+								}
 
 								// TODO: VERIFICAR. Para darle tiempo al otro thread a ejecutarse
 								SDL_Delay(1000);
@@ -250,10 +263,12 @@ void VentanaImpl::manejarEventos(SDL_Event* event){
 								componentes[i]->dibujarUp(this->pantalla);
 								this->refrescar(this->pantalla);
 
+								/*
 								if (MensajesUtil::sonIguales(componentes[i]->getIdOperacion(),"OpUIClienteDejarMesa")) {
 									event->type = SDL_QUIT;
 									break;
 								}
+								*/
 							}
 						}
 					}

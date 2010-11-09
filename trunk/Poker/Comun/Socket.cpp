@@ -252,7 +252,7 @@ bool Socket::recibir(string& msg)
 		{
 			error = true;
 			sigue = false;
-			this->msgError = "Se produjo una interrupcion en la recepcion de los datos";
+			this->msgError = "Se produjo una interrupcion en la recepcion de los datos en el metodo recibir(msg)";
 		}
 		else if (cantRec >= 0)
 		{
@@ -284,7 +284,7 @@ bool Socket::recibir(string& msg, int size)
 		{
 			error = true;
 			sigue = false;
-			this->msgError = "Se produjo una interrupcion en la recepcion de los datos";
+			this->msgError = "Se produjo una interrupcion en la recepcion de los datos en el metodo recibir(msg,size)";
 		}
 		else if (cantRec >= 0)
 		{

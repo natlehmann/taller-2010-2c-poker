@@ -12,6 +12,7 @@
 #include "Carta.h"
 #include "Apuesta.h"
 #include "Etiqueta.h"
+#include "ImagenRecortada.h"
 
 #define ALTO_MIN_ETIQUETA	0.25
 #define ANCHO_MIN_CARTAS	0.3
@@ -37,12 +38,16 @@ private:
 	Etiqueta* etiquetaFichas;
 	bool dealer;
 	Imagen* imagenDealer;
+	Color* colorCirculo;
+	SDL_Surface* supImagen;
+	ImagenRecortada* supCirculo;
 
 	void setearDisposicionAIzq();
 	void setearDisposicionADer();
 	SDL_Rect* calcularRectFoto();
 	Imagen* getImagenDefault();
 	void calcularCoordenadas();
+	void configurar();
 
 	void dibujarJugador(SDL_Surface* superficie);
 
