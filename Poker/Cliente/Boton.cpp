@@ -26,11 +26,11 @@ Boton::Boton(string texto) : ComponentePanel(texto)
 	this->posX = 0;
 	this->posY = 0;
 
-	this->configurar();
 	this->estado = 'u';
 
 	this->superficieTexto = NULL;
 	this->hayCambiosTexto = true;
+	this->configurar();
 }
 
 ComponentePanel* Boton::clonar() {
@@ -229,12 +229,12 @@ bool Boton::checkClick(SDL_Surface* superficie)
 			bool fuePresionado = this->esClickIzquierdo();
 			if(fuePresionado)
 			{
-				/*
+				
 				if(estado != 'd') {
 					dibujarDown(superficie);			
 					return true;
 				}
-				*/
+				
 				return true;
 			}
 		}

@@ -54,6 +54,9 @@ public:
 	void setBorde(Color* color);
 	Color* getBorde();
 
+	void setFuente(Fuente* fuente);
+	Fuente* getFuente();
+
 	void setAlineacionHorizontal(int alineacion);
 	int getAlineacionHorizontal();
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="Cliente"
 	ProjectGUID="{AABB0789-22C9-4C74-BA8B-189354326F8C}"
 	RootNamespace="Cliente"
@@ -431,6 +431,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\VentanaBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaConfiguracion.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\VentanaImpl.cpp"
 				>
 			</File>
@@ -734,6 +742,14 @@
 			</File>
 			<File
 				RelativePath=".\VentanaAuxiliar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaConfiguracion.h"
 				>
 			</File>
 			<File

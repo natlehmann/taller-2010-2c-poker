@@ -34,3 +34,22 @@ Fuente::~Fuente(void)
 		delete(this->color);
 	}
 }
+
+void Fuente::setColor(Color* color){
+	if (this->color != NULL) {
+		delete(this->color);
+	}
+	this->color = color;
+}
+
+Color* Fuente::getColor(){
+	return this->color;
+}
+
+void Fuente::setTamanio(int tamanio){
+	this->tamanio = tamanio;
+}
+
+int Fuente::getTamanio(){
+	return this->tamanio;
+}

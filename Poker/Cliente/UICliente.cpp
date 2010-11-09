@@ -55,7 +55,7 @@ void UICliente::iniciarAplicacion()
 
 	DomTreeFactory::inicializar();
 	
-	UICliente::conectarServidor();
+	//UICliente::conectarServidor();
 
 }
 
@@ -74,14 +74,19 @@ void UICliente::lanzarThreads(Ventana* ventana){
 	}
 }
 
-
 bool UICliente::conectarServidor()
+{
+	 return UICliente::conectarServidor("", 0);
+}
+
+bool UICliente::conectarServidor(string ip, int puerto)
 {
 	bool conecto = false;
 
-	string ip = RecursosCliente::getConfig()->get("cliente.conexion.ip");
-	int puerto = UtilTiposDatos::getEntero(
-			RecursosCliente::getConfig()->get("cliente.conexion.puerto"));
+	if (ip.length() == 0) 
+		ip = RecursosCliente::getConfig()->get("cliente.conexion.ip");
+	if (puerto == 0)
+		puerto = UtilTiposDatos::getEntero(RecursosCliente::getConfig()->get("cliente.conexion.puerto"));
 
 	if (puerto > 0)  
 	{
@@ -112,9 +117,10 @@ bool UICliente::conectarServidor()
 
 		if (UICliente::cliente != NULL) {
 			delete(UICliente::cliente);
+			UICliente::cliente = NULL;
 		}
 
-		exit(1);
+		//exit(1);
 	}
 
 	return conecto;
