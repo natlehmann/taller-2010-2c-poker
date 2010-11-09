@@ -82,7 +82,7 @@ string AccesoDatos::getFechaActual()
 	if (mes.length() == 1)
 		mes = "0" + mes;
 
-	string fecha = anio + "/" + mes + "/" + dia;
+	string fecha = dia + "/" + mes + "/" + anio;
 	
 	return fecha;	
 }
@@ -148,13 +148,20 @@ bool AccesoDatos::crearTabla(string nombreTabla)
 	else if (MensajesUtil::sonIguales(nombreTabla, "sesion"))
 	{
 		sql += "id integer primary key autoincrement not null, ";
-		sql += "idJugador integer, ";
+		sql += "usuario varchar(30), ";
 		sql += "fechaInicio varchar(10), ";
 		sql += "horaInicio varchar(8), ";
 		sql += "fechaFin varchar(10), ";
 		sql += "horaFin varchar(8), ";
 		sql += "observador varchar(1), ";
 		sql += "virtual varchar(1));";
+	}
+	else if (MensajesUtil::sonIguales(nombreTabla, "fichas"))
+	{
+		sql += "id integer primary key autoincrement not null, ";
+		sql += "usuario varchar(30), ";
+		sql += "fechaCompra varchar(10), ";
+		sql += "cantComprada integer);";
 	}
 
 	return this->ejecutarNonQuery(sql);
@@ -176,21 +183,25 @@ void AccesoDatos::inicializarBaseDatos()
 {
 	//this->eliminarTabla("jugadores");
 	//this->eliminarTabla("sesion");
+	//this->eliminarTabla("fichas");
 
 	if (!this->existeTabla("jugadores"))
 		this->crearTabla("jugadores");
 
 	if (!this->existeTabla("sesion"))
 		this->crearTabla("sesion");
+
+	if (!this->existeTabla("fichas"))
+		this->crearTabla("fichas");
 }
 
-bool AccesoDatos::agregarJugador(string usuario, string password, string nombre, string apellido, string nombreImagen)
+bool AccesoDatos::grabarNuevoJugador(string usuario, string password, string nombre, string apellido)
 {
 	bool resul = false;
 
 	if (!this->obtenerJugador(usuario))
 	{
-		resul = this->grabarJugador(usuario, password, nombre, apellido, nombreImagen);
+		resul = this->registrarNuevoJugador(usuario, password, nombre, apellido);
 	}
 	else
 		this->msgError = "No se pudo grabar el Jugador. Ya existe un jugador con ese nombre.";
@@ -198,20 +209,19 @@ bool AccesoDatos::agregarJugador(string usuario, string password, string nombre,
 	return resul;
 }
 
-bool AccesoDatos::grabarJugador(string usuario, string password, string nombre, string apellido, string nombreImagen)
+bool AccesoDatos::registrarNuevoJugador(string usuario, string password, string nombre, string apellido)
 {
 	string fechaActual = this->getFechaActual();
 
-	string sql = "INSERT INTO jugadores (usuario, password, nombre, apellido, nombreImagen, cantFichas, fechaRegistro, fechaUltCompraFichas) VALUES ('";
+	string sql = "INSERT INTO jugadores (usuario, password, nombre, apellido, nombreImagen, cantFichas, fechaRegistro) VALUES ('";
 	sql += usuario + "', '";
 	sql += password + "', '";
 	sql += nombre + "', '";
-	sql += apellido + "', '";
-	sql += nombreImagen + "', ";
+	sql += apellido + "',";
+	sql += "'', ";
 	sql += "2000, '";				// se crea cada jugador con 2.000 fichas
-	sql += fechaActual +  "', ";
-	sql += "'2000/01/01');";		// se crea cada jugador con una fecha inicial 
-	
+	sql += fechaActual +  "');";
+
 	return this->ejecutarNonQuery(sql);
 }
 
@@ -251,87 +261,81 @@ JugadorModelo* AccesoDatos::obtenerJugador(string usuario)
 	return jugador;
 }
 
-bool AccesoDatos::validarCompraFichas(int idJugador)
+bool AccesoDatos::grabarCompraFichas(string usuario, int cantFichasAComprar)
 {
-	bool resul = false;
-	string fechaUltCompraFichas;
-	string fechaActual = this->getFechaActual();
-
-	if (this->consultarJugadorById(idJugador))
-	{
-		while (sqlite3_step(resultado)==SQLITE_ROW)
-		{
-			fechaUltCompraFichas = string(reinterpret_cast<const char*>(sqlite3_column_text(resultado, 7)));
-			
-			if (fechaUltCompraFichas < fechaActual)
-				resul = true;
-		}		
-	}
-
-	return resul;
-}
-
-bool AccesoDatos::grabarCompraFichas(int idJugador, int cantFichasCompradas)
-{
-	string fechaActual = this->getFechaActual();
 	int cantFichasActual;
 	string sql;
 	bool resul = false;
 
-	if (this->consultarJugadorById(idJugador))
+	if (this->consultarJugador(usuario))
 	{
 		while (sqlite3_step(resultado)==SQLITE_ROW)
 		{
 			cantFichasActual = sqlite3_column_int(resultado, 6);
-			cantFichasActual = cantFichasActual + cantFichasCompradas;
-			
-			sql = "UPDATE jugadores SET cantFichas = " + UtilTiposDatos::enteroAString(cantFichasActual) + " , ";
-			sql +="fechaUltCompraFichas = '" + fechaActual + "' ";
-			sql +="WHERE id = " + UtilTiposDatos::enteroAString(idJugador) +  ";";
-	
-			resul = this->ejecutarNonQuery(sql);
+			cantFichasActual = cantFichasActual + cantFichasAComprar;
+						
+			// Se actualiza la cantidad de fichas del jugador en la tabla "JUGADORES"
+			if(this->actualizarCantFichas(usuario, cantFichasActual))
+			{
+				// Se registra la compra en la tabla "FICHAS"
+				resul = this->registrarCompraFichas(usuario, cantFichasAComprar);
+			}
 		}		
 	}
-
 	return resul;
 }
-bool AccesoDatos::actualizarNombreImagen(int idJugador, string nuevoNombreImagen)
+bool AccesoDatos::actualizarNombreImagen(string usuario, string nuevoNombreImagen)
 {
-	string sql = "UPDATE jugadores SET nombreImagen = '" + nuevoNombreImagen + "' WHERE id = " + UtilTiposDatos::enteroAString(idJugador) +  ";";
+	string sql = "UPDATE jugadores SET nombreImagen = '" + nuevoNombreImagen + "' WHERE usuario = '" + usuario +  "';";
 	return this->ejecutarNonQuery(sql);
 }
 
-bool AccesoDatos::actualizarCantFichas(int idJugador, int cantFichas)
+bool AccesoDatos::validarCantFichasJugador(string usuario)
 {
-	string sql = "UPDATE jugadores SET cantFichas = " + UtilTiposDatos::enteroAString(cantFichas) + " WHERE id = " + UtilTiposDatos::enteroAString(idJugador) +  ";";
+	bool resul = false;
+	
+	if (this->consultarCantFichas(usuario))
+	{
+		while (sqlite3_step(resultado)==SQLITE_ROW)
+		{
+			int cantFichas = sqlite3_column_int(resultado, 0);
+			
+			// Se valida que el jugador tenga menos de 100 fichas
+			if (cantFichas <= 100)
+				resul = true;
+		}		
+	}
+	return resul;
+}
+bool AccesoDatos::consultarCantFichas(string usuario)
+{
+	string sql = "SELECT cantFichas FROM jugadores WHERE usuario = '" + usuario + "';";
+	return this->ejecutar(sql);
+}
+
+bool AccesoDatos::actualizarCantFichas(string usuario, int cantFichas)
+{
+	string sql = "UPDATE jugadores SET cantFichas = " + UtilTiposDatos::enteroAString(cantFichas) + " WHERE usuario = '" + usuario +  "';";
 	return this->ejecutarNonQuery(sql);
 }
 
-int AccesoDatos::grabarInicioSesion(int idJugador, bool esObservador, bool esVirtual, string nombreImagen)
+int AccesoDatos::grabarInicioSesion(string usuario, string esObservador, string esVirtual)
 {
 	int resul = -1;
-	string obs = "N";
-	string virt = "N";
 	string fechaInicio = this->getFechaActual();
 	string horaInicio = this->getHoraActual();
 
-	if (esObservador)
-		obs = "S";
-
-	if (esVirtual)
-		virt = "S";
-
-	string sql = "INSERT INTO sesion (idJugador, fechaInicio, horaInicio, fechaFin, horaFin, observador, virtual) VALUES (";
-	sql += UtilTiposDatos::enteroAString(idJugador) + ", '";
+	string sql = "INSERT INTO sesion (usuario, fechaInicio, horaInicio, fechaFin, horaFin, observador, virtual) VALUES ('";
+	sql += usuario + "', '";
 	sql += fechaInicio + "', '";
 	sql += horaInicio + "', '";
 	sql += "', '', '";
-	sql += obs + "', '";
-	sql += virt + "');";
+	sql += esObservador + "', '";
+	sql += esVirtual + "');";
 
 	if (this->ejecutarNonQuery(sql))
 	{
-		string sql = "SELECT MAX(id) FROM sesion WHERE idJugador = " + UtilTiposDatos::enteroAString(idJugador);
+		string sql = "SELECT MAX(id) FROM sesion WHERE usuario = '" + usuario + "'";
 	
 		if (this->ejecutar(sql))
 		{
@@ -354,3 +358,42 @@ bool AccesoDatos::grabarFinSesion(int idSesion)
 	
 	return this->ejecutarNonQuery(sql);
 }
+
+bool AccesoDatos::validarCantFichasCompradasHoy(string usuario, int cantFichasAComprar)
+{
+	bool resul = false;
+	
+	if (this->consultarCantFichasCompradasHoy(usuario))
+	{
+		while (sqlite3_step(resultado)==SQLITE_ROW)
+		{
+			int cantFichasCompradasHoy = sqlite3_column_int(resultado, 0);
+			
+			// Se valida que las fichas compradas hoy y las que se desean comprar no superen las 2.0000
+			if ((cantFichasCompradasHoy + cantFichasAComprar) <= 2000)
+				resul = true;
+		}		
+	}
+
+	return resul;
+}
+
+bool AccesoDatos::registrarCompraFichas(string usuario, int cantFichasCompradas)
+{
+	string fechaActual = this->getFechaActual();
+
+	string sql = "INSERT INTO fichas (usuario, fechaCompra, cantComprada) VALUES ('";
+	sql += usuario + "', '";
+	sql += fechaActual + "',";
+	sql += UtilTiposDatos::enteroAString(cantFichasCompradas) + ");";
+
+	return this->ejecutarNonQuery(sql);	
+}
+
+bool AccesoDatos::consultarCantFichasCompradasHoy(string usuario)
+{
+	string fechaActual = this->getFechaActual();	
+	string sql = "SELECT SUM(cantComprada) FROM fichas WHERE usuario = '" + usuario + "' AND fechaCompra = '" + fechaActual + "';";
+	return this->ejecutar(sql);
+}
+

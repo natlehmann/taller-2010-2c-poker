@@ -26,8 +26,7 @@ class AccesoDatos
 		bool desconectar();
 		bool ejecutarNonQuery(string sql);
 		bool ejecutar(string sql);
-		//string getFechaActual();
-		
+				
 		/* Metodos y funciones generales a las tablas de la BD */
 		bool crearTabla(string nombreTabla);
 		bool eliminarTabla(string nombreTabla);
@@ -37,7 +36,16 @@ class AccesoDatos
 		/* Metodos y funciones aplicados a la tabla "JUGADORES" */
 		bool consultarJugador(string usuario);
 		bool consultarJugadorById(int idJugador);
-		bool grabarJugador(string usuario, string password, string nombre, string apellido, string nombreImagen);
+		bool consultarCantFichas(string usuario);
+		bool registrarNuevoJugador(string usuario, string password, string nombre, string apellido);
+		bool actualizarCantFichas(string usuario, int cantFichas);
+		
+		/* Metodos y funciones aplicados a la tabla "FICHAS" */
+		bool consultarCantFichasCompradasHoy(string usuario);
+		bool registrarCompraFichas(string usuario, int cantFichasCompradas);
+
+		/* Metodos y funciones para los listados estadisticos */
+
 
 		string getFechaActual();
 		string getHoraActual();
@@ -53,23 +61,23 @@ class AccesoDatos
 		void inicializarBaseDatos();
 		
 		/************************** Metodos y funciones aplicados a la tabla "JUGADORES" **************************/
-		// Graba en la tabla un jugador nuevo
-		bool agregarJugador(string nickName, string password, string nombre, string apellido, string nombreImagen);
-		// Obtiene un jugador segun el nickName. En caso de no existir, devuelve NULL
+		// Obtiene un jugador segun el usuario. En caso de no existir, devuelve NULL
 		JugadorModelo* obtenerJugador(string usuario);
-		// Validacion de la fecha de ultima compra respecto de la fecha actual
-		bool validarCompraFichas(int idJugador);
-		// Graba la compra de las fichas y actualiza la fecha de ultima compra
-		bool grabarCompraFichas(int idJugador, int cantiFichasCompradas);
+		// Graba en la tabla un jugador nuevo
+		bool grabarNuevoJugador(string usuario, string password, string nombre, string apellido);
+		// Valida que la cantidad de fichas del jugador sea <= 100
+		bool validarCantFichasJugador(string usuario);
+		// Valida que la cantidad compradas en el dia actual no supere las 2000
+		bool validarCantFichasCompradasHoy(string usuario, int cantFichasAComprar);
+		// Actualiza la cantidad de fichas del jugador y registra la compra 
+		bool grabarCompraFichas(string usuario, int cantFichasAComprar);
 		// Actualizacion de datos de los jugadores
-		bool actualizarNombreImagen(int idJugador, string nuevoNombreImagen);
-		bool actualizarCantFichas(int idJugador, int cantFichas);
+		bool actualizarNombreImagen(string usuario, string nuevoNombreImagen);
 		/*********************************************************************************************************/
 
-		/************************** Metodos y funciones aplicadas a la tabla "SESION" **************************/
+		/************************** Metodos y funciones aplicadas a la tabla "SESION" *****************************/
 		// Graba el inicio de sesion devolviendo el idSesion 
-		int grabarInicioSesion(int idJugador, bool esObservador, bool esVirtual, string nombreImagen);
+		int grabarInicioSesion(string usuario, string esObservador, string esVirtual);
 		bool grabarFinSesion(int idSesion);
 		/*********************************************************************************************************/
-		
 };

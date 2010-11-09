@@ -11,23 +11,25 @@ using namespace std;
 
 class OperacionUICliente
 {
-protected:
-	vector<string> parametros;
+	protected:
+		vector<string> parametros;
+		vector<string> parametrosRecibidos;
 
-	bool enviarPedido(string nombreOperacion, Ventana* ventana);
-	Elemento* agregarOperacion(DomTree* arbol, string nombreOperacion);
-	virtual bool enviarMensaje(DomTree* tree, Ventana* ventana);
+		bool enviarPedido(string nombreOperacion, Ventana* ventana);
+		Elemento* agregarOperacion(DomTree* arbol, string nombreOperacion);
+		virtual bool enviarMensaje(DomTree* tree, Ventana* ventana);
 
+		bool cargarRespuestaServidor(string respuesta);
 
-public:
-	OperacionUICliente(void);
-	virtual ~OperacionUICliente(void);
+	public:
+		OperacionUICliente(void);
+		virtual ~OperacionUICliente(void);
+	
+		/* Metodo sincronizado */	
+		virtual bool ejecutar(Ventana* ventana);
 
-	/* Metodo sincronizado */
-	virtual bool ejecutar(Ventana* ventana);
-
-	/* Metodo no sincronizado */
-	virtual bool ejecutarAccion(Ventana* ventana) = 0;
+		/* Metodo no sincronizado */
+		virtual bool ejecutarAccion(Ventana* ventana) = 0;
 };
 
 #endif

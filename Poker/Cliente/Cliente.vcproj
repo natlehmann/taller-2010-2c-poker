@@ -315,6 +315,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClienteComprarFichas.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteDejarMesa.cpp"
 				>
 			</File>
@@ -332,6 +336,10 @@
 			</File>
 			<File
 				RelativePath=".\OpUIClientePasar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteRegistrarJugador.cpp"
 				>
 			</File>
 			<File
@@ -629,6 +637,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClienteComprarFichas.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteDejarMesa.h"
 				>
 			</File>
@@ -646,6 +658,10 @@
 			</File>
 			<File
 				RelativePath=".\OpUIClientePasar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteRegistrarJugador.h"
 				>
 			</File>
 			<File

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="Servidor"
 	ProjectGUID="{80034BA5-0061-4E00-B475-8FC007704BC7}"
 	RootNamespace="Servidor"
@@ -319,6 +319,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpComprarFichas.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpDejarMesa.cpp"
 				>
 			</File>
@@ -364,6 +368,10 @@
 			</File>
 			<File
 				RelativePath=".\OpPasar.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpRegistrarJugador.cpp"
 				>
 			</File>
 			<File
@@ -629,6 +637,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpComprarFichas.h"
+				>
+			</File>
+			<File
 				RelativePath=".\OpDejarMesa.h"
 				>
 			</File>
@@ -674,6 +686,10 @@
 			</File>
 			<File
 				RelativePath=".\OpPasar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpRegistrarJugador.h"
 				>
 			</File>
 			<File

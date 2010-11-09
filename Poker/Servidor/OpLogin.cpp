@@ -3,6 +3,8 @@
 #include "FabricaOperacionesServidor.h"
 #include "MensajesUtil.h"
 #include "AccesoDatos.h"
+#include "GeneradorRespuesta.h"
+#include "Respuesta.h"
 
 OpLogin::OpLogin(int idCliente, vector<string> parametros): Operacion(idCliente)
 {
@@ -15,52 +17,76 @@ OpLogin::~OpLogin(void)
 
 bool OpLogin::ejecutarAccion(Socket* socket)
 {
-	Resultado* resultado = new Resultado();
-	string contenido = "";
-	string respuesta = "";
 	bool error = false;
-
-	AccesoDatos ac;
+	bool ok = true;
+	string respuesta = "";
+	int sesion;
 
 	string usuario = this->parametros.at(0);
 	string password = this->parametros.at(1);
 	string esVirtual = this->parametros.at(2);
 	string esObservador = this->parametros.at(3);
-		
-	JugadorModelo* jugador = ac.obtenerJugador(usuario);
+	
+	AccesoDatos ad;
+	JugadorModelo* jugador = ad.obtenerJugador(usuario);
 
 	if (jugador)
 	{
 		// El jugador ingresado existe en la BD --> Se valida password
-		if (MensajesUtil::sonIguales(jugador->getPassword(),password))
+		if (MensajesUtil::sonIguales(jugador->getPassword(), password))
 		{
-			// --> Se debe validar que el usuario no se encuentre jugando actualmente
-			// OK	--> Se debe agregar el jugador al contexto del juego
-			//		--> Se da respuesta OK al cliente
+			sesion = ad.grabarInicioSesion(usuario, esObservador, esVirtual);
+			
+			if (sesion > 0)
+			{	
+				// OK	--> Se da respuesta OK al cliente
+				respuesta = "OK";
+			}
+			else
+			{
+				respuesta = "Se ha producido un error al intentar iniciar sesion: " + ad.getMensajeError();
+				ok = false;
+			}
 		}
 		else
 		{
 			// Error al ingresar el password
-			//respuesta = "Password incorrecto!!!.";
+			respuesta = "Password Incorrecto!!!";
 		}
 	}
 	else
 	{
 		// El jugador no existe en la BD.
+		respuesta = "El usuario ingresado no existe!!!";
 	}
 
-	//resultado->setValor(contenido);
-	//resultado->setIdOperacion("");
+	/******************************************************************/
+	string msjRetorno = "";
+	GeneradorRespuesta generador = GeneradorRespuesta();
 
-	if (socket != NULL && resultado!= NULL)
+	if (ok)
 	{
-		respuesta = resultado->getValor();
-
-		if(!socket->enviar(respuesta))
-			error = true;
+		Resultado* resultado = new Resultado("", respuesta, "OpLogin");
+		generador.agregarRespuesta(resultado);
 	}
 	else
+	{
+		Error* error1 = new Error("", respuesta, "OpLogin");
+		generador.agregarRespuesta(error1);
+	}
+	
+	string resul = generador.obtenerRespuesta();
+	/******************************************************************/
+
+	if (socket != NULL && !MensajesUtil::esVacio(resul))
+	{
+		if(!socket->enviar(resul)) 
+			error = true;
+	}
+	else 
 		error = true;
+
+	delete(jugador);
 
 	return error;	
 }
