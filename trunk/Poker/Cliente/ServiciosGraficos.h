@@ -81,6 +81,7 @@ public:
 	static int getAnchoVentana();
 	static int getAltoVentana();
 
+
 	static int getBordeSuperior();
 	static int getBordeInferior();
 	static int getBordeDerecho();

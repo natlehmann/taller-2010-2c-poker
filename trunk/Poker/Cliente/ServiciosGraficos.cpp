@@ -2,8 +2,9 @@
 #include "UIException.h"
 #include "RecursosCliente.h"
 #include "UtilTiposDatos.h"
+#include "MensajesUtil.h"
 #include "UIException.h"
-
+#include <list>
 #include <math.h>
 
 #define M_PI       3.14159265358979323846
@@ -320,11 +321,36 @@ int ServiciosGraficos::getTamanioCeldaVert() {
 }
 
 int ServiciosGraficos::getAnchoVentana() {
-	return ServiciosGraficos::getVideoInfo()->current_w;
+
+	string configPantalla = RecursosCliente::getConfig()->get("cliente.configuracion.pantalla");
+	list<string> medidas = MensajesUtil::split(configPantalla, "x");
+
+	if (medidas.size() != 2) {
+		throw UIException("La configuracion de pantalla esta incorrectamente seteada en el archivo 'config.ini'.", "V");
+	}
+
+	int ancho = UtilTiposDatos::getEntero(medidas.front());
+	int alto = UtilTiposDatos::getEntero(medidas.back());
+
+	return ancho;
+	//return ServiciosGraficos::getVideoInfo()->current_w;
 }
 
 int ServiciosGraficos::getAltoVentana() {
-	return ServiciosGraficos::getVideoInfo()->current_h;
+
+	string configPantalla = RecursosCliente::getConfig()->get("cliente.configuracion.pantalla");
+	list<string> medidas = MensajesUtil::split(configPantalla, "x");
+
+	if (medidas.size() != 2) {
+		throw UIException("La configuracion de pantalla esta incorrectamente seteada en el archivo 'config.ini'.", "V");
+	}
+
+	int ancho = UtilTiposDatos::getEntero(medidas.front());
+	int alto = UtilTiposDatos::getEntero(medidas.back());
+
+	return alto;
+	//return ServiciosGraficos::getVideoInfo()->current_h;
+
 }
 
 int ServiciosGraficos::getBordeSuperior() {
