@@ -55,7 +55,7 @@ void UICliente::iniciarAplicacion()
 
 	DomTreeFactory::inicializar();
 	
-	//UICliente::conectarServidor();
+	UICliente::conectarServidor();
 
 }
 

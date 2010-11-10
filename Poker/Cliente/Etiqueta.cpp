@@ -65,6 +65,7 @@ void Etiqueta::setearFuente() {
 
 void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){ 
 
+	//this->setearFuente();
 	SDL_Rect* offset = this->getContornoConOffset();
 
 	if (this->fondo != NULL) {
@@ -134,7 +135,7 @@ void Etiqueta::setFondo(Color* color){
 	if (this->fondo != NULL) {
 		delete(this->fondo);
 	}
-	this->fondo = new Color(color->getRed(), color->getGreen(), color->getBlue());
+	this->fondo = color;
 	this->hayCambios = true;
 }
 

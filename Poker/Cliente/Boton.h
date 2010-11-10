@@ -33,6 +33,7 @@ protected:
 
 public:
 	Boton(string texto);
+	//Boton(string texto, int alto, int ancho);
 	virtual ~Boton(void);	
 
 	virtual ComponentePanel* clonar();

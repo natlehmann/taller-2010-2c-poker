@@ -91,17 +91,17 @@ void VentanaConfiguracion::configurarControles() {
 	Etiqueta* etiquetaIP = new Etiqueta("Direccion Ip:");
 	etiquetaIP->setPosX(this->anchoColumna*2);
 	etiquetaIP->setPosY(this->altoFila*2);
-	etiquetaIP->setAlto(this->altoFila*3);
+	etiquetaIP->setAlto(this->altoFila*2);
 	etiquetaIP->setAncho(this->anchoColumna*6);
 	etiquetaIP->setFondo(this->fondo);
 	etiquetaIP->getFuente()->setTamanio(14);
 	this->agregarElementoGrafico(etiquetaIP);
 
 	textboxIP = new TextBox("localhost");
-	textboxIP->setPosX(this->anchoColumna*10);
+	textboxIP->setPosX(this->anchoColumna*8);
 	textboxIP->setPosY(this->altoFila*2);
-	textboxIP->setAlto(this->altoFila*3);
-	textboxIP->setAncho(this->anchoColumna*8);
+	textboxIP->setAlto(this->altoFila*2);
+	textboxIP->setAncho(this->anchoColumna*10);
 	textboxIP->setHabilitado(true);
 	//textboxIP->getFuente()->setTamanio(14);
 	this->agregarComponentePanel(textboxIP);
@@ -109,27 +109,25 @@ void VentanaConfiguracion::configurarControles() {
 	Etiqueta* etiquetaPuerto = new Etiqueta("Puerto:");
 	etiquetaPuerto->setPosX(this->anchoColumna*2);
 	etiquetaPuerto->setPosY(this->altoFila*6);
-	etiquetaPuerto->setAlto(this->altoFila*3);
+	etiquetaPuerto->setAlto(this->altoFila*2);
 	etiquetaPuerto->setAncho(this->anchoColumna*6);
 	etiquetaPuerto->setFondo(this->fondo);
-	etiquetaPuerto->getFuente()->setTamanio(14);
 	this->agregarElementoGrafico(etiquetaPuerto);
 
 	textboxPuerto = new TextBox("20000");
-	textboxPuerto->setPosX(this->anchoColumna*10);
+	textboxPuerto->setPosX(this->anchoColumna*8);
 	textboxPuerto->setPosY(this->altoFila*6);
-	textboxPuerto->setAlto(this->altoFila*3);
-	textboxPuerto->setAncho(this->anchoColumna*8);
+	textboxPuerto->setAlto(this->altoFila*2);
+	textboxPuerto->setAncho(this->anchoColumna*10);
 	textboxPuerto->setHabilitado(true);
-	//textboxIP->getFuente()->setTamanio(14);
 	this->agregarComponentePanel(textboxPuerto);
 
 	Boton* botonOk = new Boton("OK");
 	botonOk->setId("botonOk");
-	botonOk->setPosX(this->anchoColumna*2);
+	botonOk->setPosX(this->anchoColumna*5);
 	botonOk->setPosY(this->altoFila*14);
-	botonOk->setAlto(this->altoFila*4);
-	botonOk->setAncho(this->anchoColumna*6);
+	//botonOk->setAlto(this->altoFila*4);
+	//botonOk->setAncho(this->anchoColumna*6);
 	botonOk->setHabilitado(true);
 	this->agregarComponentePanel(botonOk);
 	
@@ -137,8 +135,8 @@ void VentanaConfiguracion::configurarControles() {
 	botonCancel->setId("botonCancel");
 	botonCancel->setPosX(this->anchoColumna*12);
 	botonCancel->setPosY(this->altoFila*14);
-	botonCancel->setAlto(this->altoFila*4);
-	botonCancel->setAncho(this->anchoColumna*6);
+	//botonCancel->setAlto(this->altoFila*4);
+	//botonCancel->setAncho(this->anchoColumna*6);
 	botonCancel->setHabilitado(true);
 	this->agregarComponentePanel(botonCancel);
 
@@ -148,7 +146,6 @@ void VentanaConfiguracion::configurarControles() {
 	this->mensaje->setAlto(this->altoFila*4);
 	this->mensaje->setAncho(this->anchoColumna*6);
 	this->mensaje->setFondo(this->fondo);
-	//this->mensaje->setFuente(this->mensaje->getFuente()->setColor(new Color(255,0,0)));
 	this->mensaje->setVisible(false);
 	this->agregarElementoGrafico(this->mensaje);
 
@@ -166,8 +163,8 @@ void VentanaConfiguracion::iniciar() {
 		while(SDL_WaitEvent(&event) && !listo) {
 			listo = this->manejarEventos(&event);
 
-			if( (event.type == SDL_QUIT)
-				|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ){
+			if( (event.type == SDL_QUIT) || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ){
+				SDL_Quit();
                 listo = true;
             }
 
@@ -273,7 +270,7 @@ bool VentanaConfiguracion::ejecutarEvento(string controlId){
 		if (textboxIP->getTexto().length() == 0 || textboxPuerto->getTexto().length() == 0 
 			|| !UtilTiposDatos::esEntero(textboxPuerto->getTexto()))
 		{
-			mostrarMensaje("Error los datos ingresados, corriga e intente nuevamente.");
+			mostrarMensaje("Datos invalidos, corriga e intente nuevamente.");
 			lanzarEvento(100);
 			return false;
 		}
@@ -287,7 +284,7 @@ bool VentanaConfiguracion::ejecutarEvento(string controlId){
 			}
 			else
 			{
-				mostrarMensaje("Error al intantar coneccion con el servidor!");
+				mostrarMensaje("Error al intentar coneccion con el servidor!");
 				lanzarEvento(100);
 				return false;
 			}

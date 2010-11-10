@@ -30,8 +30,37 @@ Boton::Boton(string texto) : ComponentePanel(texto)
 
 	this->superficieTexto = NULL;
 	this->hayCambiosTexto = true;
+
 	this->configurar();
 }
+
+//Boton::Boton(string texto, int alto, int ancho) : ComponentePanel(texto)
+//{
+//	this->colorFuente = RecursosCliente::getConfig()->get(
+//			"cliente.tema.default.boton.fuente.color");
+//
+//	this->tamanioFuenteMax = UtilTiposDatos::getEntero(
+//			RecursosCliente::getConfig()->get(
+//				"cliente.tema.default.boton.fuente.tamanio.maximo"));
+//
+//	this->estiloFuente = RecursosCliente::getConfig()->get(
+//			"cliente.configuracion.fuentes") + RecursosCliente::getConfig()->get(
+//						"cliente.tema.default.boton.fuente.estilo") + ".ttf";
+//
+//	this->setearFuente();
+//
+//	this->setAncho(ancho);
+//	this->setAlto(alto);
+//	this->posX = 0;
+//	this->posY = 0;
+//
+//	this->estado = 'u';
+//
+//	this->superficieTexto = NULL;
+//	this->hayCambiosTexto = true;
+//
+//	this->configurar();
+//}
 
 ComponentePanel* Boton::clonar() {
 
@@ -76,6 +105,15 @@ void Boton::configurar() {
 	string nombreImagenDown = "botonDown.bmp";
 	string nombreImagenOver = "botonOver.bmp";
 	string nombreImagenDeshabilitado = "botonDeshabilitado.bmp";
+
+	//if (this->imagenUp != NULL)
+	//	delete(this->imagenUp);
+	//if (this->imagenDown != NULL)
+	//	delete(this->imagenDown);
+	//if (this->imagenOver != NULL)
+	//	delete(this->imagenOver);
+	//if (this->imagenDeshabilitado != NULL)
+	//	delete(this->imagenDeshabilitado);
 
 	this->imagenUp = this->setearImagen(nombreImagenUp);
 	this->imagenDown = this->setearImagen(nombreImagenDown);

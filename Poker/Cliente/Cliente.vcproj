@@ -451,6 +451,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\VentanaLogin.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\VentanaProxy.cpp"
 				>
 			</File>
@@ -770,6 +774,10 @@
 			</File>
 			<File
 				RelativePath=".\VentanaImpl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaLogin.h"
 				>
 			</File>
 			<File
