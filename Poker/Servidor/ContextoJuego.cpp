@@ -7,7 +7,7 @@
 #include "IteradorRonda.h"
 #include "IteradorRondaActivos.h"
 
-ContextoJuego ContextoJuego::instancia;
+ContextoJuego* ContextoJuego::instancia = NULL;
 
 ContextoJuego::ContextoJuego(void)
 {
@@ -50,6 +50,10 @@ ContextoJuego::ContextoJuego(void)
 
 ContextoJuego::~ContextoJuego(void)
 {
+	//if (instancia) {
+	//	delete instancia;
+	//	instancia = NULL;
+	//}
 }
 
 void ContextoJuego::finalizar() {
@@ -83,9 +87,9 @@ void ContextoJuego::finalizar() {
 	delete(this->esperandoJugadores);
 	delete(this->rondaCiega);
 	delete(this->rondaFlop);
-	delete (this->rondaTurn);
-	delete (this->rondaRiver);
-	delete (this->evaluandoGanador);
+	delete(this->rondaTurn);
+	delete(this->rondaRiver);
+	delete(this->evaluandoGanador);
 
 	CloseHandle(this->mutex);
 }
@@ -95,7 +99,10 @@ HANDLE ContextoJuego::getMutex(){
 }
 
 ContextoJuego* ContextoJuego::getInstancia(){
-	return &ContextoJuego::instancia;
+	if (instancia == NULL) {
+		instancia = new ContextoJuego();
+	}
+	return instancia;
 }
 
 int ContextoJuego::getTiempoEsperandoJugadores(){
@@ -145,18 +152,8 @@ void ContextoJuego::igualarApuesta(int idCliente)
 void ContextoJuego::pasar(int idCliente){
 
 	if (this->sePuedePasar) {
-
-		JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
-		IteradorRondaJugando* it = this->admJugadores->getIteradorRondaJugando();
-
 		this->admJugadores->incrementarTurno();
-
-		// si es el ultimo jugador se da la ronda por terminada
-		if (it->getUltimo()->getId() == jugador->getId()) {
-			this->rondaTerminada = true;
-		}
-		delete(it);
-
+		chequearRondaTerminada();
 	} else {
 		throw PokerException("Se solicito 'pasar' cuando esta no era una jugada permitida.");
 	}
@@ -170,6 +167,7 @@ void ContextoJuego::subirApuesta(int idCliente, int fichas)
 	this->montoAIgualar = jugador->getApuesta();
 	this->admJugadores->incrementarTurno();
 	this->sePuedePasar = false;
+	this->admJugadores->setJugadorQueCierra(jugador->getId());
 	chequearRondaTerminada();
 }
 
@@ -211,20 +209,11 @@ void ContextoJuego::noIr(int idCliente)
 }
 
 void ContextoJuego::chequearRondaTerminada() {
-
-	bool terminada = true;
-
 	if (this->cantidadJugadoresRonda > 1) {
-		for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) { 
-
-			if (this->admJugadores->getJugadores()[i]->isJugandoRonda() 
-				&& this->admJugadores->getJugadores()[i]->getApuesta() != this->montoAIgualar) {
-				terminada = false;
-			}
-		}
+		this->rondaTerminada = this->admJugadores->isRondaTerminada();
+	} else {
+		this->rondaTerminada = false;
 	}
-
-	this->rondaTerminada = terminada;
 }
 
 bool ContextoJuego::isRondaTerminada(){
@@ -268,14 +257,25 @@ void ContextoJuego::iniciarJuego() {
 
 		if (blind <= 2) {
 
-			if (!this->admJugadores->isDealerJugador(jugador->getId())) {
+			if (cantidadJugadoresActivos == 2) {
+				if (blind == 1) {
+					jugador->apostar(mesa->getSmallBlind() * 2);
+				} else {
+					jugador->apostar(mesa->getSmallBlind());
+				}
+			} else {
 				jugador->apostar(mesa->getSmallBlind() * blind);
-				this->bote->incrementar(mesa->getSmallBlind() * blind);
-				this->admJugadores->incrementarTurno();
-				blind++;
 			}
+
+			this->bote->incrementar(mesa->getSmallBlind() * blind);
+			this->admJugadores->incrementarTurno();
+			blind++;
 		}
 	}
+	if (cantidadJugadoresActivos == 2) {
+		this->admJugadores->incrementarTurno();
+	}
+	this->admJugadores->setJugadorQueCierraActual();
 
 	
 	if (blind >= 2) {
@@ -285,7 +285,7 @@ void ContextoJuego::iniciarJuego() {
 	
 	this->cantidadJugadoresRonda = cantidadJugadoresActivos;
 	this->rondaTerminada = false;
-	this->nombreGanador = "";
+	this->nombresGanadores.clear();
 
 	delete(it);
 }
@@ -317,16 +317,15 @@ void ContextoJuego::mostrarRiver()
 }
 
 
-// Devuelve ID de Jugador
-int ContextoJuego::evaluarGanador()
+void ContextoJuego::evaluarGanador()
 {
-	JugadorModelo* ganador = NULL;
+	list<JugadorModelo*> ganadores;
 
 	if (this->cantidadJugadoresRonda < 2) {
 		for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
 			JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
 			if (jugador->isJugandoRonda()) {
-				ganador = jugador;
+				ganadores.push_back(jugador);
 				break;
 			}
 		}
@@ -346,17 +345,46 @@ int ContextoJuego::evaluarGanador()
 				double valorJugada = jugada->getValorJugada();
 				if (valorJugada > valorJugadaMasAlta) {
 					valorJugadaMasAlta = valorJugada;
-					ganador = jugador;
+					ganadores.clear();
+					ganadores.push_back(jugador);
+				} else {
+					if (valorJugada == valorJugadaMasAlta) {
+						ganadores.push_back(jugador);
+					}
 				}
 			}
 		}
 	}
-	if (!ganador) {
+	if (ganadores.size() == 0) {
 		throw PokerException("Ocurrio un error evaluando al ganador.");
 	}
-	ganador->incrementarFichas(this->bote->vaciar());
-	this->nombreGanador = ganador->getNombre();
-	return ganador->getId();
+
+	int fichasQueNoSeReparten = 0;
+	int apuestaMaxGanador = 0;
+
+	for (list<JugadorModelo*>::iterator it = ganadores.begin(); it != ganadores.end(); ++it) {
+		JugadorModelo* ganador = *it;
+		fichasQueNoSeReparten += ganador->getApuesta();
+		if (ganador->getApuesta() > apuestaMaxGanador) {
+			apuestaMaxGanador = ganador->getApuesta();
+		}
+	}
+
+	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
+		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
+		if (jugador->isJugandoRonda() && jugador->getApuesta() > apuestaMaxGanador) {
+			int diferencia = jugador->getApuesta() - apuestaMaxGanador;
+			jugador->incrementarFichas(diferencia);
+			bote->incrementar(-diferencia);
+		}
+	}
+
+	for (list<JugadorModelo*>::iterator it = ganadores.begin(); it != ganadores.end(); ++it) {
+		JugadorModelo* ganador = *it;
+		ganador->incrementarFichas(bote->getCantidad() * ganador->getApuesta() / fichasQueNoSeReparten);
+		nombresGanadores.push_back(ganador->getNombre());
+	}
+
 }
 
 void ContextoJuego::finalizarRonda()
@@ -365,16 +393,16 @@ void ContextoJuego::finalizarRonda()
 		this->mostrandoCartas = true;
 	}
 
-	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
-		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
-		jugador->setApuesta(0);
-	}
-
 	if (this->cantidadJugadoresRonda > 0) {
-		int idGanador = this->evaluarGanador();
+		this->evaluarGanador();
 		//TODO: VER SI MANDAMOS INFORMACION DEL GANADOR A LA VENTANA PARA DIBUJARLO
 
 		this->timerMostrandoGanador.iniciar();
+	}
+
+	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
+		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
+		jugador->setApuesta(0);
 	}
 }
 
@@ -423,7 +451,7 @@ void ContextoJuego::quitarJugador(int idCliente){
 	} else {
 		JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
 
-		if (jugador != NULL) {
+		if (jugador != NULL && jugador->isJugandoRonda()) {
 			if (this->cantidadJugadoresRonda > 0) {
 				this->cantidadJugadoresRonda--;
 			}
@@ -432,7 +460,6 @@ void ContextoJuego::quitarJugador(int idCliente){
 					this->admJugadores->incrementarDealerTemp();
 				}
 				jugador->setJugandoRonda(false);
-				chequearRondaTerminada();
 			} else {
 				jugador->setJugandoRonda(false);
 				this->finalizarRonda();
@@ -455,8 +482,8 @@ bool ContextoJuego::isTurnoCliente(int idCliente){
 	return this->admJugadores->isTurnoCliente(idCliente);
 }
 
-string ContextoJuego::getNombreGanador(){
-	return this->nombreGanador;
+list<string> ContextoJuego::getNombresGanadores(){
+	return this->nombresGanadores;
 }
 
 int ContextoJuego::idClienteToIdJugador(int idCliente){

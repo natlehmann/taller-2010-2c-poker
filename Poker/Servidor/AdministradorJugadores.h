@@ -21,6 +21,7 @@ private:
 
 	// indice al array de jugadores (comenzando en 0)
 	int jugadorTurno;
+	int jugadorQueCierra;
 
 	int dealer;
 	int dealerAnterior;
@@ -64,6 +65,10 @@ public:
 	bool isTurnoJugador(int idJugador);
 	bool isTurnoCliente(int idCliente);
 	bool isDealerJugador(int idJugador);
+
+	void setJugadorQueCierra(int idJugador);
+	void setJugadorQueCierraActual();
+	bool isRondaTerminada();
 
 };
 

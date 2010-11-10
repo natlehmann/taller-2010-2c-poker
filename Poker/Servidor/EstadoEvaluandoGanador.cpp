@@ -2,6 +2,7 @@
 #include "EstadoEsperandoJugadores.h"
 #include "EstadoRondaCiega.h"
 #include "ContextoJuego.h"
+#include <list>
 
 EstadoEvaluandoGanador::EstadoEvaluandoGanador(void)
 {
@@ -48,8 +49,24 @@ string EstadoEvaluandoGanador::getEscenarioJuego(int idJugador){
 	this->agregarCartasComunitarias(arbol);
 	this->agregarPanelBotones(arbol, false);
 
-	this->agregarMensaje(arbol, ContextoJuego::getInstancia()->getNombreGanador() 
-		+  string(" gana esta mano."));
+	list<string> nombresGanadores = ContextoJuego::getInstancia()->getNombresGanadores();
+	int cantidadGanadores = nombresGanadores.size();
+	string ganadores;
+	if (cantidadGanadores > 1) {
+		ganadores = "Ganadores: ";
+	} else {
+		ganadores = "Ganador: ";
+	}
+	list<string>::iterator it = nombresGanadores.begin();
+	for (int i=0 ; i < cantidadGanadores ; ++i) {
+		ganadores.append(*it);
+		if ((cantidadGanadores > 1) && (i != cantidadGanadores - 1)) {
+			ganadores.append(", ");
+		}
+		++it;
+	}
+	ganadores.append(".");
+	this->agregarMensaje(arbol, ganadores);
 
 	string resultado = this->arbolToString(arbol);
 	delete (arbol);
