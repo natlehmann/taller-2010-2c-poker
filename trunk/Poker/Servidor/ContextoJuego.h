@@ -1,7 +1,7 @@
 #ifndef _CONTEXTOJUEGO_H_
 #define _CONTEXTOJUEGO_H_
 
-#include <vector>
+#include <list>
 #include <string>
 #include "MesaModelo.h"
 #include "BoteModelo.h"
@@ -51,15 +51,14 @@ private:
 	bool rondaTerminada;
 	bool mostrandoCartas;
 	bool sePuedePasar;
-	string nombreGanador;
+	list<string> nombresGanadores;
 
-	static ContextoJuego instancia;
+	static ContextoJuego* instancia;
 	ContextoJuego(void);
 
 	void chequearRondaTerminada();
 
-	/* Devuelve ID de Jugador */
-	int evaluarGanador();
+	void evaluarGanador();
 
 
 public:	
@@ -108,7 +107,7 @@ public:
 	bool isRondaTerminada();
 	void setMostrandoCartas(bool mostrandoCartas);
 	bool getMostrandoCartas();
-	string getNombreGanador();
+	list<string> getNombresGanadores();
 	int getMontoAIgualar();
 	void chequearJugadorVirtual(int idCliente);
 

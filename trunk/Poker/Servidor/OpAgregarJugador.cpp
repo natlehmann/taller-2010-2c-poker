@@ -4,6 +4,7 @@
 #include "OpEnviarEscenario.h"
 #include "FabricaOperacionesServidor.h"
 #include "JugadorModelo.h"
+#include "UtilTiposDatos.h"
 #include <vector>
 
 
@@ -22,7 +23,7 @@ bool OpAgregarJugador::ejecutarAccion(Socket* socket){
 	if (ContextoJuego::getInstancia()->hayLugar()) {
 
 		// TODO: REEMPLAZAR ESTO SACANDO LOS DATOS DE LA BASE!!
-		string nombreJugador = "jugadorX";
+		string nombreJugador = "jugador " + UtilTiposDatos::enteroAString(this->getIdCliente());
 		string nombreImagen = "jugador5.bmp";
 		int fichas = 1000;
 		bool esVirtual = false;

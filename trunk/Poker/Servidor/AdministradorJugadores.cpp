@@ -17,6 +17,7 @@ AdministradorJugadores::AdministradorJugadores(void)
 	this->jugadorTurno = -1;
 	this->dealer = -1;
 	this->dealerAnterior = -1;
+	this->jugadorQueCierra = -1;
 }
 
 AdministradorJugadores::~AdministradorJugadores(void)
@@ -169,6 +170,7 @@ JugadorModelo** AdministradorJugadores::getJugadores() {
 
 void AdministradorJugadores::resetearJugadorTurno(){
 	this->jugadorTurno = this->getIndiceJugadorMano();
+	this->jugadorQueCierra = this->getIndiceJugadorMano();
 }
 
 int AdministradorJugadores::getIndiceJugadorMano() {
@@ -255,4 +257,19 @@ void AdministradorJugadores::incrementarDealer(){
 		}
 	}
 
+}
+
+void AdministradorJugadores::setJugadorQueCierra(int idJugador) {
+	this->jugadorQueCierra = idJugador;
+}
+
+void AdministradorJugadores::setJugadorQueCierraActual() {
+	this->jugadorQueCierra = this->jugadorTurno;
+}
+
+bool AdministradorJugadores::isRondaTerminada() {
+	if (this->jugadorTurno < 0) {
+		return false;
+	}
+	return this->jugadorTurno == this->jugadorQueCierra;
 }
