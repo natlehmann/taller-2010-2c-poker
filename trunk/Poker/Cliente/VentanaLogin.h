@@ -1,5 +1,5 @@
-#ifndef _VENTANACONFIGURACION_H__
-#define _VENTANACONFIGURACION_H__
+#ifndef _VENTANALOGIN_H__
+#define _VENTANALOGIN_H__
 
 #include "SDL.h" 
 #include <stdio.h>
@@ -15,17 +15,18 @@
 
 using namespace std;
 
-class VentanaConfiguracion: public VentanaBase {
+class VentanaLogin: public VentanaBase {
 private:
 
-	TextBox* textboxIP;
-	TextBox* textboxPuerto;
-	Etiqueta* mensaje;
+	TextBox* txUsuario;
+	TextBox* txPassword;
+	Etiqueta* mensajeError;
 	list<ElementoGrafico*> elementos;
 	list<ComponentePanel*> componentes;
 
 	bool conectado;
 	bool cancelado;
+	bool nuevo;
 
 	bool manejarEventos(SDL_Event* event);
 	bool ejecutarEvento(string controlId);
@@ -38,8 +39,8 @@ protected:
 	virtual void dibujar(SDL_Surface* superficie);
 
 public:
-	VentanaConfiguracion(void);
-	virtual ~VentanaConfiguracion(void);
+	VentanaLogin(void);
+	virtual ~VentanaLogin(void);
 	void agregarComponentePanel(ComponentePanel* componente);
 
 	//obligatorias (heredadas de Ventana)
@@ -48,8 +49,9 @@ public:
 	virtual void agregarElementoGrafico(ElementoGrafico* elemento);
 	bool getConectado();
 	bool getCancelado();
+	bool getNuevo();
 
 };
 
-#endif //_VENTANACONFIGURACION_H__
+#endif //_VENTANALOGIN_H__
 
