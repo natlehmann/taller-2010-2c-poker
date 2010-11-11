@@ -4,7 +4,7 @@
 
 Repartidor::Repartidor(void)
 {
-	srand((unsigned)time(0));
+	srand((unsigned int)time(NULL));
 	instanciarCartas();
 }
 
