@@ -13,6 +13,7 @@
 #include "OpSubirApuesta.h"
 #include "RecursosServidor.h"
 #include "OpMostrarMensaje.h"
+#include "OpPasar.h"
 #include "OpRegistrarJugador.h"
 #include "OpComprarFichas.h"
 #include "OpRecibirFoto.h"
@@ -54,6 +55,9 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 	}
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpMostrarMensaje")) {
 		operacion = new OpMostrarMensaje(idCliente, parametros);
+	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpPasar")) {
+		operacion = new OpPasar(idCliente);
 	}
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpRegistrarJugador")) {
 		operacion = new OpRegistrarJugador(idCliente, parametros);
