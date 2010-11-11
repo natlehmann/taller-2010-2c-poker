@@ -12,6 +12,7 @@
 #include "OpUIClienteLogin.h"
 #include "OpUIClienteRegistrarJugador.h"
 #include "OpUIClienteComprarFichas.h"
+#include "OpUIClienteEnviarFoto.h"
 
 using namespace std;
 
@@ -68,7 +69,10 @@ OperacionUICliente* FabricaOperacionesCliente::newOperacion(string nombreOperaci
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteComprarFichas")) {
 		operacion = new OpUIClienteComprarFichas(parametros);
 	}
-
+	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteEnviarFoto")) {
+		operacion = new OpUIClienteEnviarFoto(parametros);
+	}
+	
 	if (operacion == NULL) {
 		Error error("V","Id de operacion invalido.",nombreOperacion);
 		throw DatosInvalidosException(error);
