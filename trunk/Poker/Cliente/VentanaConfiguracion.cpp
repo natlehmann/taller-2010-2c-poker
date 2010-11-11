@@ -116,7 +116,7 @@ void VentanaConfiguracion::configurarControles() {
 	etiquetaPuerto->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etiquetaPuerto);
 
-	textboxPuerto = new TextBox("20000");
+	textboxPuerto = new TextBox("5000");
 	textboxPuerto->setPosX(this->anchoColumna*8);
 	textboxPuerto->setPosY(this->altoFila*6);
 	textboxPuerto->setAlto(this->altoFila*2);
