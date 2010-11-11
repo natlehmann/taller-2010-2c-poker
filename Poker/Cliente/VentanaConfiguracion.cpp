@@ -251,9 +251,9 @@ bool VentanaConfiguracion::manejarEventos(SDL_Event* event){
 		if (controlId.length() > 0)
 			finalizar = this->ejecutarEvento(controlId);
 
-		return finalizar;
 	}
-
+	
+	return finalizar;
 }
 void VentanaConfiguracion::lanzarEvento(int codigoEvento) {
 	SDL_Event event;
@@ -298,6 +298,8 @@ bool VentanaConfiguracion::ejecutarEvento(string controlId){
 		SDL_Quit();
 		return true;
 	}
+
+	return false;
 }
 void VentanaConfiguracion::refrescar(SDL_Surface* superficie) {
 		if(SDL_Flip(superficie) == -1) { 
