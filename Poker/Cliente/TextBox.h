@@ -21,7 +21,7 @@ private:
 	Color* fondoNotFoco;
 	Color* fondoDeshabilitado;
 	Color* borde;
-
+	bool tipoPassword;
 	bool foco;
 	string::size_type cursorPosition;
 
@@ -47,6 +47,9 @@ public:
 
 	virtual void dibujarDown(SDL_Surface* superficie);
 	virtual void dibujarUp(SDL_Surface* superficie);
+
+	void setTipoPassword(bool tipoPassword);
+	bool setTipoPassword();
 
 	void setFondoFoco(Color* color);
 	Color* getFondoFoco();
