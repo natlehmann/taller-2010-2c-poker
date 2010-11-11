@@ -13,6 +13,9 @@ class OpUIClienteLogin : public OperacionUICliente
 	public:
 		OpUIClienteLogin(vector<string> parametros);
 		virtual ~OpUIClienteLogin(void);
+
+		virtual string getError();
+
 };
 
 #endif //_OPUICLIENTE_LOGIN_H_

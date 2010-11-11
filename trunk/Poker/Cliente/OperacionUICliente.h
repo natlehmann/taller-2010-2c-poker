@@ -30,6 +30,8 @@ class OperacionUICliente
 
 		/* Metodo no sincronizado */
 		virtual bool ejecutarAccion(Ventana* ventana) = 0;
+
+		virtual string getError();
 };
 
 #endif

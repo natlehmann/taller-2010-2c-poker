@@ -7,6 +7,7 @@
 #include "UIException.h"
 #include "ComponentePanel.h"
 #include "FabricaOperacionesCliente.h"
+#include "OpUIClienteLogin.h"
 #include "ServiciosGraficos.h"
 #include <typeinfo.h>
 #include <cstdlib>
@@ -298,10 +299,12 @@ bool VentanaLogin::ejecutarEvento(string controlId){
 			}
 			else
 			{
-				mostrarMensaje("Error al intantar coneccion con el servidor!");
+				mostrarMensaje(operacion->getError());
 				lanzarEvento(100);
 				return false;
 			}
+
+			delete(operacion);
 		}
 	}
 	else if (MensajesUtil::sonIguales(controlId, "botonNuevo"))

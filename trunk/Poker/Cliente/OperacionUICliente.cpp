@@ -158,3 +158,8 @@ bool OperacionUICliente::cargarRespuestaServidor(string respuesta)
 
 	return ok;
 }
+
+string OperacionUICliente::getError()
+{
+	return "";
+}

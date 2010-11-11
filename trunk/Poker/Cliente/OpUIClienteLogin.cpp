@@ -96,3 +96,11 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 
 	return ok;
 }
+
+string OpUIClienteLogin::getError()
+{
+	string error = "";
+	if (parametrosRecibidos.size() > 0)
+		error = parametrosRecibidos.at(0);
+	return error;
+}
