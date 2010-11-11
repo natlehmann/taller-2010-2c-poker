@@ -15,6 +15,7 @@ class Cliente
 
 		string getSocketError();
 		bool enviarMsj(const string msj);
+		bool enviarMsj(const char* msj, int tamanio);
 		bool recibirMsj(string& msjRecibido);
 		bool recibirMsj(string& msjRecibido, int size);
 
@@ -53,7 +54,14 @@ class Cliente
 		* Este es un metodo sincronizado.
 		*/
 		bool enviarRecibir(const string mensajeEnviado, string& mensajeRecibido, int tamanio);
-		
+			
+		/**
+		* Envia informacion al servidor teniendo en cuenta el tamaño del mismo.
+		* Devuelve un bool indicando si la operacion resulto bien o no.
+		* En caso de error, se loggean las excepciones.
+		* Este es un metodo sincronizado.
+		*/
+		bool enviarRecibir(const char* mensajeEnviado, string& mensajeRecibido, int tamanio);		
 		
 };
 
