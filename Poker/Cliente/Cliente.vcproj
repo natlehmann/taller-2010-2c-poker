@@ -323,6 +323,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClienteEnviarFoto.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteIgualarApuesta.cpp"
 				>
 			</File>
@@ -646,6 +650,10 @@
 			</File>
 			<File
 				RelativePath=".\OpUIClienteDejarMesa.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteEnviarFoto.h"
 				>
 			</File>
 			<File

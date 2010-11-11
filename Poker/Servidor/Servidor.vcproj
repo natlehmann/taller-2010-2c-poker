@@ -371,6 +371,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpRecibirFoto.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpRegistrarJugador.cpp"
 				>
 			</File>
@@ -686,6 +690,10 @@
 			</File>
 			<File
 				RelativePath=".\OpPasar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpRecibirFoto.h"
 				>
 			</File>
 			<File
