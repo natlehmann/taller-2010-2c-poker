@@ -32,6 +32,7 @@ TextBox::TextBox(string mensaje) : ComponentePanel(mensaje) {
 
 	this->alineacionHorizontal = ALINEACION_HORIZ_IZQUIERDA;
 	this->alineacionVertical = ALINEACION_VERT_CENTRO;
+	this->tipoPassword = false;
 	this->foco = false;
 	this->cursorPosition = this->texto.size();
 
@@ -83,7 +84,12 @@ void TextBox::dibujarTexto(SDL_Surface* superficie) {
 	if (this->isHabilitado()) {
 
 		//se crea la imagen del texto
-		string mensajeConCursor = this->texto;
+		string mensajeConCursor;
+		if (!this->tipoPassword)
+			mensajeConCursor = this->texto;
+		else
+			mensajeConCursor = mensajeConCursor.insert(0, this->texto.length(), '*');
+
 		if (this->foco) mensajeConCursor.insert(this->cursorPosition, "|");
 		SDL_Surface* superficieTexto = fuente->obtenerSuperficieTexto(mensajeConCursor, NULL);
 		
@@ -269,7 +275,15 @@ bool TextBox::checkOver(SDL_Surface* superficie)
 	return false;
 }
 
+void TextBox::setTipoPassword(bool tipoPassword)
+{
+	this->tipoPassword = tipoPassword;
+}
 
+bool TextBox::setTipoPassword()
+{
+	return this->tipoPassword;
+}
 
 void TextBox::setFondoFoco(Color* color){
 	// TODO: REVISAR

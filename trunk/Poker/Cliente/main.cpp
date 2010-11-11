@@ -9,58 +9,86 @@
 #include "VentanaProxy.h"
 #include "VentanaImpl.h"
 #include "VentanaConfiguracion.h"
+#include "VentanaLogin.h"
 #include "Sincronizador.h"
 
 
 int main (int argc, char** argv)
 {
 	VentanaConfiguracion* ventanaConfiguracion = NULL;
+	VentanaLogin* ventanaLogin = NULL;
 	OperacionUICliente* operacion = NULL;
 	Ventana* ventana = NULL;
 
 	try {
 
-		UICliente::iniciarAplicacion();
-
 		ventanaConfiguracion = new VentanaConfiguracion();
 		ventanaConfiguracion->iniciar();
 
 		if (ventanaConfiguracion->getConectado()) {
+				
+			UICliente::iniciarAplicacion();
+			
+			//bool sigue = true;
+			//while (sigue) {
+			//	ventanaLogin = new VentanaLogin();
+			//	ventanaLogin->iniciar();
 
-			string idOperacionInicial = RecursosCliente::getConfig()->get("cliente.operacion.inicial");
-			FabricaOperacionesCliente fab;
+			//	if (ventanaLogin->getNuevo())
+			//	{
+			//		delete(ventanaLogin);
 
-			ventana = new VentanaImpl();
-			Sincronizador::getInstancia()->registrarVentana(ventana);
+			//		//se debe llamar a la pantalla de creacion de usuario, y despues vuelve al login (sigue = true)
+			//	}
+			//	else 
+			//		//en el caso de logueo o de cancel sale del ciclo
+			//		sigue = false;
 
-			UICliente::lanzarThreads(ventana);
+			//}
 
-			/* Prueba envio de la solicitud de logueo */
-			/*vector<string> parametros;
-			parametros.push_back("Jose89");
-			parametros.push_back("xxx");
-			parametros.push_back("S");
-			parametros.push_back("N");
-			operacion = fab.newOperacion(idOperacionInicial, parametros);*/
+			//if (ventanaLogin->getConectado()) {
 
-			operacion = fab.newOperacion(idOperacionInicial);
-			if (operacion->ejecutar(ventana)){
+				UICliente::iniciarSDL();
 
-				ventana->iniciar();
+				string idOperacionInicial = RecursosCliente::getConfig()->get("cliente.operacion.inicial");
+				FabricaOperacionesCliente fab;
 
-			} else {
-				UICliente::mostrarMensaje(
-					"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
-			}
+				ventana = new VentanaImpl();
+				Sincronizador::getInstancia()->registrarVentana(ventana);
 
-			UICliente::finalizar();
+				UICliente::lanzarThreads(ventana);
 
-			delete(operacion);
-			operacion = NULL;
-			delete(ventana);
-			ventana = NULL;
+				/* Prueba envio de la solicitud de logueo */
+				/*vector<string> parametros;
+				parametros.push_back("Jose89");
+				parametros.push_back("xxx");
+				parametros.push_back("S");
+				parametros.push_back("N");
+				operacion = fab.newOperacion(idOperacionInicial, parametros);*/
 
-			delete(Sincronizador::getInstancia());
+				operacion = fab.newOperacion(idOperacionInicial);
+				if (operacion->ejecutar(ventana)){
+
+					ventana->iniciar();
+
+				} else {
+					UICliente::mostrarMensaje(
+						"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+				}
+
+				UICliente::finalizar();
+
+				delete(operacion);
+				operacion = NULL;
+				delete(ventana);
+				ventana = NULL;
+
+				delete(Sincronizador::getInstancia());
+			//}
+
+			//delete (ventanaLogin);
+			//ventanaLogin = NULL;
+
 		}
 
 		delete (ventanaConfiguracion);

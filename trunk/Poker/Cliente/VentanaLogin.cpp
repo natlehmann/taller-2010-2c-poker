@@ -272,28 +272,37 @@ bool VentanaLogin::ejecutarEvento(string controlId){
 
 	if (MensajesUtil::sonIguales(controlId, "botonOk"))
 	{
-		//if (textboxIP->getTexto().length() == 0 || textboxPuerto->getTexto().length() == 0 
-		//	|| !UtilTiposDatos::esEntero(textboxPuerto->getTexto()))
-		//{
-		//	mostrarMensaje("Error los datos ingresados, corriga e intente nuevamente.");
-		//	lanzarEvento(100);
-		//	return false;
-		//}
-		//else
-		//{
-		//	if (UICliente::conectarServidor(textboxIP->getTexto(), UtilTiposDatos::getEntero(textboxPuerto->getTexto())))
-		//	{
-		//		this->conectado = true;
-		//		SDL_Quit();
-		//		return true;		
-		//	}
-		//	else
-		//	{
-		//		mostrarMensaje("Error al intantar coneccion con el servidor!");
-		//		lanzarEvento(100);
-		//		return false;
-		//	}
-		//}
+		if (txPassword->getTexto().length() == 0 || txUsuario->getTexto().length() == 0)
+		{
+			mostrarMensaje("Complete user y password e intente nuevamente.");
+			lanzarEvento(100);
+			return false;
+		}
+		else
+		{
+			FabricaOperacionesCliente fab;
+			OperacionUICliente* operacion = NULL;
+
+			vector<string> parametros;
+			parametros.push_back(txUsuario->getTexto());
+			parametros.push_back(txPassword->getTexto());
+			parametros.push_back("S");
+			parametros.push_back("N");
+			operacion = fab.newOperacion("OpUIClienteLogin", parametros);
+
+			if (operacion->ejecutarAccion(NULL))
+			{
+				this->conectado = true;
+				SDL_Quit();
+				return true;		
+			}
+			else
+			{
+				mostrarMensaje("Error al intantar coneccion con el servidor!");
+				lanzarEvento(100);
+				return false;
+			}
+		}
 	}
 	else if (MensajesUtil::sonIguales(controlId, "botonNuevo"))
 	{

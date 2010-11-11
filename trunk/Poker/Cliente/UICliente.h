@@ -23,6 +23,7 @@ class UICliente
 		
 		virtual ~UICliente(void);
 
+		static void iniciarSDL();
 		static void iniciarAplicacion();
 		static bool conectarServidor(string ip, int puerto);
 		static bool conectarServidor();

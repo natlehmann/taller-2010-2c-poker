@@ -34,7 +34,7 @@ UICliente::~UICliente(void)
 
 
 
-void UICliente::iniciarAplicacion()
+void UICliente::iniciarSDL()
 {
 	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 ) {
 		throw UIException("No se pudo inicializar la interfaz grafica.","E");
@@ -53,9 +53,30 @@ void UICliente::iniciarAplicacion()
 		throw UIException("No se pudo inicializar la interfaz grafica.","E");
 	}
 
+}
+
+void UICliente::iniciarAplicacion()
+{
+	//if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 ) {
+	//	throw UIException("No se pudo inicializar la interfaz grafica.","E");
+	//}
+
+	//if( TTF_Init() == -1 ) {
+	//	throw UIException("No se pudo inicializar la interfaz grafica.","E");
+	//}
+
+	//if( SDL_EnableUNICODE(1) == -1 ) {
+	//	throw UIException("No se pudo inicializar la interfaz grafica.","E");
+	//}
+
+ //   /* Enable auto repeat for keyboard input */
+	//if( SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL) == -1 ) {
+	//	throw UIException("No se pudo inicializar la interfaz grafica.","E");
+	//}
+
 	DomTreeFactory::inicializar();
 	
-	UICliente::conectarServidor();
+	//UICliente::conectarServidor();
 
 }
 
