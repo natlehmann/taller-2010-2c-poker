@@ -451,6 +451,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\VentanaEstadisticas.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\VentanaImpl.cpp"
 				>
 			</File>
@@ -778,6 +782,10 @@
 			</File>
 			<File
 				RelativePath=".\VentanaConfiguracion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaEstadisticas.h"
 				>
 			</File>
 			<File
