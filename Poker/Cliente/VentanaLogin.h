@@ -9,6 +9,7 @@
 #include <list>
 #include "Panel.h"
 #include "Boton.h"
+#include "CheckBox.h"
 #include <windows.h>
 #include "VentanaBase.h"
 #include "Mensaje.h"
@@ -20,15 +21,21 @@ private:
 
 	TextBox* txUsuario;
 	TextBox* txPassword;
-	Etiqueta* mensajeError;
+	CheckBox* cbVirtual;
+	CheckBox* cbObservador;
+	Etiqueta* mensaje;
 	list<ElementoGrafico*> elementos;
 	list<ComponentePanel*> componentes;
 
+	string usuario; 
+	int sessionId;
+	int cantFichas;
 	bool conectado;
 	bool cancelado;
 	bool nuevo;
 
 	bool manejarEventos(SDL_Event* event);
+	bool ejecutarPreEvento(string controlId);
 	bool ejecutarEvento(string controlId);
 	void lanzarEvento(int codigoEvento);
 	void refrescar(SDL_Surface* superficie);
@@ -47,6 +54,9 @@ public:
 	virtual void iniciar();
 	virtual void mostrarMensaje(string mensaje);
 	virtual void agregarElementoGrafico(ElementoGrafico* elemento);
+	string getUsuario();
+	int getSesionId();
+	int getCantFichas();
 	bool getConectado();
 	bool getCancelado();
 	bool getNuevo();

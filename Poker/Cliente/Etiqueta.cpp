@@ -82,9 +82,10 @@ void Etiqueta::dibujarSobreSup(SDL_Surface* superficie){
 		
 	SDL_Surface* superficieTexto = this->fuente->obtenerSuperficieTexto(this->mensaje, NULL);
 
-	this->ajustarOffset(offset, superficieTexto);
-
-	SDL_BlitSurface(superficieTexto, NULL, superficie, offset);
+	if (superficieTexto != NULL) {
+		this->ajustarOffset(offset, superficieTexto);
+		SDL_BlitSurface(superficieTexto, NULL, superficie, offset);
+	}
 
 	SDL_FreeSurface(superficieTexto);
 

@@ -49,5 +49,8 @@ public:
 	ComponentePanel** getComponentes();
 
 	virtual ElementoGrafico* getElementoPorId(string id);
+
+	void setFondo(Color* color);
+	Color* getFondo();
 };
 #endif //_PANEL_H__

@@ -10,6 +10,9 @@
 #include "VentanaImpl.h"
 #include "VentanaConfiguracion.h"
 #include "VentanaLogin.h"
+#include "VentanaNuevoJugador.h"
+#include "VentanaAdministracion.h"
+#include "VentanaEstadisticas.h"
 #include "Sincronizador.h"
 
 
@@ -17,6 +20,9 @@ int main (int argc, char** argv)
 {
 	VentanaConfiguracion* ventanaConfiguracion = NULL;
 	VentanaLogin* ventanaLogin = NULL;
+	VentanaNuevoJugador* ventanaNuevoJugador = NULL;
+	VentanaAdministracion* ventanaAdministracion = NULL;
+	VentanaEstadisticas* ventanaEstadisticas = NULL;
 	OperacionUICliente* operacion = NULL;
 	Ventana* ventana = NULL;
 
@@ -29,65 +35,108 @@ int main (int argc, char** argv)
 				
 			UICliente::iniciarAplicacion();
 			
-			//bool sigue = true;
-			//while (sigue) {
-			//	ventanaLogin = new VentanaLogin();
-			//	ventanaLogin->iniciar();
+			bool sigueLogin = true;
+			while (sigueLogin) {
+				ventanaLogin = new VentanaLogin();
+				ventanaLogin->iniciar();
 
-			//	if (ventanaLogin->getNuevo())
-			//	{
-			//		delete(ventanaLogin);
+				if (ventanaLogin->getNuevo())
+				{
+					delete(ventanaLogin);
+					ventanaLogin = NULL;
 
-			//		//se debe llamar a la pantalla de creacion de usuario, y despues vuelve al login (sigue = true)
-			//	}
-			//	else 
-			//		//en el caso de logueo o de cancel sale del ciclo
-			//		sigue = false;
+					//se debe llamar a la pantalla de creacion de usuario, y despues vuelve al login (sigue = true)
+					ventanaNuevoJugador = new VentanaNuevoJugador();
+					ventanaNuevoJugador->iniciar();
 
-			//}
+					if (ventanaNuevoJugador->getGuardado())
+						sigueLogin = true;
+					else if (ventanaNuevoJugador->getCancelado())
+						sigueLogin = true;
 
-			//if (ventanaLogin->getConectado()) {
+					delete(ventanaNuevoJugador);
+					ventanaNuevoJugador = NULL;
+				}
+				else 
+					//en el caso de logueo o de cancel sale del ciclo
+					sigueLogin = false;
 
-				UICliente::iniciarSDL();
+			}
 
-				string idOperacionInicial = RecursosCliente::getConfig()->get("cliente.operacion.inicial");
-				FabricaOperacionesCliente fab;
+			if (ventanaLogin->getConectado()) {
 
-				ventana = new VentanaImpl();
-				Sincronizador::getInstancia()->registrarVentana(ventana);
+				bool sigueAdministracion = true;
+				while (sigueAdministracion) {
 
-				UICliente::lanzarThreads(ventana);
+					ventanaAdministracion = new VentanaAdministracion(ventanaLogin->getUsuario(), 
+																	  ventanaLogin->getSesionId(), 
+																	  ventanaLogin->getCantFichas());
+					ventanaAdministracion->iniciar();
 
-				/* Prueba envio de la solicitud de logueo */
-				/*vector<string> parametros;
-				parametros.push_back("Jose89");
-				parametros.push_back("xxx");
-				parametros.push_back("S");
-				parametros.push_back("N");
-				operacion = fab.newOperacion(idOperacionInicial, parametros);*/
+					if (ventanaAdministracion->getVerEstadisticas())
+					{
+						ventanaEstadisticas = new VentanaEstadisticas(ventanaAdministracion->getUsuario(), 
+																	  ventanaAdministracion->getSesionId());
+						ventanaEstadisticas->iniciar();
 
-				operacion = fab.newOperacion(idOperacionInicial);
-				if (operacion->ejecutar(ventana)){
+						if (ventanaEstadisticas->getConsulto() || ventanaEstadisticas->getCancelado())
+							sigueAdministracion = true;
+						else 
+							sigueAdministracion = true;
 
-					ventana->iniciar();
+						delete(ventanaNuevoJugador);
+						ventanaNuevoJugador = NULL;
 
-				} else {
-					UICliente::mostrarMensaje(
-						"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+						delete(ventanaAdministracion);
+						ventanaAdministracion = NULL;
+					
+					}
+					else if (ventanaAdministracion->getIrMesa())
+					{
+						delete(ventanaAdministracion);
+						ventanaAdministracion = NULL;
+
+						UICliente::iniciarSDL();
+
+						string idOperacionInicial = RecursosCliente::getConfig()->get("cliente.operacion.inicial");
+						FabricaOperacionesCliente fab;
+
+						ventana = new VentanaImpl();
+						Sincronizador::getInstancia()->registrarVentana(ventana);
+
+						UICliente::lanzarThreads(ventana);
+
+						operacion = fab.newOperacion(idOperacionInicial);
+						if (operacion->ejecutar(ventana)){
+
+							ventana->iniciar();
+
+						} else {
+							UICliente::mostrarMensaje(
+								"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+						}
+
+						UICliente::finalizar();
+
+						delete(operacion);
+						operacion = NULL;
+						delete(ventana);
+						ventana = NULL;
+
+						delete(Sincronizador::getInstancia());
+					}
+					else if (ventanaAdministracion->getCancelado()) {
+						sigueAdministracion = false;
+					}
 				}
 
-				UICliente::finalizar();
+				delete(ventanaAdministracion);
+				ventanaAdministracion = NULL;
 
-				delete(operacion);
-				operacion = NULL;
-				delete(ventana);
-				ventana = NULL;
+			}
 
-				delete(Sincronizador::getInstancia());
-			//}
-
-			//delete (ventanaLogin);
-			//ventanaLogin = NULL;
+			delete (ventanaLogin);
+			ventanaLogin = NULL;
 
 		}
 
@@ -102,6 +151,18 @@ int main (int argc, char** argv)
 
 		if (ventanaConfiguracion != NULL) {
 			delete(ventanaConfiguracion);
+		}
+		if (ventanaLogin != NULL) {
+			delete(ventanaLogin);
+		}
+		if (ventanaNuevoJugador != NULL) {
+			delete(ventanaNuevoJugador);
+		}
+		if (ventanaAdministracion == NULL) {
+			delete(ventanaAdministracion);
+		}
+		if (ventanaEstadisticas == NULL) {
+			delete(ventanaEstadisticas);
 		}
 		if (operacion != NULL) {
 			delete(operacion);

@@ -311,6 +311,18 @@ Uint32 ServiciosGraficos::getPixel(SDL_Surface* surface, int x, int y)
     }
 }
 
+
+int ServiciosGraficos::getAltoFilaVentanaSegundaria()
+{
+	return ServiciosGraficos::getAltoVentana()/40;
+}
+
+int ServiciosGraficos::getAnchoColVentanaSegundaria()
+{
+	return ServiciosGraficos::getAnchoVentana()/40;
+}
+
+
 int ServiciosGraficos::getTamanioCeldaHoriz() {
 	int anchoReal = ServiciosGraficos::getVideoInfo()->current_w 
 		- ServiciosGraficos::getBordeDerecho() - ServiciosGraficos::getBordeIzquierdo();

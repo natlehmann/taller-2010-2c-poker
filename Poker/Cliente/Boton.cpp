@@ -303,3 +303,4 @@ void Boton::setTexto(string texto) {
 		this->hayCambiosTexto = true;
 	}
 }
+

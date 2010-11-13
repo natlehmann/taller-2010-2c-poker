@@ -3,6 +3,9 @@
 
 class OpUIClienteEnviarFoto :	public OperacionUICliente
 {
+	private:
+		string error;
+
 	protected:
 		virtual bool ejecutarAccion(Ventana* ventana);
 
@@ -10,5 +13,5 @@ class OpUIClienteEnviarFoto :	public OperacionUICliente
 		OpUIClienteEnviarFoto(vector<string> parametros);
 		virtual ~OpUIClienteEnviarFoto(void);
 
-	
+		virtual string getError();
 };

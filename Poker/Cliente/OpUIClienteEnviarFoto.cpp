@@ -47,30 +47,32 @@ bool OpUIClienteEnviarFoto::ejecutarAccion(Ventana* ventana)
 	/******************************************************************************/
 	// Se envia el nombre de la foto al servidor para grabarla en la BD
 	/******************************************************************************/
-	if (cliente->enviarRecibir(parser->toString(tree), msjRecibido)) 
+	
+	// Se abre el archivo de la imagen de la foto
+	ifstream::pos_type size;
+	ifstream file(pathCompleto.c_str(), ios::in | ios::binary | ios::ate);
+	if (file.is_open())
 	{
-		try 
+
+		// Se carga en memoria el archivo, y obtiene el tamanio
+		size = file.tellg();
+		char* memblock = new char [size];
+		file.seekg (0, ios::beg);
+		file.read (memblock, size);
+		file.close();
+										
+		if (cliente->enviarRecibir(parser->toString(tree), msjRecibido)) 
 		{
-			if (this->cargarRespuestaServidor(msjRecibido))
+			try 
 			{
-				if (MensajesUtil::sonIguales(this->parametrosRecibidos.at(0), "OK"))
+				if (this->cargarRespuestaServidor(msjRecibido))
 				{
-					/******************************************************************************/
-					// Se envia el archivo con la foto
-					/******************************************************************************/
-					
-					// Se abre el archivo de la imagen de la foto
-					ifstream::pos_type size;
-					ifstream file(pathCompleto.c_str(), ios::in | ios::binary | ios::ate);
-					if (file.is_open())
+					if (MensajesUtil::sonIguales(this->parametrosRecibidos.at(0), "OK"))
 					{
-						// Se carga en memoria el archivo, y obtiene el tamanio
-						size = file.tellg();
-						char* memblock = new char [size];
-						file.seekg (0, ios::beg);
-						file.read (memblock, size);
-						file.close();
-												
+						/******************************************************************************/
+						// Se envia el archivo con la foto
+						/******************************************************************************/
+						
 						string sizeEntero = UtilTiposDatos::enteroAString(size);
 						
 						// Se envia el tamanio del archivo al servidor
@@ -90,25 +92,28 @@ bool OpUIClienteEnviarFoto::ejecutarAccion(Ventana* ventana)
 							delete[] memblock;
 						}
 					}
-					else 
+					else
 					{
-						RecursosCliente::getLog()->escribir("No se puede abrir el archivo " + nombreFoto + " para lectura.");
+						if (parametrosRecibidos.size() > 0)
+							this->error = parametrosRecibidos.at(0);
 					}
 				}
-				else
-				{
-					// parametrosRecibidos.at(0) TIENE LA DESCRIPCION DEL ERROR INTENTAR GRABAR LA FOTO
-				}
+			} 
+			catch (PokerException& e) 
+			{
+				this->error = (&(Respuesta)e.getError())->getValor();
+				RecursosCliente::getLog()->escribir(&(Respuesta)e.getError());
 			}
-		} 
-		catch (PokerException& e) 
+		}
+		else
 		{
-			RecursosCliente::getLog()->escribir(&(Respuesta)e.getError());
+			RecursosCliente::getLog()->escribir("El servidor no devolvio respuesta al intentar enviar el nombre de la foto.");
 		}
 	}
-	else
+	else 
 	{
-		RecursosCliente::getLog()->escribir("El servidor no devolvio respuesta al intentar enviar el nombre de la foto.");
+		this->error = "El archivo no existe o no se puede leer.";
+		RecursosCliente::getLog()->escribir("No se puede abrir el archivo " + nombreFoto + " para lectura.");
 	}
 
 	delete(parser);
@@ -117,4 +122,7 @@ bool OpUIClienteEnviarFoto::ejecutarAccion(Ventana* ventana)
 	return ok;
 }
 
-
+string OpUIClienteEnviarFoto::getError()
+{
+	return this->error;
+}

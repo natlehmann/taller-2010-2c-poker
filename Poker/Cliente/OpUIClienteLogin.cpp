@@ -105,3 +105,8 @@ int OpUIClienteLogin::getSesionId()
 {
 	return this->sesionId;
 }
+
+int OpUIClienteLogin::getCantFichas()
+{
+	return this->cantFichas;
+}
