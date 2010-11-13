@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
 #include <time.h>
+#include <queue>
 #include "sqlite3.h"
 #include "UtilTiposDatos.h"
 #include "JugadorModelo.h"
 #include "MensajesUtil.h"
-
 
 #define _CRT_SECURE_NO_DEPRECATE 1
 
@@ -47,8 +47,8 @@ class AccesoDatos
 		bool consultarCantFichasCompradasHoy(string usuario);
 		bool registrarCompraFichas(string usuario, int cantFichasCompradas);
 
-		/* Metodos y funciones para los listados estadisticos */
-
+		/* Metodos y funciones aplicados a la obtencion de datos estadisticos */
+		bool consultarRankingUsuarios();
 
 		string getFechaActual();
 		string getHoraActual();
@@ -83,4 +83,8 @@ class AccesoDatos
 		int grabarInicioSesion(string usuario, string esObservador, string esVirtual);
 		bool grabarFinSesion(int idSesion);
 		/*********************************************************************************************************/
+
+		/************************** Metodos y funciones para obtener datos ESTADISTICOS *****************************/
+		queue<pair<string, int>> obtenerRankingUsuarios();
+		/************************************************************************************************************/
 };
