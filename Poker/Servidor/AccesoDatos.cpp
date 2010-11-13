@@ -411,3 +411,29 @@ bool AccesoDatos::consultarCantFichasCompradasHoy(string usuario)
 	return this->ejecutar(sql);
 }
 
+queue<pair<string, int>> AccesoDatos::obtenerRankingUsuarios()
+{
+	queue<pair<string, int>> listado;	
+	string usuario;
+	int cantFichas;
+	pair<string, int> datoUsuarioFichas;
+	
+	if (this->consultarRankingUsuarios())
+	{
+		while (sqlite3_step(resultado)==SQLITE_ROW)
+		{
+			usuario = string(reinterpret_cast<const char*>(sqlite3_column_text(resultado, 0)));
+			cantFichas = sqlite3_column_int(resultado, 1);
+			
+			datoUsuarioFichas = make_pair(usuario, cantFichas);
+			listado.push(datoUsuarioFichas);
+		}
+	}
+	return listado;
+}
+
+bool AccesoDatos::consultarRankingUsuarios()
+{
+	string sql = "SELECT usuario, cantFichas FROM jugadores order by cantFichas desc;";
+	return this->ejecutar(sql);
+}
