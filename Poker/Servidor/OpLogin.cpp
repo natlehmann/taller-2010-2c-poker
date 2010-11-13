@@ -68,6 +68,9 @@ bool OpLogin::ejecutarAccion(Socket* socket)
 	{
 		Resultado* resultado = new Resultado("", respuesta, "OpLogin");
 		generador.agregarRespuesta(resultado);
+
+		resultado = new Resultado("", MensajesUtil::intToString(sesion), "OpLogin");
+		generador.agregarRespuesta(resultado);
 	}
 	else
 	{

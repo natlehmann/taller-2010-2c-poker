@@ -64,8 +64,8 @@ bool OpUIClienteRegistrarJugador::ejecutarAccion(Ventana* ventana)
 				}
 				else
 				{
-					// parametrosRecibidos.at(0) TIENE LA DESCRIPCION DEL ERROR AL INTENTAR REGISTRAR EL USUARIO
-					// PASAR EL MSJ DE ERROR EN EL LOGUEO A LA PANTALLA DE REGISTRO DE USUARIOS
+					if (parametrosRecibidos.size() > 0)
+						this->error = parametrosRecibidos.at(0);
 				}
 			}
 		} 
@@ -84,4 +84,9 @@ bool OpUIClienteRegistrarJugador::ejecutarAccion(Ventana* ventana)
 
 	return ok;
 
+}
+
+string OpUIClienteRegistrarJugador::getError()
+{
+	return this->error;
 }

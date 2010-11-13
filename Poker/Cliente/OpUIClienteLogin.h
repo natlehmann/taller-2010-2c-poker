@@ -7,6 +7,10 @@ using namespace std;
 
 class OpUIClienteLogin : public OperacionUICliente
 {
+	private:
+		int sesionId;
+		string error;
+
 	protected:
 		virtual bool ejecutarAccion(Ventana* ventana);
 
@@ -15,6 +19,8 @@ class OpUIClienteLogin : public OperacionUICliente
 		virtual ~OpUIClienteLogin(void);
 
 		virtual string getError();
+		int getSesionId();
+
 
 };
 

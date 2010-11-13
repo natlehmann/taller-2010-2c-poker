@@ -42,12 +42,12 @@ bool OpComprarFichas::ejecutarAccion(Socket* socket)
 			}
 		}
 		else
-			respuesta = "No puede comprar fichas porque ya supero las 2000 fichas diarias";
+			respuesta = "No puede comprar, supero las 2000 fichas diarias";
 	}
 	else
 	{
 		// El jugador no puede comprar porque tiene mas de 100 fichas
-		respuesta = "No puede comprar fichas porque no tiene menos de 100 fichas!!!";
+		respuesta = "No puede comprar, tiene mas de 100 fichas.";
 	}
 
 	/******************************************************************/
