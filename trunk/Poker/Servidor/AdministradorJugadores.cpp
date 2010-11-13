@@ -60,7 +60,7 @@ JugadorModelo* AdministradorJugadores::getPrimerJugadorAusente() {
 	return jugador;
 }
 
-void AdministradorJugadores::agregarJugador(int idCliente, 
+JugadorModelo* AdministradorJugadores::agregarJugador(int idCliente, 
 		string nombreJugador, string nombreImagen, int fichas, bool esVirtual, bool esObservador)
 {
 	JugadorModelo* jugador = this->getPrimerJugadorAusente();
@@ -80,6 +80,8 @@ void AdministradorJugadores::agregarJugador(int idCliente,
 
 	jugador->setAusente(false);
 	jugador->setActivo(true);
+
+	return jugador;
 }
 
 void AdministradorJugadores::agregarJugadorAusente(int idJugador)
@@ -111,7 +113,7 @@ JugadorModelo* AdministradorJugadores::getJugadorPorPosicion(int posicion){
 		return this->jugadores[posicion - 1];
 	
 	} else {
-		throw PokerException("Posicion de jugador invalida");
+		// nada. podría tratarse de un jugador que ya salio del juego por inactivo
 	}
 }
 
@@ -160,6 +162,13 @@ bool AdministradorJugadores::isDealerJugador(int idJugador) {
 	return false;
 }
 
+bool AdministradorJugadores::isJugadorQueCierra(int idJugador){
+	if (this->jugadorQueCierra >= 0) {
+		return (this->jugadorQueCierra == idJugador);
+	}
+	return false;
+}
+
 bool AdministradorJugadores::hayLugar(){
 	return this->getPrimerJugadorAusente() != NULL;
 }
@@ -190,6 +199,8 @@ int AdministradorJugadores::getIndiceJugadorMano() {
 		if ((this->jugadores[indiceTurno]->isActivo() && this->jugadores[indiceTurno]->isJugandoRonda())
 			|| indiceTurno == this->dealer ){
 			encontrado = true;
+
+			this->jugadores[indiceTurno]->resetTimer();
 		}
 	}
 
@@ -205,6 +216,7 @@ void AdministradorJugadores::incrementarTurno(){
 	JugadorModelo* jugador = it->getSiguiente();
 	this->jugadorTurno = jugador->getPosicion() - 1;
 	delete (it); 
+	jugador->resetTimer();
 }
 
 IteradorRonda* AdministradorJugadores::getIteradorRonda(){
@@ -257,6 +269,31 @@ void AdministradorJugadores::incrementarDealer(){
 		}
 	}
 
+}
+
+void AdministradorJugadores::decrementarJugadorQueCierra(){
+
+	if (this->jugadorQueCierra >= 0) {
+
+		bool encontrado = false;
+
+		while (!encontrado) {
+
+			this->jugadorQueCierra--;
+
+			if (this->jugadorQueCierra < 0) {
+				this->jugadorQueCierra = MAX_CANTIDAD_JUGADORES - 1;
+			}
+
+			if (this->jugadores[this->jugadorQueCierra]->isActivo()
+				&& this->jugadores[this->jugadorQueCierra]->isJugandoRonda()) {
+				encontrado = true;
+			}
+		}
+
+	} else {
+		throw PokerException("Se solicito decrementar el jugador que cierra en un contexto invalido.");
+	}
 }
 
 void AdministradorJugadores::setJugadorQueCierra(int idJugador) {

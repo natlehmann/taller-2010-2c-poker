@@ -56,8 +56,10 @@ public:
 	   Para restituir el valor original se debe ejecutar resetearDealer(). */
 	void incrementarDealerTemp();
 
+	void decrementarJugadorQueCierra();
+
 	bool hayLugar();
-	void agregarJugador(int idCliente, string nombreJugador, 
+	JugadorModelo* agregarJugador(int idCliente, string nombreJugador, 
 		string nombreImagen, int fichas, bool esVirtual, bool esObservador);
 	void quitarJugador(int idCliente);
 	int getCantidadJugadoresActivos();
@@ -65,6 +67,7 @@ public:
 	bool isTurnoJugador(int idJugador);
 	bool isTurnoCliente(int idCliente);
 	bool isDealerJugador(int idJugador);
+	bool isJugadorQueCierra(int idJugador);
 
 	void setJugadorQueCierra(int idJugador);
 	void setJugadorQueCierraActual();

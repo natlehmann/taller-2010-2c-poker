@@ -9,6 +9,9 @@
 
 ContextoJuego* ContextoJuego::instancia = NULL;
 
+int ContextoJuego::segsTimeoutJugadores = UtilTiposDatos::getEntero(
+		RecursosServidor::getConfig()->get("servidor.logica.timeout.jugadorInactivo"));
+
 ContextoJuego::ContextoJuego(void)
 {
 	this->mutex = CreateMutexA(NULL, false, "MutexContexto");
@@ -194,6 +197,11 @@ void ContextoJuego::noIr(int idCliente)
 		if (this->admJugadores->isDealerJugador(jugador->getId())) {
 			this->admJugadores->incrementarDealerTemp();
 		}
+
+		if (this->admJugadores->isJugadorQueCierra(jugador->getId())){
+			this->admJugadores->decrementarJugadorQueCierra();
+		}
+
 		this->admJugadores->incrementarTurno();
 		jugador->setJugandoRonda(false);
 		chequearRondaTerminada();
@@ -212,7 +220,7 @@ void ContextoJuego::chequearRondaTerminada() {
 	if (this->cantidadJugadoresRonda > 1) {
 		this->rondaTerminada = this->admJugadores->isRondaTerminada();
 	} else {
-		this->rondaTerminada = false;
+		this->rondaTerminada = false; // TODO: NO ES TRUE???
 	}
 }
 
@@ -233,7 +241,6 @@ void ContextoJuego::iniciarJuego() {
 	this->mostrandoCartas = false;
 	this->sePuedePasar = false;
 
-	// TODO: VER SI SACAMOS A LOS NO ACTIVOS DE LA MESA
 	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
 		if (this->admJugadores->getJugadores()[i]->isActivo()) {
 			this->admJugadores->getJugadores()[i]->setJugandoRonda(true);
@@ -393,6 +400,21 @@ void ContextoJuego::finalizarRonda()
 		this->mostrandoCartas = true;
 	}
 
+	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
+		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
+
+		if (!jugador->isActivo()) {
+
+			this->admJugadores->quitarJugador(this->idJugadorToIdCliente(jugador->getId()));
+
+			if (this->admJugadores->isDealerJugador(jugador->getId())
+				&& this->admJugadores->getCantidadJugadoresActivos() > 0) {
+				this->admJugadores->resetearDealer();
+				this->admJugadores->incrementarDealer();
+			}
+		}
+	}
+
 	if (this->cantidadJugadoresRonda > 0) {
 		this->evaluarGanador();
 		//TODO: VER SI MANDAMOS INFORMACION DEL GANADOR A LA VENTANA PARA DIBUJARLO
@@ -440,9 +462,10 @@ bool ContextoJuego::hayLugar(){
 	return this->admJugadores->hayLugar();
 }
 
-void ContextoJuego::agregarJugador(int idCliente, string nombreJugador, 
+JugadorModelo* ContextoJuego::agregarJugador(int idCliente, string nombreJugador, 
 			string nombreImagen, int fichas, bool esVirtual, bool esObservador){
-	this->admJugadores->agregarJugador(idCliente, nombreJugador, nombreImagen, fichas, esVirtual, esObservador);
+	return this->admJugadores->agregarJugador(idCliente, nombreJugador, 
+		nombreImagen, fichas, esVirtual, esObservador);
 }
 
 void ContextoJuego::quitarJugador(int idCliente){
@@ -475,10 +498,29 @@ int ContextoJuego::getCantidadJugadoresActivos(){
 }
 
 bool ContextoJuego::isTurnoJugador(int idJugador){
+	if (this->estado != this->esperandoJugadores && this->estado != this->evaluandoGanador) {
+		this->chequearTimeoutJugador(idJugador);
+	}
+
 	return this->admJugadores->isTurnoJugador(idJugador);
 }
 
+void ContextoJuego::chequearTimeoutJugador(int idJugador) {
+
+	JugadorModelo* jugador = ContextoJuego::getInstancia()->getJugador(idJugador);
+	if (jugador != NULL && jugador->isActivo() && !jugador->isVirtual() 
+		&& this->admJugadores->isTurnoJugador(idJugador)
+		&& jugador->getSegundosTurno() > ContextoJuego::segsTimeoutJugadores) {
+
+				this->noIr(this->idJugadorToIdCliente(idJugador));		
+				jugador->setActivo(false);
+	}
+}
+
 bool ContextoJuego::isTurnoCliente(int idCliente){
+	if (this->estado != this->esperandoJugadores && this->estado != this->evaluandoGanador) {
+		this->chequearTimeoutJugador(this->idClienteToIdJugador(idCliente));
+	}
 	return this->admJugadores->isTurnoCliente(idCliente);
 }
 
@@ -511,9 +553,4 @@ void ContextoJuego::chequearJugadorVirtual(int idCliente) {
 
 bool ContextoJuego::puedePasar(){
 	return this->sePuedePasar;
-}
-
-int ContextoJuego::getApuestaAIgualar()
-{
-	return this->montoAIgualar;
 }

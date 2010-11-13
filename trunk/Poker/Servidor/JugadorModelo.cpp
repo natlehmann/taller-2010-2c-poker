@@ -1,6 +1,8 @@
 #include "JugadorModelo.h"
 #include "PokerException.h"
 #include "ContextoJuego.h"
+#include "RecursosServidor.h"
+#include "UtilTiposDatos.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -25,6 +27,7 @@ JugadorModelo::JugadorModelo(int id, int posicion)
 	this->dealer = false;
 	this->esVirtual = false;
 	this->observador = false;
+	this->timer.iniciar();
 
 	srand ((unsigned int)(time(NULL)));
 
@@ -47,6 +50,7 @@ JugadorModelo::JugadorModelo(int id, string nombre, int fichas, int posicion, st
 	this->dealer = false;
 	this->esVirtual = false;
 	this->observador = false;
+	this->timer.iniciar();
 
 	srand ((unsigned int)(time(NULL)));
 
@@ -262,7 +266,7 @@ cout << "numero al azar " << azar << endl;
 		
 		list<CartaModelo*> cartas = ((ContextoJuego::getInstancia())->getCartasComunitarias())->getCartas();
 		
-		int apuestaAIgualar = ((ContextoJuego::getInstancia())->getApuestaAIgualar());
+		int apuestaAIgualar = ((ContextoJuego::getInstancia())->getMontoAIgualar());
 		int apuestaARealizar = 0;
 		if (cartas.empty())
 		{
@@ -339,5 +343,13 @@ bool JugadorModelo::subeApuesta(double azar, double confianzaEnJugada, int &apue
 	}
 	else 
 		return false;
+}
+
+void JugadorModelo::resetTimer() {
+	this->timer.iniciar();
+}
+
+int JugadorModelo::getSegundosTurno(){
+	return this->timer.getSegundos();
 }
 
