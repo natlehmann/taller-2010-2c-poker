@@ -70,14 +70,14 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 				if (MensajesUtil::sonIguales(this->parametrosRecibidos.at(0), "OK"))
 				{
 					ok = true;		
+					if (parametrosRecibidos.size() > 1)
+						this->sesionId = UtilTiposDatos::getEntero(parametrosRecibidos.at(1));
+
 				}
 				else
 				{
-					// parametrosRecibidos.at(0) TIENE LA DESCRIPCION DEL ERROR AL VALIDAR EL LOGUEO
-					// * USUARIO INEXISTENTE
-					// * PASSWORD INCORRECTA
-					// * ERROR GENERAL
-					// PASAR EL MSJ DE ERROR EN EL LOGUEO A LA PANTALLA DEL LOGIN
+					if (parametrosRecibidos.size() > 0)
+						this->error = parametrosRecibidos.at(0);
 				}
 			}
 		} 
@@ -99,8 +99,10 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 
 string OpUIClienteLogin::getError()
 {
-	string error = "";
-	if (parametrosRecibidos.size() > 0)
-		error = parametrosRecibidos.at(0);
-	return error;
+	return this->error;
+}
+
+int OpUIClienteLogin::getSesionId()
+{
+	return this->sesionId;
 }

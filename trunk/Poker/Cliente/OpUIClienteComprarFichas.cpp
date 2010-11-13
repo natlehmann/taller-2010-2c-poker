@@ -53,14 +53,14 @@ bool OpUIClienteComprarFichas::ejecutarAccion(Ventana* ventana)
 				if (MensajesUtil::sonIguales(this->parametrosRecibidos.at(0), "OK"))
 				{
 					ok = true;		
+					//if (parametrosRecibidos.size() > 1)
+					//	this->sesionId = UtilTiposDatos::getEntero(parametrosRecibidos.at(1));
+
 				}
 				else
 				{
-					// parametrosRecibidos.at(0) TIENE LA DESCRIPCION DEL ERROR AL VALIDAR LA COMPRA DE FICHAS
-					// * TIENE MAS DE 100 FICHAS.
-					// * SUPERO LA COMPRA DE 2000 FICHAS DIARIAS.
-					// * ERROR GENERAL
-					// PASAR EL MSJ DE ERROR EN EL LOGUEO A LA PANTALLA DE ADMINISTRACION
+					if (parametrosRecibidos.size() > 0)
+						this->error = parametrosRecibidos.at(0);
 				}
 			}
 		} 
@@ -79,5 +79,10 @@ bool OpUIClienteComprarFichas::ejecutarAccion(Ventana* ventana)
 
 	return ok;
 
+}
+
+string OpUIClienteComprarFichas::getError()
+{
+	return this->error;
 }
 
