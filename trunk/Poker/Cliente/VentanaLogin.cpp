@@ -254,9 +254,9 @@ bool VentanaLogin::manejarEventos(SDL_Event* event){
 
 		if (controlId.length() > 0)
 			finalizar = this->ejecutarEvento(controlId);
-
-		return finalizar;
 	}
+
+	return finalizar;
 
 }
 void VentanaLogin::lanzarEvento(int codigoEvento) {
@@ -319,6 +319,8 @@ bool VentanaLogin::ejecutarEvento(string controlId){
 		SDL_Quit();
 		return true;
 	}
+
+	return false;
 }
 void VentanaLogin::refrescar(SDL_Surface* superficie) {
 		if(SDL_Flip(superficie) == -1) { 
