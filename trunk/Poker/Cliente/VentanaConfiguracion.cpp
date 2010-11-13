@@ -25,24 +25,10 @@ VentanaConfiguracion::VentanaConfiguracion(void) {
 	this->conectado = false;
 	this->cancelado = false;
 	
-	string configPantalla = RecursosCliente::getConfig()->get("cliente.configuracion.pantalla");
-	list<string> medidas = MensajesUtil::split(configPantalla, "x");
-
-	if (medidas.size() != 2) {
-		throw DatosInvalidosException("La configuracion de pantalla esta incorrectamente seteada en el archivo 'config.ini'.", "V");
-	}
-
-	int ancho = UtilTiposDatos::getEntero(medidas.front());
-	int alto = UtilTiposDatos::getEntero(medidas.back());
-
-	if (ancho < 0 || alto < 0) {
-		throw DatosInvalidosException("El ancho o el alto de la configuracion de pantalla en el archivo 'config.ini' no es un numero entero.", "V");
-	}
-
-	this->setAncho(ancho/2);
-	this->setAlto(alto/2);
-	this->altoFila = this->getAlto()/20;
-	this->anchoColumna = this->getAncho()/20;
+	this->altoFila = ServiciosGraficos::getAltoFilaVentanaSegundaria();
+	this->anchoColumna = ServiciosGraficos::getAnchoColVentanaSegundaria();
+	this->setAlto(this->altoFila*15);
+	this->setAncho(this->anchoColumna*19);
 
 	this->contorno->x = 0;
 	this->contorno->y = 0;
@@ -71,20 +57,20 @@ VentanaConfiguracion::VentanaConfiguracion(void) {
 
 VentanaConfiguracion::~VentanaConfiguracion(void)
 {
-	for (list<ElementoGrafico*>::iterator it = this->elementos.begin();
-		it != this->elementos.end(); it++) {
-			delete(*it);
-	}
-	this->elementos.clear();
+	//for (list<ElementoGrafico*>::iterator it = this->elementos.begin();
+	//	it != this->elementos.end(); it++) {
+	//		delete(*it);
+	//}
+	//this->elementos.clear();
 
-	for (list<ComponentePanel*>::iterator it = this->componentes.begin();
-		it != this->componentes.end(); it++) {
-			delete(*it);
-	}
-	this->componentes.clear();
+	//for (list<ComponentePanel*>::iterator it = this->componentes.begin();
+	//	it != this->componentes.end(); it++) {
+	//		delete(*it);
+	//}
+	//this->componentes.clear();
 
-	delete (this->offset);
-	delete (this->contorno);
+	//delete (this->offset);
+	//delete (this->contorno);
 
 }
 
@@ -93,63 +79,59 @@ void VentanaConfiguracion::configurarControles() {
 
 	Etiqueta* etiquetaIP = new Etiqueta("Direccion Ip:");
 	etiquetaIP->setPosX(this->anchoColumna*2);
-	etiquetaIP->setPosY(this->altoFila*2);
+	etiquetaIP->setAncho(this->anchoColumna*5);
+	etiquetaIP->setPosY(this->altoFila*1);
 	etiquetaIP->setAlto(this->altoFila*2);
-	etiquetaIP->setAncho(this->anchoColumna*6);
 	etiquetaIP->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	etiquetaIP->getFuente()->setTamanio(14);
 	this->agregarElementoGrafico(etiquetaIP);
 
 	textboxIP = new TextBox("localhost");
-	textboxIP->setPosX(this->anchoColumna*8);
-	textboxIP->setPosY(this->altoFila*2);
-	textboxIP->setAlto(this->altoFila*2);
+	textboxIP->setPosX(this->anchoColumna*7);
 	textboxIP->setAncho(this->anchoColumna*10);
+	textboxIP->setPosY(this->altoFila*1);
+	textboxIP->setAlto(this->altoFila*2);
 	textboxIP->setHabilitado(true);
 	this->agregarComponentePanel(textboxIP);
 
 	Etiqueta* etiquetaPuerto = new Etiqueta("Puerto:");
 	etiquetaPuerto->setPosX(this->anchoColumna*2);
-	etiquetaPuerto->setPosY(this->altoFila*6);
+	etiquetaPuerto->setAncho(this->anchoColumna*5);
+	etiquetaPuerto->setPosY(this->altoFila*5);
 	etiquetaPuerto->setAlto(this->altoFila*2);
-	etiquetaPuerto->setAncho(this->anchoColumna*6);
 	etiquetaPuerto->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etiquetaPuerto);
 
 	textboxPuerto = new TextBox("5000");
-	textboxPuerto->setPosX(this->anchoColumna*8);
-	textboxPuerto->setPosY(this->altoFila*6);
-	textboxPuerto->setAlto(this->altoFila*2);
+	textboxPuerto->setPosX(this->anchoColumna*7);
 	textboxPuerto->setAncho(this->anchoColumna*10);
+	textboxPuerto->setPosY(this->altoFila*5);
+	textboxPuerto->setAlto(this->altoFila*2);
 	textboxPuerto->setHabilitado(true);
 	this->agregarComponentePanel(textboxPuerto);
 
-	Boton* botonOk = new Boton("OK");
-	botonOk->setId("botonOk");
-	botonOk->setPosX(this->anchoColumna*5);
-	botonOk->setPosY(this->altoFila*14);
-	//botonOk->setAlto(this->altoFila*4);
-	//botonOk->setAncho(this->anchoColumna*6);
-	botonOk->setHabilitado(true);
-	this->agregarComponentePanel(botonOk);
+	Boton* btConectar = new Boton("Conectar");
+	btConectar->setId("btConectar");
+	btConectar->setPosX(this->anchoColumna*4);
+	btConectar->setPosY(this->altoFila*11);
+	btConectar->setHabilitado(true);
+	this->agregarComponentePanel(btConectar);
 	
-	Boton* botonCancel = new Boton("Cancel");
-	botonCancel->setId("botonCancel");
-	botonCancel->setPosX(this->anchoColumna*12);
-	botonCancel->setPosY(this->altoFila*14);
-	//botonCancel->setAlto(this->altoFila*4);
-	//botonCancel->setAncho(this->anchoColumna*6);
-	botonCancel->setHabilitado(true);
-	this->agregarComponentePanel(botonCancel);
+	Boton* btCancel = new Boton("Cancel");
+	btCancel->setId("btCancel");
+	btCancel->setPosX(this->anchoColumna*12);
+	btCancel->setPosY(this->altoFila*11);
+	btCancel->setHabilitado(true);
+	this->agregarComponentePanel(btCancel);
 
-	this->mensaje = new Etiqueta("");
-	this->mensaje->setPosX(this->anchoColumna*2);
-	this->mensaje->setPosY(this->altoFila*10);
-	this->mensaje->setAlto(this->altoFila*4);
-	this->mensaje->setAncho(this->anchoColumna*6);
-	this->mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
-	this->mensaje->setVisible(false);
-	this->agregarElementoGrafico(this->mensaje);
+	mensaje = new Etiqueta("");
+	mensaje->setPosX(this->anchoColumna*1);
+	mensaje->setAncho(this->anchoColumna*17);
+	mensaje->setPosY(this->altoFila*8);
+	mensaje->setAlto(this->altoFila*2);
+	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	mensaje->setVisible(false);
+	agregarElementoGrafico(this->mensaje);
 
 }
 
@@ -177,8 +159,16 @@ void VentanaConfiguracion::iniciar() {
 
 void VentanaConfiguracion::mostrarMensaje(string mensaje){
 	if (this->mensaje != NULL) {
-		this->mensaje->setMensaje(mensaje);
-		this->mensaje->setVisible(true);
+		if (mensaje.length() > 0)
+		{
+			this->mensaje->setMensaje(mensaje);
+			this->mensaje->setVisible(true);
+		}
+		else
+		{
+			this->mensaje->setMensaje(" ");
+			this->mensaje->setVisible(true);
+		}
 		this->mensaje->dibujar(this->pantalla);
 	}
 }
@@ -217,8 +207,7 @@ bool VentanaConfiguracion::manejarEventos(SDL_Event* event){
 
 				for (list<ComponentePanel*>::iterator it = this->componentes.begin();
 					it != this->componentes.end(); it++) {
-
-					
+				
 
 					if ((*it)->checkClick(this->pantalla)) {
 						controlId = (*it)->getId();
@@ -245,6 +234,9 @@ bool VentanaConfiguracion::manejarEventos(SDL_Event* event){
 
 		}
 
+		if (controlId.length() > 0)
+			refrescar = this->ejecutarPreEvento(controlId);
+
 		if (refrescar)
 			this->refrescar(this->pantalla);
 
@@ -265,9 +257,20 @@ void VentanaConfiguracion::lanzarEvento(int codigoEvento) {
 	SDL_PushEvent(&event);
 }
 
+bool VentanaConfiguracion::ejecutarPreEvento(string controlId){
+
+	if (MensajesUtil::sonIguales(controlId, "btConectar"))
+	{
+		mostrarMensaje("Espere, Intentando de conectar al Servidor...");
+		lanzarEvento(100);
+		return true;
+	}
+
+	return false;
+}
 bool VentanaConfiguracion::ejecutarEvento(string controlId){
 
-	if (MensajesUtil::sonIguales(controlId, "botonOk"))
+	if (MensajesUtil::sonIguales(controlId, "btConectar"))
 	{
 		if (textboxIP->getTexto().length() == 0 || textboxPuerto->getTexto().length() == 0 
 			|| !UtilTiposDatos::esEntero(textboxPuerto->getTexto()))
@@ -292,11 +295,14 @@ bool VentanaConfiguracion::ejecutarEvento(string controlId){
 			}
 		}
 	}
-	else if (MensajesUtil::sonIguales(controlId, "botonCancel"))
+	else if (MensajesUtil::sonIguales(controlId, "btCancel"))
 	{
-		this->cancelado = true;
-		SDL_Quit();
-		return true;
+		mostrarMensaje("");
+		lanzarEvento(100);
+		return false;
+		//this->cancelado = true;
+		//SDL_Quit();
+		//return true;
 	}
 
 	return false;

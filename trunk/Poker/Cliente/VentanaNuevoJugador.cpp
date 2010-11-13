@@ -1,4 +1,4 @@
-#include "VentanaLogin.h"
+#include "VentanaNuevoJugador.h"
 #include "RecursosCliente.h"
 #include "MensajesUtil.h"
 #include "DatosInvalidosException.h"
@@ -7,31 +7,27 @@
 #include "UIException.h"
 #include "ComponentePanel.h"
 #include "FabricaOperacionesCliente.h"
-#include "OpUIClienteLogin.h"
+#include "OpUIClienteRegistrarJugador.h"
 #include "ServiciosGraficos.h"
 #include <typeinfo.h>
 #include <cstdlib>
 
-VentanaLogin::VentanaLogin(void) {
+VentanaNuevoJugador::VentanaNuevoJugador(void) {
 
 	UICliente::iniciarSDL();
 
-	this->usuario = ""; 
-	this->sessionId = -1;
-	this->cantFichas = -1;
 	this->id = "";
 	this->posX = 0;
 	this->posY = 0;
 	this->offset = new SDL_Rect();
 	this->contorno = new SDL_Rect();
 	this->contornoConOffset = new SDL_Rect();
-	this->conectado = false;
+	this->guardado = false;
 	this->cancelado = false;
-	this->nuevo = false;
 	
 	this->altoFila = ServiciosGraficos::getAltoFilaVentanaSegundaria();
 	this->anchoColumna = ServiciosGraficos::getAnchoColVentanaSegundaria();
-	this->setAlto(this->altoFila*18);
+	this->setAlto(this->altoFila*27);
 	this->setAncho(this->anchoColumna*19);
 
 	this->contorno->x = 0;
@@ -50,7 +46,7 @@ VentanaLogin::VentanaLogin(void) {
 		throw UIException("No se pudo inicializar la ventana de la aplicacion.","E");
 	}
 
-	SDL_WM_SetCaption(RecursosCliente::getConfig()->get("cliente.configuracion.mensajeLogin").c_str(), NULL); 
+	SDL_WM_SetCaption(RecursosCliente::getConfig()->get("cliente.configuracion.mensajeNuevoJugador").c_str(), NULL); 
 	
 	this->fondo = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.fondo"));
 	SDL_FillRect(pantalla, contorno, this->fondo->toUint32(pantalla));
@@ -59,7 +55,7 @@ VentanaLogin::VentanaLogin(void) {
 	this->hayCambios = true;
 }
 
-VentanaLogin::~VentanaLogin(void)
+VentanaNuevoJugador::~VentanaNuevoJugador(void)
 {
 	for (list<ElementoGrafico*>::iterator it = this->elementos.begin();
 		it != this->elementos.end(); it++) {
@@ -79,79 +75,108 @@ VentanaLogin::~VentanaLogin(void)
 }
 
 
-void VentanaLogin::configurarControles() {
+void VentanaNuevoJugador::configurarControles() {
+
+	Etiqueta* etNombre = new Etiqueta("Nombre:");
+	etNombre->setPosX(this->anchoColumna*2);
+	etNombre->setAncho(this->anchoColumna*6);
+	etNombre->setPosY(this->altoFila*1);
+	etNombre->setAlto(this->altoFila*2);
+	etNombre->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	this->agregarElementoGrafico(etNombre);
+
+	txNombre = new TextBox("");
+	txNombre->setPosX(this->anchoColumna*8);
+	txNombre->setAncho(this->anchoColumna*10);
+	txNombre->setPosY(this->altoFila*1);
+	txNombre->setAlto(this->altoFila*2);
+	txNombre->setHabilitado(true);
+	this->agregarComponentePanel(txNombre);
+
+	Etiqueta* etApellido = new Etiqueta("Apellido:");
+	etApellido->setPosX(this->anchoColumna*2);
+	etApellido->setAncho(this->anchoColumna*6);
+	etApellido->setPosY(this->altoFila*5);
+	etApellido->setAlto(this->altoFila*2);
+	etApellido->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	this->agregarElementoGrafico(etApellido);
+
+	txApellido = new TextBox("");
+	txApellido->setPosX(this->anchoColumna*8);
+	txApellido->setAncho(this->anchoColumna*10);
+	txApellido->setPosY(this->altoFila*5);
+	txApellido->setAlto(this->altoFila*2);
+	txApellido->setHabilitado(true);
+	this->agregarComponentePanel(txApellido);
 
 	Etiqueta* etUsuario = new Etiqueta("Usuario:");
 	etUsuario->setPosX(this->anchoColumna*2);
-	etUsuario->setAncho(this->anchoColumna*5);
-	etUsuario->setPosY(this->altoFila*1);
+	etUsuario->setAncho(this->anchoColumna*6);
+	etUsuario->setPosY(this->altoFila*9);
 	etUsuario->setAlto(this->altoFila*2);
 	etUsuario->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etUsuario);
 
-	txUsuario = new TextBox("poddo");
-	txUsuario->setPosX(this->anchoColumna*7);
+	txUsuario = new TextBox("");
+	txUsuario->setPosX(this->anchoColumna*8);
 	txUsuario->setAncho(this->anchoColumna*10);
-	txUsuario->setPosY(this->altoFila*1);
+	txUsuario->setPosY(this->altoFila*9);
 	txUsuario->setAlto(this->altoFila*2);
 	txUsuario->setHabilitado(true);
 	this->agregarComponentePanel(txUsuario);
 
 	Etiqueta* etPassword = new Etiqueta("Password:");
 	etPassword->setPosX(this->anchoColumna*2);
-	etPassword->setAncho(this->anchoColumna*5);
-	etPassword->setPosY(this->altoFila*5);
+	etPassword->setAncho(this->anchoColumna*6);
+	etPassword->setPosY(this->altoFila*13);
 	etPassword->setAlto(this->altoFila*2);
 	etPassword->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etPassword);
 
-	txPassword = new TextBox("123");
-	txPassword->setPosX(this->anchoColumna*7);
+	txPassword = new TextBox("");
+	txPassword->setPosX(this->anchoColumna*8);
 	txPassword->setAncho(this->anchoColumna*10);
-	txPassword->setPosY(this->altoFila*5);
+	txPassword->setPosY(this->altoFila*13);
 	txPassword->setAlto(this->altoFila*2);
 	txPassword->setHabilitado(true);
 	txPassword->setTipoPassword(true);
 	this->agregarComponentePanel(txPassword);
 
-	cbVirtual = new CheckBox("Virtual");
-	cbVirtual->setPosX(this->anchoColumna*2);
-	cbVirtual->setPosY(this->altoFila*8);
-	cbVirtual->setHabilitado(true);
-	this->agregarComponentePanel(cbVirtual);
+	Etiqueta* etConfPassword = new Etiqueta("C. Password:");
+	etConfPassword->setPosX(this->anchoColumna*2);
+	etConfPassword->setAncho(this->anchoColumna*6);
+	etConfPassword->setPosY(this->altoFila*17);
+	etConfPassword->setAlto(this->altoFila*2);
+	etConfPassword->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	this->agregarElementoGrafico(etConfPassword);
 
-	cbObservador = new CheckBox("Observador");
-	cbObservador->setPosX(this->anchoColumna*2);
-	cbObservador->setPosY(this->altoFila*10);
-	cbObservador->setHabilitado(true);
-	this->agregarComponentePanel(cbObservador);
+	txConfirmPassword = new TextBox("");
+	txConfirmPassword->setPosX(this->anchoColumna*8);
+	txConfirmPassword->setAncho(this->anchoColumna*10);
+	txConfirmPassword->setPosY(this->altoFila*17);
+	txConfirmPassword->setAlto(this->altoFila*2);
+	txConfirmPassword->setHabilitado(true);
+	txConfirmPassword->setTipoPassword(true);
+	this->agregarComponentePanel(txConfirmPassword);
 
+	Boton* btGuardar = new Boton("Guardar");
+	btGuardar->setId("btGuardar");
+	btGuardar->setPosX(this->anchoColumna*5);
+	btGuardar->setPosY(this->altoFila*23);
+	btGuardar->setHabilitado(true);
+	this->agregarComponentePanel(btGuardar);
 
-	Boton* btLogin = new Boton("Login");
-	btLogin->setId("btLogin");
-	btLogin->setPosX(this->anchoColumna*3);
-	btLogin->setPosY(this->altoFila*15);
-	btLogin->setHabilitado(true);
-	this->agregarComponentePanel(btLogin);
-
-	Boton* btNuevo = new Boton("Nuevo");
-	btNuevo->setId("btNuevo");
-	btNuevo->setPosX(this->anchoColumna*8);
-	btNuevo->setPosY(this->altoFila*15);
-	btNuevo->setHabilitado(true);
-	this->agregarComponentePanel(btNuevo);
-
-	Boton* btCancel = new Boton("Cancel");
+	Boton* btCancel = new Boton("Salir");
 	btCancel->setId("btCancel");
-	btCancel->setPosX(this->anchoColumna*13);
-	btCancel->setPosY(this->altoFila*15);
+	btCancel->setPosX(this->anchoColumna*11);
+	btCancel->setPosY(this->altoFila*23);
 	btCancel->setHabilitado(true);
 	this->agregarComponentePanel(btCancel);
 
 	mensaje = new Etiqueta("");
 	mensaje->setPosX(this->anchoColumna*1);
 	mensaje->setAncho(this->anchoColumna*17);
-	mensaje->setPosY(this->altoFila*12);
+	mensaje->setPosY(this->altoFila*20);
 	mensaje->setAlto(this->altoFila*2);
 	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	mensaje->setVisible(false);
@@ -159,7 +184,7 @@ void VentanaLogin::configurarControles() {
 
 }
 
-void VentanaLogin::iniciar() {
+void VentanaNuevoJugador::iniciar() {
 
 	//dibuja los controles en la pantalla
 	this->dibujar(NULL);
@@ -181,7 +206,7 @@ void VentanaLogin::iniciar() {
 
 }
 
-void VentanaLogin::mostrarMensaje(string mensaje){
+void VentanaNuevoJugador::mostrarMensaje(string mensaje){
 	if (this->mensaje != NULL) {
 		if (mensaje.length() > 0)
 		{
@@ -196,17 +221,17 @@ void VentanaLogin::mostrarMensaje(string mensaje){
 		this->mensaje->dibujar(this->pantalla);
 	}
 }
-void VentanaLogin::agregarElementoGrafico(ElementoGrafico* elemento) {
+void VentanaNuevoJugador::agregarElementoGrafico(ElementoGrafico* elemento) {
 	this->elementos.push_back(elemento);
 	elemento->setVentana(this);
 }
 
-void VentanaLogin::agregarComponentePanel(ComponentePanel* componente) {
+void VentanaNuevoJugador::agregarComponentePanel(ComponentePanel* componente) {
 	this->componentes.push_back(componente);
 	componente->setVentana(this);
 }
 
-bool VentanaLogin::manejarEventos(SDL_Event* event){
+bool VentanaNuevoJugador::manejarEventos(SDL_Event* event){
 
 
 	string controlId = "";
@@ -256,7 +281,6 @@ bool VentanaLogin::manejarEventos(SDL_Event* event){
 				break;	
 
 		}
-
 		if (controlId.length() > 0)
 			refrescar = this->ejecutarPreEvento(controlId);
 
@@ -269,7 +293,7 @@ bool VentanaLogin::manejarEventos(SDL_Event* event){
 
 	return finalizar;
 }
-void VentanaLogin::lanzarEvento(int codigoEvento) {
+void VentanaNuevoJugador::lanzarEvento(int codigoEvento) {
 	SDL_Event event;
 
 	event.type = SDL_USEREVENT;
@@ -278,24 +302,42 @@ void VentanaLogin::lanzarEvento(int codigoEvento) {
 	event.user.data2 = 0;
 	SDL_PushEvent(&event);
 }
-bool VentanaLogin::ejecutarPreEvento(string controlId){
+bool VentanaNuevoJugador::ejecutarPreEvento(string controlId){
 
-	if (MensajesUtil::sonIguales(controlId, "btLogin"))
+	if (MensajesUtil::sonIguales(controlId, "btGuardar"))
 	{
-		mostrarMensaje("Espere, Validando Credenciales...");
+		mostrarMensaje("Espere, Creando Nuevo Usuario...");
 		lanzarEvento(100);
 		return true;
 	}
 
 	return false;
 }
-bool VentanaLogin::ejecutarEvento(string controlId){
+bool VentanaNuevoJugador::ejecutarEvento(string controlId){
 
-	if (MensajesUtil::sonIguales(controlId, "btLogin"))
+	if (MensajesUtil::sonIguales(controlId, "btGuardar"))
 	{
-		if (txPassword->getTexto().length() == 0 || txUsuario->getTexto().length() == 0)
+		if (txPassword->getTexto().length() == 0 || txUsuario->getTexto().length() == 0 ||
+			txNombre->getTexto().length() == 0 || txApellido->getTexto().length() == 0 ||
+			txConfirmPassword->getTexto().length() == 0)
 		{
-			mostrarMensaje("Complete user y password e intente nuevamente.");
+			if (txNombre->getTexto().length() == 0)
+				mostrarMensaje("Complete nombre e intente nuevamente.");
+			else if (txApellido->getTexto().length() == 0)
+				mostrarMensaje("Complete apellido e intente nuevamente.");
+			else if (txUsuario->getTexto().length() == 0)
+				mostrarMensaje("Complete usuario e intente nuevamente.");
+			else if (txPassword->getTexto().length() == 0)
+				mostrarMensaje("Complete password e intente nuevamente.");
+			else if (txConfirmPassword->getTexto().length() == 0)
+				mostrarMensaje("Complete la confirmacion e intente nuevamente.");
+
+			lanzarEvento(100);
+			return false;
+		}
+		else if (!MensajesUtil::sonIguales(txPassword->getTexto(), txConfirmPassword->getTexto()))
+		{
+			mostrarMensaje("El Password y la Confirmacion son distintos.");
 			lanzarEvento(100);
 			return false;
 		}
@@ -304,21 +346,16 @@ bool VentanaLogin::ejecutarEvento(string controlId){
 			FabricaOperacionesCliente fab;
 			OperacionUICliente* operacion = NULL;
 
-			string paramVirtual = (this->cbVirtual->getChecked()? "S":"N");
-			string paramObservador = (this->cbObservador->getChecked()? "S":"N");
 			vector<string> parametros;
 			parametros.push_back(txUsuario->getTexto());
 			parametros.push_back(txPassword->getTexto());
-			parametros.push_back(paramVirtual);
-			parametros.push_back(paramObservador);
-			operacion = fab.newOperacion("OpUIClienteLogin", parametros);
+			parametros.push_back(txNombre->getTexto());
+			parametros.push_back(txApellido->getTexto());
+			operacion = fab.newOperacion("OpUIClienteRegistrarJugador", parametros);
 
 			if (operacion->ejecutarAccion(NULL))
 			{
-				this->usuario = txUsuario->getTexto();
-				this->sessionId = ((OpUIClienteLogin*)operacion)->getSesionId();
-				this->cantFichas = ((OpUIClienteLogin*)operacion)->getCantFichas();
-				this->conectado = true;
+				this->guardado = true;
 				SDL_Quit();
 				return true;		
 			}
@@ -332,12 +369,6 @@ bool VentanaLogin::ejecutarEvento(string controlId){
 			delete(operacion);
 		}
 	}
-	else if (MensajesUtil::sonIguales(controlId, "btNuevo"))
-	{
-		this->nuevo = true;
-		SDL_Quit();
-		return true;
-	}
 	else if (MensajesUtil::sonIguales(controlId, "btCancel"))
 	{
 		this->cancelado = true;
@@ -347,12 +378,12 @@ bool VentanaLogin::ejecutarEvento(string controlId){
 
 	return false;
 }
-void VentanaLogin::refrescar(SDL_Surface* superficie) {
+void VentanaNuevoJugador::refrescar(SDL_Surface* superficie) {
 		if(SDL_Flip(superficie) == -1) { 
 		throw UIException("Error al redibujar la pantalla completa.","E");
 	} 
 }
-void VentanaLogin::dibujarSobreSup(SDL_Surface* superficie){
+void VentanaNuevoJugador::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->hayCambios) {
 
@@ -374,7 +405,7 @@ void VentanaLogin::dibujarSobreSup(SDL_Surface* superficie){
 		this->hayCambios = false;
 	}
 }
-void VentanaLogin::dibujar(SDL_Surface* superficie){
+void VentanaNuevoJugador::dibujar(SDL_Surface* superficie){
 
 	if (this->hayCambios) {
 		if (superficie != NULL) {
@@ -386,21 +417,9 @@ void VentanaLogin::dibujar(SDL_Surface* superficie){
 		this->hayCambios = false;
 	}
 }
-string VentanaLogin::getUsuario() {
-	return this->usuario;
+bool VentanaNuevoJugador::getGuardado() {
+	return this->guardado;
 }
-int VentanaLogin::getSesionId() {
-	return this->sessionId;
-}
-int VentanaLogin::getCantFichas() {
-	return this->cantFichas;
-}
-bool VentanaLogin::getConectado() {
-	return this->conectado;
-}
-bool VentanaLogin::getCancelado() {
+bool VentanaNuevoJugador::getCancelado() {
 	return this->cancelado;
-}
-bool VentanaLogin::getNuevo() {
-	return this->nuevo;
 }

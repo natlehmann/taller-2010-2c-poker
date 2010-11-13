@@ -1,5 +1,5 @@
-#ifndef _VENTANACONFIGURACION_H__
-#define _VENTANACONFIGURACION_H__
+#ifndef _VENTANANUEVOJUGADOR_H__
+#define _VENTANANUEVOJUGADOR_H__
 
 #include "SDL.h" 
 #include <stdio.h>
@@ -7,24 +7,26 @@
 #include <iostream>
 #include <string.h>
 #include <list>
-#include "Panel.h"
-#include "Boton.h"
 #include <windows.h>
+#include "Boton.h"
 #include "VentanaBase.h"
 #include "Mensaje.h"
 
 using namespace std;
 
-class VentanaConfiguracion: public VentanaBase {
+class VentanaNuevoJugador: public VentanaBase {
 private:
 
-	TextBox* textboxIP;
-	TextBox* textboxPuerto;
+	TextBox* txNombre;
+	TextBox* txApellido;
+	TextBox* txUsuario;
+	TextBox* txPassword;
+	TextBox* txConfirmPassword;
 	Etiqueta* mensaje;
 	list<ElementoGrafico*> elementos;
 	list<ComponentePanel*> componentes;
 
-	bool conectado;
+	bool guardado;
 	bool cancelado;
 
 	bool manejarEventos(SDL_Event* event);
@@ -39,18 +41,18 @@ protected:
 	virtual void dibujar(SDL_Surface* superficie);
 
 public:
-	VentanaConfiguracion(void);
-	virtual ~VentanaConfiguracion(void);
+	VentanaNuevoJugador(void);
+	virtual ~VentanaNuevoJugador(void);
 	void agregarComponentePanel(ComponentePanel* componente);
 
 	//obligatorias (heredadas de Ventana)
 	virtual void iniciar();
 	virtual void mostrarMensaje(string mensaje);
 	virtual void agregarElementoGrafico(ElementoGrafico* elemento);
-	bool getConectado();
+	bool getGuardado();
 	bool getCancelado();
 
 };
 
-#endif //_VENTANACONFIGURACION_H__
+#endif //_VENTANANUEVOJUGADOR_H__
 

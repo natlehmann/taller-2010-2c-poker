@@ -14,7 +14,7 @@ Panel::Panel(void)
 		this->componentes[i] = NULL;
 	}
 
-	this->hayNuevosComponentes = true;
+	this->hayNuevosComponentes = false;
 }
 
 Panel::~Panel(void)
@@ -144,3 +144,14 @@ ElementoGrafico* Panel::getElementoPorId(string id){
 	return NULL;
 }
 
+void Panel::setFondo(Color* color){
+	if (this->fondo != NULL) {
+		delete(this->fondo);
+	}
+	this->fondo = color;
+	this->hayCambios = true;
+}
+
+Color* Panel::getFondo() {
+	return this->fondo;
+}

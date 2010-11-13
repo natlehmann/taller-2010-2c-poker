@@ -11,6 +11,7 @@
 #include "Mesa.h"
 #include <windows.h>
 #include "Ventana.h"
+#include "Mensaje.h"
 
 using namespace std;
 
@@ -34,9 +35,8 @@ protected:
 
 	bool hayCambios;
 
-	VentanaBase(void);
-
 public:
+	VentanaBase(void);
 	virtual ~VentanaBase(void);
 
 	virtual void iniciar() = 0;

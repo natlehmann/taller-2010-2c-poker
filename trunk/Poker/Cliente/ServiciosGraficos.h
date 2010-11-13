@@ -82,6 +82,9 @@ public:
 	static void ServiciosGraficos::dibujarContorno(SDL_Surface* superficie, 
 			SDL_Rect* offset, Color* color);
 
+	static int getAltoFilaVentanaSegundaria();
+	static int getAnchoColVentanaSegundaria();
+	
 	static int getTamanioCeldaHoriz();
 	static int getTamanioCeldaVert();
 

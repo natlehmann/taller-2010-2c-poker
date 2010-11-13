@@ -12,9 +12,13 @@
 #include <typeinfo.h>
 #include <cstdlib>
 
-VentanaEstadisticas::VentanaEstadisticas(void)
+VentanaEstadisticas::VentanaEstadisticas(string usuario, int sessionId)
 {
 	UICliente::iniciarSDL();
+	this->usuario = usuario;
+	this->sessionId = sessionId;
+	this->consulto = false;
+	this->cancelado = false;
 	this->id = "";
 	this->posX = 0;
 	this->posY = 0;
@@ -22,6 +26,10 @@ VentanaEstadisticas::VentanaEstadisticas(void)
 	this->contorno = new SDL_Rect();
 	this->contornoConOffset = new SDL_Rect();
 
+	//this->altoFila = ServiciosGraficos::getAltoFilaVentanaSegundaria();
+	//this->anchoColumna = ServiciosGraficos::getAnchoColVentanaSegundaria();
+	//this->setAlto(this->altoFila*40);
+	//this->setAncho(this->anchoColumna*40);
 	
 	string configPantalla = RecursosCliente::getConfig()->get("cliente.configuracion.pantalla");
 	list<string> medidas = MensajesUtil::split(configPantalla, "x");
@@ -309,10 +317,18 @@ void VentanaEstadisticas::dibujarSobreSup(SDL_Surface* superficie){
 
 void VentanaEstadisticas::mostrarMensaje(string mensaje){
 	if (this->mensaje != NULL) {
-		this->mensaje->setMensaje(mensaje);
-		this->mensaje->setVisible(true);
-		this->mensaje->dibujar(this->pantalla);
+		if (mensaje.length() > 0)
+		{
+			this->mensaje->setMensaje(mensaje);
+			this->mensaje->setVisible(true);
 		}
+		else
+		{
+			this->mensaje->setMensaje(" ");
+			this->mensaje->setVisible(false);
+		}
+		this->mensaje->dibujar(this->pantalla);
+	}
 }
 
 void VentanaEstadisticas::refrescar(SDL_Surface* superficie) {
@@ -347,8 +363,6 @@ bool VentanaEstadisticas::manejarEventos(SDL_Event* event){
 				for (list<ComponentePanel*>::iterator it = this->componentes.begin();
 					it != this->componentes.end(); it++) {
 
-					
-
 					if ((*it)->checkClick(this->pantalla)) {
 						controlId = (*it)->getId();
 					}
@@ -373,6 +387,8 @@ bool VentanaEstadisticas::manejarEventos(SDL_Event* event){
 				break;	
 
 		}
+		if (controlId.length() > 0)
+			refrescar = this->ejecutarPreEvento(controlId);
 
 		if (refrescar)
 			this->refrescar(this->pantalla);
@@ -393,7 +409,17 @@ void VentanaEstadisticas::lanzarEvento(int codigoEvento) {
 	event.user.data2 = 0;
 	SDL_PushEvent(&event);
 }
+bool VentanaEstadisticas::ejecutarPreEvento(string controlId){
 
+	if (MensajesUtil::sonIguales(controlId, "btGuardar"))
+	{
+		mostrarMensaje("Espere, Consultando Estadisticas.");
+		lanzarEvento(100);
+		return true;
+	}
+
+	return false;
+}
 bool VentanaEstadisticas::ejecutarEvento(string controlId)
 {
 	if (MensajesUtil::sonIguales(controlId, "consulta"))
@@ -513,4 +539,10 @@ bool VentanaEstadisticas::seleccionUnaOpciónOK()
 	if(cantidadSeleccionada == 1 && cantidadSeleccionadaOK == 1)
 		return true;
 	else return false;
+}
+bool VentanaEstadisticas::getConsulto() {
+	return this->consulto;
+}
+bool VentanaEstadisticas::getCancelado() {
+	return this->cancelado;
 }

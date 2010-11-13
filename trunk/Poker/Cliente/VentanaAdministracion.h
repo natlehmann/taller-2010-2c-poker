@@ -1,5 +1,5 @@
-#ifndef _VENTANACONFIGURACION_H__
-#define _VENTANACONFIGURACION_H__
+#ifndef _VENTANAADMINISTRACION_H__
+#define _VENTANAADMINISTRACION_H__
 
 #include "SDL.h" 
 #include <stdio.h>
@@ -7,26 +7,33 @@
 #include <iostream>
 #include <string.h>
 #include <list>
-#include "Panel.h"
-#include "Boton.h"
 #include <windows.h>
+#include "Boton.h"
 #include "VentanaBase.h"
 #include "Mensaje.h"
+#include "Panel.h"
 
 using namespace std;
 
-class VentanaConfiguracion: public VentanaBase {
+class VentanaAdministracion: public VentanaBase {
 private:
 
-	TextBox* textboxIP;
-	TextBox* textboxPuerto;
+	Etiqueta* etNombre;
+	Etiqueta* etFichas;
+	TextBox* txCantComprar;
+	TextBox* txRutaImagen;
 	Etiqueta* mensaje;
 	list<ElementoGrafico*> elementos;
 	list<ComponentePanel*> componentes;
 
-	bool conectado;
+	string usuario; 
+	int sessionId;
+	int cantFichas;
+	bool irMesa;
+	bool verEstadisticas;
 	bool cancelado;
 
+	void actualizarFichas(int cantFichasCompradas);
 	bool manejarEventos(SDL_Event* event);
 	bool ejecutarPreEvento(string controlId);
 	bool ejecutarEvento(string controlId);
@@ -39,18 +46,23 @@ protected:
 	virtual void dibujar(SDL_Surface* superficie);
 
 public:
-	VentanaConfiguracion(void);
-	virtual ~VentanaConfiguracion(void);
+	VentanaAdministracion(string usuario, int sessionId, int cantFichas);
+	virtual ~VentanaAdministracion(void);
 	void agregarComponentePanel(ComponentePanel* componente);
+	string getUsuario();
+	int getSesionId();
+	int getCantFichas();
+	bool getIrMesa();
+	bool getVerEstadisticas();
+	bool getCancelado();
 
 	//obligatorias (heredadas de Ventana)
 	virtual void iniciar();
 	virtual void mostrarMensaje(string mensaje);
 	virtual void agregarElementoGrafico(ElementoGrafico* elemento);
-	bool getConectado();
-	bool getCancelado();
+
 
 };
 
-#endif //_VENTANACONFIGURACION_H__
+#endif //_VENTANAADMINISTRACION_H__
 

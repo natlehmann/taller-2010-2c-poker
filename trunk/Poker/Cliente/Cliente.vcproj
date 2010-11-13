@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CheckBox.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Cliente.cpp"
 				>
 			</File>
@@ -439,6 +443,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\VentanaAdministracion.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\VentanaAuxiliar.cpp"
 				>
 			</File>
@@ -460,6 +468,10 @@
 			</File>
 			<File
 				RelativePath=".\VentanaLogin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaNuevoJugador.cpp"
 				>
 			</File>
 			<File
@@ -534,6 +546,10 @@
 			</File>
 			<File
 				RelativePath=".\CartasComunitarias.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CheckBox.h"
 				>
 			</File>
 			<File
@@ -773,6 +789,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\VentanaAdministracion.h"
+				>
+			</File>
+			<File
 				RelativePath=".\VentanaAuxiliar.h"
 				>
 			</File>
@@ -794,6 +814,10 @@
 			</File>
 			<File
 				RelativePath=".\VentanaLogin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\VentanaNuevoJugador.h"
 				>
 			</File>
 			<File

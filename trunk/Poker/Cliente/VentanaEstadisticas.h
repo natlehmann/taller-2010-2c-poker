@@ -34,10 +34,16 @@ private:
 
 	list<ElementoGrafico*> elementos;
 	list<ComponentePanel*> componentes;
+
+	string usuario;
+	int sessionId;
+	bool consulto;
+	bool cancelado;
 	
 	void configurarControles();
 	void refrescar(SDL_Surface* superficie);
 	bool manejarEventos(SDL_Event* event);
+	bool ejecutarPreEvento(string controlId);
 	bool ejecutarEvento(string controlId);
 	void lanzarEvento(int codigoEvento);
 
@@ -48,8 +54,9 @@ private:
 protected:
 	void dibujar(SDL_Surface* superficie);
 	virtual void dibujarSobreSup(SDL_Surface* superficie);
+
 public:
-	VentanaEstadisticas(void);
+	VentanaEstadisticas(string usuario, int sessionId);
 	~VentanaEstadisticas(void);
 
 	virtual void iniciar();
@@ -59,4 +66,7 @@ public:
 	void agregarComponentePanel(ComponentePanel* componente);
 	
 	virtual void mostrarMensaje(string mensaje);
+
+	bool getConsulto();
+	bool getCancelado();
 };
