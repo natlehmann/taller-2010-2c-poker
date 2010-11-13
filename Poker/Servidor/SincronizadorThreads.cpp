@@ -1,14 +1,19 @@
 #include "SincronizadorThreads.h"
 #include "PokerException.h"
+#include <windows.h>
+
+SincronizadorThreads* SincronizadorThreads::instancia = new SincronizadorThreads();
 
 SincronizadorThreads::SincronizadorThreads(void)
 {
 	this->mutex = CreateMutexA(NULL, false, "MutexSincronizadorThreads");
 
 	for (int i = 0; i < MAX_CANT_CLIENTES; i++) {
-		this->clientes[i] = -1;
+		this->clientes[i] = NULL;
 	}
 	this->indice = 0;
+	this->cantThreadsActivos = 0;
+	this->inicializado = false;
 }
 
 SincronizadorThreads::~SincronizadorThreads(void)
@@ -16,72 +21,60 @@ SincronizadorThreads::~SincronizadorThreads(void)
 	CloseHandle(this->mutex);
 }
 
-int SincronizadorThreads::getSiguienteId(){
-
-	if(WaitForSingleObject(this->mutex, INFINITE)==WAIT_TIMEOUT) {
-	   // TODO: handle time-out error
-	}
-
-	int cantVeces = MAX_CANT_CLIENTES;
-	int resultado = -1;
-
-	while(this->clientes[this->indice] < 0  && cantVeces > 0) {
-		this->indice++;
-		if (this->indice >= MAX_CANT_CLIENTES) {
-			this->indice = 0;
-		}
-		cantVeces--;
-	}
-
-	if (this->clientes[this->indice] >= 0) {
-		resultado = this->clientes[this->indice];
-		this->indice++;
-		if (this->indice >= MAX_CANT_CLIENTES) {
-			this->indice = 0;
-		}
-	}
-
-	ReleaseMutex(this->mutex);
-	return resultado;
+SincronizadorThreads* SincronizadorThreads::getInstancia(){
+	return SincronizadorThreads::instancia;
 }
 
-void SincronizadorThreads::agregarCliente(int idCliente){
-	if(WaitForSingleObject(this->mutex, INFINITE)==WAIT_TIMEOUT) {
-	   // TODO: handle time-out error
-	}
-
-	int cantVeces = MAX_CANT_CLIENTES;
-
-	while(this->clientes[this->indice] >= 0  && cantVeces > 0) {
-		this->indice++;
-		if (this->indice >= MAX_CANT_CLIENTES) {
-			this->indice = 0;
-		}
-		cantVeces--;
-	}
-
-	if (this->clientes[this->indice] < 0) {
-		this->clientes[this->indice] = idCliente;
+void SincronizadorThreads::registrarThreadJugador(HANDLE threadHandle, int idJugador){
+	this->clientes[idJugador] = threadHandle;
+	this->cantThreadsActivos++;
+	
+	if (!this->inicializado) {
+		SetThreadPriority(this->clientes[idJugador], THREAD_PRIORITY_HIGHEST);
+		this->inicializado = true;
 
 	} else {
-		ReleaseMutex(this->mutex);
-		throw PokerException("No se pueden agregar mas clientes.");
+		SetThreadPriority(this->clientes[idJugador], THREAD_PRIORITY_LOWEST);
 	}
-
-	ReleaseMutex(this->mutex);
 }
 
-void SincronizadorThreads::borrarCliente(int idCliente){
+void SincronizadorThreads::notificarFin(int idJugador){
 
-	if(WaitForSingleObject(this->mutex, INFINITE)==WAIT_TIMEOUT) {
-	   // TODO: handle time-out error
-	}
+	// si termino el thread que tenia asignada la mayor prioridad
+	if (this->indice == idJugador) {
 
-	for (int i = 0; i < MAX_CANT_CLIENTES; i++) {
-		if (this->clientes[i] == idCliente) {
-			this->clientes[i] = -1;
+		SetThreadPriority(this->clientes[this->indice], THREAD_PRIORITY_LOWEST);
+
+
+		int indiceOrig = this->indice;
+		this->indice++;
+		if (this->indice >= MAX_CANT_CLIENTES) {
+			this->indice = 0;
+		}
+
+		while (this->clientes[this->indice] == NULL && this->indice != indiceOrig) {
+			this->indice++;
+			if (this->indice >= MAX_CANT_CLIENTES) {
+				this->indice = 0;
+			}
+		}
+
+		if (this->clientes[this->indice] != NULL) {
+			SetThreadPriority(this->clientes[this->indice], THREAD_PRIORITY_HIGHEST);
+			//cout << "seteando prioridad mas alta a jugador " << indice << endl;
 		}
 	}
+	
+}
 
-	ReleaseMutex(this->mutex);
+void SincronizadorThreads::borrarThreadJugador(int idJugador){
+
+	this->clientes[idJugador] = NULL;
+	this->notificarFin(idJugador);
+
+	this->cantThreadsActivos--;
+
+	if (this->cantThreadsActivos <= 0) {
+		this->inicializado = false;
+	}
 }

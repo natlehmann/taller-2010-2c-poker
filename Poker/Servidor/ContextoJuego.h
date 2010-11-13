@@ -52,11 +52,13 @@ private:
 	bool mostrandoCartas;
 	bool sePuedePasar;
 	list<string> nombresGanadores;
+	static int segsTimeoutJugadores;
 
 	static ContextoJuego* instancia;
 	ContextoJuego(void);
 
 	void chequearRondaTerminada();
+	void chequearTimeoutJugador(int idJugador);
 
 	void evaluarGanador();
 
@@ -77,7 +79,7 @@ public:
 	JugadorModelo* getJugador(int idJugador);
 
 	bool hayLugar();
-	void agregarJugador(int idCliente, string nombreJugador, 
+	JugadorModelo* agregarJugador(int idCliente, string nombreJugador, 
 		string nombreImagen, int fichas, bool esVirtual, bool esObservador);
 	void quitarJugador(int idCliente);
 	int getCantidadJugadoresActivos();
@@ -118,7 +120,6 @@ public:
 	int idClienteToIdJugador(int idCliente);
 	int idJugadorToIdCliente(int idJugador);
 
-	int getApuestaAIgualar();
 
 	/**
 	* Para ser llamado al finalizar la aplicacion

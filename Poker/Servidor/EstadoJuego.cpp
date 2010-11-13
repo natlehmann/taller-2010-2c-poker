@@ -203,12 +203,20 @@ void EstadoJuego::agregarCartasComunitarias(DomTree* arbol){
 	}
 }
 
-void EstadoJuego::agregarPanelBotones(DomTree* arbol, int idJugador){
+void EstadoJuego::agregarPanelBotones(DomTree* arbol, int idJugador){	
 
-	if (idJugador >= 0 && !ContextoJuego::getInstancia()->getJugador(idJugador)->isVirtual()) {
-		this->agregarPanelBotones(arbol, ContextoJuego::getInstancia()->isTurnoJugador(idJugador));
+	bool terminado = false;
+	if (idJugador >= 0) {
+		
+		JugadorModelo* jugador = ContextoJuego::getInstancia()->getJugador(idJugador);
+		if (!jugador->isVirtual() && jugador->isActivo()) {
 
-	} else {
+			this->agregarPanelBotones(arbol, ContextoJuego::getInstancia()->isTurnoJugador(idJugador));
+			terminado = true;
+		}
+	} 
+
+	if (!terminado) {
 		this->agregarPanelBotones(arbol, false);
 	}
 }

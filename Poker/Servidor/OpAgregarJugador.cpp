@@ -5,7 +5,9 @@
 #include "FabricaOperacionesServidor.h"
 #include "JugadorModelo.h"
 #include "UtilTiposDatos.h"
+#include "SincronizadorThreads.h"
 #include <vector>
+#include <windows.h>
 
 
 OpAgregarJugador::OpAgregarJugador(int idCliente, vector<string> parametros) : Operacion(idCliente) {
@@ -33,8 +35,10 @@ bool OpAgregarJugador::ejecutarAccion(Socket* socket){
 		else
 			esObservador = false;
 
-		ContextoJuego::getInstancia()->agregarJugador(
+		JugadorModelo* jugador = ContextoJuego::getInstancia()->agregarJugador(
 			this->getIdCliente(), nombreJugador, nombreImagen, fichas, esVirtual, esObservador);
+
+		SincronizadorThreads::getInstancia()->registrarThreadJugador(::GetCurrentThread(), jugador->getId());
 
 		FabricaOperacionesServidor fab;
 		vector<string> parametros;

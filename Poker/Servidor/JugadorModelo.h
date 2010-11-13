@@ -3,6 +3,7 @@
 
 #include <string>
 #include "CartaModelo.h"
+#include "TimerServidor.h"
 
 #define NOMBRE_IMAGEN ""
 #define NIVEL_DE_CONFIANZA 0.70
@@ -29,6 +30,7 @@ private:
 	bool dealer;
 	bool esVirtual;
 	bool observador;
+	TimerServidor timer;
 
 public:
 
@@ -86,6 +88,9 @@ public:
 	void incrementarFichas(int cantidad);
 
 	bool subeApuesta(double azar, double confianzaEnJugada, int &fichas);
+
+	void resetTimer();
+	int getSegundosTurno();
 
 };
 

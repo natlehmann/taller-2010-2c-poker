@@ -3,6 +3,7 @@
 #include "RecursosServidor.h"
 #include "PokerException.h"
 #include "Respuesta.h"
+#include "SincronizadorThreads.h"
 
 Operacion::Operacion(int idCliente) {
 	this->setIdCliente(idCliente);
@@ -24,6 +25,9 @@ bool Operacion::ejecutar(Socket* socket){
 
 	try {
 		resultado = this->ejecutarAccion(socket);
+
+		SincronizadorThreads::getInstancia()->notificarFin(
+			ContextoJuego::getInstancia()->idClienteToIdJugador(this->getIdCliente()));
 
 	} catch(PokerException& e){
 		RecursosServidor::getLog()->escribir(&(e.getError()));

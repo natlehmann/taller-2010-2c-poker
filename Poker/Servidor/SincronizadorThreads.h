@@ -2,23 +2,33 @@
 #define _SINCRONIZADOR_THREADS_H_
 
 #include <windows.h>
+#include <iostream>
 
 #define MAX_CANT_CLIENTES  6
+
+using namespace std;
 
 class SincronizadorThreads
 {
 private:
-	int clientes[MAX_CANT_CLIENTES];
+	HANDLE clientes[MAX_CANT_CLIENTES];
 	int indice;
 	HANDLE mutex;
+	bool inicializado;
+	int cantThreadsActivos;
 
-public:
+	static SincronizadorThreads* instancia;
+
 	SincronizadorThreads(void);
+
+public:	
 	virtual ~SincronizadorThreads(void);
 
-	int getSiguienteId();
-	void agregarCliente(int idCliente);
-	void borrarCliente(int idCliente);
+	static SincronizadorThreads* getInstancia();
+
+	void registrarThreadJugador(HANDLE threadHandle, int idJugador);
+	void notificarFin(int idJugador);
+	void borrarThreadJugador(int idJugador);
 };
 
 #endif //_SINCRONIZADOR_THREADS_H_
