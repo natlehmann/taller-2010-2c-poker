@@ -23,7 +23,7 @@
 #define ALINEACION_VERT_CENTRO 0
 
 #define PADDING_HORIZ   20
-#define PADDING_VERT	20
+#define PADDING_VERT	10
 
 class Panel;
 

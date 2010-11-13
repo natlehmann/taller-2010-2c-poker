@@ -64,6 +64,7 @@ public:
 	void quitarJugador(int idCliente);
 	int getCantidadJugadoresActivos();
 
+	JugadorModelo* getJugadorTurno();
 	bool isTurnoJugador(int idJugador);
 	bool isTurnoCliente(int idCliente);
 	bool isDealerJugador(int idJugador);

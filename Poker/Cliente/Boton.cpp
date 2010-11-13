@@ -34,34 +34,6 @@ Boton::Boton(string texto) : ComponentePanel(texto)
 	this->configurar();
 }
 
-//Boton::Boton(string texto, int alto, int ancho) : ComponentePanel(texto)
-//{
-//	this->colorFuente = RecursosCliente::getConfig()->get(
-//			"cliente.tema.default.boton.fuente.color");
-//
-//	this->tamanioFuenteMax = UtilTiposDatos::getEntero(
-//			RecursosCliente::getConfig()->get(
-//				"cliente.tema.default.boton.fuente.tamanio.maximo"));
-//
-//	this->estiloFuente = RecursosCliente::getConfig()->get(
-//			"cliente.configuracion.fuentes") + RecursosCliente::getConfig()->get(
-//						"cliente.tema.default.boton.fuente.estilo") + ".ttf";
-//
-//	this->setearFuente();
-//
-//	this->setAncho(ancho);
-//	this->setAlto(alto);
-//	this->posX = 0;
-//	this->posY = 0;
-//
-//	this->estado = 'u';
-//
-//	this->superficieTexto = NULL;
-//	this->hayCambiosTexto = true;
-//
-//	this->configurar();
-//}
-
 ComponentePanel* Boton::clonar() {
 
 	Boton* boton = new Boton(this->getTexto());
@@ -105,15 +77,6 @@ void Boton::configurar() {
 	string nombreImagenDown = "botonDown.bmp";
 	string nombreImagenOver = "botonOver.bmp";
 	string nombreImagenDeshabilitado = "botonDeshabilitado.bmp";
-
-	//if (this->imagenUp != NULL)
-	//	delete(this->imagenUp);
-	//if (this->imagenDown != NULL)
-	//	delete(this->imagenDown);
-	//if (this->imagenOver != NULL)
-	//	delete(this->imagenOver);
-	//if (this->imagenDeshabilitado != NULL)
-	//	delete(this->imagenDeshabilitado);
 
 	this->imagenUp = this->setearImagen(nombreImagenUp);
 	this->imagenDown = this->setearImagen(nombreImagenDown);
@@ -164,9 +127,9 @@ Imagen* Boton::setearImagen(string nombreImagen)
 	
 	if (this->ajustarAlTexto)
 	{
-		int paddingV = ServiciosGraficos::getAnchoVentana() > MAXIMO_ANCHO_PANTALLA_PROP_TXT ? 
-				PADDING_VERT : (int)(PADDING_VERT / 2);
-		this->setAlto(superficieTexto->h + paddingV);
+		//int paddingV = ServiciosGraficos::getAnchoVentana() > MAXIMO_ANCHO_PANTALLA_PROP_TXT ? 
+		//		PADDING_VERT : (int)(PADDING_VERT / 2);
+		this->setAlto(superficieTexto->h + PADDING_VERT);
 		this->setAncho(superficieTexto->w + PADDING_HORIZ);
 	}
 

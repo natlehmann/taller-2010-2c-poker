@@ -507,13 +507,13 @@ bool ContextoJuego::isTurnoJugador(int idJugador){
 
 void ContextoJuego::chequearTimeoutJugador(int idJugador) {
 
-	JugadorModelo* jugador = ContextoJuego::getInstancia()->getJugador(idJugador);
+	JugadorModelo* jugador = this->admJugadores->getJugadorTurno();
+	
 	if (jugador != NULL && jugador->isActivo() && !jugador->isVirtual() 
-		&& this->admJugadores->isTurnoJugador(idJugador)
 		&& jugador->getSegundosTurno() > ContextoJuego::segsTimeoutJugadores) {
 
-				this->noIr(this->idJugadorToIdCliente(idJugador));		
-				jugador->setActivo(false);
+			this->noIr(this->idJugadorToIdCliente(jugador->getId()));		
+			jugador->setActivo(false);
 	}
 }
 

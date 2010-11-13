@@ -35,10 +35,6 @@ TextBox::TextBox(string mensaje) : ComponentePanel(mensaje) {
 	this->tipoPassword = false;
 	this->foco = false;
 	this->cursorPosition = this->texto.size();
-
-	// TODO: PARAMETRIZAR
-	this->setAlto(24);
-	this->setAncho(50);
 }
 
 ComponentePanel* TextBox::clonar(){

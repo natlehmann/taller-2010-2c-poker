@@ -114,6 +114,7 @@ JugadorModelo* AdministradorJugadores::getJugadorPorPosicion(int posicion){
 	
 	} else {
 		// nada. podría tratarse de un jugador que ya salio del juego por inactivo
+		return NULL;
 	}
 }
 
@@ -138,6 +139,14 @@ int AdministradorJugadores::getCantidadJugadoresActivos()
 		}
 	}
 	return jugadoresActivos;
+}
+
+JugadorModelo* AdministradorJugadores::getJugadorTurno(){
+	if (this->jugadorTurno >= 0) {
+		return this->jugadores[this->jugadorTurno];
+	}
+
+	return NULL;
 }
 
 bool AdministradorJugadores::isTurnoCliente(int idCliente){

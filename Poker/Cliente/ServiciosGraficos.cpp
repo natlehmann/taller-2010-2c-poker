@@ -16,6 +16,9 @@ int ServiciosGraficos::bordeInferior = -1;
 int ServiciosGraficos::bordeDerecho = -1;
 int ServiciosGraficos::bordeIzquierdo = -1;
 
+int ServiciosGraficos::altoVentana = -1;
+int ServiciosGraficos::anchoVentana = -1;
+
 
 ServiciosGraficos::ServiciosGraficos(void)
 {
@@ -322,34 +325,38 @@ int ServiciosGraficos::getTamanioCeldaVert() {
 
 int ServiciosGraficos::getAnchoVentana() {
 
-	string configPantalla = RecursosCliente::getConfig()->get("cliente.configuracion.pantalla");
-	list<string> medidas = MensajesUtil::split(configPantalla, "x");
+	if (ServiciosGraficos::anchoVentana < 0) {
 
-	if (medidas.size() != 2) {
-		throw UIException("La configuracion de pantalla esta incorrectamente seteada en el archivo 'config.ini'.", "V");
+		string configPantalla = RecursosCliente::getConfig()->get("cliente.configuracion.pantalla");
+		list<string> medidas = MensajesUtil::split(configPantalla, "x");
+
+		if (medidas.size() != 2) {
+			throw UIException("La configuracion de pantalla esta incorrectamente seteada en el archivo 'config.ini'.", "V");
+		}
+
+		ServiciosGraficos::anchoVentana = UtilTiposDatos::getEntero(medidas.front());
+		ServiciosGraficos::altoVentana = UtilTiposDatos::getEntero(medidas.back());
 	}
 
-	int ancho = UtilTiposDatos::getEntero(medidas.front());
-	int alto = UtilTiposDatos::getEntero(medidas.back());
-
-	return ancho;
-	//return ServiciosGraficos::getVideoInfo()->current_w;
+	return ServiciosGraficos::anchoVentana;
 }
 
 int ServiciosGraficos::getAltoVentana() {
 
-	string configPantalla = RecursosCliente::getConfig()->get("cliente.configuracion.pantalla");
-	list<string> medidas = MensajesUtil::split(configPantalla, "x");
+	if (ServiciosGraficos::altoVentana < 0) {
 
-	if (medidas.size() != 2) {
-		throw UIException("La configuracion de pantalla esta incorrectamente seteada en el archivo 'config.ini'.", "V");
+		string configPantalla = RecursosCliente::getConfig()->get("cliente.configuracion.pantalla");
+		list<string> medidas = MensajesUtil::split(configPantalla, "x");
+
+		if (medidas.size() != 2) {
+			throw UIException("La configuracion de pantalla esta incorrectamente seteada en el archivo 'config.ini'.", "V");
+		}
+
+		ServiciosGraficos::anchoVentana = UtilTiposDatos::getEntero(medidas.front());
+		ServiciosGraficos::altoVentana = UtilTiposDatos::getEntero(medidas.back());
 	}
 
-	int ancho = UtilTiposDatos::getEntero(medidas.front());
-	int alto = UtilTiposDatos::getEntero(medidas.back());
-
-	return alto;
-	//return ServiciosGraficos::getVideoInfo()->current_h;
+	return ServiciosGraficos::altoVentana;
 
 }
 
@@ -375,6 +382,11 @@ int ServiciosGraficos::getBordeInferior() {
 		ServiciosGraficos::bordeInferior = UtilTiposDatos::getEntero(
 			RecursosCliente::getConfig()->get(
 			"cliente.configuracion.pantalla.borde.inferior"));
+
+		if (ServiciosGraficos::getAltoVentana() >= ALTO_PANTALLA_LIMITE 
+			&& ServiciosGraficos::getAnchoVentana() >= ANCHO_PANTALLA_LIMITE) {
+				ServiciosGraficos::bordeInferior += CORRECCION_BORDE_VERTICAL;
+		}
 
 		if (ServiciosGraficos::bordeInferior < 0) {
 			throw UIException(
