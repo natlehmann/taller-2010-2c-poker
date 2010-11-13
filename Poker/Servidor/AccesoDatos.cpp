@@ -325,28 +325,42 @@ int AccesoDatos::grabarInicioSesion(string usuario, string esObservador, string 
 	string fechaInicio = this->getFechaActual();
 	string horaInicio = this->getHoraActual();
 
-	string sql = "INSERT INTO sesion (usuario, fechaInicio, horaInicio, fechaFin, horaFin, observador, virtual) VALUES ('";
-	sql += usuario + "', '";
-	sql += fechaInicio + "', '";
-	sql += horaInicio + "', '";
-	sql += "', '', '";
-	sql += esObservador + "', '";
-	sql += esVirtual + "');";
-
-	if (this->ejecutarNonQuery(sql))
+	// Primero se cierra las sesiones del usuario que podrian haber quedado abiertas por alguna razon
+	if (this->cerrarSesionesAnteriores(usuario))
 	{
-		string sql = "SELECT MAX(id) FROM sesion WHERE usuario = '" + usuario + "'";
-	
-		if (this->ejecutar(sql))
+		string sql = "INSERT INTO sesion (usuario, fechaInicio, horaInicio, fechaFin, horaFin, observador, virtual) VALUES ('";
+		sql += usuario + "', '";
+		sql += fechaInicio + "', '";
+		sql += horaInicio + "', '";
+		sql += "', '', '";
+		sql += esObservador + "', '";
+		sql += esVirtual + "');";
+
+		if (this->ejecutarNonQuery(sql))
 		{
-			while (sqlite3_step(resultado)==SQLITE_ROW)
-			{	
-				resul = sqlite3_column_int(resultado, 0);				
+			string sql = "SELECT MAX(id) FROM sesion WHERE usuario = '" + usuario + "'";
+		
+			if (this->ejecutar(sql))
+			{
+				while (sqlite3_step(resultado)==SQLITE_ROW)
+				{	
+					resul = sqlite3_column_int(resultado, 0);				
+				}
 			}
-		}
+		}		
 	}
-	
+
 	return resul;
+}
+
+bool AccesoDatos::cerrarSesionesAnteriores(string usuario)
+{
+	string fechaFin = this->getFechaActual();
+	string horaFin = this->getHoraActual();
+
+	string sql = "UPDATE sesion SET fechaFin = '" + fechaFin + "', horaFin = '" + horaFin + "' WHERE usuario = '" + usuario + "' AND fechaFin = ''";
+	
+	return this->ejecutarNonQuery(sql);
 }
 
 bool AccesoDatos::grabarFinSesion(int idSesion)

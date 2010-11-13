@@ -40,6 +40,9 @@ class AccesoDatos
 		bool registrarNuevoJugador(string usuario, string password, string nombre, string apellido);
 		bool actualizarCantFichas(string usuario, int cantFichas);
 		
+		/* Metodos y funciones aplicados a la tabla "SESION" */		
+		bool cerrarSesionesAnteriores(string usuario);
+
 		/* Metodos y funciones aplicados a la tabla "FICHAS" */
 		bool consultarCantFichasCompradasHoy(string usuario);
 		bool registrarCompraFichas(string usuario, int cantFichasCompradas);
