@@ -66,10 +66,16 @@ bool OpLogin::ejecutarAccion(Socket* socket)
 
 	if (ok)
 	{
+		// Se envia el "OK"
 		Resultado* resultado = new Resultado("", respuesta, "OpLogin");
 		generador.agregarRespuesta(resultado);
 
+		// Se envia el id de sesion
 		resultado = new Resultado("", MensajesUtil::intToString(sesion), "OpLogin");
+		generador.agregarRespuesta(resultado);
+
+		// Se envia la cantidad de fichas
+		resultado = new Resultado("", MensajesUtil::intToString(jugador->fichas), "OpLogin");
 		generador.agregarRespuesta(resultado);
 	}
 	else

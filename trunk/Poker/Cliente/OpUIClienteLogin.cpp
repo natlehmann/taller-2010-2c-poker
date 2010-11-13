@@ -13,6 +13,8 @@
 OpUIClienteLogin::OpUIClienteLogin(vector<string> parametros): OperacionUICliente()
 {
 	this->parametros = parametros;
+	this->sesionId = 0;
+	this->cantFichas = 0;
 }
 
 OpUIClienteLogin::~OpUIClienteLogin(void)
@@ -23,12 +25,6 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 {
 	bool ok = false;
 
-	//// TODO: BORRRAR ESTO
-	//string usuario = "pepe";
-	//string password = "pass";
-	//string esVirtual = "false";
-	//string esObservador = "false";
-	
 	string usuario = this->parametros.at(0);
 	string password = this->parametros.at(1);
 	string esVirtual = this->parametros.at(2);
@@ -70,9 +66,12 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 				if (MensajesUtil::sonIguales(this->parametrosRecibidos.at(0), "OK"))
 				{
 					ok = true;		
+
 					if (parametrosRecibidos.size() > 1)
 						this->sesionId = UtilTiposDatos::getEntero(parametrosRecibidos.at(1));
 
+					if (parametrosRecibidos.size() > 2)
+						this->cantFichas = UtilTiposDatos::getEntero(parametrosRecibidos.at(2));
 				}
 				else
 				{

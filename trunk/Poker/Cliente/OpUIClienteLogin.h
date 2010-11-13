@@ -9,6 +9,7 @@ class OpUIClienteLogin : public OperacionUICliente
 {
 	private:
 		int sesionId;
+		int cantFichas;
 		string error;
 
 	protected:
@@ -20,8 +21,7 @@ class OpUIClienteLogin : public OperacionUICliente
 
 		virtual string getError();
 		int getSesionId();
-
-
+		int getCantFichas();
 };
 
 #endif //_OPUICLIENTE_LOGIN_H_
