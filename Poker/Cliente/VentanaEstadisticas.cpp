@@ -379,9 +379,9 @@ bool VentanaEstadisticas::manejarEventos(SDL_Event* event){
 
 		if (controlId.length() > 0)
 			finalizar = this->ejecutarEvento(controlId);
-
-		return finalizar;
 	}
+
+	return finalizar;
 
 }
 void VentanaEstadisticas::lanzarEvento(int codigoEvento) {
@@ -475,6 +475,8 @@ bool VentanaEstadisticas::validarFecha(string fecha)
 		else 
 			return false;
 	}
+
+	return false;
 }
 
 bool VentanaEstadisticas::validarSeleccion(string texto)
