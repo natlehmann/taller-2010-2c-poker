@@ -6,7 +6,7 @@
 
 Panel::Panel(void)
 {
-	//setamos el fondo del menu de operaciones
+	//seteamos el fondo del menu de operaciones
 	this->borde = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.borde"));
 	this->fondo = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.fondo"));
 
@@ -90,9 +90,18 @@ void Panel::configurar()
 
 	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
 		if (this->componentes[i] != NULL){
+
+			if (this->componentes[i]->getAncho() == 0) {
+				this->componentes[i]->setAncho(ANCHO_DEFAULT_COMPONENTE);
+			}
+
 			anchoPanel += this->componentes[i]->getAncho() + PANEL_SEPARACION_BOTONES_H;
 			if (altoPanel == 0) {
 				altoPanel = this->componentes[i]->getAlto();
+			}
+
+			if (this->componentes[i]->getAlto() == 0) {
+				this->componentes[i]->setAlto(altoPanel - CORRECCION_ALTURA_COMPONENTE);
 			}
 		}
 	}
@@ -113,7 +122,8 @@ void Panel::configurar()
 		if (this->componentes[i] != NULL){
 
 			this->componentes[i]->setPosX(offsetMenu->x + offsetXAcum);
-			this->componentes[i]->setPosY(offsetMenu->y + PANEL_SEPARACION_BOTONES_V);
+			this->componentes[i]->setPosY(offsetMenu->y 
+				+ (int)((this->getAlto() - this->componentes[i]->getAlto()) / 2));
 
 			offsetXAcum += this->componentes[i]->getAncho() + PANEL_SEPARACION_BOTONES_H;
 		}

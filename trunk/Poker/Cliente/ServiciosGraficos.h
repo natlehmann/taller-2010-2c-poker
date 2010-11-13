@@ -12,6 +12,10 @@
 #define CELDAS_HORIZ	5
 #define CELDAS_VERT		3
 
+#define ANCHO_PANTALLA_LIMITE	1200
+#define ALTO_PANTALLA_LIMITE	768
+#define CORRECCION_BORDE_VERTICAL	10
+
 class ServiciosGraficos {
 private:
 	static const SDL_VideoInfo* videoInfo;
@@ -20,6 +24,9 @@ private:
 	static int bordeInferior;
 	static int bordeIzquierdo;
 	static int bordeDerecho;
+
+	static int altoVentana;
+	static int anchoVentana;
 
 	static void lock(SDL_Surface* superficie);
 	static void unlock(SDL_Surface* superficie);

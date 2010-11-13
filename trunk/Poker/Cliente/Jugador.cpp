@@ -285,7 +285,14 @@ void Jugador::setearDisposicionAIzq(){
 	this->imagenDealer->setAncho(ALTO_MAXIMO_ETIQUETA);
 	this->imagenDealer->setAlto(ALTO_MAXIMO_ETIQUETA);
 	this->imagenDealer->setPosX(this->getPosX() + rectFoto->w + SEPARACION_CARTAS_APUESTA);
-	this->imagenDealer->setPosY(this->getPosY() + rectFoto->h + ALTO_MAXIMO_ETIQUETA);
+
+	if (this->etiquetaFichas != NULL) {
+		this->imagenDealer->setPosY(this->etiquetaFichas->getPosY() 
+		+ this->etiquetaFichas->getAlto() - this->imagenDealer->getAlto());
+
+	} else {
+		this->imagenDealer->setPosY(this->getPosY() + rectFoto->h + (int)(ALTO_MAXIMO_ETIQUETA / 2));
+	}
 }
 
 void Jugador::setearDisposicionADer(){
@@ -352,7 +359,13 @@ void Jugador::setearDisposicionADer(){
 	this->imagenDealer->setAlto(ALTO_MAXIMO_ETIQUETA);
 	this->imagenDealer->setPosX(this->getPosX() + this->getAncho() - rectFoto->w 
 		- this->imagenDealer->getAncho() - SEPARACION_CARTAS_APUESTA);
-	this->imagenDealer->setPosY(this->getPosY() + rectFoto->h + ALTO_MAXIMO_ETIQUETA);
+	if (this->etiquetaFichas != NULL) {
+		this->imagenDealer->setPosY(this->etiquetaFichas->getPosY() 
+		+ this->etiquetaFichas->getAlto() - this->imagenDealer->getAlto());
+
+	} else {
+		this->imagenDealer->setPosY(this->getPosY() + rectFoto->h + (int)(ALTO_MAXIMO_ETIQUETA / 2));
+	}
 }
 
 SDL_Rect* Jugador::calcularRectFoto(){
