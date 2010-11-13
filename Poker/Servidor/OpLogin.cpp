@@ -75,7 +75,7 @@ bool OpLogin::ejecutarAccion(Socket* socket)
 		generador.agregarRespuesta(resultado);
 
 		// Se envia la cantidad de fichas
-		resultado = new Resultado("", MensajesUtil::intToString(jugador->getFichas), "OpLogin");
+		resultado = new Resultado("", MensajesUtil::intToString(jugador->getFichas()), "OpLogin");
 		generador.agregarRespuesta(resultado);
 	}
 	else
