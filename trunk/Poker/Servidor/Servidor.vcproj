@@ -355,6 +355,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpLogoff.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpMostrarMensaje.cpp"
 				>
 			</File>
@@ -674,6 +678,10 @@
 			</File>
 			<File
 				RelativePath=".\OpLogin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpLogoff.h"
 				>
 			</File>
 			<File

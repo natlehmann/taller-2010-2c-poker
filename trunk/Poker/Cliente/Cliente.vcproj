@@ -339,6 +339,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClienteLogoff.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteNoIr.cpp"
 				>
 			</File>
@@ -682,6 +686,10 @@
 			</File>
 			<File
 				RelativePath=".\OpUIClienteLogin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteLogoff.h"
 				>
 			</File>
 			<File
