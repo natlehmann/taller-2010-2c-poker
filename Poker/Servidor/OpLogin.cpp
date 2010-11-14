@@ -19,6 +19,7 @@ bool OpLogin::ejecutarAccion(Socket* socket)
 {
 	bool error = false;
 	bool ok = true;
+	bool logueado = false;
 	string respuesta = "";
 	int sesion;
 
@@ -41,6 +42,7 @@ bool OpLogin::ejecutarAccion(Socket* socket)
 			{	
 				// OK	--> Se da respuesta OK al cliente
 				respuesta = "OK";
+				logueado = true;
 			}
 			else
 			{
@@ -70,13 +72,16 @@ bool OpLogin::ejecutarAccion(Socket* socket)
 		Resultado* resultado = new Resultado("", respuesta, "OpLogin");
 		generador.agregarRespuesta(resultado);
 
-		// Se envia el id de sesion
-		resultado = new Resultado("", MensajesUtil::intToString(sesion), "OpLogin");
-		generador.agregarRespuesta(resultado);
+		if (logueado) 
+		{
+			// Se envia el id de sesion
+			resultado = new Resultado("", MensajesUtil::intToString(sesion), "OpLogin");
+			generador.agregarRespuesta(resultado);
 
-		// Se envia la cantidad de fichas
-		resultado = new Resultado("", MensajesUtil::intToString(jugador->getFichas()), "OpLogin");
-		generador.agregarRespuesta(resultado);
+			// Se envia la cantidad de fichas
+			resultado = new Resultado("", MensajesUtil::intToString(jugador->getFichas()), "OpLogin");
+			generador.agregarRespuesta(resultado);
+		}
 	}
 	else
 	{
