@@ -559,10 +559,10 @@ bool VentanaEstadisticas::validarFecha(string fecha)
 				}
 				else return false;
 			}
-		}
-		else 
-			return false;
+		}			
 	}
+
+	return false;
 }
 
 bool VentanaEstadisticas::validarSeleccion(string texto)

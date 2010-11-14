@@ -75,6 +75,7 @@ VentanaLogin::~VentanaLogin(void)
 
 	delete (this->offset);
 	delete (this->contorno);
+	delete (this->contornoConOffset);
 
 }
 
@@ -403,4 +404,12 @@ bool VentanaLogin::getCancelado() {
 }
 bool VentanaLogin::getNuevo() {
 	return this->nuevo;
+}
+
+bool VentanaLogin::isVirtual() {
+	return this->cbVirtual->getChecked();
+}
+
+bool VentanaLogin::isObservador() {
+	return this->cbObservador->getChecked();
 }

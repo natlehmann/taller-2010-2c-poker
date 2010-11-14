@@ -54,12 +54,14 @@ bool OpLogin::ejecutarAccion(Socket* socket)
 		{
 			// Error al ingresar el password
 			respuesta = "Password Incorrecto!!!";
+			ok = false;
 		}
 	}
 	else
 	{
 		// El jugador no existe en la BD.
 		respuesta = "El usuario ingresado no existe!!!";
+		ok = false;
 	}
 
 	/******************************************************************/

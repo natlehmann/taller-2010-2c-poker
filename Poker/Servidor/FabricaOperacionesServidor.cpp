@@ -77,8 +77,6 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 		operacion = new OpEnviarEstadistica(idCliente, parametros);
 	}
 
-	// TODO: ACA SE VERIFICARIAN TODAS LAS DEMAS OPERACIONES
-
 	if (operacion == NULL) {
 		RecursosServidor::getLog()->escribir(string("Se solicito un Id de operacion invalido: ") + nombreOperacion);
 		Error error("V","Id de operacion invalido.",nombreOperacion);
@@ -242,16 +240,6 @@ void FabricaOperacionesServidor::validarParametro(Elemento* parametro, string id
 			Error resultado("V",
 				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
 				+ string(". El atributo 'nombre' del tag 'parametro' para una transferencia de archivo debe ser 'nombreArchivo'. Se encontro '")
-				+ atributoNombre +"'.",idOperacion);
-			throw DatosInvalidosException(resultado);
-		}
-	}
-
-	if (MensajesUtil::sonIguales(idOperacion, "OpAgregarJugador")) {
-		if (strcmp("usuario",atributoNombre.c_str()) != 0) {
-			Error resultado("V",
-				string("Error en linea ") + MensajesUtil::intToString(parametro->getNumeroDeLinea())
-				+ string(". El atributo 'nombre' del tag 'parametro' para agregar un jugador debe ser 'usuario'. Se encontro '")
 				+ atributoNombre +"'.",idOperacion);
 			throw DatosInvalidosException(resultado);
 		}

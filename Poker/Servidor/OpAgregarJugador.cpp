@@ -6,6 +6,10 @@
 #include "JugadorModelo.h"
 #include "UtilTiposDatos.h"
 #include "SincronizadorThreads.h"
+#include "AccesoDatos.h"
+#include "JugadorModelo.h"
+#include "MensajesUtil.h"
+#include "RecursosServidor.h"
 #include <vector>
 #include <windows.h>
 
@@ -24,16 +28,29 @@ bool OpAgregarJugador::ejecutarAccion(Socket* socket){
 
 	if (ContextoJuego::getInstancia()->hayLugar()) {
 
-		// TODO: REEMPLAZAR ESTO SACANDO LOS DATOS DE LA BASE!!
-		string nombreJugador = "jugador " + UtilTiposDatos::enteroAString(this->getIdCliente());
-		string nombreImagen = "jugador5.bmp";
-		int fichas = 1000;
+		string nombreJugador = this->parametros.at(0);
+
+		AccesoDatos ad;
+		JugadorModelo* jugadorBD = ad.obtenerJugador(nombreJugador);
+
+		string nombreImagen = jugadorBD->getNombreImagen();
+
+		if (MensajesUtil::esVacio(nombreImagen)) {
+			nombreImagen = "jugador_default.bmp";
+		}
+		
+		int fichas = jugadorBD->getFichas();
+
 		bool esVirtual = false;
-		bool esObservador;
-		if (ContextoJuego::getInstancia()->getCantidadJugadoresActivos() == 0)
+		bool esObservador = false;
+		
+		if (MensajesUtil::sonIguales(this->parametros.at(1), "true")){
+			esVirtual = true;
+		}
+
+		if (MensajesUtil::sonIguales(this->parametros.at(2), "true")){
 			esObservador = true;
-		else
-			esObservador = false;
+		}
 
 		JugadorModelo* jugador = ContextoJuego::getInstancia()->agregarJugador(
 			this->getIdCliente(), nombreJugador, nombreImagen, fichas, esVirtual, esObservador);

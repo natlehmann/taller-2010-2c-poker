@@ -14,6 +14,8 @@
 #include "VentanaAdministracion.h"
 #include "VentanaEstadisticas.h"
 #include "Sincronizador.h"
+#include "OpUIClienteAgregarJugador.h"
+#include <vector>
 
 
 int main (int argc, char** argv)
@@ -98,15 +100,18 @@ int main (int argc, char** argv)
 
 						UICliente::iniciarSDL();
 
-						string idOperacionInicial = RecursosCliente::getConfig()->get("cliente.operacion.inicial");
-						FabricaOperacionesCliente fab;
-
 						ventana = new VentanaImpl();
 						Sincronizador::getInstancia()->registrarVentana(ventana);
 
 						UICliente::lanzarThreads(ventana);
 
-						operacion = fab.newOperacion(idOperacionInicial);
+						FabricaOperacionesCliente fab;
+						vector<string> parametros;
+						parametros.push_back(ventanaLogin->getUsuario());
+						parametros.push_back(ventanaLogin->isVirtual()? "true" : "false");
+						parametros.push_back(ventanaLogin->isObservador()? "true" : "false");
+
+						operacion = fab.newOperacion("OpUIClienteAgregarJugador", parametros);
 						if (operacion->ejecutar(ventana)){
 
 							ventana->iniciar();

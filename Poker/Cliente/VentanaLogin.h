@@ -60,6 +60,8 @@ public:
 	bool getConectado();
 	bool getCancelado();
 	bool getNuevo();
+	bool isVirtual();
+	bool isObservador();
 
 };
 
