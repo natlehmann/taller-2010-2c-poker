@@ -18,6 +18,7 @@
 #include "OpRegistrarJugador.h"
 #include "OpComprarFichas.h"
 #include "OpRecibirFoto.h"
+#include "OpEnviarEstadistica.h"
 #include <list>
 using namespace std;
 
@@ -71,6 +72,9 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 	}
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpRecibirFoto")) {
 		operacion = new OpRecibirFoto(idCliente, parametros);
+	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpEstadistica")) {
+		operacion = new OpEnviarEstadistica(idCliente, parametros);
 	}
 
 	// TODO: ACA SE VERIFICARIAN TODAS LAS DEMAS OPERACIONES

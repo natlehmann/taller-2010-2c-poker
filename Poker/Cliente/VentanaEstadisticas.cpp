@@ -9,6 +9,7 @@
 #include "ComponentePanel.h"
 #include "FabricaOperacionesCliente.h"
 #include "ServiciosGraficos.h"
+#include "OpUIClienteSolicitarEstadistica.h"
 #include <typeinfo.h>
 #include <cstdlib>
 
@@ -26,11 +27,10 @@ VentanaEstadisticas::VentanaEstadisticas(string usuario, int sessionId)
 	this->contorno = new SDL_Rect();
 	this->contornoConOffset = new SDL_Rect();
 
-	//this->altoFila = ServiciosGraficos::getAltoFilaVentanaSegundaria();
-	//this->anchoColumna = ServiciosGraficos::getAnchoColVentanaSegundaria();
-	//this->setAlto(this->altoFila*40);
-	//this->setAncho(this->anchoColumna*40);
-	
+	dia = "";
+	mes = "";
+	anio = "";
+
 	string configPantalla = RecursosCliente::getConfig()->get("cliente.configuracion.pantalla");
 	list<string> medidas = MensajesUtil::split(configPantalla, "x");
 
@@ -243,7 +243,7 @@ void VentanaEstadisticas::configurarControles(){
 	this->mensaje->setPosX(this->anchoColumna);
 	this->mensaje->setPosY(this->altoFila*10);
 	this->mensaje->setAlto(this->altoFila);
-	this->mensaje->setAncho(this->anchoColumna*6);
+	this->mensaje->setAncho(this->anchoColumna*15);
 	this->mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->mensaje->setVisible(false);
 	this->agregarElementoGrafico(this->mensaje);
@@ -426,12 +426,55 @@ bool VentanaEstadisticas::ejecutarEvento(string controlId)
 	{
 		if(validarFecha(textboxFecha->getTexto()))
 		{
-			if (seleccionUnaOpciónOK())
+			string seleccion;
+			if (seleccionUnaOpcionOK(seleccion))
 			{
-				mostrarMensaje("Espere...");
-				lanzarEvento(100);
-				return false; //es solo para probar
-			}
+				FabricaOperacionesCliente fab;
+				OperacionUICliente* operacion = NULL;
+
+				vector<string> parametros;
+				bool solicitoOK = false;
+				parametros.push_back(seleccion);
+				parametros.push_back(anio); //se supone que anio llega siempre
+				if(mes != "")
+					parametros.push_back(mes);
+				if(dia != "")
+					parametros.push_back(dia);
+				
+				operacion = fab.newOperacion("OpUIClienteSolicitarEstadistica", parametros);
+				string pathArchivo;
+
+				if (operacion->ejecutarAccion(NULL))
+				{
+					//mostrar el nombre del archivo
+					pathArchivo = ( static_cast<OpUIClienteSolicitarEstadistica *> (operacion))->getPathArchivo();
+					solicitoOK = true;
+				}
+				delete (operacion);
+
+				if (solicitoOK)
+				{
+					//parametrosArchivo.push_back(pathArchivo);
+					OperacionUICliente* operacionPedirArchivo = fab.newOperacion("OpUIClienteSolicitarArchivo",pathArchivo);
+					if (operacionPedirArchivo->ejecutarAccion(NULL))
+					{
+						mostrarMensaje("Se ha guardado el archivo:  " + pathArchivo);
+						lanzarEvento(100);
+						return false;	
+					}
+					else
+					{
+						mostrarMensaje("No se ha podido guardar el archivo:  " + pathArchivo);
+						lanzarEvento(100);
+						return false;	
+					}
+				}
+				else
+				{
+					//TODO
+				}
+
+				}
 			else
 			{
 				mostrarMensaje("Debe seleccionar solo una opción.");
@@ -446,12 +489,19 @@ bool VentanaEstadisticas::ejecutarEvento(string controlId)
 			return false;
 		}
 	}
+	if (MensajesUtil::sonIguales(controlId, "volverMenuAdm"))
+	{
+		//aca tiene que volver al menu principal
+	}
 
 	return false;
 }
 
 bool VentanaEstadisticas::validarFecha(string fecha)
 {
+	dia = "";
+	mes = "";
+	anio = "";
 	if(fecha.length() == 0)
 	{
 		return false;
@@ -466,7 +516,10 @@ bool VentanaEstadisticas::validarFecha(string fecha)
 			if(listaFecha.size() == 1)
 			{
 				if (atoi((it->c_str())) > MINIMO_AÑOS && atoi((it->c_str())) < MAXIMO_AÑOS)
+				{
+					anio = it->c_str();
 					return true;
+				}
 				else 
 					return false;
 			}
@@ -475,9 +528,13 @@ bool VentanaEstadisticas::validarFecha(string fecha)
 			{
 				if (atoi((it->c_str())) > 0 && atoi((it->c_str())) <= MESES)
 				{
+					mes = it->c_str();
 					it++;
 					if (atoi((it->c_str())) > MINIMO_AÑOS && atoi((it->c_str())) <= MAXIMO_AÑOS)
+					{
+						anio = it->c_str();
 						return true;
+					}
 				}
 				else return false;
 			}
@@ -486,12 +543,17 @@ bool VentanaEstadisticas::validarFecha(string fecha)
 			{
 				if (atoi((it->c_str())) > 0 && atoi((it->c_str())) <= DIAS)
 				{
+					dia = it->c_str();
 					it++;
 					if (atoi((it->c_str())) > 0 && atoi((it->c_str())) <= MESES)
 					{
+						mes = it->c_str();
 						it++;
 						if (atoi((it->c_str())) > MINIMO_AÑOS && atoi((it->c_str())) <= MAXIMO_AÑOS)
+						{
+							anio = it->c_str();
 							return true;
+						}
 					}
 					else return false;
 				}
@@ -501,8 +563,6 @@ bool VentanaEstadisticas::validarFecha(string fecha)
 		else 
 			return false;
 	}
-
-	return false;
 }
 
 bool VentanaEstadisticas::validarSeleccion(string texto)
@@ -512,28 +572,43 @@ bool VentanaEstadisticas::validarSeleccion(string texto)
 	else return false;
 }
 
-bool VentanaEstadisticas::seleccionUnaOpciónOK()
+bool VentanaEstadisticas::seleccionUnaOpcionOK(string &seleccion)
 {
 	int cantidadSeleccionadaOK = 0;
 	int cantidadSeleccionada = 0;
 	if (validarSeleccion(textboxEvolUser->getTexto()))
+	{
 		cantidadSeleccionadaOK++;
+		seleccion = "ConsultaEvolucionUsuarios";
+	}
 	if (textboxEvolUser->getTexto().length() != 0 ) 
 		cantidadSeleccionada++;
 	if (validarSeleccion(textboxEvolUserConnect->getTexto()))
+	{
 		cantidadSeleccionadaOK++;
+		seleccion = "ConsultaEvolucionUsuariosConectados";
+	}
 	if (textboxEvolUserConnect->getTexto().length() != 0 ) 
 		cantidadSeleccionada++;
 	if (validarSeleccion(textboxListUserCon->getTexto()))
+	{
 		cantidadSeleccionadaOK++;
+		seleccion = "ConsultaListadoUsuariosConectados";
+	}
 	if (textboxListUserCon->getTexto().length() != 0 ) 
 		cantidadSeleccionada++;
 	if (validarSeleccion(textboxListUserReg->getTexto()))
+	{
 		cantidadSeleccionadaOK++;
+		seleccion = "ConsultaListadoUsuariosRegistrados";
+	}
 	if (textboxListUserReg->getTexto().length() != 0 ) 
 		cantidadSeleccionada++;
 	if (validarSeleccion(textboxRanking->getTexto()))
+	{
 		cantidadSeleccionadaOK++;
+		seleccion = "ConsultaRanking";
+	}
 	if (textboxRanking->getTexto().length() != 0 ) 
 		cantidadSeleccionada++;
 	if(cantidadSeleccionada == 1 && cantidadSeleccionadaOK == 1)

@@ -32,6 +32,10 @@ private:
 
 	Etiqueta* mensaje;
 
+	string dia;
+	string mes;
+	string anio;
+
 	list<ElementoGrafico*> elementos;
 	list<ComponentePanel*> componentes;
 
@@ -49,7 +53,7 @@ private:
 
 	bool validarFecha(string fecha);
 	bool validarSeleccion(string texto);
-	bool seleccionUnaOpciónOK();
+	bool seleccionUnaOpcionOK(string &seleccion);
 
 protected:
 	void dibujar(SDL_Surface* superficie);

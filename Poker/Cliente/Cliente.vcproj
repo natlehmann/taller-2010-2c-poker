@@ -363,6 +363,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpUIClienteSolicitarEstadistica.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpUIClienteSubirApuesta.cpp"
 				>
 			</File>
@@ -710,6 +714,10 @@
 			</File>
 			<File
 				RelativePath=".\OpUIClienteSolicitarEscenario.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpUIClienteSolicitarEstadistica.h"
 				>
 			</File>
 			<File
