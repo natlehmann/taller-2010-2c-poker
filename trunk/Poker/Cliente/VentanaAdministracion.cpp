@@ -255,7 +255,7 @@ void VentanaAdministracion::mostrarMensaje(string mensaje){
 		else
 		{
 			this->mensaje->setMensaje(" ");
-			this->mensaje->setVisible(false);
+			this->mensaje->setVisible(true);
 		}
 		this->mensaje->dibujar(this->pantalla);
 	}
