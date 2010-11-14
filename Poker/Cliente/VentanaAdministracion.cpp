@@ -235,9 +235,10 @@ void VentanaAdministracion::iniciar() {
 			listo = this->manejarEventos(&event);
 
 			if( (event.type == SDL_QUIT) || (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) ){
-				this->cancelado = true;
+				lanzarEvento(101);
+				/*this->cancelado = true;
 				SDL_Quit();
-                listo = true;
+                listo = true;*/
             }
 
 		}
@@ -324,7 +325,10 @@ bool VentanaAdministracion::manejarEventos(SDL_Event* event){
 				}
 				break;	
 			case (SDL_USEREVENT):
+				if (event->user.code == 100)
 					refrescar = true;
+				else if (event->user.code == 101)
+					controlId = "btCancel";
 				break;	
 
 		}
@@ -359,7 +363,7 @@ bool VentanaAdministracion::ejecutarPreEvento(string controlId){
 		lanzarEvento(100);
 		return true;
 	}
-	else if (MensajesUtil::sonIguales(controlId, "btComprar"))
+	else if (MensajesUtil::sonIguales(controlId, "btCargar"))
 	{
 		mostrarMensaje("Espere, transferiendo imagen al servidor...");
 		lanzarEvento(100);
@@ -461,6 +465,17 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 	}
 	else if (MensajesUtil::sonIguales(controlId, "btCancel"))
 	{
+		FabricaOperacionesCliente fab;
+		OperacionUICliente* operacion = NULL;
+
+		vector<string> parametros;
+		parametros.push_back(this->usuario);
+		parametros.push_back(MensajesUtil::intToString(this->sessionId));
+		operacion = fab.newOperacion("OpUIClienteLogoff", parametros);
+
+		operacion->ejecutarAccion(NULL);
+		delete(operacion);
+
 		this->cancelado = true;
 		SDL_Quit();
 		return true;
