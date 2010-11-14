@@ -23,10 +23,12 @@ bool OpRecibirFoto::ejecutarAccion(Socket* socket)
 	
 	string usuario = this->parametros.at(0);
 	string nombreFoto = this->parametros.at(1);
+	string nuevoNombreFoto = usuario + ".bmp";
 	
 	AccesoDatos ad;
 	
-	if (ad.actualizarNombreImagen(usuario, nombreFoto))
+	//esto esta de mas, pero no lo sacamos por las dudas que haya que usarlo
+	if (ad.actualizarNombreImagen(usuario, nuevoNombreFoto))
 	{
 		// OK	--> Se da respuesta OK al cliente
 		respuesta = "OK";
@@ -77,7 +79,8 @@ bool OpRecibirFoto::ejecutarAccion(Socket* socket)
 							// Arma el path de destino
 							string pathCompleto = RecursosServidor::getConfig()->get("servidor.pathImagenes");
 							// El path completo es la concatenacion del usuario + el nombre de la foto
-							pathCompleto.append(usuario + "_" + nombreFoto);
+							//pathCompleto.append(usuario + "_" + nombreFoto);
+							pathCompleto.append(nuevoNombreFoto);
 							ofstream newfile(pathCompleto.c_str(), ios::out | ios::binary); 
 													
 							if(newfile.is_open()) 
