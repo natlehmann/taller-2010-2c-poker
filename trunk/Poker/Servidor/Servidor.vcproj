@@ -335,6 +335,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpEnviarEstadistica.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Operacion.cpp"
 				>
 			</File>
@@ -658,6 +662,10 @@
 			</File>
 			<File
 				RelativePath=".\OpEnviarEscenario.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpEnviarEstadistica.h"
 				>
 			</File>
 			<File

@@ -14,6 +14,7 @@
 #include "OpUIClienteRegistrarJugador.h"
 #include "OpUIClienteComprarFichas.h"
 #include "OpUIClienteEnviarFoto.h"
+#include "OpUIClienteSolicitarEstadistica.h"
 #include "OpUIClienteLogoff.h"
 
 using namespace std;
@@ -77,6 +78,10 @@ OperacionUICliente* FabricaOperacionesCliente::newOperacion(string nombreOperaci
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteEnviarFoto")) {
 		operacion = new OpUIClienteEnviarFoto(parametros);
 	}
+	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteSolicitarEstadistica")) {
+		operacion = new OpUIClienteSolicitarEstadistica(parametros);
+	}
+	
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteLogoff")) {
 		operacion = new OpUIClienteLogoff(parametros);
 	}
