@@ -597,6 +597,146 @@ string AccesoDatos::obtenerEvolUsrRegPorMeses(string anio)
 string AccesoDatos::obtenerEvolucionUsuariosConectados(string dia, string mes, string anio)
 {
 	string listado = "";
+	
+	if (dia.length() == 1)
+		dia = "0" + dia;
+
+	if (mes.length() == 1)
+		mes = "0" + mes;
+
+	// En el primer caso al existir todos los datos --> se desglosa por horas del dia ingresado
+	if ((!MensajesUtil::sonIguales(dia, ""))&&(!MensajesUtil::sonIguales(mes, ""))&&(!MensajesUtil::sonIguales(anio, "")))
+	{
+		listado = obtenerEvolUsrConPorHoras(dia, mes, anio);	
+	}
+	// En el segundo caso al existir mes y anio --> se desglosa por dias del mes ingresado
+	else if ((MensajesUtil::sonIguales(dia, ""))&&(!MensajesUtil::sonIguales(mes, ""))&&(!MensajesUtil::sonIguales(anio, "")))
+	{
+		listado = obtenerEvolUsrConPorDias(mes, anio);	
+	}
+	// En el tercer caso al existir solo anio --> se desglosa por meses del anio ingresado
+	else if ((MensajesUtil::sonIguales(dia, ""))&&(MensajesUtil::sonIguales(mes, ""))&&(!MensajesUtil::sonIguales(anio, "")))
+	{
+		listado = obtenerEvolUsrConPorMeses(anio);	
+	}
+	
+	return listado;
+}
+
+string AccesoDatos::obtenerEvolUsrConPorHoras(string dia, string mes, string anio)
+{
+	string listado = "";
+	string sql = "";
+	string diaMesAnio = dia + "/" + mes + "/" + anio;
+	string strHora = "";
+	int cantConectados = 0;
+	
+	listado = listado + "Hora:" + '\t'+ '\t';
+	listado = listado + "Cantidad Usuarios Conectados:" + '\n';
+	listado = listado + "-------" + '\t';
+	listado = listado + "-----------------------------" + '\n';
+
+	for (int hora = 0; hora <= HORA_MAX; hora++) 
+	{
+		strHora = MensajesUtil::intToString(hora);
+		
+		if (strHora.length() == 1)
+			strHora = "0" + strHora;
+
+		sql = "SELECT COUNT(DISTINCT(USUARIO)) FROM sesion WHERE substr(horaInicio,0,3) = '" + strHora + "' AND fechaInicio = '" + diaMesAnio + "';";
+ 
+		if (this->ejecutar(sql))
+		{
+			while (sqlite3_step(resultado)==SQLITE_ROW)
+			{	
+				cantConectados = sqlite3_column_int(resultado, 0);	
+
+				listado = listado + MensajesUtil::intToString(hora) + '\t' + '\t' + '\t';
+				listado = listado + MensajesUtil::intToString(cantConectados) + '\n';
+			}
+		}
+	}
+
+	return listado;
+}
+
+string AccesoDatos::obtenerEvolUsrConPorDias(string mes, string anio)
+{
+	string listado = "";
+	string sql = "";
+	string strDia = "";
+	string mesAnio = mes + "/" + anio;
+	string fecha = "";
+	int diaMax = this->getCantDiasDelMes(UtilTiposDatos::stringAEntero(mes), UtilTiposDatos::stringAEntero(anio));
+	int cantConectados = 0;
+		
+	listado = listado + "Dia:" + '\t'+ '\t';
+	listado = listado + "Cantidad Usuarios Conectados:" + '\n';
+	listado = listado + "-------" + '\t';
+	listado = listado + "------------------------------" + '\n';
+
+	for (int dia = 1; dia <= diaMax; dia++) 
+	{
+		strDia = MensajesUtil::intToString(dia);
+		
+		if (strDia.length() == 1)
+			strDia = "0" + strDia;
+
+		fecha = strDia + "/" + mesAnio;
+
+		sql = "SELECT COUNT(DISTINCT(usuario)) FROM sesion WHERE fechaInicio = '" + fecha + "';";
+ 
+		if (this->ejecutar(sql))
+		{
+			while (sqlite3_step(resultado)==SQLITE_ROW)
+			{	
+				cantConectados = sqlite3_column_int(resultado, 0);	
+
+				listado = listado + MensajesUtil::intToString(dia) + '\t' + '\t' + '\t';
+				listado = listado + MensajesUtil::intToString(cantConectados) + '\n';
+			}
+		}
+	}
+
+	return listado;	
+}
+
+string AccesoDatos::obtenerEvolUsrConPorMeses(string anio)
+{
+	string listado = "";
+	string sql = "";
+	string strMes = "";
+	string fecha = "";
+	int cantConectados = 0;
+		
+	listado = listado + "Mes:" + '\t'+ '\t';
+	listado = listado + "Cantidad Usuarios Conectados" + '\n';
+	listado = listado + "-------" + '\t';
+	listado = listado + "-----------------------------" + '\n';
+
+	for (int mes = 1; mes <= MES_MAX; mes++) 
+	{
+		strMes = MensajesUtil::intToString(mes);
+		
+		if (strMes.length() == 1)
+			strMes = "0" + strMes;
+
+		fecha = strMes + "/" + anio;
+
+		sql = "SELECT COUNT(DISTINCT(usuario)) FROM sesion WHERE substr(fechaInicio, 4, 7) = '" + fecha + "';"; 
+ 
+		if (this->ejecutar(sql))
+		{
+			while (sqlite3_step(resultado)==SQLITE_ROW)
+			{	
+				cantConectados = sqlite3_column_int(resultado, 0);	
+
+				listado = listado + MensajesUtil::intToString(mes) + '\t' + '\t' + '\t';
+				listado = listado + MensajesUtil::intToString(cantConectados) + '\n';
+			}
+		}
+	}
+
 	return listado;
 }
 
@@ -651,7 +791,7 @@ string AccesoDatos::obtenerListUsrRegPorHoras(string dia, string mes, string ani
 		if (strHora.length() == 1)
 			strHora = "0" + strHora;
 
-		sql = "SELECT usuario FROM jugadores WHERE substr(horaregistro,0,3) = '" + strHora + "' AND fechaRegistro = '" + diaMesAnio + "';";
+		sql = "SELECT distinct(usuario) FROM sesion WHERE substr(horaregistro,0,3) = '" + strHora + "' AND fechaRegistro = '" + diaMesAnio + "';";
  
 		if (this->ejecutar(sql))
 		{
@@ -808,6 +948,7 @@ string AccesoDatos::obtenerListUsrRegPorMeses(string anio)
 
 	return listado;
 }
+
 string AccesoDatos::obtenerListadoUsuariosConectados(string dia, string mes, string anio)
 {
 	string listado = "";
@@ -837,24 +978,183 @@ string AccesoDatos::obtenerListadoUsuariosConectados(string dia, string mes, str
 	return listado;
 }
 
-
-
-
 string AccesoDatos::obtenerListUsrConPorHoras(string dia, string mes, string anio)
 {
 	string listado = "";
+	string sql = "";
+	string diaMesAnio = dia + "/" + mes + "/" + anio;
+	string strHora = "";
+	string usuario = "";
+	bool hayUsuarios;
+	bool imprimioHora;
+	
+	listado = listado + "Hora:" + '\t'+ '\t';
+	listado = listado + "Usuarios Conectados:" + '\n';
+	listado = listado + "-------" + '\t';
+	listado = listado + "--------------------" + '\n';
+
+	for (int hora = 0; hora <= HORA_MAX; hora++) 
+	{
+		strHora = MensajesUtil::intToString(hora);
+		
+		if (strHora.length() == 1)
+			strHora = "0" + strHora;
+
+		sql = "SELECT distinct(usuario) FROM sesion WHERE substr(horaInicio,0,3) = '" + strHora + "' AND fechaInicio = '" + diaMesAnio + "';";
+ 
+		if (this->ejecutar(sql))
+		{
+			imprimioHora = false;
+			hayUsuarios = false;
+			
+			while (sqlite3_step(resultado)==SQLITE_ROW)
+			{	
+				usuario = string(reinterpret_cast<const char*>(sqlite3_column_text(resultado, 0)));
+
+				if (!imprimioHora)
+				{
+					listado = listado + MensajesUtil::intToString(hora) + '\t' + '\t' + '\t';
+					imprimioHora = true;
+				}
+				else
+					listado = listado +  '\t' + '\t' + '\t';
+				
+				listado = listado + usuario + '\n';
+				
+				hayUsuarios = true;
+			}
+
+			if (!hayUsuarios)
+			{
+				listado = listado + MensajesUtil::intToString(hora) + '\t' + '\t' + '\t';
+				usuario = "-";
+				listado = listado + usuario + '\n';
+			}
+		}
+	}
+
 	return listado;
 }
 
 string AccesoDatos::obtenerListUsrConPorDias(string mes, string anio)
 {
 	string listado = "";
+	string sql = "";
+	string strDia = "";
+	string mesAnio = mes + "/" + anio;
+	string fecha = "";
+	int diaMax = this->getCantDiasDelMes(UtilTiposDatos::stringAEntero(mes), UtilTiposDatos::stringAEntero(anio));
+	string usuario = "";
+	bool hayUsuarios;
+	bool imprimioDia;
+		
+	listado = listado + "Dia:" + '\t'+ '\t';
+	listado = listado + "Usuarios Conectados" + '\n';
+	listado = listado + "-------" + '\t';
+	listado = listado + "--------------------" + '\n';
+
+	for (int dia = 1; dia <= diaMax; dia++) 
+	{
+		strDia = MensajesUtil::intToString(dia);
+		
+		if (strDia.length() == 1)
+			strDia = "0" + strDia;
+
+		fecha = strDia + "/" + mesAnio;
+
+		sql = "SELECT distinct(usuario) FROM sesion WHERE fechaInicio = '" + fecha + "';";
+ 
+		if (this->ejecutar(sql))
+		{
+			imprimioDia = false;
+			hayUsuarios = false;
+			
+			while (sqlite3_step(resultado)==SQLITE_ROW)
+			{	
+				usuario = string(reinterpret_cast<const char*>(sqlite3_column_text(resultado, 0)));
+
+				if (!imprimioDia)
+				{
+					listado = listado + MensajesUtil::intToString(dia) + '\t' + '\t' + '\t';
+					imprimioDia = true;
+				}
+				else
+					listado = listado +  '\t' + '\t' + '\t';
+				
+				listado = listado + usuario + '\n';
+				
+				hayUsuarios = true;
+			}
+
+			if (!hayUsuarios)
+			{
+				listado = listado + MensajesUtil::intToString(dia) + '\t' + '\t' + '\t';
+				usuario = "-";
+				listado = listado + usuario + '\n';
+			}
+		}
+	}
+
 	return listado;
 }
 
 string AccesoDatos::obtenerListUsrConPorMeses(string anio)
 {
 	string listado = "";
+	string sql = "";
+	string strMes = "";
+	string fecha = "";
+	string usuario = "";
+	bool hayUsuarios;
+	bool imprimioMes;
+		
+	listado = listado + "Mes:" + '\t'+ '\t';
+	listado = listado + "Usuarios Conectados:" + '\n';
+	listado = listado + "-------" + '\t';
+	listado = listado + "--------------------" + '\n';
+
+	for (int mes = 1; mes <= MES_MAX; mes++) 
+	{
+		strMes = MensajesUtil::intToString(mes);
+		
+		if (strMes.length() == 1)
+			strMes = "0" + strMes;
+
+		fecha = strMes + "/" + anio;
+
+		sql = "SELECT distinct(usuario) FROM sesion WHERE substr(fechaInicio, 4, 7) = '" + fecha + "';"; 
+ 
+		if (this->ejecutar(sql))
+		{
+			imprimioMes = false;
+			hayUsuarios = false;
+			
+			while (sqlite3_step(resultado)==SQLITE_ROW)
+			{	
+				usuario = string(reinterpret_cast<const char*>(sqlite3_column_text(resultado, 0)));
+
+				if (!imprimioMes)
+				{
+					listado = listado + MensajesUtil::intToString(mes) + '\t' + '\t' + '\t';
+					imprimioMes = true;
+				}
+				else
+					listado = listado +  '\t' + '\t' + '\t';
+				
+				listado = listado + usuario + '\n';
+				
+				hayUsuarios = true;
+			}
+
+			if (!hayUsuarios)
+			{
+				listado = listado + MensajesUtil::intToString(mes) + '\t' + '\t' + '\t';
+				usuario = "-";
+				listado = listado + usuario + '\n';
+			}
+		}
+	}
+
 	return listado;
 }
 
