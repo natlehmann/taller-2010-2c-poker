@@ -81,7 +81,6 @@ OperacionUICliente* FabricaOperacionesCliente::newOperacion(string nombreOperaci
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteSolicitarEstadistica")) {
 		operacion = new OpUIClienteSolicitarEstadistica(parametros);
 	}
-	
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteLogoff")) {
 		operacion = new OpUIClienteLogoff(parametros);
 	}

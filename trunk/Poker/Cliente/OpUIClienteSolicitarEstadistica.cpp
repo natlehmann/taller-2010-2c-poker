@@ -24,44 +24,45 @@ bool OpUIClienteSolicitarEstadistica::ejecutarAccion(Ventana* ventana)
 	string mes = "";
 	string dia = "";
 
-	string tipoDeEstadistica = this->parametros.at(0); //
+	string tipoDeEstadistica = this->parametros.at(0); 
 	anio = this->parametros.at(1); //formato AAAA
 	if (parametros.size() > 2)
 	{
 		mes = this->parametros.at(2); //formato MM
-		if (parametros.size() > 3) dia = this->parametros.at(3); //formato DD
+		
+		if (parametros.size() > 3) 
+			dia = this->parametros.at(3); //formato DD
 	}
 
 	DomTree* tree = new DomTree("operaciones");
 	Elemento* pedido = tree->agregarElemento("pedido");
 
 	Elemento* operacion = pedido->agregarHijo("operacion");
-	operacion->agregarAtributo("id", "OpEstadistica");
+	operacion->agregarAtributo("id", "OpEnviarEstadistica");
 
 	Elemento* params = operacion->agregarHijo("parametros");
-
 	Elemento* param1 = params->agregarHijo("parametro");
 	param1->agregarAtributo("nombre","tipoDeEstadistica");
 	param1->setTexto(tipoDeEstadistica);
 
-	if(anio != "")
-	{
-		Elemento* param1 = params->agregarHijo("parametro");
-		param1->agregarAtributo("nombre","anio");
-		param1->setTexto(anio);
-	}
+	Elemento* param2 = params->agregarHijo("parametro");
+	param2->agregarAtributo("nombre","anio");
+	param2->setTexto(anio);
+
 	if(mes != "")
 	{
-		Elemento* param2 = params->agregarHijo("parametro");
-		param2->agregarAtributo("nombre", "mes");
-		param2->setTexto(mes);
+		Elemento* param3 = params->agregarHijo("parametro");
+		param3->agregarAtributo("nombre", "mes");
+		param3->setTexto(mes);
 	}
+
 	if(dia != "")
 	{
-		Elemento* param3 = params->agregarHijo("parametro");
-		param3->agregarAtributo("nombre", "dia");
-		param3->setTexto(dia);
+		Elemento* param4 = params->agregarHijo("parametro");
+		param4->agregarAtributo("nombre", "dia");
+		param4->setTexto(dia);
 	}
+
 	XmlParser* parser = new XmlParser();
 
 	// Se envia el pedido al servidor
@@ -74,14 +75,19 @@ bool OpUIClienteSolicitarEstadistica::ejecutarAccion(Ventana* ventana)
 		{
 			if (this->cargarRespuestaServidor(msjRecibido))
 			{
-				if (this->parametrosRecibidos.at(0) != "")
+				if (MensajesUtil::sonIguales(this->parametrosRecibidos.at(0), "OK"))
 				{
-					this->pathArchivo = parametrosRecibidos.at(0);
 					ok = true;		
+
+					if (parametrosRecibidos.size() > 1)
+						this->estadistica = UtilTiposDatos::getEntero(parametrosRecibidos.at(1));
+
+					//TODO: GRABAR ARCHIVO CON LA ESTADISTICA
 				}
 				else
 				{
-
+					if (parametrosRecibidos.size() > 0)
+						this->error = parametrosRecibidos.at(0);
 				}
 			}
 		} 
@@ -101,12 +107,7 @@ bool OpUIClienteSolicitarEstadistica::ejecutarAccion(Ventana* ventana)
 	return ok;
 }
 
-string OpUIClienteSolicitarEstadistica::getPathArchivo()
+string OpUIClienteSolicitarEstadistica::getError()
 {
-	return this->pathArchivo;
-}
-
-void OpUIClienteSolicitarEstadistica::setPathArchivo(string path)
-{
-	this->pathArchivo = path;
+	return this->error;
 }

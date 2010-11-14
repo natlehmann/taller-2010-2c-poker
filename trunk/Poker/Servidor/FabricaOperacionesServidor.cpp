@@ -73,7 +73,7 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpRecibirFoto")) {
 		operacion = new OpRecibirFoto(idCliente, parametros);
 	}
-	else if (MensajesUtil::sonIguales(nombreOperacion, "OpEstadistica")) {
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpEnviarEstadistica")) {
 		operacion = new OpEnviarEstadistica(idCliente, parametros);
 	}
 

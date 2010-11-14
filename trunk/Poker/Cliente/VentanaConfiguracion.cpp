@@ -262,7 +262,7 @@ bool VentanaConfiguracion::ejecutarPreEvento(string controlId){
 	if (MensajesUtil::sonIguales(controlId, "btConectar"))
 	{
 		mostrarMensaje("Espere, Intentando de conectar al Servidor...");
-		lanzarEvento(100);
+		//lanzarEvento(100);
 		return true;
 	}
 

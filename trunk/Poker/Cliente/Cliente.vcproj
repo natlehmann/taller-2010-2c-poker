@@ -467,7 +467,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\VentanaEstadisticas.cpp"
+				RelativePath=".\VentanaEstadistica.cpp"
 				>
 			</File>
 			<File
@@ -821,7 +821,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\VentanaEstadisticas.h"
+				RelativePath=".\VentanaEstadistica.h"
 				>
 			</File>
 			<File
