@@ -7,6 +7,8 @@
 #include "MensajesUtil.h"
 
 #define _CRT_SECURE_NO_DEPRECATE 1
+#define MES_MAX 12
+#define HORA_MAX 23
 
 using namespace std;
 
@@ -47,10 +49,27 @@ class AccesoDatos
 		bool registrarCompraFichas(string usuario, int cantFichasCompradas);
 
 		/* Metodos y funciones aplicados a la obtencion de datos estadisticos */
+		string obtenerEvolUsrRegPorHoras(string dia, string mes, string anio);	
+		string obtenerEvolUsrRegPorDias(string mes, string anio);
+		string obtenerEvolUsrRegPorMeses(string anio);
+
+		string obtenerEvolUsrConPorHoras(string dia, string mes, string anio);
+		string obtenerEvolUsrConPorDias(string mes, string anio);
+		string obtenerEvolUsrConPorMeses(string anio);
+
+		string obtenerListUsrRegPorHoras(string dia, string mes, string anio);
+		string obtenerListUsrRegPorDias(string mes, string anio);
+		string obtenerListUsrRegPorMeses(string anio);
+
+		string obtenerListUsrConPorHoras(string dia, string mes, string anio);
+		string obtenerListUsrConPorDias(string mes, string anio);
+		string obtenerListUsrConPorMeses(string anio);
+
 		bool consultarRankingUsuarios();
 
 		string getFechaActual();
 		string getHoraActual();
+		int getCantDiasDelMes(int dia, int anio);
 
 	public:
 		
@@ -90,4 +109,5 @@ class AccesoDatos
 		string obtenerListadoUsuariosConectados(string dia, string mes, string anio);
 		string obtenerRankingUsuarios();
 		/************************************************************************************************************/
+
 };
