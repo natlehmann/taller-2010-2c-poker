@@ -90,7 +90,7 @@ void VentanaLogin::configurarControles() {
 	etUsuario->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etUsuario);
 
-	txUsuario = new TextBox("poddo");
+	txUsuario = new TextBox("luchopal");
 	txUsuario->setPosX(this->anchoColumna*7);
 	txUsuario->setAncho(this->anchoColumna*10);
 	txUsuario->setPosY(this->altoFila*1);
@@ -106,7 +106,7 @@ void VentanaLogin::configurarControles() {
 	etPassword->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etPassword);
 
-	txPassword = new TextBox("123");
+	txPassword = new TextBox("lucho");
 	txPassword->setPosX(this->anchoColumna*7);
 	txPassword->setAncho(this->anchoColumna*10);
 	txPassword->setPosY(this->altoFila*5);

@@ -3,6 +3,11 @@
 
 class OpEnviarEstadistica : public Operacion
 {
+	private: 
+	string getFechaActual();
+	string getHoraActual();
+	ofstream* archivo;
+
 	protected:
 		virtual bool ejecutarAccion(Socket* socket);
 
