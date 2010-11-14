@@ -12,7 +12,7 @@
 #include "VentanaLogin.h"
 #include "VentanaNuevoJugador.h"
 #include "VentanaAdministracion.h"
-#include "VentanaEstadisticas.h"
+#include "VentanaEstadistica.h"
 #include "Sincronizador.h"
 #include "OpUIClienteAgregarJugador.h"
 #include <vector>
@@ -24,7 +24,7 @@ int main (int argc, char** argv)
 	VentanaLogin* ventanaLogin = NULL;
 	VentanaNuevoJugador* ventanaNuevoJugador = NULL;
 	VentanaAdministracion* ventanaAdministracion = NULL;
-	VentanaEstadisticas* ventanaEstadisticas = NULL;
+	VentanaEstadistica* ventanaEstadistica = NULL;
 	OperacionUICliente* operacion = NULL;
 	Ventana* ventana = NULL;
 
@@ -77,17 +77,17 @@ int main (int argc, char** argv)
 
 					if (ventanaAdministracion->getVerEstadisticas())
 					{
-						ventanaEstadisticas = new VentanaEstadisticas(ventanaAdministracion->getUsuario(), 
-																	  ventanaAdministracion->getSesionId());
-						ventanaEstadisticas->iniciar();
+						ventanaEstadistica = new VentanaEstadistica(ventanaAdministracion->getUsuario(), 
+																	ventanaAdministracion->getSesionId());
+						ventanaEstadistica->iniciar();
 
-						if (ventanaEstadisticas->getConsulto() || ventanaEstadisticas->getCancelado())
+						if (ventanaEstadistica->getCancelado())
 							sigueAdministracion = true;
 						else 
 							sigueAdministracion = true;
 
-						delete(ventanaNuevoJugador);
-						ventanaNuevoJugador = NULL;
+						delete(ventanaEstadistica);
+						ventanaEstadistica = NULL;
 
 						delete(ventanaAdministracion);
 						ventanaAdministracion = NULL;
@@ -166,8 +166,8 @@ int main (int argc, char** argv)
 		if (ventanaAdministracion == NULL) {
 			delete(ventanaAdministracion);
 		}
-		if (ventanaEstadisticas == NULL) {
-			delete(ventanaEstadisticas);
+		if (ventanaEstadistica == NULL) {
+			delete(ventanaEstadistica);
 		}
 		if (operacion != NULL) {
 			delete(operacion);

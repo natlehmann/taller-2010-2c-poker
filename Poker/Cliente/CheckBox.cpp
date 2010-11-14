@@ -31,6 +31,7 @@ CheckBox::CheckBox(string texto) : ComponentePanel(texto)
 
 	this->estado = 'u';
 	this->checked = false;
+	this->hayCambios = false;
 
 	this->superficieTexto = NULL;
 	this->hayCambiosTexto = true;
@@ -214,6 +215,7 @@ void CheckBox::dibujarBoton(SDL_Surface* superficie, Imagen* imagen){
 
 void CheckBox::dibujarOverCheck(SDL_Surface* superficie)
 {
+	this->checked = true;
 	this->hayCambios = true;
 	estado = 'b';
 	if (this->habilitado) {
@@ -222,6 +224,7 @@ void CheckBox::dibujarOverCheck(SDL_Surface* superficie)
 }
 void CheckBox::dibujarOverUnCheck(SDL_Surface* superficie)
 {
+	this->checked = false;
 	this->hayCambios = true;
 	estado = 'o';
 	if (this->habilitado) {
@@ -231,6 +234,7 @@ void CheckBox::dibujarOverUnCheck(SDL_Surface* superficie)
 
 void CheckBox::dibujarDown(SDL_Surface* superficie)
 {
+	this->checked = true;
 	this->hayCambios = true;
 	estado = 'c';
 	if (this->habilitado) {
@@ -239,6 +243,7 @@ void CheckBox::dibujarDown(SDL_Surface* superficie)
 }
 void CheckBox::dibujarUp(SDL_Surface* superficie)
 {
+	this->checked = false;
 	this->hayCambios = true;
 	estado = 'u';
 	if (this->habilitado) {

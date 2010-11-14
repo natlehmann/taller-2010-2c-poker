@@ -17,7 +17,7 @@ OpEnviarEstadistica::~OpEnviarEstadistica(void)
 
 bool OpEnviarEstadistica::ejecutarAccion(Socket* socket)
 {	
-	cout << "Enviando estadistica a cliente " << this->getIdCliente() << endl;
+	//cout << "Enviando estadistica a cliente " << this->getIdCliente() << endl;
 	string anio = "";
 	string mes = "";
 	string dia = "";
@@ -27,15 +27,20 @@ bool OpEnviarEstadistica::ejecutarAccion(Socket* socket)
 	if (parametros.size() > 2)
 	{
 		mes = this->parametros.at(2); //formato MM
-		if (parametros.size() > 3) dia = this->parametros.at(3); //formato DD
+		
+		if (parametros.size() > 3) 
+			dia = this->parametros.at(3); //formato DD
 	}
-	bool error;
+	
 	AccesoDatos ad;
+	bool error;
 	bool ok = true;
-	string respuesta = "archivolalala.txt"; //path Archivo
+	string respuesta = "";
+	
 
 	if (MensajesUtil::sonIguales(tipoDeEstadistica, "ConsultaEvolucionUsuarios"))
 	{
+		
 		//aca se consulta a AccesoDatos y se guarda en un archivo con nombre relacionado cno la consulta
 		// ejemplo estadistica_ConsultaEvolucionUsuarios_10_11_2010.txt
 	}

@@ -7,16 +7,17 @@ using namespace std;
 
 class OpUIClienteSolicitarEstadistica : public OperacionUICliente
 {
-private:
-			string pathArchivo;
-protected:
-			virtual bool ejecutarAccion(Ventana* ventana);
-public:
-			OpUIClienteSolicitarEstadistica(vector<string> parametros);
-			~OpUIClienteSolicitarEstadistica(void);
-			string getPathArchivo();
-			void setPathArchivo(string path);
-
+	private:
+		string estadistica;
+		string error;
+	
+	protected:
+		virtual bool ejecutarAccion(Ventana* ventana);
+	
+	public:
+		OpUIClienteSolicitarEstadistica(vector<string> parametros);
+		~OpUIClienteSolicitarEstadistica(void);
+		virtual string getError();
 };
 
 #endif //_OPUICLIENTE_SOLICITARESTADISTICA_H_
