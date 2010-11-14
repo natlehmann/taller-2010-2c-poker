@@ -411,13 +411,17 @@ bool AccesoDatos::consultarCantFichasCompradasHoy(string usuario)
 	return this->ejecutar(sql);
 }
 
-queue<pair<string, int>> AccesoDatos::obtenerRankingUsuarios()
+string AccesoDatos::obtenerRankingUsuarios()
 {
-	queue<pair<string, int>> listado;	
-	string usuario;
-	int cantFichas;
-	pair<string, int> datoUsuarioFichas;
-	
+	string listado = "";
+	string usuario  = "";
+	int cantFichas = 0;
+		
+	listado = listado + "Usuario" + '\t'+ '\t';
+	listado = listado + "Fichas" + '\n';
+	listado = listado + "-------" + '\t' + '\t';
+	listado = listado + "-------" + '\n';
+
 	if (this->consultarRankingUsuarios())
 	{
 		while (sqlite3_step(resultado)==SQLITE_ROW)
@@ -425,10 +429,13 @@ queue<pair<string, int>> AccesoDatos::obtenerRankingUsuarios()
 			usuario = string(reinterpret_cast<const char*>(sqlite3_column_text(resultado, 0)));
 			cantFichas = sqlite3_column_int(resultado, 1);
 			
-			datoUsuarioFichas = make_pair(usuario, cantFichas);
-			listado.push(datoUsuarioFichas);
+			listado = listado + usuario + '\t' + '\t';
+			listado = listado + MensajesUtil::intToString(cantFichas) + '\n';
 		}
 	}
+
+	//cout << listado;
+
 	return listado;
 }
 

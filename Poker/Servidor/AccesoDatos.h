@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <time.h>
-#include <queue>
 #include "sqlite3.h"
 #include "UtilTiposDatos.h"
 #include "JugadorModelo.h"
@@ -85,6 +84,10 @@ class AccesoDatos
 		/*********************************************************************************************************/
 
 		/************************** Metodos y funciones para obtener datos ESTADISTICOS *****************************/
-		queue<pair<string, int>> obtenerRankingUsuarios();
+		string obtenerEvolucionUsuariosRegistrados(string dia, string mes, string anio);
+		string obtenerEvolucionUsuariosConectados(string dia, string mes, string anio);
+		string obtenerListadoUsuariosRegistrados(string dia, string mes, string anio);
+		string obtenerListadoUsuariosConectados(string dia, string mes, string anio);
+		string obtenerRankingUsuarios();
 		/************************************************************************************************************/
 };
