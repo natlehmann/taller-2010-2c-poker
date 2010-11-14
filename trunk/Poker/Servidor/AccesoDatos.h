@@ -49,22 +49,23 @@ class AccesoDatos
 		bool registrarCompraFichas(string usuario, int cantFichasCompradas);
 
 		/* Metodos y funciones aplicados a la obtencion de datos estadisticos */
+		/*	EVOLUCION DE USUARIOS REGISTRADOS */
 		string obtenerEvolUsrRegPorHoras(string dia, string mes, string anio);	
 		string obtenerEvolUsrRegPorDias(string mes, string anio);
 		string obtenerEvolUsrRegPorMeses(string anio);
-
+		/*	EVOLUCION DE USUARIOS CONECTADOS */
 		string obtenerEvolUsrConPorHoras(string dia, string mes, string anio);
 		string obtenerEvolUsrConPorDias(string mes, string anio);
 		string obtenerEvolUsrConPorMeses(string anio);
-
+		/*	LISTADO DE USUARIOS REGISTRADOS */
 		string obtenerListUsrRegPorHoras(string dia, string mes, string anio);
 		string obtenerListUsrRegPorDias(string mes, string anio);
 		string obtenerListUsrRegPorMeses(string anio);
-
+		/*	LISTADO DE USUARIOS CONECTADOS */
 		string obtenerListUsrConPorHoras(string dia, string mes, string anio);
 		string obtenerListUsrConPorDias(string mes, string anio);
 		string obtenerListUsrConPorMeses(string anio);
-
+		/*	LISTADO DEL RANKING DE USUARIOS */
 		bool consultarRankingUsuarios();
 
 		string getFechaActual();
