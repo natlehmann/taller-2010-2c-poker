@@ -24,16 +24,21 @@ bool OpUIClienteAgregarJugador::ejecutarAccion(Ventana* ventana){
 	DomTree* tree = new DomTree("operaciones");
 	Elemento* operacion = this->agregarOperacion(tree, "OpAgregarJugador");
 
-	//TODO: SE COMENTA HASTA QUE ESTE IMPLEMENTADO
-	//string nombreJugador = parametros.at(0);
-	string nombreJugador = "PEPE";
+	string nombreJugador = parametros.at(0);
+	string esVirtual = parametros.at(1);
+	string esObservador = parametros.at(2);
 
 	Elemento* parametros = operacion->agregarHijo("parametros");
 	Elemento* parametro1 = parametros->agregarHijo("parametro");
+	Elemento* parametro2 = parametros->agregarHijo("parametro");
+	Elemento* parametro3 = parametros->agregarHijo("parametro");
 
-	// TODO: VER SI ES NECESARIO MANDAR PASSWORD
 	parametro1->agregarAtributo("nombre", "usuario");
 	parametro1->setTexto(nombreJugador);
+	parametro2->agregarAtributo("nombre", "virtual");
+	parametro2->setTexto(esVirtual);
+	parametro3->agregarAtributo("nombre", "observador");
+	parametro3->setTexto(esObservador);
 
 	ok = this->enviarMensaje(tree, ventana);
 

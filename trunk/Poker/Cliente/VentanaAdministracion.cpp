@@ -75,6 +75,7 @@ VentanaAdministracion::~VentanaAdministracion(void)
 
 	delete (this->offset);
 	delete (this->contorno);
+	delete (this->contornoConOffset);
 }
 
 
@@ -419,7 +420,7 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 		if (txRutaImagen->getTexto().length() == 0)
 		{
 			if (txCantComprar->getTexto().length() == 0)
-				mostrarMensaje("Complete la path e intente nuevamente.");
+				mostrarMensaje("Complete la ruta del archivo e intente nuevamente.");
 			
 			lanzarEvento(100);
 			return false;
