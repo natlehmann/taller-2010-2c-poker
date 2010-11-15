@@ -27,6 +27,7 @@ JugadorModelo::JugadorModelo(int id, int posicion)
 	this->dealer = false;
 	this->esVirtual = false;
 	this->observador = false;
+	this->allIn = false;
 	this->timer.iniciar();
 
 	srand ((unsigned int)(time(NULL)));
@@ -50,6 +51,7 @@ JugadorModelo::JugadorModelo(int id, string nombre, int fichas, int posicion, st
 	this->dealer = false;
 	this->esVirtual = false;
 	this->observador = false;
+	this->allIn = false;
 	this->timer.iniciar();
 
 	srand ((unsigned int)(time(NULL)));
@@ -186,6 +188,10 @@ void JugadorModelo::apostar(int fichas)
 
 	this->apuesta += fichas;
 	this->fichas -= fichas;
+
+	if (this->fichas == 0) {
+		this->allIn = true;
+	}
 }
 
 void JugadorModelo::incrementarFichas(int cantidad)
@@ -215,6 +221,14 @@ bool JugadorModelo::isObservador(){
 
 void JugadorModelo::setObservador(bool observador){
 	this->observador = observador;
+}
+
+bool JugadorModelo::isAllIn(){
+	return this->allIn;
+}
+
+void JugadorModelo::setAllIn(bool allIn){
+	this->allIn = allIn;
 }
 
 void JugadorModelo::jugar()

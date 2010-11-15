@@ -51,6 +51,7 @@ private:
 	bool rondaTerminada;
 	bool mostrandoCartas;
 	bool sePuedePasar;
+	bool rondaAllIn;
 	list<string> nombresGanadores;
 	static int segsTimeoutJugadores;
 
@@ -58,6 +59,7 @@ private:
 	ContextoJuego(void);
 
 	void chequearRondaTerminada();
+	void chequearRondaAllIn();
 	void chequearTimeoutJugador(int idJugador);
 
 	void evaluarGanador();
@@ -100,6 +102,7 @@ public:
 
 	void igualarApuesta(int idCliente);
 	bool puedeSubirApuesta(int idCliente, int fichas);
+	bool puedeSubirApuesta(int idCliente);
 	bool esApuestaValida(int idCliente, int fichas);
 	void subirApuesta(int idCliente, int fichas);
 	void noIr(int idCliente);
@@ -107,6 +110,7 @@ public:
 	void pasar(int idCliente);
 
 	bool isRondaTerminada();
+	bool isRondaAllIn();
 	void setMostrandoCartas(bool mostrandoCartas);
 	bool getMostrandoCartas();
 	list<string> getNombresGanadores();

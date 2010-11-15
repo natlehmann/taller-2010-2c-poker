@@ -188,7 +188,7 @@ JugadorModelo** AdministradorJugadores::getJugadores() {
 
 void AdministradorJugadores::resetearJugadorTurno(){
 	this->jugadorTurno = this->getIndiceJugadorMano();
-	this->jugadorQueCierra = this->getIndiceJugadorMano();
+	this->jugadorQueCierra = this->jugadorTurno;
 }
 
 int AdministradorJugadores::getIndiceJugadorMano() {
@@ -205,7 +205,9 @@ int AdministradorJugadores::getIndiceJugadorMano() {
 			indiceTurno = 0;
 		}
 
-		if ((this->jugadores[indiceTurno]->isActivo() && this->jugadores[indiceTurno]->isJugandoRonda())
+		if ((this->jugadores[indiceTurno]->isActivo()
+			&& this->jugadores[indiceTurno]->isJugandoRonda()
+			&& !this->jugadores[indiceTurno]->isAllIn())
 			|| indiceTurno == this->dealer ){
 			encontrado = true;
 
@@ -224,6 +226,11 @@ void AdministradorJugadores::incrementarTurno(){
 
 	JugadorModelo* jugador = it->getSiguiente();
 	this->jugadorTurno = jugador->getPosicion() - 1;
+	while (jugador->isAllIn() && !isRondaTerminada()) {
+		jugador = it->getSiguiente();
+		this->jugadorTurno = jugador->getPosicion() - 1;
+	}
+
 	delete (it); 
 	jugador->resetTimer();
 }

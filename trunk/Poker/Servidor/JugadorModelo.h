@@ -30,6 +30,7 @@ private:
 	bool dealer;
 	bool esVirtual;
 	bool observador;
+	bool allIn;
 	TimerServidor timer;
 
 public:
@@ -82,6 +83,9 @@ public:
 
 	bool isObservador();
 	void setObservador(bool orbservador);
+
+	bool isAllIn();
+	void setAllIn(bool allIn);
 
 	void jugar();
 	void apostar(int fichas);
