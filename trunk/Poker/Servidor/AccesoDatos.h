@@ -1,4 +1,6 @@
 #pragma once
+#define _CRT_SECURE_NO_DEPRECATE 1
+
 #include <string>
 #include <time.h>
 #include "sqlite3.h"
@@ -6,7 +8,6 @@
 #include "JugadorModelo.h"
 #include "MensajesUtil.h"
 
-#define _CRT_SECURE_NO_DEPRECATE 1
 #define MES_MAX 12
 #define HORA_MAX 23
 

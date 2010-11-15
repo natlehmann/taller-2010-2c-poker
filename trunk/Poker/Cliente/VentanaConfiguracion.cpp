@@ -58,20 +58,20 @@ VentanaConfiguracion::VentanaConfiguracion(void) {
 
 VentanaConfiguracion::~VentanaConfiguracion(void)
 {
-	//for (list<ElementoGrafico*>::iterator it = this->elementos.begin();
-	//	it != this->elementos.end(); it++) {
-	//		delete(*it);
-	//}
-	//this->elementos.clear();
+	for (list<ElementoGrafico*>::iterator it = this->elementos.begin();
+		it != this->elementos.end(); it++) {
+			delete(*it);
+	}
+	this->elementos.clear();
 
-	//for (list<ComponentePanel*>::iterator it = this->componentes.begin();
-	//	it != this->componentes.end(); it++) {
-	//		delete(*it);
-	//}
-	//this->componentes.clear();
+	for (list<ComponentePanel*>::iterator it = this->componentes.begin();
+		it != this->componentes.end(); it++) {
+			delete(*it);
+	}
+	this->componentes.clear();
 
-	//delete (this->offset);
-	//delete (this->contorno);
+	delete (this->offset);
+	delete (this->contorno);
 
 }
 
