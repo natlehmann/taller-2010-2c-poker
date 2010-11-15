@@ -122,6 +122,5 @@ bool OpEnviarEstadistica::ejecutarAccion(Socket* socket)
 	else 
 		error = true;
 
-
-	return true;
+	return error;
 }
