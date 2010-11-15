@@ -22,6 +22,7 @@ private:
 	TextBox* txUsuario;
 	TextBox* txPassword;
 	TextBox* txConfirmPassword;
+	TextBox* txImagen;
 	Etiqueta* mensaje;
 	list<ElementoGrafico*> elementos;
 	list<ComponentePanel*> componentes;

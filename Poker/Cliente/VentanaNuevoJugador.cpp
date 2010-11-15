@@ -27,8 +27,8 @@ VentanaNuevoJugador::VentanaNuevoJugador(void) {
 	
 	this->altoFila = ServiciosGraficos::getAltoFilaVentanaSegundaria();
 	this->anchoColumna = ServiciosGraficos::getAnchoColVentanaSegundaria();
-	this->setAlto(this->altoFila*27);
-	this->setAncho(this->anchoColumna*19);
+	this->setAlto(this->altoFila*26);
+	this->setAncho(this->anchoColumna*20);
 
 	this->contorno->x = 0;
 	this->contorno->y = 0;
@@ -78,10 +78,26 @@ VentanaNuevoJugador::~VentanaNuevoJugador(void)
 
 void VentanaNuevoJugador::configurarControles() {
 
+	Panel* pnFecha = new Panel();
+	pnFecha->setPosX(this->anchoColumna*1);
+	pnFecha->setAncho(this->anchoColumna*18);
+	pnFecha->setPosY(this->altoFila*1);
+	pnFecha->setAlto(this->altoFila*19);
+	pnFecha->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	this->agregarElementoGrafico(pnFecha);
+	
+	Etiqueta* etTitPnFecha = new Etiqueta(" Datos del Usuario ");
+	etTitPnFecha->setPosX(this->anchoColumna*2);
+	etTitPnFecha->setAncho(this->anchoColumna*7);
+	etTitPnFecha->setPosY(this->altoFila*0);
+	etTitPnFecha->setAlto(this->altoFila*2);
+	etTitPnFecha->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	this->agregarElementoGrafico(etTitPnFecha);
+
 	Etiqueta* etNombre = new Etiqueta("Nombre:");
 	etNombre->setPosX(this->anchoColumna*2);
 	etNombre->setAncho(this->anchoColumna*6);
-	etNombre->setPosY(this->altoFila*1);
+	etNombre->setPosY(this->altoFila*2);
 	etNombre->setAlto(this->altoFila*2);
 	etNombre->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etNombre);
@@ -89,7 +105,7 @@ void VentanaNuevoJugador::configurarControles() {
 	txNombre = new TextBox("");
 	txNombre->setPosX(this->anchoColumna*8);
 	txNombre->setAncho(this->anchoColumna*10);
-	txNombre->setPosY(this->altoFila*1);
+	txNombre->setPosY(this->altoFila*2);
 	txNombre->setAlto(this->altoFila*2);
 	txNombre->setHabilitado(true);
 	this->agregarComponentePanel(txNombre);
@@ -113,7 +129,7 @@ void VentanaNuevoJugador::configurarControles() {
 	Etiqueta* etUsuario = new Etiqueta("Usuario:");
 	etUsuario->setPosX(this->anchoColumna*2);
 	etUsuario->setAncho(this->anchoColumna*6);
-	etUsuario->setPosY(this->altoFila*9);
+	etUsuario->setPosY(this->altoFila*8);
 	etUsuario->setAlto(this->altoFila*2);
 	etUsuario->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etUsuario);
@@ -121,7 +137,7 @@ void VentanaNuevoJugador::configurarControles() {
 	txUsuario = new TextBox("");
 	txUsuario->setPosX(this->anchoColumna*8);
 	txUsuario->setAncho(this->anchoColumna*10);
-	txUsuario->setPosY(this->altoFila*9);
+	txUsuario->setPosY(this->altoFila*8);
 	txUsuario->setAlto(this->altoFila*2);
 	txUsuario->setHabilitado(true);
 	this->agregarComponentePanel(txUsuario);
@@ -129,7 +145,7 @@ void VentanaNuevoJugador::configurarControles() {
 	Etiqueta* etPassword = new Etiqueta("Password:");
 	etPassword->setPosX(this->anchoColumna*2);
 	etPassword->setAncho(this->anchoColumna*6);
-	etPassword->setPosY(this->altoFila*13);
+	etPassword->setPosY(this->altoFila*11);
 	etPassword->setAlto(this->altoFila*2);
 	etPassword->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etPassword);
@@ -137,7 +153,7 @@ void VentanaNuevoJugador::configurarControles() {
 	txPassword = new TextBox("");
 	txPassword->setPosX(this->anchoColumna*8);
 	txPassword->setAncho(this->anchoColumna*10);
-	txPassword->setPosY(this->altoFila*13);
+	txPassword->setPosY(this->altoFila*11);
 	txPassword->setAlto(this->altoFila*2);
 	txPassword->setHabilitado(true);
 	txPassword->setTipoPassword(true);
@@ -146,7 +162,7 @@ void VentanaNuevoJugador::configurarControles() {
 	Etiqueta* etConfPassword = new Etiqueta("C. Password:");
 	etConfPassword->setPosX(this->anchoColumna*2);
 	etConfPassword->setAncho(this->anchoColumna*6);
-	etConfPassword->setPosY(this->altoFila*17);
+	etConfPassword->setPosY(this->altoFila*14);
 	etConfPassword->setAlto(this->altoFila*2);
 	etConfPassword->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(etConfPassword);
@@ -154,11 +170,27 @@ void VentanaNuevoJugador::configurarControles() {
 	txConfirmPassword = new TextBox("");
 	txConfirmPassword->setPosX(this->anchoColumna*8);
 	txConfirmPassword->setAncho(this->anchoColumna*10);
-	txConfirmPassword->setPosY(this->altoFila*17);
+	txConfirmPassword->setPosY(this->altoFila*14);
 	txConfirmPassword->setAlto(this->altoFila*2);
 	txConfirmPassword->setHabilitado(true);
 	txConfirmPassword->setTipoPassword(true);
 	this->agregarComponentePanel(txConfirmPassword);
+
+	Etiqueta* etImagen = new Etiqueta("Imagen Jugador:");
+	etImagen->setPosX(this->anchoColumna*2);
+	etImagen->setAncho(this->anchoColumna*6);
+	etImagen->setPosY(this->altoFila*17);
+	etImagen->setAlto(this->altoFila*2);
+	etImagen->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	this->agregarElementoGrafico(etImagen);
+
+	txImagen = new TextBox("");
+	txImagen->setPosX(this->anchoColumna*8);
+	txImagen->setAncho(this->anchoColumna*10);
+	txImagen->setPosY(this->altoFila*17);
+	txImagen->setAlto(this->altoFila*2);
+	txImagen->setHabilitado(true);
+	this->agregarComponentePanel(txImagen);
 
 	Boton* btGuardar = new Boton("Guardar");
 	btGuardar->setId("btGuardar");
@@ -176,7 +208,7 @@ void VentanaNuevoJugador::configurarControles() {
 
 	mensaje = new Etiqueta("");
 	mensaje->setPosX(this->anchoColumna*1);
-	mensaje->setAncho(this->anchoColumna*17);
+	mensaje->setAncho(this->ancho-this->anchoColumna);
 	mensaje->setPosY(this->altoFila*20);
 	mensaje->setAlto(this->altoFila*2);
 	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
@@ -305,17 +337,19 @@ void VentanaNuevoJugador::lanzarEvento(int codigoEvento) {
 }
 bool VentanaNuevoJugador::ejecutarPreEvento(string controlId){
 
+	bool refrescar = false;
 	if (MensajesUtil::sonIguales(controlId, "btGuardar"))
 	{
 		mostrarMensaje("Espere, Creando Nuevo Usuario...");
-		lanzarEvento(100);
-		return true;
+		//lanzarEvento(100);
+		refrescar = true;
 	}
 
-	return false;
+	return refrescar;
 }
 bool VentanaNuevoJugador::ejecutarEvento(string controlId){
 
+	bool finalizar = false;
 	if (MensajesUtil::sonIguales(controlId, "btGuardar"))
 	{
 		if (txPassword->getTexto().length() == 0 || txUsuario->getTexto().length() == 0 ||
@@ -334,50 +368,78 @@ bool VentanaNuevoJugador::ejecutarEvento(string controlId){
 				mostrarMensaje("Complete la confirmacion e intente nuevamente.");
 
 			lanzarEvento(100);
-			return false;
 		}
 		else if (!MensajesUtil::sonIguales(txPassword->getTexto(), txConfirmPassword->getTexto()))
 		{
 			mostrarMensaje("El Password y la Confirmacion son distintos.");
 			lanzarEvento(100);
-			return false;
+		}
+		else if (txImagen->getTexto().length() > 0 && !MensajesUtil::FileExists(txImagen->getTexto()))
+		{
+			mostrarMensaje("El archivo imagen no existe.");
+			lanzarEvento(100);
 		}
 		else
 		{
 			FabricaOperacionesCliente fab;
-			OperacionUICliente* operacion = NULL;
+			OperacionUICliente* operacionDatos = NULL;
 
 			vector<string> parametros;
 			parametros.push_back(txUsuario->getTexto());
 			parametros.push_back(txPassword->getTexto());
 			parametros.push_back(txNombre->getTexto());
 			parametros.push_back(txApellido->getTexto());
-			operacion = fab.newOperacion("OpUIClienteRegistrarJugador", parametros);
+			operacionDatos = fab.newOperacion("OpUIClienteRegistrarJugador", parametros);
 
-			if (operacion->ejecutarAccion(NULL))
+			if (operacionDatos->ejecutarAccion(NULL))
 			{
 				this->guardado = true;
+
+				if (txImagen->getTexto().length())
+				{
+					//se envia la foto al servidor
+					OperacionUICliente* operacionImagen = NULL;
+
+					parametros.clear();
+					parametros.push_back(txUsuario->getTexto());
+					parametros.push_back(txImagen->getTexto());
+					parametros.push_back(txImagen->getTexto());
+					operacionImagen = fab.newOperacion("OpUIClienteEnviarFoto", parametros);
+
+					if (operacionImagen->ejecutarAccion(NULL))
+					{
+						mostrarMensaje("Transaccion exitosa.");
+						lanzarEvento(100);
+					}
+					else
+					{
+						mostrarMensaje(operacionImagen->getError());
+						lanzarEvento(100);
+					}
+
+					delete(operacionImagen);
+				}
+
 				SDL_Quit();
-				return true;		
+				finalizar = true;		
 			}
 			else
 			{
-				mostrarMensaje(operacion->getError());
+				mostrarMensaje(operacionDatos->getError());
 				lanzarEvento(100);
-				return false;
 			}
 
-			delete(operacion);
+			delete(operacionDatos);
 		}
 	}
 	else if (MensajesUtil::sonIguales(controlId, "btCancel"))
 	{
 		this->cancelado = true;
 		SDL_Quit();
-		return true;
+		finalizar = true;
 	}
 
-	return false;
+	return finalizar;
 }
 void VentanaNuevoJugador::refrescar(SDL_Surface* superficie) {
 		if(SDL_Flip(superficie) == -1) { 

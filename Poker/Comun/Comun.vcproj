@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="Comun"
 	ProjectGUID="{B91A0032-5F62-4327-9842-FA9A23DA5E6D}"
 	RootNamespace="Comun"

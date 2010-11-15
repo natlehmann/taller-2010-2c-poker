@@ -215,7 +215,7 @@ void VentanaAdministracion::configurarControles() {
 
 	mensaje = new Etiqueta("");
 	mensaje->setPosX(this->anchoColumna*1);
-	mensaje->setAncho(this->ancho-(this->anchoColumna*2));
+	mensaje->setAncho(this->ancho-this->anchoColumna);
 	mensaje->setPosY(this->altoFila*22);
 	mensaje->setAlto(this->altoFila*2);
 	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
@@ -359,23 +359,25 @@ void VentanaAdministracion::lanzarEvento(int codigoEvento) {
 }
 bool VentanaAdministracion::ejecutarPreEvento(string controlId){
 
+	bool refrescar = false;
 	if (MensajesUtil::sonIguales(controlId, "btComprar"))
 	{
 		mostrarMensaje("Espere, realizando transaccion...");
-		lanzarEvento(100);
-		return true;
+		//lanzarEvento(100);
+		refrescar = true;
 	}
 	else if (MensajesUtil::sonIguales(controlId, "btCargar"))
 	{
 		mostrarMensaje("Espere, transferiendo imagen al servidor...");
-		lanzarEvento(100);
-		return true;
+		//lanzarEvento(100);
+		refrescar = true;
 	}
 
-	return false;
+	return refrescar;
 }
 bool VentanaAdministracion::ejecutarEvento(string controlId){
 
+	bool finalizar = false;
 	if (MensajesUtil::sonIguales(controlId, "btComprar"))
 	{
 		if (txCantComprar->getTexto().length() == 0 || !UtilTiposDatos::esEntero(txCantComprar->getTexto()))
@@ -386,7 +388,6 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 				mostrarMensaje("Cantidad invalida, corriga e intente nuevamente.");			
 			
 			lanzarEvento(100);
-			return false;
 		}
 		else
 		{
@@ -404,13 +405,11 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 				this->actualizarFichas(cantFichasCompradas);
 				this->mostrarMensaje("Transaccion exitosa.");
 				this->lanzarEvento(100);
-				return false;
 			}
 			else
 			{
 				mostrarMensaje(operacion->getError());
 				lanzarEvento(100);
-				return false;
 			}
 
 			delete(operacion);
@@ -424,7 +423,6 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 				mostrarMensaje("Complete la ruta del archivo e intente nuevamente.");
 			
 			lanzarEvento(100);
-			return false;
 		}
 		else
 		{
@@ -441,13 +439,11 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 			{
 				mostrarMensaje("Transaccion exitosa.");
 				lanzarEvento(100);
-				return false;
 			}
 			else
 			{
 				mostrarMensaje(operacion->getError());
 				lanzarEvento(100);
-				return false;
 			}
 
 			delete(operacion);
@@ -457,13 +453,13 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 	{
 		this->irMesa = true;
 		SDL_Quit();
-		return true;
+		finalizar = true;
 	}
 	else if (MensajesUtil::sonIguales(controlId, "btEstadisticas"))
 	{
 		this->verEstadisticas = true;
 		SDL_Quit();
-		return true;
+		finalizar = true;
 	}
 	else if (MensajesUtil::sonIguales(controlId, "btCancel"))
 	{
@@ -480,10 +476,10 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 
 		this->cancelado = true;
 		SDL_Quit();
-		return true;
+		finalizar = true;
 	}
 
-	return false;
+	return finalizar;
 }
 void VentanaAdministracion::refrescar(SDL_Surface* superficie) {
 		if(SDL_Flip(superficie) == -1) { 

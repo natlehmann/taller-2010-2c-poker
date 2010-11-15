@@ -58,6 +58,9 @@ public:
 
 	template < class T >
 	static string toString(const T &arg);
+
+	static bool FileExists(string strFilename);
+   
 };
 
 #endif
