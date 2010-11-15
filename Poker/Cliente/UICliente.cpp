@@ -151,7 +151,7 @@ Cliente* UICliente::getCliente(){
 	return UICliente::cliente;
 }
 
-void UICliente::finalizar()
+void UICliente::finalizarSDL()
 {
 	Planificador::finalizar();
 
@@ -165,10 +165,18 @@ void UICliente::finalizar()
 	SDL_Quit();
 	TTF_Quit(); 
 
+	//DomTreeFactory::finalizar();
+
+	//UICliente::cliente->finalizarConexion();
+}
+
+void UICliente::finalizarAplicacion()
+{
 	DomTreeFactory::finalizar();
 
 	UICliente::cliente->finalizarConexion();
 }
+
 
 
 void UICliente::mostrarMensaje(string msg, bool ingresaDatos)

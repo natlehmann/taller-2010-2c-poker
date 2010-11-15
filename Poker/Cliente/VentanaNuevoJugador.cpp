@@ -374,11 +374,22 @@ bool VentanaNuevoJugador::ejecutarEvento(string controlId){
 			mostrarMensaje("El Password y la Confirmacion son distintos.");
 			lanzarEvento(100);
 		}
+		else if ((txImagen->getTexto().length() > 0) && (txImagen->getTexto().length() <= 4))
+		{
+			mostrarMensaje("La imagen debe ser un BMP.");
+			lanzarEvento(100);
+		}
+		else if ((txImagen->getTexto().length() > 0) && 
+			!MensajesUtil::sonIguales(MensajesUtil::ToLower(txImagen->getTexto().substr(txImagen->getTexto().length()-4, 4)), ".bmp"))
+		{
+			mostrarMensaje("La imagen debe ser un BMP.");
+			lanzarEvento(100);
+		}
 		else if (txImagen->getTexto().length() > 0 && !MensajesUtil::FileExists(txImagen->getTexto()))
 		{
 			mostrarMensaje("El archivo imagen no existe.");
 			lanzarEvento(100);
-		}
+		}	
 		else
 		{
 			FabricaOperacionesCliente fab;

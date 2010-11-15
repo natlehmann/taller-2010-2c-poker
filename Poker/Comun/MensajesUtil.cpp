@@ -182,3 +182,15 @@ bool MensajesUtil::FileExists(string strFilename) {
   return exists; 
 }
 
+string MensajesUtil::ToLower(string str)
+{
+	for (int i=0; i < strlen(str.c_str()); i++)
+	{
+		if ((str[i]>=0x41)&&(str[i]<=0x5A))
+		{
+			str[i] = str[i] + 0x20;
+		}
+	}
+
+	return str;
+}

@@ -29,7 +29,8 @@ class UICliente
 		static bool conectarServidor();
 		static void lanzarThreads(Ventana* ventana);
 		static void mostrarMensaje(string msg, bool ingresaDatos = true);
-		static void finalizar();
+		static void finalizarSDL();
+		static void finalizarAplicacion();
 
 		static Cliente* getCliente();
 };

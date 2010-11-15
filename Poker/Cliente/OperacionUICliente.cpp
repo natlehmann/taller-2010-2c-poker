@@ -56,6 +56,36 @@ Elemento* OperacionUICliente::agregarOperacion(DomTree* arbol, string nombreOper
 }
 
 
+bool OperacionUICliente::enviarPedido(string nombreOperacion) {
+	
+	DomTree* tree = new DomTree("operaciones");
+	this->agregarOperacion(tree, nombreOperacion);
+
+	bool ok = false;
+	XmlParser* parser = new XmlParser();
+	
+	// se envia el pedido al servidor
+	Cliente* cliente = UICliente::getCliente();
+	string msjRecibido;
+
+	if (cliente->enviarRecibir(parser->toString(tree), msjRecibido)) 
+	{
+		if (MensajesUtil::sonIguales(msjRecibido.data(), "OK"))
+		{
+			ok = true;		
+		}
+	}
+	else
+	{
+		RecursosCliente::getLog()->escribir("El servidor no respondio a la operacion " + nombreOperacion + ".");
+	}
+
+	delete(parser);
+	delete(tree);
+
+	return ok;
+}
+
 bool OperacionUICliente::enviarPedido(string nombreOperacion, Ventana* ventana) {
 	
 	DomTree* tree = new DomTree("operaciones");

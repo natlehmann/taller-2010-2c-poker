@@ -25,6 +25,7 @@ protected:
 
 public:
 	Imagen(string nombre);
+	Imagen(string nombre, bool solicitarImagen);
 	virtual ~Imagen(void);
 
 	string getNombre();
