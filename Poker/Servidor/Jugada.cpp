@@ -228,7 +228,9 @@ double Jugada::isEscalera(vector<CartaModelo*>& vectorCartas)
 				cartaMasAlta = numeroDeCarta;
 			}
 		} else {
-			cartasConsecutivas = 1;
+			if (numeroDeCarta != numeroDeCartaAnterior) {
+				cartasConsecutivas = 1;
+			}
 		}
 		numeroDeCartaAnterior = numeroDeCarta;
 	}

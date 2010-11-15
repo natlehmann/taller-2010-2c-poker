@@ -35,6 +35,7 @@ ContextoJuego::ContextoJuego(void)
 	this->rondaTerminada = false;
 	this->mostrandoCartas = false;
 	this->sePuedePasar = false;
+	this->rondaAllIn = false;
 
 	this->esperandoJugadores = new EstadoEsperandoJugadores();
 	this->evaluandoGanador = new EstadoEvaluandoGanador();
@@ -146,6 +147,9 @@ void ContextoJuego::igualarApuesta(int idCliente)
 {
 	JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
 	int montoApuesta = this->montoAIgualar - jugador->getApuesta();
+	if (jugador->getFichas() < montoApuesta) {
+		montoApuesta = jugador->getFichas();
+	}
 	jugador->apostar(montoApuesta);
 	this->bote->incrementar(montoApuesta);
 	this->admJugadores->incrementarTurno();
@@ -168,15 +172,25 @@ void ContextoJuego::subirApuesta(int idCliente, int fichas)
 	jugador->apostar(fichas);
 	this->bote->incrementar(fichas);
 	this->montoAIgualar = jugador->getApuesta();
+	this->admJugadores->setJugadorQueCierra(jugador->getId());
 	this->admJugadores->incrementarTurno();
 	this->sePuedePasar = false;
-	this->admJugadores->setJugadorQueCierra(jugador->getId());
 	chequearRondaTerminada();
 }
 
 bool ContextoJuego::puedeSubirApuesta(int idCliente, int fichas){
 	JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
 	return (fichas <= jugador->getFichas() && fichas <= this->mesa->getApuestaMaxima());
+}
+
+bool ContextoJuego::puedeSubirApuesta(int idJugador){
+	int idCliente = this->idJugadorToIdCliente(idJugador);
+	JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
+	if (jugador) {
+		return (jugador->getFichas() + jugador->getApuesta() > this->montoAIgualar);
+	} else {
+		return true;
+	}
 }
 
 bool ContextoJuego::esApuestaValida(int idCliente, int fichas){
@@ -205,7 +219,9 @@ void ContextoJuego::noIr(int idCliente)
 		this->admJugadores->incrementarTurno();
 		jugador->setJugandoRonda(false);
 		chequearRondaTerminada();
-
+		if (!this->rondaTerminada) {
+			chequearRondaAllIn();
+		}
 
 	} else {
 		
@@ -224,8 +240,32 @@ void ContextoJuego::chequearRondaTerminada() {
 	}
 }
 
+void ContextoJuego::chequearRondaAllIn() {
+
+	bool rondaAllIn = true;
+	int jugadoresNoAllIn = 0;
+	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
+		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
+		if (jugador->isJugandoRonda() && !jugador->isAllIn()) {
+			jugadoresNoAllIn++;
+			if (jugadoresNoAllIn > 1 || jugador->getApuesta() < this->montoAIgualar) {
+				rondaAllIn = false;
+				break;
+			}
+		}
+	}
+	this->rondaAllIn = rondaAllIn;
+	if (this->rondaAllIn) {
+		this->rondaTerminada = true;
+	}
+}
+
 bool ContextoJuego::isRondaTerminada(){
-	return this->rondaTerminada;
+	return this->rondaTerminada || this->rondaAllIn;
+}
+
+bool ContextoJuego::isRondaAllIn(){
+	return this->rondaAllIn;
 }
 
 void ContextoJuego::iniciarJuego() {
@@ -247,6 +287,7 @@ void ContextoJuego::iniciarJuego() {
 		}
 		this->admJugadores->getJugadores()[i]->setApuesta(0);
 		this->admJugadores->getJugadores()[i]->setDealer(false);
+		this->admJugadores->getJugadores()[i]->setAllIn(false);
 	}
 
 	this->admJugadores->resetearDealer();
@@ -292,6 +333,7 @@ void ContextoJuego::iniciarJuego() {
 	
 	this->cantidadJugadoresRonda = cantidadJugadoresActivos;
 	this->rondaTerminada = false;
+	this->rondaAllIn = false;
 	this->nombresGanadores.clear();
 
 	delete(it);
@@ -299,8 +341,11 @@ void ContextoJuego::iniciarJuego() {
 
 void ContextoJuego::iniciarRonda() {
 
-	this->admJugadores->resetearJugadorTurno();
-	this->sePuedePasar = true;
+	if (!this->rondaAllIn) {
+		this->admJugadores->resetearJugadorTurno();
+		this->sePuedePasar = true;
+		chequearRondaAllIn();
+	}
 }
 
 void ContextoJuego::mostrarFlop()
@@ -400,6 +445,13 @@ void ContextoJuego::finalizarRonda()
 		this->mostrandoCartas = true;
 	}
 
+	if (this->cantidadJugadoresRonda > 0) {
+		this->evaluarGanador();
+		//TODO: VER SI MANDAMOS INFORMACION DEL GANADOR A LA VENTANA PARA DIBUJARLO
+
+		this->timerMostrandoGanador.iniciar();
+	}
+
 	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
 		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
 
@@ -415,16 +467,15 @@ void ContextoJuego::finalizarRonda()
 		}
 	}
 
-	if (this->cantidadJugadoresRonda > 0) {
-		this->evaluarGanador();
-		//TODO: VER SI MANDAMOS INFORMACION DEL GANADOR A LA VENTANA PARA DIBUJARLO
-
-		this->timerMostrandoGanador.iniciar();
-	}
-
 	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
 		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
 		jugador->setApuesta(0);
+		if (jugador->isJugandoRonda() && jugador->getFichas() == 0) {
+			jugador->setJugandoRonda(false);
+			jugador->setCarta1(NULL);
+			jugador->setCarta2(NULL);
+			jugador->setActivo(false);
+		}
 	}
 }
 
@@ -469,21 +520,33 @@ JugadorModelo* ContextoJuego::agregarJugador(int idCliente, string nombreJugador
 }
 
 void ContextoJuego::quitarJugador(int idCliente){
-	if (this->isTurnoCliente(idCliente)) {
+	if (this->isTurnoCliente(idCliente) && !this->mostrandoCartas) {
 		this->noIr(idCliente);
 	} else {
 		JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
 
-		if (jugador != NULL && jugador->isJugandoRonda()) {
+		if (jugador != NULL && jugador->isJugandoRonda() && !this->mostrandoCartas) {
+
 			if (this->cantidadJugadoresRonda > 0) {
 				this->cantidadJugadoresRonda--;
 			}
+
 			if (this->cantidadJugadoresRonda > 1) {
+
 				if (this->admJugadores->isDealerJugador(jugador->getId())) {
 					this->admJugadores->incrementarDealerTemp();
 				}
+
+				if (this->admJugadores->isJugadorQueCierra(jugador->getId())){
+					this->admJugadores->decrementarJugadorQueCierra();
+				}
 				jugador->setJugandoRonda(false);
+				if (!(this->rondaAllIn || this->rondaTerminada)) {
+					chequearRondaAllIn();
+				}
+
 			} else {
+
 				jugador->setJugandoRonda(false);
 				this->finalizarRonda();
 				this->estado = this->evaluandoGanador;

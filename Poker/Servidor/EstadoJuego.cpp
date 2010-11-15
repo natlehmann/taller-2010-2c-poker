@@ -211,18 +211,32 @@ void EstadoJuego::agregarPanelBotones(DomTree* arbol, int idJugador){
 		JugadorModelo* jugador = ContextoJuego::getInstancia()->getJugador(idJugador);
 		if (!jugador->isVirtual() && jugador->isActivo()) {
 
-			this->agregarPanelBotones(arbol, ContextoJuego::getInstancia()->isTurnoJugador(idJugador));
+			bool botonesHabilitados;
+			if (ContextoJuego::getInstancia()->isRondaAllIn()) {
+				botonesHabilitados = false;
+			} else {
+				botonesHabilitados = ContextoJuego::getInstancia()->isTurnoJugador(idJugador);
+			}
+
+			bool puedeSubirApuesta;
+			if (ContextoJuego::getInstancia()->puedeSubirApuesta(idJugador)) {
+				puedeSubirApuesta = true;
+			} else {
+				puedeSubirApuesta = false;
+			}
+
+			this->agregarPanelBotones(arbol, botonesHabilitados, puedeSubirApuesta);
 			terminado = true;
 		}
 	} 
 
 	if (!terminado) {
-		this->agregarPanelBotones(arbol, false);
+		this->agregarPanelBotones(arbol, false, true);
 	}
 }
 
 
-void EstadoJuego::agregarPanelBotones(DomTree* arbol, bool habilitados){
+void EstadoJuego::agregarPanelBotones(DomTree* arbol, bool habilitados, bool puedeSubirApuesta){
 
 	Elemento* elementoEscenario = arbol->getRaiz()->getHijos()->front();
 	Elemento* elemPanel = elementoEscenario->agregarHijo("panelComando", "escenario");
@@ -246,8 +260,13 @@ void EstadoJuego::agregarPanelBotones(DomTree* arbol, bool habilitados){
 		boton2->setTexto("Pasar");
 
 	} else {
+
 		boton2->agregarAtributo("operacion", "OpUIClienteIgualarApuesta");
-		boton2->setTexto("Igualar");	
+		if (puedeSubirApuesta) {
+			boton2->setTexto("Igualar");
+		} else {
+			boton2->setTexto("All In");
+		}
 	}	
 
 	Elemento* boton3 = elemPanel->agregarHijo("boton", "escenario");
@@ -270,8 +289,8 @@ void EstadoJuego::agregarPanelBotones(DomTree* arbol, bool habilitados){
 
 	this->agregarAtributoHabilitado(boton2, habilitados);
 	this->agregarAtributoHabilitado(boton3, habilitados);
-	this->agregarAtributoHabilitado(boton4, habilitados);
-	this->agregarAtributoHabilitado(textBox, habilitados);
+	this->agregarAtributoHabilitado(boton4, habilitados && puedeSubirApuesta);
+	this->agregarAtributoHabilitado(textBox, habilitados && puedeSubirApuesta);
 }
 
 
