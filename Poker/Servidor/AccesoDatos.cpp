@@ -1,4 +1,5 @@
 #include "AccesoDatos.h"
+#include "RecursosServidor.h"
 
 AccesoDatos::AccesoDatos(void)
 {
@@ -48,6 +49,9 @@ bool AccesoDatos::ejecutarNonQuery(string sql)
 	if (sqlite3_errcode(this->db)!=0)
 	{
 		this->msgError = sqlite3_errmsg(this->db);
+		RecursosServidor::getLog()->escribir(msgError);
+// TODO: BORRAR
+cout << msgError;
 		return false;
 	}
 	else
@@ -263,13 +267,13 @@ bool AccesoDatos::registrarNuevoJugador(string usuario, string password, string 
 
 bool AccesoDatos::consultarJugador(string usuario)
 {
-	string sql = "SELECT id, usuario, nombre, apellido, password, nombreImagen, cantFichas, fechaUltCompraFichas FROM jugadores WHERE usuario = '" + usuario + "';";
+	string sql = "SELECT id, usuario, nombre, apellido, password, nombreImagen, cantFichas FROM jugadores WHERE usuario = '" + usuario + "';";
 	return this->ejecutar(sql);
 }
 
 bool AccesoDatos::consultarJugadorById(int idJugador)
 {
-	string sql = "SELECT id, usuario, nombre, apellido, password, nombreImagen, cantFichas, fechaUltCompraFichas FROM jugadores WHERE id = " + UtilTiposDatos::enteroAString(idJugador) + ";";
+	string sql = "SELECT id, usuario, nombre, apellido, password, nombreImagen, cantFichas FROM jugadores WHERE id = " + UtilTiposDatos::enteroAString(idJugador) + ";";
 	return this->ejecutar(sql);
 }
 
@@ -323,6 +327,12 @@ bool AccesoDatos::grabarCompraFichas(string usuario, int cantFichasAComprar)
 bool AccesoDatos::actualizarNombreImagen(string usuario, string nuevoNombreImagen)
 {
 	string sql = "UPDATE jugadores SET nombreImagen = '" + nuevoNombreImagen + "' WHERE usuario = '" + usuario +  "';";
+	return this->ejecutarNonQuery(sql);
+}
+
+bool AccesoDatos::actualizarFichas(string usuario, int fichas){
+	string sql = "UPDATE jugadores SET cantFichas = '" + UtilTiposDatos::enteroAString(fichas) 
+		+ "' WHERE usuario = '" + usuario +  "';";
 	return this->ejecutarNonQuery(sql);
 }
 

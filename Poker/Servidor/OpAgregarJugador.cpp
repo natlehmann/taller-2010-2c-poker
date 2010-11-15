@@ -38,7 +38,7 @@ bool OpAgregarJugador::ejecutarAccion(Socket* socket){
 		if (MensajesUtil::esVacio(nombreImagen)) {
 			nombreImagen = "jugador_default.bmp";
 		}
-		
+nombreImagen = "jugador5.bmp";		
 		int fichas = jugadorBD->getFichas();
 
 		bool esVirtual = false;

@@ -6,6 +6,7 @@
 #include "UtilTiposDatos.h"
 #include "IteradorRonda.h"
 #include "IteradorRondaActivos.h"
+#include "AccesoDatos.h"
 
 ContextoJuego* ContextoJuego::instancia = NULL;
 
@@ -467,9 +468,18 @@ void ContextoJuego::finalizarRonda()
 		}
 	}
 
+//TODO: VERIFICAR
+	if (this->cantidadJugadoresRonda > 0) {
+		this->evaluarGanador();
+		this->timerMostrandoGanador.iniciar();
+	}
+
+	AccesoDatos dao;
 	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
 		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
-		jugador->setApuesta(0);
+		jugador->setApuesta(0);		
+		dao.actualizarFichas(jugador->getNombre(), jugador->getFichas());
+
 		if (jugador->isJugandoRonda() && jugador->getFichas() == 0) {
 			jugador->setJugandoRonda(false);
 			jugador->setCarta1(NULL);
@@ -520,10 +530,14 @@ JugadorModelo* ContextoJuego::agregarJugador(int idCliente, string nombreJugador
 }
 
 void ContextoJuego::quitarJugador(int idCliente){
+
+	AccesoDatos dao;
+	JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
+
 	if (this->isTurnoCliente(idCliente) && !this->mostrandoCartas) {
 		this->noIr(idCliente);
+	
 	} else {
-		JugadorModelo* jugador = this->admJugadores->getJugador(idCliente);
 
 		if (jugador != NULL && jugador->isJugandoRonda() && !this->mostrandoCartas) {
 
@@ -553,6 +567,11 @@ void ContextoJuego::quitarJugador(int idCliente){
 			}
 		}
 	}
+
+	if (jugador != NULL) {
+		dao.actualizarFichas(jugador->getNombre(), jugador->getFichas());
+	}
+
 	this->admJugadores->quitarJugador(idCliente);
 }
 

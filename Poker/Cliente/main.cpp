@@ -15,6 +15,7 @@
 #include "VentanaEstadistica.h"
 #include "Sincronizador.h"
 #include "OpUIClienteAgregarJugador.h"
+#include "OpUIClienteGetCantFichas.h"
 #include <vector>
 
 
@@ -27,6 +28,7 @@ int main (int argc, char** argv)
 	VentanaEstadistica* ventanaEstadistica = NULL;
 	OperacionUICliente* operacion = NULL;
 	Ventana* ventana = NULL;
+	FabricaOperacionesCliente fab;
 
 	try {
 
@@ -70,9 +72,17 @@ int main (int argc, char** argv)
 				bool sigueAdministracion = true;
 				while (sigueAdministracion) {
 
+					vector<string> parametrosGCF;
+					parametrosGCF.push_back(ventanaLogin->getUsuario());
+					OpUIClienteGetCantFichas* opGetFichas = ((OpUIClienteGetCantFichas*)fab.newOperacion(
+						"OpUIClienteGetCantFichas", parametrosGCF));
+					opGetFichas->ejecutarAccion(NULL);
+					int fichasJug = opGetFichas->getCantidadFichas();
+					delete(opGetFichas);
+
 					ventanaAdministracion = new VentanaAdministracion(ventanaLogin->getUsuario(), 
 																	  ventanaLogin->getSesionId(), 
-																	  ventanaLogin->getCantFichas());
+																	  fichasJug);
 					ventanaAdministracion->iniciar();
 
 					if (ventanaAdministracion->getVerEstadisticas())
@@ -105,7 +115,6 @@ int main (int argc, char** argv)
 
 						UICliente::lanzarThreads(ventana);
 
-						FabricaOperacionesCliente fab;
 						vector<string> parametros;
 						parametros.push_back(ventanaLogin->getUsuario());
 						parametros.push_back(ventanaLogin->isVirtual()? "true" : "false");

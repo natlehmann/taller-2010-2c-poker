@@ -16,6 +16,7 @@
 #include "OpUIClienteEnviarFoto.h"
 #include "OpUIClienteSolicitarEstadistica.h"
 #include "OpUIClienteLogoff.h"
+#include "OpUIClienteGetCantFichas.h"
 
 using namespace std;
 
@@ -80,9 +81,12 @@ OperacionUICliente* FabricaOperacionesCliente::newOperacion(string nombreOperaci
 	}
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteSolicitarEstadistica")) {
 		operacion = new OpUIClienteSolicitarEstadistica(parametros);
-	}
+	}	
 	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteLogoff")) {
 		operacion = new OpUIClienteLogoff(parametros);
+	}
+	else if(MensajesUtil::sonIguales(nombreOperacion, "OpUIClienteGetCantFichas")) {
+		operacion = new OpUIClienteGetCantFichas(parametros);
 	}
 
 	if (operacion == NULL) {

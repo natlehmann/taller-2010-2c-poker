@@ -131,7 +131,7 @@ SDL_Surface* Imagen::cargarBMP() {
 	char *imagenStreamInvertida = invertirBMP(imagenStream, encabezadoMapaDeBits);
 
 	//el pitch debe ser multiplo de 4
-	int pitch = encabezadoMapaDeBits.biWidth * ServiciosGraficos::getVideoInfo()->vfmt->BytesPerPixel;
+	int pitch = encabezadoMapaDeBits.biWidth * ServiciosGraficos::getBytesPerPixel();
 	if (pitch % 4 != 0) {
 		pitch += 4 - (pitch % 4);
 	}
@@ -140,12 +140,12 @@ SDL_Surface* Imagen::cargarBMP() {
 		imagenStreamInvertida,
 		encabezadoMapaDeBits.biWidth,
 		encabezadoMapaDeBits.biHeight,
-		ServiciosGraficos::getVideoInfo()->vfmt->BitsPerPixel,
+		ServiciosGraficos::getBitsPerPixel(),
 		pitch,
-        ServiciosGraficos::getVideoInfo()->vfmt->Rmask, 
-		ServiciosGraficos::getVideoInfo()->vfmt->Gmask,
-        ServiciosGraficos::getVideoInfo()->vfmt->Bmask, 
-		ServiciosGraficos::getVideoInfo()->vfmt->Amask);
+        ServiciosGraficos::getRmask(), 
+		ServiciosGraficos::getGmask(),
+        ServiciosGraficos::getBmask(), 
+		ServiciosGraficos::getAmask());
 
 	delete[] imagenStream;
 	archivo.close();

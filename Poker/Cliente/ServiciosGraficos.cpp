@@ -19,6 +19,15 @@ int ServiciosGraficos::bordeIzquierdo = -1;
 int ServiciosGraficos::altoVentana = -1;
 int ServiciosGraficos::anchoVentana = -1;
 
+Uint32 ServiciosGraficos::Rmask = 0;
+Uint32 ServiciosGraficos::Gmask = 0;
+Uint32 ServiciosGraficos::Bmask = 0;
+Uint32 ServiciosGraficos::Amask = 0;
+Uint8 ServiciosGraficos::bytesPerPixel = 0;
+Uint8 ServiciosGraficos::bitsPerPixel = 0;
+int ServiciosGraficos::current_w = 0;
+int ServiciosGraficos::current_h = 0;
+
 
 ServiciosGraficos::ServiciosGraficos(void)
 {
@@ -236,22 +245,55 @@ int ServiciosGraficos::findLastPorLinea(SDL_Surface* superficie,
 	return posX;
 }
 
-const SDL_VideoInfo* ServiciosGraficos::getVideoInfo() {
-	if (ServiciosGraficos::videoInfo == NULL) {
-		ServiciosGraficos::videoInfo = SDL_GetVideoInfo();
-	}
+const SDL_VideoInfo* ServiciosGraficos::initVideoInfo() {
+
+	ServiciosGraficos::videoInfo = SDL_GetVideoInfo();
+	ServiciosGraficos::Rmask = ServiciosGraficos::videoInfo->vfmt->Rmask;
+	ServiciosGraficos::Gmask = ServiciosGraficos::videoInfo->vfmt->Gmask;
+	ServiciosGraficos::Bmask = ServiciosGraficos::videoInfo->vfmt->Bmask;
+	ServiciosGraficos::Amask = ServiciosGraficos::videoInfo->vfmt->Amask;
+	ServiciosGraficos::bytesPerPixel = ServiciosGraficos::videoInfo->vfmt->BytesPerPixel;
+	ServiciosGraficos::bitsPerPixel = ServiciosGraficos::videoInfo->vfmt->BitsPerPixel;
+	ServiciosGraficos::current_w = ServiciosGraficos::videoInfo->current_w;
+	ServiciosGraficos::current_h = ServiciosGraficos::videoInfo->current_h;
+
 	return ServiciosGraficos::videoInfo;
+}
+
+Uint32 ServiciosGraficos::getRmask() {
+	return ServiciosGraficos::Rmask;
+}
+Uint32 ServiciosGraficos::getGmask() {
+	return ServiciosGraficos::Gmask;
+}
+Uint32 ServiciosGraficos::getBmask() {
+	return ServiciosGraficos::Bmask;
+}
+Uint32 ServiciosGraficos::getAmask() {
+	return ServiciosGraficos::Amask;
+}
+Uint8 ServiciosGraficos::getBytesPerPixel() {
+	return ServiciosGraficos::bytesPerPixel;
+}
+Uint8 ServiciosGraficos::getBitsPerPixel() {
+	return ServiciosGraficos::bitsPerPixel;
+}
+int ServiciosGraficos::getCurrent_w(){
+	return ServiciosGraficos::current_w;
+}
+int ServiciosGraficos::getCurrent_h(){
+	return ServiciosGraficos::current_h;
 }
 
 SDL_Surface* ServiciosGraficos::crearSuperficie(int ancho, int alto) {
 
 	return SDL_CreateRGBSurface (SDL_SWSURFACE, 
 		ancho, alto,
-		ServiciosGraficos::getVideoInfo()->vfmt->BitsPerPixel, 
-        ServiciosGraficos::getVideoInfo()->vfmt->Rmask, 
-		ServiciosGraficos::getVideoInfo()->vfmt->Gmask,
-        ServiciosGraficos::getVideoInfo()->vfmt->Bmask, 
-		ServiciosGraficos::getVideoInfo()->vfmt->Amask);
+		ServiciosGraficos::getBitsPerPixel(), 
+        ServiciosGraficos::getRmask(), 
+		ServiciosGraficos::getGmask(),
+        ServiciosGraficos::getBmask(), 
+		ServiciosGraficos::getAmask());
 }
 
 void ServiciosGraficos::putPixel(SDL_Surface* superficie, int x, int y, Uint32 pixel) {
@@ -324,13 +366,13 @@ int ServiciosGraficos::getAnchoColVentanaSegundaria()
 
 
 int ServiciosGraficos::getTamanioCeldaHoriz() {
-	int anchoReal = ServiciosGraficos::getVideoInfo()->current_w 
+	int anchoReal = ServiciosGraficos::getCurrent_w()
 		- ServiciosGraficos::getBordeDerecho() - ServiciosGraficos::getBordeIzquierdo();
 	return (int)(anchoReal / CELDAS_HORIZ);
 }
 
 int ServiciosGraficos::getTamanioCeldaVert() {
-	int altoReal = ServiciosGraficos::getVideoInfo()->current_h 
+	int altoReal = ServiciosGraficos::getCurrent_h()
 		- ServiciosGraficos::getBordeSuperior() - ServiciosGraficos::getBordeInferior();
 	return (int)(altoReal / CELDAS_VERT);
 }
