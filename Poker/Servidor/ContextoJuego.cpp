@@ -448,8 +448,6 @@ void ContextoJuego::finalizarRonda()
 
 	if (this->cantidadJugadoresRonda > 0) {
 		this->evaluarGanador();
-		//TODO: VER SI MANDAMOS INFORMACION DEL GANADOR A LA VENTANA PARA DIBUJARLO
-
 		this->timerMostrandoGanador.iniciar();
 	}
 
@@ -466,12 +464,6 @@ void ContextoJuego::finalizarRonda()
 				this->admJugadores->incrementarDealer();
 			}
 		}
-	}
-
-//TODO: VERIFICAR
-	if (this->cantidadJugadoresRonda > 0) {
-		this->evaluarGanador();
-		this->timerMostrandoGanador.iniciar();
 	}
 
 	AccesoDatos dao;
