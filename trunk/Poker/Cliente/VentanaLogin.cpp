@@ -152,7 +152,7 @@ void VentanaLogin::configurarControles() {
 
 	mensaje = new Etiqueta("");
 	mensaje->setPosX(this->anchoColumna*1);
-	mensaje->setAncho(this->anchoColumna*17);
+	mensaje->setAncho(this->ancho-this->anchoColumna);
 	mensaje->setPosY(this->altoFila*12);
 	mensaje->setAlto(this->altoFila*2);
 	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
@@ -282,24 +282,25 @@ void VentanaLogin::lanzarEvento(int codigoEvento) {
 }
 bool VentanaLogin::ejecutarPreEvento(string controlId){
 
+	bool refrescar = false;
 	if (MensajesUtil::sonIguales(controlId, "btLogin"))
 	{
 		mostrarMensaje("Espere, Validando Credenciales...");
-		lanzarEvento(100);
-		return true;
+		//lanzarEvento(100);
+		refrescar = true;
 	}
 
-	return false;
+	return refrescar;
 }
 bool VentanaLogin::ejecutarEvento(string controlId){
 
+	bool finalizar = false;
 	if (MensajesUtil::sonIguales(controlId, "btLogin"))
 	{
 		if (txPassword->getTexto().length() == 0 || txUsuario->getTexto().length() == 0)
 		{
 			mostrarMensaje("Complete user y password e intente nuevamente.");
 			lanzarEvento(100);
-			return false;
 		}
 		else
 		{
@@ -322,13 +323,12 @@ bool VentanaLogin::ejecutarEvento(string controlId){
 				this->cantFichas = ((OpUIClienteLogin*)operacion)->getCantFichas();
 				this->conectado = true;
 				SDL_Quit();
-				return true;		
+				finalizar = true;		
 			}
 			else
 			{
 				mostrarMensaje(operacion->getError());
 				lanzarEvento(100);
-				return false;
 			}
 
 			delete(operacion);
@@ -338,16 +338,16 @@ bool VentanaLogin::ejecutarEvento(string controlId){
 	{
 		this->nuevo = true;
 		SDL_Quit();
-		return true;
+		finalizar = true;
 	}
 	else if (MensajesUtil::sonIguales(controlId, "btCancel"))
 	{
 		this->cancelado = true;
 		SDL_Quit();
-		return true;
+		finalizar = true;
 	}
 
-	return false;
+	return finalizar;
 }
 void VentanaLogin::refrescar(SDL_Surface* superficie) {
 		if(SDL_Flip(superficie) == -1) { 

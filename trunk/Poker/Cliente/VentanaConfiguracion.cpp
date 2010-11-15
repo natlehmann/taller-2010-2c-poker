@@ -127,7 +127,7 @@ void VentanaConfiguracion::configurarControles() {
 
 	mensaje = new Etiqueta("");
 	mensaje->setPosX(this->anchoColumna*1);
-	mensaje->setAncho(this->anchoColumna*17);
+	mensaje->setAncho(this->ancho-this->anchoColumna);
 	mensaje->setPosY(this->altoFila*8);
 	mensaje->setAlto(this->altoFila*2);
 	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
@@ -259,18 +259,18 @@ void VentanaConfiguracion::lanzarEvento(int codigoEvento) {
 }
 
 bool VentanaConfiguracion::ejecutarPreEvento(string controlId){
-
+	bool refrescar = false;
 	if (MensajesUtil::sonIguales(controlId, "btConectar"))
 	{
 		mostrarMensaje("Espere, Intentando de conectar al Servidor...");
-		//lanzarEvento(100);
-		return true;
+		refrescar = true;
 	}
 
-	return false;
+	return refrescar;
 }
 bool VentanaConfiguracion::ejecutarEvento(string controlId){
 
+	bool finalizar = false;
 	if (MensajesUtil::sonIguales(controlId, "btConectar"))
 	{
 		if (textboxIP->getTexto().length() == 0 || textboxPuerto->getTexto().length() == 0 
@@ -278,7 +278,6 @@ bool VentanaConfiguracion::ejecutarEvento(string controlId){
 		{
 			mostrarMensaje("Datos invalidos, corriga e intente nuevamente.");
 			lanzarEvento(100);
-			return false;
 		}
 		else
 		{
@@ -286,27 +285,23 @@ bool VentanaConfiguracion::ejecutarEvento(string controlId){
 			{
 				this->conectado = true;
 				SDL_Quit();
-				return true;		
+				finalizar = true;		
 			}
 			else
 			{
 				mostrarMensaje("Error al intentar coneccion con el servidor!");
 				lanzarEvento(100);
-				return false;
 			}
 		}
 	}
 	else if (MensajesUtil::sonIguales(controlId, "btCancel"))
 	{
-		mostrarMensaje("");
-		lanzarEvento(100);
-		return false;
-		//this->cancelado = true;
-		//SDL_Quit();
-		//return true;
+		this->cancelado = true;
+		SDL_Quit();
+		finalizar = true;
 	}
 
-	return false;
+	return finalizar;
 }
 void VentanaConfiguracion::refrescar(SDL_Surface* superficie) {
 		if(SDL_Flip(superficie) == -1) { 

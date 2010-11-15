@@ -1,6 +1,6 @@
 #include "MensajesUtil.h"
 #include "FormatException.h"
-
+#include <sys/stat.h> 
 
 string MensajesUtil::concatMensaje(char* partes[]){
 
@@ -159,5 +159,26 @@ list<string> MensajesUtil::split(string texto){
 
 set<string*>* MensajesUtil::splitToSet(string texto){
 	return MensajesUtil::splitToSet(texto, ",");
+}
+
+bool MensajesUtil::FileExists(string strFilename) { 
+  struct stat stFileInfo; 
+  bool exists = true; 
+  int intStat; 
+
+  // Attempt to get the file attributes 
+  intStat = stat(strFilename.c_str(),&stFileInfo); 
+  if(intStat != 0) 
+  { 
+    // We were not able to get the file attributes. 
+    // This may mean that we don't have permission to 
+    // access the folder which contains this file. If you 
+    // need to do that level of checking, lookup the 
+    // return values of stat which will give you 
+    // more details on why stat failed. 
+    exists = false; 
+  } 
+   
+  return exists; 
 }
 

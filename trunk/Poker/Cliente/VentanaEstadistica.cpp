@@ -51,7 +51,7 @@ VentanaEstadistica::VentanaEstadistica(string usuario, int sessionId) {
 		throw UIException("No se pudo inicializar la ventana de la aplicacion.","E");
 	}
 
-	SDL_WM_SetCaption(RecursosCliente::getConfig()->get("cliente.configuracion.mensajeLogin").c_str(), NULL); 
+	SDL_WM_SetCaption(RecursosCliente::getConfig()->get("cliente.configuracion.mensajeEstadisticas").c_str(), NULL); 
 	
 	this->fondo = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.fondo"));
 	SDL_FillRect(pantalla, contorno, this->fondo->toUint32(pantalla));
@@ -82,7 +82,7 @@ VentanaEstadistica::~VentanaEstadistica(void)
 
 void VentanaEstadistica::configurarControles() {
 
-Panel* pnFecha = new Panel();
+	Panel* pnFecha = new Panel();
 	pnFecha->setPosX(this->anchoColumna*1);
 	pnFecha->setAncho(this->anchoColumna*19);
 	pnFecha->setPosY(this->altoFila*1);
@@ -175,7 +175,7 @@ Panel* pnFecha = new Panel();
 
 	this->mensaje = new Etiqueta("");
 	mensaje->setPosX(this->anchoColumna*1);
-	mensaje->setAncho(this->ancho-(this->anchoColumna*2));
+	mensaje->setAncho(this->ancho-this->anchoColumna);
 	mensaje->setPosY(this->altoFila*20);
 	mensaje->setAlto(this->altoFila*2);
 	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
@@ -338,6 +338,7 @@ bool VentanaEstadistica::ejecutarPreEvento(string controlId){
 }
 bool VentanaEstadistica::ejecutarEvento(string controlId){
 
+	bool finalizar = false;
 	if (MensajesUtil::sonIguales(controlId, "btConsulta"))
 	{
 		if(validarFecha(txFecha->getTexto()))
@@ -363,34 +364,30 @@ bool VentanaEstadistica::ejecutarEvento(string controlId){
 				{
 					mostrarMensaje("Generado " + ((OpUIClienteSolicitarEstadistica*)operacion)->getArchivo());
 					lanzarEvento(100);
-					return false;					
 				}
 
 				delete (operacion);
-
 			}
 			else
 			{
 				mostrarMensaje("Debe seleccionar solo una opción.");
 				lanzarEvento(100);
-				return false;
 			}
 		}
 		else
 		{
 			mostrarMensaje("Verifique el formato de fecha.");
 			lanzarEvento(100);
-			return false;
 		}
 	}
 	if (MensajesUtil::sonIguales(controlId, "btVolverMenuPrincipal"))
 	{
 		this->cancelado = true;
 		SDL_Quit();
-		return true;
+		finalizar = true;
 	}
 
-	return false;
+	return finalizar;
 }
 void VentanaEstadistica::refrescar(SDL_Surface* superficie) {
 		if(SDL_Flip(superficie) == -1) { 
