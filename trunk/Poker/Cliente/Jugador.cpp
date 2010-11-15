@@ -401,7 +401,8 @@ void Jugador::setImagen(string nombreImagen) {
 			delete (this->imagen);
 		}
 
-		this->imagen = new Imagen(nombreImagen);	
+		//this->imagen = new Imagen(nombreImagen);	
+		this->imagen = new Imagen(nombreImagen, true);	
 		this->hayCambios = true;
 		this->imagen->setHayCambios(true);
 	}

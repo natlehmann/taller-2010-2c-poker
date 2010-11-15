@@ -15,6 +15,7 @@ class OperacionUICliente
 		vector<string> parametros;
 		vector<string> parametrosRecibidos;
 
+		bool enviarPedido(string nombreOperacion);
 		bool enviarPedido(string nombreOperacion, Ventana* ventana);
 		Elemento* agregarOperacion(DomTree* arbol, string nombreOperacion);
 		virtual bool enviarMensaje(DomTree* tree, Ventana* ventana);

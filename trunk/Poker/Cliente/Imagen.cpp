@@ -25,6 +25,24 @@ Imagen::Imagen(string nombre) {
 
 }
 
+Imagen::Imagen(string nombre, bool solicitarImagen) {
+
+	this->nombre = RecursosCliente::getConfig()->get(
+		"cliente.configuracion.imagenes.path") + nombre;
+
+	this->nombreSinPath = nombre;
+
+	ifstream archivoExiste(this->nombre.c_str());
+	if (!archivoExiste.good() || solicitarImagen){
+
+		FabricaOperacionesCliente fab;
+		OperacionUICliente* operacion = fab.newOperacion("OpUIClienteSolicitarArchivo", nombre);
+		operacion->ejecutarAccion(NULL);
+		delete(operacion);
+	}
+
+}
+
 Imagen::~Imagen(void)
 {
 }

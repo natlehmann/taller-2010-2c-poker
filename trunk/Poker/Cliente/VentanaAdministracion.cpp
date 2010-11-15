@@ -424,6 +424,13 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 			
 			lanzarEvento(100);
 		}
+		else if (txRutaImagen->getTexto().length() <= 4 || 
+			!MensajesUtil::sonIguales(MensajesUtil::ToLower(txRutaImagen->getTexto().substr(txRutaImagen->getTexto().length()-4, 4)), ".bmp"))
+		{
+			mostrarMensaje("La imagen debe ser un BMP.");
+			
+			lanzarEvento(100);
+		}
 		else
 		{
 			FabricaOperacionesCliente fab;

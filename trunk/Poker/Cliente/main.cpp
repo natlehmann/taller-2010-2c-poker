@@ -71,14 +71,18 @@ int main (int argc, char** argv)
 			if (ventanaLogin->getConectado()) {
 
 				bool sigueAdministracion = true;
+				vector<string> parametrosGCF;
+				OpUIClienteGetCantFichas* opGetFichas;
+				int fichasJug;
+
 				while (sigueAdministracion) {
 
-					vector<string> parametrosGCF;
+					
+					parametrosGCF.clear();
 					parametrosGCF.push_back(ventanaLogin->getUsuario());
-					OpUIClienteGetCantFichas* opGetFichas = ((OpUIClienteGetCantFichas*)fab.newOperacion(
-						"OpUIClienteGetCantFichas", parametrosGCF));
+					opGetFichas = ((OpUIClienteGetCantFichas*)fab.newOperacion("OpUIClienteGetCantFichas", parametrosGCF));
 					opGetFichas->ejecutarAccion(NULL);
-					int fichasJug = opGetFichas->getCantidadFichas();
+					fichasJug = opGetFichas->getCantidadFichas();
 					delete(opGetFichas);
 
 					ventanaAdministracion = new VentanaAdministracion(ventanaLogin->getUsuario(), 
@@ -131,7 +135,7 @@ int main (int argc, char** argv)
 								"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
 						}
 
-						UICliente::finalizar();
+						UICliente::finalizarSDL();
 
 						delete(operacion);
 						operacion = NULL;
@@ -152,6 +156,7 @@ int main (int argc, char** argv)
 			delete (ventanaLogin);
 			ventanaLogin = NULL;
 
+			UICliente::finalizarAplicacion();
 		}
 
 		delete (ventanaConfiguracion);

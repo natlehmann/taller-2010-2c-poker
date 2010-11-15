@@ -60,6 +60,8 @@ public:
 	static string toString(const T &arg);
 
 	static bool FileExists(string strFilename);
+
+	static string ToLower(string str);
    
 };
 
