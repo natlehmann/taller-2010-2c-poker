@@ -8,6 +8,8 @@ ElementoGrafico::ElementoGrafico(void) {
 	this->superficie = NULL;
 	this->posX = 0;
 	this->posY = 0;
+	this->alto = 0;
+	this->ancho = 0;
 	this->offset = new SDL_Rect();
 	this->contorno = new SDL_Rect();
 	this->contornoConOffset = new SDL_Rect();

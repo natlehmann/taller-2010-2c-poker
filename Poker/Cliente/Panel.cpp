@@ -14,7 +14,7 @@ Panel::Panel(void)
 		this->componentes[i] = NULL;
 	}
 
-	this->hayNuevosComponentes = false;
+	this->hayNuevosComponentes = true;
 }
 
 Panel::~Panel(void)
@@ -60,6 +60,7 @@ void Panel::dibujarSobreSup(SDL_Surface* superficie){
 
 	if (this->hayNuevosComponentes) {
 		this->configurar();
+		this->hayNuevosComponentes = false;
 	}
 
 	//dibuja el panel
@@ -100,7 +101,7 @@ void Panel::configurar()
 				altoPanel = this->componentes[i]->getAlto();
 			}
 
-			if (this->componentes[i]->getAlto() == 0) {
+			if (this->componentes[i]->getAlto() <= 0) {
 				this->componentes[i]->setAlto(altoPanel - CORRECCION_ALTURA_COMPONENTE);
 			}
 		}
