@@ -16,6 +16,7 @@
 #include "Sincronizador.h"
 #include "OpUIClienteAgregarJugador.h"
 #include "OpUIClienteGetCantFichas.h"
+#include "DomTreeFactory.h"
 #include <vector>
 
 
@@ -137,7 +138,6 @@ int main (int argc, char** argv)
 						delete(ventana);
 						ventana = NULL;
 
-						delete(Sincronizador::getInstancia());
 					}
 					else if (ventanaAdministracion->getCancelado()) {
 						sigueAdministracion = false;
@@ -186,6 +186,95 @@ int main (int argc, char** argv)
 		}
 	}
 
+	delete(Sincronizador::getInstancia());
 	return 0;
 
 }
+
+
+
+// para pruebas
+/*
+int main (int argc, char** argv)
+{
+	VentanaConfiguracion* ventanaConfiguracion = NULL;
+	VentanaLogin* ventanaLogin = NULL;
+	VentanaNuevoJugador* ventanaNuevoJugador = NULL;
+	VentanaAdministracion* ventanaAdministracion = NULL;
+	VentanaEstadistica* ventanaEstadistica = NULL;
+	OperacionUICliente* operacion = NULL;
+	Ventana* ventana = NULL;
+	FabricaOperacionesCliente fab;
+
+	try {
+
+		UICliente::iniciarAplicacion();
+		UICliente::conectarServidor("localhost", 5000);
+
+		
+
+						UICliente::iniciarSDL();
+
+						ventana = new VentanaImpl();
+						Sincronizador::getInstancia()->registrarVentana(ventana);
+
+						UICliente::lanzarThreads(ventana);
+
+						vector<string> parametros;
+						parametros.push_back("nat");
+						parametros.push_back("false");
+						parametros.push_back("false");
+
+						operacion = fab.newOperacion("OpUIClienteAgregarJugador", parametros);
+						if (operacion->ejecutar(ventana)){
+
+							ventana->iniciar();
+
+						} else {
+							UICliente::mostrarMensaje(
+								"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+						}
+
+						UICliente::finalizar();
+
+						delete(operacion);
+						operacion = NULL;
+						delete(ventana);
+						ventana = NULL;
+
+						delete(Sincronizador::getInstancia());
+
+
+	} catch (PokerException& e) {
+
+		RecursosCliente::getLog()->escribir(&e.getError());
+		UICliente::mostrarMensaje(
+			"La aplicacion se ejecuto con errores. Por favor verifique el archivo 'errores.err'.", false);
+
+		if (ventanaConfiguracion != NULL) {
+			delete(ventanaConfiguracion);
+		}
+		if (ventanaLogin != NULL) {
+			delete(ventanaLogin);
+		}
+		if (ventanaNuevoJugador != NULL) {
+			delete(ventanaNuevoJugador);
+		}
+		if (ventanaAdministracion == NULL) {
+			delete(ventanaAdministracion);
+		}
+		if (ventanaEstadistica == NULL) {
+			delete(ventanaEstadistica);
+		}
+		if (operacion != NULL) {
+			delete(operacion);
+		}
+		if (ventana != NULL) {
+			delete(ventana);
+		}
+	}
+
+	return 0;
+
+}
+*/

@@ -53,7 +53,7 @@ bool OpUIClienteSolicitarArchivo::ejecutarAccion(Ventana* ventana){
 		if (size != -1)
 		{
 			//envia el mensaje de recibido ok y recibe el archivo solicitado
-			if (cliente->enviarRecibir("OK", mensajeRecibido, size)) {
+			if (cliente->enviarRecibir(string("OK"), mensajeRecibido, size)) {
 
 				//arma el path de destino
 				string pathCompleto = pathDestino;

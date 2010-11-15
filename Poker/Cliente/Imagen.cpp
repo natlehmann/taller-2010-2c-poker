@@ -19,7 +19,7 @@ Imagen::Imagen(string nombre) {
 
 		FabricaOperacionesCliente fab;
 		OperacionUICliente* operacion = fab.newOperacion("OpUIClienteSolicitarArchivo", nombre);
-		operacion->ejecutar(NULL);
+		operacion->ejecutarAccion(NULL);
 		delete(operacion);
 	}
 
