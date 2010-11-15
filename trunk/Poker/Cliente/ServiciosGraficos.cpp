@@ -90,10 +90,21 @@ void ServiciosGraficos::dibujarElipse(SDL_Surface* superficie,
 		int coordX = (int)(radioX * cos((double)(M_PI * angulo / 180))) + xMedio;
 		int coordY = yMedio - (int)(radioY * sin((double)(M_PI * angulo / 180)));
 
+		if (coordX == offset->w) {
+			coordX--;
+		}
+
+		if (coordY == offset->h) {
+			coordY--;
+		}
+
 		ServiciosGraficos::putPixel(superficie, coordX, coordY, color->toUint32(superficie));
 
 		// se calcula la coordY para la mitad inferior de la elipse
 		coordY = offset->y + offset->h - (coordY - offset->y);
+		if (coordY == offset->h) {
+			coordY--;
+		}
 		ServiciosGraficos::putPixel(superficie, coordX, coordY, color->toUint32(superficie));
 
 		angulo++;
