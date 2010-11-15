@@ -73,10 +73,11 @@ bool OpUIClienteLogin::ejecutarAccion(Ventana* ventana)
 					if (parametrosRecibidos.size() > 2)
 						this->cantFichas = UtilTiposDatos::getEntero(parametrosRecibidos.at(2));
 				}
-				else
-				{
-					if (parametrosRecibidos.size() > 0)
-						this->error = parametrosRecibidos.at(0);
+			}
+
+			if (!ok) {
+				if (parametrosRecibidos.size() > 0){
+					this->error = parametrosRecibidos.at(0);
 				}
 			}
 		} 
