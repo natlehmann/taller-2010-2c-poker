@@ -87,6 +87,12 @@ bool OpUIClienteEnviarFoto::ejecutarAccion(Ventana* ventana)
 								if (MensajesUtil::sonIguales(msjRecibido.data(), "OK"))
 								{
 									ok = true;
+
+									// si salio bien, se borra la imagen del filesystem
+									string instruccion = string("del ") 
+										+ RecursosCliente::getConfig()->get("cliente.configuracion.imagenes.path") 
+										+ usuario + ".bmp";
+									system(instruccion.c_str());
 								}
 							}
 							delete[] memblock;
