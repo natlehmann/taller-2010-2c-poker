@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="Servidor"
 	ProjectGUID="{80034BA5-0061-4E00-B475-8FC007704BC7}"
 	RootNamespace="Servidor"
@@ -343,6 +343,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OpGetCantidadFichas.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OpIgualarApuesta.cpp"
 				>
 			</File>
@@ -670,6 +674,10 @@
 			</File>
 			<File
 				RelativePath=".\Operacion.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpGetCantidadFichas.h"
 				>
 			</File>
 			<File

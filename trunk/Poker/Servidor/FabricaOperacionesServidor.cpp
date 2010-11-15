@@ -19,6 +19,7 @@
 #include "OpComprarFichas.h"
 #include "OpRecibirFoto.h"
 #include "OpEnviarEstadistica.h"
+#include "OpGetCantidadFichas.h"
 #include <list>
 using namespace std;
 
@@ -75,6 +76,9 @@ Operacion* FabricaOperacionesServidor::newOperacion(string nombreOperacion, vect
 	}
 	else if (MensajesUtil::sonIguales(nombreOperacion, "OpEnviarEstadistica")) {
 		operacion = new OpEnviarEstadistica(idCliente, parametros);
+	}
+	else if (MensajesUtil::sonIguales(nombreOperacion, "OpGetCantidadFichas")) {
+		operacion = new OpGetCantidadFichas(idCliente, parametros);
 	}
 
 	if (operacion == NULL) {

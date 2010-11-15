@@ -28,6 +28,15 @@ private:
 	static int altoVentana;
 	static int anchoVentana;
 
+	static Uint32 Rmask;
+	static Uint32 Gmask;
+	static Uint32 Bmask;
+	static Uint32 Amask;
+	static Uint8 bytesPerPixel;
+	static Uint8 bitsPerPixel;
+	static int current_w;
+	static int current_h;
+
 	static void lock(SDL_Surface* superficie);
 	static void unlock(SDL_Surface* superficie);
 
@@ -55,9 +64,17 @@ public:
 	static void dibujarElipse(SDL_Surface* superficie, 
 		SDL_Rect* offset, Color* color);
 
-	static const SDL_VideoInfo* getVideoInfo();
-
 	static SDL_Surface* crearSuperficie(int ancho, int alto);
+
+	static const SDL_VideoInfo* initVideoInfo();
+	static Uint32 getRmask();
+	static Uint32 getGmask();
+	static Uint32 getBmask();
+	static Uint32 getAmask();
+	static Uint8 getBytesPerPixel();
+	static Uint8 getBitsPerPixel();
+	static int getCurrent_w();
+	static int getCurrent_h();
 
 	/**
 	* Copia origen a destino en la posicion indicada por offsetDestino,

@@ -95,6 +95,7 @@ class AccesoDatos
 		bool grabarCompraFichas(string usuario, int cantFichasAComprar);
 		// Actualizacion de datos de los jugadores
 		bool actualizarNombreImagen(string usuario, string nuevoNombreImagen);
+		bool actualizarFichas(string usuario, int fichas);
 		/*********************************************************************************************************/
 
 		/************************** Metodos y funciones aplicadas a la tabla "SESION" *****************************/

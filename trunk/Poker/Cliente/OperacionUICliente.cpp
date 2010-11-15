@@ -39,16 +39,6 @@ bool OperacionUICliente::ejecutar(Ventana* ventana){
 		RecursosCliente::getLog()->escribir("Se produjo un error ejecutando la operacion.");
 	}
 
-	/*
-	SDL_Event event;
-
-	event.type = SDL_USEREVENT;
-	event.user.code = 1;
-	event.user.data1 = "";
-	event.user.data2 = 0;
-
-	ventana->PushEvent(&event);
-	*/
 
 	Sincronizador::getInstancia()->notificarCambio();
 

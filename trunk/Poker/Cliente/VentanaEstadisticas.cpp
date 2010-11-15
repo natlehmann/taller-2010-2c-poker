@@ -58,6 +58,7 @@ VentanaEstadisticas::VentanaEstadisticas(string usuario, int sessionId)
 	this->offset->y = this->altoFila;
 	
 	this->pantalla = SDL_SetVideoMode(this->ancho, this->alto, RESOLUCION_PANTALLA, SDL_SWSURFACE);
+	ServiciosGraficos::initVideoInfo();
 
 	if (this->pantalla == NULL) {
 		throw UIException("No se pudo inicializar la ventana de la aplicacion.","E");
