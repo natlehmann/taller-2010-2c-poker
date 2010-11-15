@@ -8,6 +8,7 @@ using namespace std;
 class OpUIClienteSolicitarEstadistica : public OperacionUICliente
 {
 	private:
+		string archivo;
 		string estadistica;
 		string error;
 	
@@ -18,6 +19,12 @@ class OpUIClienteSolicitarEstadistica : public OperacionUICliente
 		OpUIClienteSolicitarEstadistica(vector<string> parametros);
 		~OpUIClienteSolicitarEstadistica(void);
 		virtual string getError();
+
+		string getArchivo();
+		string getFechaActual();
+		string getHoraActual();
+
+
 };
 
 #endif //_OPUICLIENTE_SOLICITARESTADISTICA_H_

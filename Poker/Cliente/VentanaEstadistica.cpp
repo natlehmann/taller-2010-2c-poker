@@ -322,7 +322,7 @@ bool VentanaEstadistica::ejecutarPreEvento(string controlId){
 	bool refrescar = false;
 	if (MensajesUtil::sonIguales(controlId, "btConsulta"))
 	{
-		mostrarMensaje("Espere, Generando la Estadistica.");
+		mostrarMensaje("Espere, Generando la Estadistica...");
 		refrescar = true;
 	}
 	else if (MensajesUtil::sonIguales(controlId, "cbEvolucionUsuario") ||
@@ -361,8 +361,11 @@ bool VentanaEstadistica::ejecutarEvento(string controlId){
 
 				if (operacion->ejecutarAccion(NULL))
 				{
-					
+					mostrarMensaje("Generado " + ((OpUIClienteSolicitarEstadistica*)operacion)->getArchivo());
+					lanzarEvento(100);
+					return false;					
 				}
+
 				delete (operacion);
 
 			}
