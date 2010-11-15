@@ -92,10 +92,11 @@ bool OpUIClienteEnviarFoto::ejecutarAccion(Ventana* ventana)
 							delete[] memblock;
 						}
 					}
-					else
-					{
-						if (parametrosRecibidos.size() > 0)
-							this->error = parametrosRecibidos.at(0);
+				}
+
+				if (!ok){
+					if (parametrosRecibidos.size() > 0){
+						this->error = parametrosRecibidos.at(0);
 					}
 				}
 			} 

@@ -56,18 +56,13 @@ bool OpUIClienteLogoff::ejecutarAccion(Ventana* ventana)
 			{
 				if (MensajesUtil::sonIguales(this->parametrosRecibidos.at(0), "OK"))
 				{
-					ok = true;		
-
-					//if (parametrosRecibidos.size() > 1)
-					//	this->sesionId = UtilTiposDatos::getEntero(parametrosRecibidos.at(1));
-
-					//if (parametrosRecibidos.size() > 2)
-					//	this->cantFichas = UtilTiposDatos::getEntero(parametrosRecibidos.at(2));
+					ok = true;	
 				}
-				else
-				{
-					if (parametrosRecibidos.size() > 0)
-						this->error = parametrosRecibidos.at(0);
+			}
+
+			if (!ok){
+				if (parametrosRecibidos.size() > 0){
+					this->error = parametrosRecibidos.at(0);
 				}
 			}
 		} 

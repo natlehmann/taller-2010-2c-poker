@@ -105,10 +105,11 @@ bool OpUIClienteSolicitarEstadistica::ejecutarAccion(Ventana* ventana)
 
 					//TODO: GRABAR ARCHIVO CON LA ESTADISTICA
 				}
-				else
-				{
-					if (parametrosRecibidos.size() > 0)
-						this->error = parametrosRecibidos.at(0);
+			}
+
+			if (!ok){
+				if (parametrosRecibidos.size() > 0){
+					this->error = parametrosRecibidos.at(0);
 				}
 			}
 		} 
