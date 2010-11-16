@@ -6,7 +6,6 @@
 #include "OperacionUICliente.h"
 #include "PokerException.h"
 #include "Respuesta.h"
-#include "VentanaProxy.h"
 #include "VentanaImpl.h"
 #include "VentanaConfiguracion.h"
 #include "VentanaLogin.h"
@@ -71,18 +70,14 @@ int main (int argc, char** argv)
 			if (ventanaLogin->getConectado()) {
 
 				bool sigueAdministracion = true;
-				vector<string> parametrosGCF;
-				OpUIClienteGetCantFichas* opGetFichas;
-				int fichasJug;
-
 				while (sigueAdministracion) {
 
-					
-					parametrosGCF.clear();
+					vector<string> parametrosGCF;
 					parametrosGCF.push_back(ventanaLogin->getUsuario());
-					opGetFichas = ((OpUIClienteGetCantFichas*)fab.newOperacion("OpUIClienteGetCantFichas", parametrosGCF));
+					OpUIClienteGetCantFichas* opGetFichas = ((OpUIClienteGetCantFichas*)fab.newOperacion(
+						"OpUIClienteGetCantFichas", parametrosGCF));
 					opGetFichas->ejecutarAccion(NULL);
-					fichasJug = opGetFichas->getCantidadFichas();
+					int fichasJug = opGetFichas->getCantidadFichas();
 					delete(opGetFichas);
 
 					ventanaAdministracion = new VentanaAdministracion(ventanaLogin->getUsuario(), 
@@ -148,6 +143,7 @@ int main (int argc, char** argv)
 					}
 				}
 
+				UICliente::finalizarAplicacion();
 				delete(ventanaAdministracion);
 				ventanaAdministracion = NULL;
 
@@ -156,7 +152,6 @@ int main (int argc, char** argv)
 			delete (ventanaLogin);
 			ventanaLogin = NULL;
 
-			UICliente::finalizarAplicacion();
 		}
 
 		delete (ventanaConfiguracion);
