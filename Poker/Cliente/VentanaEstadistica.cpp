@@ -341,10 +341,10 @@ bool VentanaEstadistica::ejecutarEvento(string controlId){
 	bool finalizar = false;
 	if (MensajesUtil::sonIguales(controlId, "btConsulta"))
 	{
-		if(validarFecha(txFecha->getTexto()))
+		string seleccion;
+		if (validarSeleccion(seleccion))
 		{
-			string seleccion;
-			if (validarSeleccion(seleccion))
+			if(validarFecha(txFecha->getTexto()) | MensajesUtil::sonIguales(seleccion,"ConsultaRanking"))
 			{
 				FabricaOperacionesCliente fab;
 				OperacionUICliente* operacion = NULL;
@@ -370,13 +370,13 @@ bool VentanaEstadistica::ejecutarEvento(string controlId){
 			}
 			else
 			{
-				mostrarMensaje("Debe seleccionar solo una opción.");
-				lanzarEvento(100);
+			mostrarMensaje("Verifique el formato de fecha.");
+			lanzarEvento(100);
 			}
 		}
 		else
 		{
-			mostrarMensaje("Verifique el formato de fecha.");
+			mostrarMensaje("Debe seleccionar solo una opción.");
 			lanzarEvento(100);
 		}
 	}
