@@ -351,14 +351,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OpIgualarJugadorVirtual.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\OpJugadorVirtual.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\OpLogin.cpp"
 				>
 			</File>
@@ -375,10 +367,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OpNoIrJugadorVirtual.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\OpPasar.cpp"
 				>
 			</File>
@@ -392,10 +380,6 @@
 			</File>
 			<File
 				RelativePath=".\OpSubirApuesta.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\OpSubirJugadorVirtual.cpp"
 				>
 			</File>
 			<File
@@ -685,14 +669,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OpIgualarJugadorVirtual.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OpJugadorVirtual.h"
-				>
-			</File>
-			<File
 				RelativePath=".\OpLogin.h"
 				>
 			</File>
@@ -709,10 +685,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OpNoIrJugadorVirtual.h"
-				>
-			</File>
-			<File
 				RelativePath=".\OpPasar.h"
 				>
 			</File>
@@ -726,10 +698,6 @@
 			</File>
 			<File
 				RelativePath=".\OpSubirApuesta.h"
-				>
-			</File>
-			<File
-				RelativePath=".\OpSubirJugadorVirtual.h"
 				>
 			</File>
 			<File
