@@ -31,8 +31,8 @@ VentanaLogin::VentanaLogin(void) {
 	
 	this->altoFila = ServiciosGraficos::getAltoFilaVentanaSegundaria();
 	this->anchoColumna = ServiciosGraficos::getAnchoColVentanaSegundaria();
-	this->setAlto(this->altoFila*18);
-	this->setAncho(this->anchoColumna*19);
+	this->setAlto(this->altoFila*26);
+	this->setAncho(this->anchoColumna*20);
 
 	this->contorno->x = 0;
 	this->contorno->y = 0;
@@ -54,7 +54,13 @@ VentanaLogin::VentanaLogin(void) {
 	SDL_WM_SetCaption(RecursosCliente::getConfig()->get("cliente.configuracion.mensajeLogin").c_str(), NULL); 
 	
 	this->fondo = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.fondo"));
-	SDL_FillRect(pantalla, contorno, this->fondo->toUint32(pantalla));
+	
+	this->imagenFondo = new Imagen("pantallaLogin.bmp");
+	this->imagenFondo->setAlto(this->getAlto());
+	this->imagenFondo->setAncho(this->getAncho());
+	this->imagenFondo->setPosX(0);
+	this->imagenFondo->setPosY(0);
+	this->agregarElementoGrafico(this->imagenFondo);
 
 	this->configurarControles();
 	this->hayCambios = true;
@@ -83,79 +89,119 @@ VentanaLogin::~VentanaLogin(void)
 
 void VentanaLogin::configurarControles() {
 
+	string estilo = RecursosCliente::getConfig()->get("cliente.configuracion.fuentes") +
+					RecursosCliente::getConfig()->get("cliente.tema.default.etiquetas.fuente.estilo") + ".ttf";
+
 	Etiqueta* etUsuario = new Etiqueta("Usuario:");
 	etUsuario->setPosX(this->anchoColumna*2);
 	etUsuario->setAncho(this->anchoColumna*5);
-	etUsuario->setPosY(this->altoFila*1);
-	etUsuario->setAlto(this->altoFila*2);
-	etUsuario->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etUsuario->setPosY(this->altoFila*13);
+	etUsuario->setAlto(this->altoFila*1);
+	etUsuario->setFondo(NULL);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		etUsuario->setFuente(new Fuente("255,255,255", 18, estilo));
+	}
 	this->agregarElementoGrafico(etUsuario);
 
-	txUsuario = new TextBox("luchopal");
+
+	txUsuario = new TextBox("poddo");
 	txUsuario->setPosX(this->anchoColumna*7);
 	txUsuario->setAncho(this->anchoColumna*10);
-	txUsuario->setPosY(this->altoFila*1);
-	txUsuario->setAlto(this->altoFila*2);
+	txUsuario->setPosY(this->altoFila*13);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		txUsuario->setAlto(this->altoFila*1);
+	} else {
+		txUsuario->setAlto((int)(this->altoFila*1.5));
+	}
 	txUsuario->setHabilitado(true);
 	this->agregarComponentePanel(txUsuario);
+
 
 	Etiqueta* etPassword = new Etiqueta("Password:");
 	etPassword->setPosX(this->anchoColumna*2);
 	etPassword->setAncho(this->anchoColumna*5);
-	etPassword->setPosY(this->altoFila*5);
-	etPassword->setAlto(this->altoFila*2);
-	etPassword->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etPassword->setPosY(this->altoFila*15);
+	etPassword->setAlto(this->altoFila*1);
+	etPassword->setFondo(NULL);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		etPassword->setFuente(new Fuente("255,255,255", 18, estilo));
+	}
 	this->agregarElementoGrafico(etPassword);
 
-	txPassword = new TextBox("lucho");
+
+	txPassword = new TextBox("123");
 	txPassword->setPosX(this->anchoColumna*7);
 	txPassword->setAncho(this->anchoColumna*10);
-	txPassword->setPosY(this->altoFila*5);
-	txPassword->setAlto(this->altoFila*2);
+	txPassword->setPosY(this->altoFila*15);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		txPassword->setAlto(this->altoFila*1);
+	} else {
+		txPassword->setAlto((int)(this->altoFila*1.5));
+	}
 	txPassword->setHabilitado(true);
 	txPassword->setTipoPassword(true);
 	this->agregarComponentePanel(txPassword);
 
+
 	cbVirtual = new CheckBox("Virtual");
 	cbVirtual->setPosX(this->anchoColumna*2);
-	cbVirtual->setPosY(this->altoFila*8);
+	cbVirtual->setPosY(this->altoFila*17);
 	cbVirtual->setHabilitado(true);
 	this->agregarComponentePanel(cbVirtual);
 
-	cbObservador = new CheckBox("Observador");
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		cbObservador = new CheckBox("Observador");
+	} else {
+		cbObservador = new CheckBox("Observ.");
+	}
 	cbObservador->setPosX(this->anchoColumna*2);
-	cbObservador->setPosY(this->altoFila*10);
+	cbObservador->setPosY(this->altoFila*18);
 	cbObservador->setHabilitado(true);
 	this->agregarComponentePanel(cbObservador);
 
 
 	Boton* btLogin = new Boton("Login");
 	btLogin->setId("btLogin");
-	btLogin->setPosX(this->anchoColumna*3);
-	btLogin->setPosY(this->altoFila*15);
+	btLogin->setPosX(this->anchoColumna*7);
+	btLogin->setPosY(this->altoFila*17);
 	btLogin->setHabilitado(true);
 	this->agregarComponentePanel(btLogin);
 
+
 	Boton* btNuevo = new Boton("Nuevo");
 	btNuevo->setId("btNuevo");
-	btNuevo->setPosX(this->anchoColumna*8);
-	btNuevo->setPosY(this->altoFila*15);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		btNuevo->setPosX(this->anchoColumna*10);
+	} else {
+		btNuevo->setPosX(this->anchoColumna*11);
+	}
+	btNuevo->setPosY(this->altoFila*17);
 	btNuevo->setHabilitado(true);
 	this->agregarComponentePanel(btNuevo);
 
-	Boton* btCancel = new Boton("Cancel");
+	Boton* btCancel = NULL;
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		btCancel = new Boton("Cancelar");
+	} else {
+		btCancel = new Boton("Cancel");
+	}
 	btCancel->setId("btCancel");
-	btCancel->setPosX(this->anchoColumna*13);
-	btCancel->setPosY(this->altoFila*15);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		btCancel->setPosX(this->anchoColumna*14);
+	} else {
+		btCancel->setPosX(this->anchoColumna*15);
+	}
+	btCancel->setPosY(this->altoFila*17);
 	btCancel->setHabilitado(true);
 	this->agregarComponentePanel(btCancel);
 
 	mensaje = new Etiqueta("");
-	mensaje->setPosX(this->anchoColumna*1);
-	mensaje->setAncho(this->ancho-this->anchoColumna);
-	mensaje->setPosY(this->altoFila*12);
+	mensaje->setPosX(0);
+	mensaje->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
+	mensaje->setAncho(this->ancho);
+	mensaje->setPosY(this->alto - this->altoFila*2);
 	mensaje->setAlto(this->altoFila*2);
-	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	mensaje->setFondo(new Color(9,78,44));
 	mensaje->setVisible(false);
 	this->agregarElementoGrafico(mensaje);
 

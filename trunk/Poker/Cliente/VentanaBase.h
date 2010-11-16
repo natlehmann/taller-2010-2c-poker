@@ -12,6 +12,10 @@
 #include <windows.h>
 #include "Ventana.h"
 #include "Mensaje.h"
+#include "Imagen.h"
+
+#define ANCHO_LIMITE_CORRECCION		1024
+#define ANCHO_LIMITE_MINIMO_CORRECCION		640
 
 using namespace std;
 
@@ -23,6 +27,7 @@ protected:
 	SDL_Rect* contorno;
 	SDL_Rect* contornoConOffset;
 	Color* fondo;
+	Imagen* imagenFondo;
 
 	int altoFila;
 	int anchoColumna;
