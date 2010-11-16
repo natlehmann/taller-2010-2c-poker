@@ -487,10 +487,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\VentanaProxy.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\Comun\XmlParser.cpp"
 				>
 			</File>
@@ -842,10 +838,6 @@
 			</File>
 			<File
 				RelativePath=".\VentanaNuevoJugador.h"
-				>
-			</File>
-			<File
-				RelativePath=".\VentanaProxy.h"
 				>
 			</File>
 			<File
