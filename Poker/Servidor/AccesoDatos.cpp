@@ -496,9 +496,9 @@ string AccesoDatos::obtenerEvolUsrRegPorHoras(string dia, string mes, string ani
 	int cantRegistrados = 0;
 	
 	listado = listado + "Hora:" + '\t'+ '\t';
-	listado = listado + "Cantidad Usuarios Registrados:" + "\r\n";
+	listado = listado + "Cantidad Usuarios Registrados:" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "-----------------------------" + "\r\n";
+	listado = listado + "-----------------------------" + '*';
 
 	for (int hora = 0; hora <= HORA_MAX; hora++) 
 	{
@@ -516,7 +516,7 @@ string AccesoDatos::obtenerEvolUsrRegPorHoras(string dia, string mes, string ani
 				cantRegistrados = sqlite3_column_int(resultado, 0);	
 
 				listado = listado + MensajesUtil::intToString(hora) + '\t' + '\t' + '\t';
-				listado = listado + MensajesUtil::intToString(cantRegistrados) + "\r\n";
+				listado = listado + MensajesUtil::intToString(cantRegistrados) + '*';
 			}
 		}
 	}
@@ -535,9 +535,9 @@ string AccesoDatos::obtenerEvolUsrRegPorDias(string mes, string anio)
 	int cantRegistrados = 0;
 		
 	listado = listado + "Dia:" + '\t'+ '\t';
-	listado = listado + "Cantidad Usuarios Registrados:" + "\r\n";
+	listado = listado + "Cantidad Usuarios Registrados:" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "------------------------------" + "\r\n";
+	listado = listado + "------------------------------" + '*';
 
 	for (int dia = 1; dia <= diaMax; dia++) 
 	{
@@ -557,7 +557,7 @@ string AccesoDatos::obtenerEvolUsrRegPorDias(string mes, string anio)
 				cantRegistrados = sqlite3_column_int(resultado, 0);	
 
 				listado = listado + MensajesUtil::intToString(dia) + '\t' + '\t' + '\t';
-				listado = listado + MensajesUtil::intToString(cantRegistrados) + "\r\n";
+				listado = listado + MensajesUtil::intToString(cantRegistrados) + '*';
 			}
 		}
 	}
@@ -574,9 +574,9 @@ string AccesoDatos::obtenerEvolUsrRegPorMeses(string anio)
 	int cantRegistrados = 0;
 		
 	listado = listado + "Mes:" + '\t'+ '\t';
-	listado = listado + "Cantidad Usuarios Registrados" + "\r\n";
+	listado = listado + "Cantidad Usuarios Registrados" + "*";
 	listado = listado + "-------" + '\t';
-	listado = listado + "-----------------------------" + "\r\n";
+	listado = listado + "-----------------------------" + "*";
 
 	for (int mes = 1; mes <= MES_MAX; mes++) 
 	{
@@ -596,7 +596,7 @@ string AccesoDatos::obtenerEvolUsrRegPorMeses(string anio)
 				cantRegistrados = sqlite3_column_int(resultado, 0);	
 
 				listado = listado + MensajesUtil::intToString(mes) + '\t' + '\t' + '\t';
-				listado = listado + MensajesUtil::intToString(cantRegistrados) + "\r\n";
+				listado = listado + MensajesUtil::intToString(cantRegistrados) + '*';
 			}
 		}
 	}
@@ -642,9 +642,9 @@ string AccesoDatos::obtenerEvolUsrConPorHoras(string dia, string mes, string ani
 	int cantConectados = 0;
 	
 	listado = listado + "Hora:" + '\t'+ '\t';
-	listado = listado + "Cantidad Usuarios Conectados:" + "\r\n";
+	listado = listado + "Cantidad Usuarios Conectados:" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "-----------------------------" + "\r\n";
+	listado = listado + "-----------------------------" + '*';
 
 	for (int hora = 0; hora <= HORA_MAX; hora++) 
 	{
@@ -662,7 +662,7 @@ string AccesoDatos::obtenerEvolUsrConPorHoras(string dia, string mes, string ani
 				cantConectados = sqlite3_column_int(resultado, 0);	
 
 				listado = listado + MensajesUtil::intToString(hora) + '\t' + '\t' + '\t';
-				listado = listado + MensajesUtil::intToString(cantConectados) + "\r\n";
+				listado = listado + MensajesUtil::intToString(cantConectados) + '*';
 			}
 		}
 	}
@@ -681,9 +681,9 @@ string AccesoDatos::obtenerEvolUsrConPorDias(string mes, string anio)
 	int cantConectados = 0;
 		
 	listado = listado + "Dia:" + '\t'+ '\t';
-	listado = listado + "Cantidad Usuarios Conectados:" + "\r\n";
+	listado = listado + "Cantidad Usuarios Conectados:" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "------------------------------" + "\r\n";
+	listado = listado + "------------------------------" + '*';
 
 	for (int dia = 1; dia <= diaMax; dia++) 
 	{
@@ -703,7 +703,7 @@ string AccesoDatos::obtenerEvolUsrConPorDias(string mes, string anio)
 				cantConectados = sqlite3_column_int(resultado, 0);	
 
 				listado = listado + MensajesUtil::intToString(dia) + '\t' + '\t' + '\t';
-				listado = listado + MensajesUtil::intToString(cantConectados) + "\r\n";
+				listado = listado + MensajesUtil::intToString(cantConectados) + '*';
 			}
 		}
 	}
@@ -720,9 +720,9 @@ string AccesoDatos::obtenerEvolUsrConPorMeses(string anio)
 	int cantConectados = 0;
 		
 	listado = listado + "Mes:" + '\t'+ '\t';
-	listado = listado + "Cantidad Usuarios Conectados" + "\r\n";
+	listado = listado + "Cantidad Usuarios Conectados" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "-----------------------------" + "\r\n";
+	listado = listado + "-----------------------------" + '*';
 
 	for (int mes = 1; mes <= MES_MAX; mes++) 
 	{
@@ -742,7 +742,7 @@ string AccesoDatos::obtenerEvolUsrConPorMeses(string anio)
 				cantConectados = sqlite3_column_int(resultado, 0);	
 
 				listado = listado + MensajesUtil::intToString(mes) + '\t' + '\t' + '\t';
-				listado = listado + MensajesUtil::intToString(cantConectados) + "\r\n";
+				listado = listado + MensajesUtil::intToString(cantConectados) + '*';
 			}
 		}
 	}
@@ -790,9 +790,9 @@ string AccesoDatos::obtenerListUsrRegPorHoras(string dia, string mes, string ani
 	bool imprimioHora;
 	
 	listado = listado + "Hora:" + '\t'+ '\t';
-	listado = listado + "Usuarios Registrados" + "\r\n";
+	listado = listado + "Usuarios Registrados" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "--------------------" + "\r\n";
+	listado = listado + "--------------------" + '*';
 
 	for (int hora = 0; hora <= HORA_MAX; hora++) 
 	{
@@ -820,7 +820,7 @@ string AccesoDatos::obtenerListUsrRegPorHoras(string dia, string mes, string ani
 				else
 					listado = listado +  '\t' + '\t' + '\t';
 				
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 				
 				hayUsuarios = true;
 			}
@@ -829,7 +829,7 @@ string AccesoDatos::obtenerListUsrRegPorHoras(string dia, string mes, string ani
 			{
 				listado = listado + MensajesUtil::intToString(hora) + '\t' + '\t' + '\t';
 				usuario = "-";
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 			}
 		}
 	}
@@ -850,9 +850,9 @@ string AccesoDatos::obtenerListUsrRegPorDias(string mes, string anio)
 	bool imprimioDia;
 		
 	listado = listado + "Dia:" + '\t'+ '\t';
-	listado = listado + "Usuarios Registrados" + "\r\n";
+	listado = listado + "Usuarios Registrados" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "--------------------" + "\r\n";
+	listado = listado + "--------------------" + '*';
 
 	for (int dia = 1; dia <= diaMax; dia++) 
 	{
@@ -882,7 +882,7 @@ string AccesoDatos::obtenerListUsrRegPorDias(string mes, string anio)
 				else
 					listado = listado +  '\t' + '\t' + '\t';
 				
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 				
 				hayUsuarios = true;
 			}
@@ -891,7 +891,7 @@ string AccesoDatos::obtenerListUsrRegPorDias(string mes, string anio)
 			{
 				listado = listado + MensajesUtil::intToString(dia) + '\t' + '\t' + '\t';
 				usuario = "-";
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 			}
 		}
 	}
@@ -910,9 +910,9 @@ string AccesoDatos::obtenerListUsrRegPorMeses(string anio)
 	bool imprimioMes;
 		
 	listado = listado + "Mes:" + '\t'+ '\t';
-	listado = listado + "Usuarios Registrados" + "\r\n";
+	listado = listado + "Usuarios Registrados" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "--------------------" + "\r\n";
+	listado = listado + "--------------------" + '*';
 
 	for (int mes = 1; mes <= MES_MAX; mes++) 
 	{
@@ -942,7 +942,7 @@ string AccesoDatos::obtenerListUsrRegPorMeses(string anio)
 				else
 					listado = listado +  '\t' + '\t' + '\t';
 				
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 				
 				hayUsuarios = true;
 			}
@@ -951,7 +951,7 @@ string AccesoDatos::obtenerListUsrRegPorMeses(string anio)
 			{
 				listado = listado + MensajesUtil::intToString(mes) + '\t' + '\t' + '\t';
 				usuario = "-";
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 			}
 		}
 	}
@@ -999,9 +999,9 @@ string AccesoDatos::obtenerListUsrConPorHoras(string dia, string mes, string ani
 	bool imprimioHora;
 	
 	listado = listado + "Hora:" + '\t'+ '\t';
-	listado = listado + "Usuarios Conectados:" + "\r\n";
+	listado = listado + "Usuarios Conectados:" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "--------------------" + "\r\n";
+	listado = listado + "--------------------" + '*';
 
 	for (int hora = 0; hora <= HORA_MAX; hora++) 
 	{
@@ -1029,7 +1029,7 @@ string AccesoDatos::obtenerListUsrConPorHoras(string dia, string mes, string ani
 				else
 					listado = listado +  '\t' + '\t' + '\t';
 				
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 				
 				hayUsuarios = true;
 			}
@@ -1038,7 +1038,7 @@ string AccesoDatos::obtenerListUsrConPorHoras(string dia, string mes, string ani
 			{
 				listado = listado + MensajesUtil::intToString(hora) + '\t' + '\t' + '\t';
 				usuario = "-";
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 			}
 		}
 	}
@@ -1059,9 +1059,9 @@ string AccesoDatos::obtenerListUsrConPorDias(string mes, string anio)
 	bool imprimioDia;
 		
 	listado = listado + "Dia:" + '\t'+ '\t';
-	listado = listado + "Usuarios Conectados" + "\r\n";
+	listado = listado + "Usuarios Conectados" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "--------------------" + "\r\n";
+	listado = listado + "--------------------" + '*';
 
 	for (int dia = 1; dia <= diaMax; dia++) 
 	{
@@ -1091,7 +1091,7 @@ string AccesoDatos::obtenerListUsrConPorDias(string mes, string anio)
 				else
 					listado = listado +  '\t' + '\t' + '\t';
 				
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 				
 				hayUsuarios = true;
 			}
@@ -1100,7 +1100,7 @@ string AccesoDatos::obtenerListUsrConPorDias(string mes, string anio)
 			{
 				listado = listado + MensajesUtil::intToString(dia) + '\t' + '\t' + '\t';
 				usuario = "-";
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 			}
 		}
 	}
@@ -1119,9 +1119,9 @@ string AccesoDatos::obtenerListUsrConPorMeses(string anio)
 	bool imprimioMes;
 		
 	listado = listado + "Mes:" + '\t'+ '\t';
-	listado = listado + "Usuarios Conectados:" + "\r\n";
+	listado = listado + "Usuarios Conectados:" + '*';
 	listado = listado + "-------" + '\t';
-	listado = listado + "--------------------" + "\r\n";
+	listado = listado + "--------------------" + '*';
 
 	for (int mes = 1; mes <= MES_MAX; mes++) 
 	{
@@ -1151,7 +1151,7 @@ string AccesoDatos::obtenerListUsrConPorMeses(string anio)
 				else
 					listado = listado +  '\t' + '\t' + '\t';
 				
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 				
 				hayUsuarios = true;
 			}
@@ -1160,7 +1160,7 @@ string AccesoDatos::obtenerListUsrConPorMeses(string anio)
 			{
 				listado = listado + MensajesUtil::intToString(mes) + '\t' + '\t' + '\t';
 				usuario = "-";
-				listado = listado + usuario + "\r\n";
+				listado = listado + usuario + '*';
 			}
 		}
 	}
@@ -1175,9 +1175,9 @@ string AccesoDatos::obtenerRankingUsuarios()
 	int cantFichas = 0;
 		
 	listado = listado + "Usuario" + '\t'+ '\t';
-	listado = listado + "Fichas" + "\r\n";
+	listado = listado + "Fichas" + '*';
 	listado = listado + "-------" + '\t' + '\t';
-	listado = listado + "-------" + "\r\n";
+	listado = listado + "-------" + '*';
 
 	if (this->consultarRankingUsuarios())
 	{
@@ -1187,7 +1187,7 @@ string AccesoDatos::obtenerRankingUsuarios()
 			cantFichas = sqlite3_column_int(resultado, 1);
 			
 			listado = listado + usuario + '\t' + '\t';
-			listado = listado + MensajesUtil::intToString(cantFichas) + "\r\n";
+			listado = listado + MensajesUtil::intToString(cantFichas) + '*';
 		}
 	}
 
