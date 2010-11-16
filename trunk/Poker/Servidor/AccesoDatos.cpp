@@ -507,7 +507,7 @@ string AccesoDatos::obtenerEvolUsrRegPorHoras(string dia, string mes, string ani
 		if (strHora.length() == 1)
 			strHora = "0" + strHora;
 
-		sql = "SELECT COUNT(*) FROM jugadores WHERE substr(horaregistro,0,3) = '" + strHora + "' AND fechaRegistro = '" + diaMesAnio + "';";
+		sql = "SELECT COUNT(*) FROM jugadores WHERE substr(horaregistro,0,2) = '" + strHora + "' AND fechaRegistro = '" + diaMesAnio + "';";
  
 		if (this->ejecutar(sql))
 		{
@@ -653,7 +653,7 @@ string AccesoDatos::obtenerEvolUsrConPorHoras(string dia, string mes, string ani
 		if (strHora.length() == 1)
 			strHora = "0" + strHora;
 
-		sql = "SELECT COUNT(DISTINCT(USUARIO)) FROM sesion WHERE substr(horaInicio,0,3) = '" + strHora + "' AND fechaInicio = '" + diaMesAnio + "';";
+		sql = "SELECT COUNT(DISTINCT(USUARIO)) FROM sesion WHERE substr(horaInicio,0,2) = '" + strHora + "' AND fechaInicio = '" + diaMesAnio + "';";
  
 		if (this->ejecutar(sql))
 		{
@@ -801,7 +801,7 @@ string AccesoDatos::obtenerListUsrRegPorHoras(string dia, string mes, string ani
 		if (strHora.length() == 1)
 			strHora = "0" + strHora;
 
-		sql = "SELECT distinct(usuario) FROM sesion WHERE substr(horaregistro,0,3) = '" + strHora + "' AND fechaRegistro = '" + diaMesAnio + "';";
+		sql = "SELECT distinct(usuario) FROM jugadores WHERE substr(horaregistro,0,2) = '" + strHora + "' AND fechaRegistro = '" + diaMesAnio + "';";
  
 		if (this->ejecutar(sql))
 		{
@@ -1010,7 +1010,7 @@ string AccesoDatos::obtenerListUsrConPorHoras(string dia, string mes, string ani
 		if (strHora.length() == 1)
 			strHora = "0" + strHora;
 
-		sql = "SELECT distinct(usuario) FROM sesion WHERE substr(horaInicio,0,3) = '" + strHora + "' AND fechaInicio = '" + diaMesAnio + "';";
+		sql = "SELECT distinct(usuario) FROM sesion WHERE substr(horaInicio,0,2) = '" + strHora + "' AND fechaInicio = '" + diaMesAnio + "';";
  
 		if (this->ejecutar(sql))
 		{
