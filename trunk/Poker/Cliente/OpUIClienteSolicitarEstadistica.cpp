@@ -30,17 +30,23 @@ bool OpUIClienteSolicitarEstadistica::ejecutarAccion(Ventana* ventana)
 	string fecha = "";
 
 	string tipoDeEstadistica = this->parametros.at(0); //
-	anio = this->parametros.at(1); //formato AAAA
-	if (parametros.size() > 2)
+	if(!MensajesUtil::sonIguales(this->parametros.at(1),""))
 	{
-		mes = this->parametros.at(2); //formato MM
-		if (parametros.size() > 3)
+		anio = this->parametros.at(1); //formato AAAA
+		if (parametros.size() > 2)
 		{
-			dia = this->parametros.at(3); //formato DD
-			fecha = dia + "-";
+			mes = this->parametros.at(2); //formato MM
+			if (parametros.size() > 3)
+			{
+				dia = this->parametros.at(3); //formato DD
+				fecha = dia + "-";
+			}
+			fecha += mes + "-";
 		}
-		fecha += mes + "-";
 	}
+	else 
+		anio = "2010"; //en el caso del ranking
+
 	fecha += anio;
 
 	DomTree* tree = new DomTree("operaciones");
@@ -93,7 +99,9 @@ bool OpUIClienteSolicitarEstadistica::ejecutarAccion(Ventana* ventana)
 						this->estadistica = parametrosRecibidos.at(1);
 
 						string pathOrigen = "";
-						this->archivo = tipoDeEstadistica + fecha + ".txt";
+						if (MensajesUtil::sonIguales(tipoDeEstadistica,"ConsultaRanking"))
+							fecha = getFechaActual() + "-" + getHoraActual();
+						this->archivo = tipoDeEstadistica + "-" + fecha + ".txt";
 						string pathCompleto = pathOrigen + this->archivo;
 						ofstream* archivo = new ofstream(pathCompleto.c_str(), ios::out | ios::app);
 						if (archivo->is_open())
@@ -154,7 +162,7 @@ string OpUIClienteSolicitarEstadistica::getFechaActual()
 	if (mes.length() == 1)
 		mes = "0" + mes;
 
-	string fecha = dia + "-" + mes + "-" + anio;
+	string fecha = anio + mes + dia;
 	
 	return fecha;	
 }
