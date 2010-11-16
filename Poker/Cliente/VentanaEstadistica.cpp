@@ -32,8 +32,8 @@ VentanaEstadistica::VentanaEstadistica(string usuario, int sessionId) {
 
 	this->altoFila = ServiciosGraficos::getAltoFilaVentanaSegundaria();
 	this->anchoColumna = ServiciosGraficos::getAnchoColVentanaSegundaria();
-	this->setAlto(this->altoFila*27);
-	this->setAncho(this->anchoColumna*21);
+	this->setAlto(this->altoFila*31);
+	this->setAncho(this->anchoColumna*25);
 
 	this->contorno->x = 0;
 	this->contorno->y = 0;
@@ -54,7 +54,13 @@ VentanaEstadistica::VentanaEstadistica(string usuario, int sessionId) {
 	SDL_WM_SetCaption(RecursosCliente::getConfig()->get("cliente.configuracion.mensajeEstadisticas").c_str(), NULL); 
 	
 	this->fondo = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.fondo"));
-	SDL_FillRect(pantalla, contorno, this->fondo->toUint32(pantalla));
+	
+	this->imagenFondo = new Imagen("pantallaEstadisticas.bmp");
+	this->imagenFondo->setAlto(this->getAlto());
+	this->imagenFondo->setAncho(this->getAncho());
+	this->imagenFondo->setPosX(0);
+	this->imagenFondo->setPosY(0);
+	this->agregarElementoGrafico(this->imagenFondo);
 
 	this->configurarControles();
 	this->hayCambios = true;
@@ -82,6 +88,7 @@ VentanaEstadistica::~VentanaEstadistica(void)
 
 void VentanaEstadistica::configurarControles() {
 
+	/*
 	Panel* pnFecha = new Panel();
 	pnFecha->setPosX(this->anchoColumna*1);
 	pnFecha->setAncho(this->anchoColumna*19);
@@ -89,31 +96,31 @@ void VentanaEstadistica::configurarControles() {
 	pnFecha->setAlto(this->altoFila*4);
 	pnFecha->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(pnFecha);
+	*/
 	
-	Etiqueta* etTitPnFecha = new Etiqueta(" Fecha de Consulta ");
+	Etiqueta* etTitPnFecha = NULL;
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		etTitPnFecha = new Etiqueta("Fecha de Consulta (DD/MM/AAAA o MM/AAAA o AAAA)");
+	} else {
+		etTitPnFecha = new Etiqueta("Fecha (DD/MM/AAAA o MM/AAAA o AAAA)");
+	}
 	etTitPnFecha->setPosX(this->anchoColumna*2);
-	etTitPnFecha->setAncho(this->anchoColumna*7);
-	etTitPnFecha->setPosY(this->altoFila*0);
-	etTitPnFecha->setAlto(this->altoFila*2);
-	etTitPnFecha->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etTitPnFecha->setAncho(this->anchoColumna*13);
+	etTitPnFecha->setPosY(this->altoFila*15);
+	etTitPnFecha->setAlto(this->altoFila*1);
+	etTitPnFecha->setFondo(NULL);
 	this->agregarElementoGrafico(etTitPnFecha);
 
-	Etiqueta* etFecha = new Etiqueta("DD/MM/AAAA o MM/AAAA o AAAA:");
-	etFecha->setPosX(this->anchoColumna*2);
-	etFecha->setAncho(this->anchoColumna*7);
-	etFecha->setPosY(this->altoFila*2);
-	etFecha->setAlto(this->altoFila*2);
-	etFecha->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
-	this->agregarElementoGrafico(etFecha);
 
 	txFecha = new TextBox("");
-	txFecha->setPosX(this->anchoColumna*14);
+	txFecha->setPosX(this->anchoColumna*17);
 	txFecha->setAncho(this->anchoColumna*5);
-	txFecha->setPosY(this->altoFila*2);
-	txFecha->setAlto(this->altoFila*2);
+	txFecha->setPosY((int)(this->altoFila*14.7));
+	txFecha->setAlto((int)(this->altoFila*1.5));
 	txFecha->setHabilitado(true);
 	this->agregarComponentePanel(txFecha);
 
+	/*
 	Panel* pnTipoEstadistica = new Panel();
 	pnTipoEstadistica->setPosX(this->anchoColumna*1);
 	pnTipoEstadistica->setAncho(this->anchoColumna*19);
@@ -121,78 +128,78 @@ void VentanaEstadistica::configurarControles() {
 	pnTipoEstadistica->setAlto(this->altoFila*13);
 	pnTipoEstadistica->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(pnTipoEstadistica);
+	*/
 	
-	Etiqueta* etTitPnTipoEstadistica = new Etiqueta(" Tipo de Estadistica ");
+	Etiqueta* etTitPnTipoEstadistica = new Etiqueta("Tipo de Estadistica (seleccione solo una)");
 	etTitPnTipoEstadistica->setPosX(this->anchoColumna*2);
-	etTitPnTipoEstadistica->setAncho(this->anchoColumna*7);
-	etTitPnTipoEstadistica->setPosY(this->altoFila*5);
-	etTitPnTipoEstadistica->setAlto(this->altoFila*2);
-	etTitPnTipoEstadistica->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etTitPnTipoEstadistica->setAncho(this->anchoColumna*14);
+	etTitPnTipoEstadistica->setPosY((int)(this->altoFila*16.5));
+	etTitPnTipoEstadistica->setAlto(this->altoFila*1);
+	etTitPnTipoEstadistica->setFondo(NULL);
 	this->agregarElementoGrafico(etTitPnTipoEstadistica);
 
-	Etiqueta* etLeyendaTipo = new Etiqueta("Seleccione solo una estadistica:");
-	etLeyendaTipo->setPosX(this->anchoColumna*2);
-	etLeyendaTipo->setAncho(this->anchoColumna*17);
-	etLeyendaTipo->setPosY(this->altoFila*7); 
-	etLeyendaTipo->setAlto(this->altoFila*2);
-	etLeyendaTipo->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
-	this->agregarElementoGrafico(etLeyendaTipo);
 
 	cbEvolucionUsuario = new CheckBox("Evolucion de los Usuarios");
 	cbEvolucionUsuario->setId("cbEvolucionUsuario");
 	cbEvolucionUsuario->setPosX(this->anchoColumna*2);
-	cbEvolucionUsuario->setPosY(this->altoFila*9);
+	cbEvolucionUsuario->setPosY(this->altoFila*18);
 	cbEvolucionUsuario->setHabilitado(true);
 	this->agregarComponentePanel(cbEvolucionUsuario);
 
 	cbEvolucionUsuarioConectado = new CheckBox("Evolucion de los Usuarios Conectados");
 	cbEvolucionUsuarioConectado->setId("cbEvolucionUsuarioConectado");
 	cbEvolucionUsuarioConectado->setPosX(this->anchoColumna*2);
-	cbEvolucionUsuarioConectado->setPosY(this->altoFila*11);
+	cbEvolucionUsuarioConectado->setPosY(this->altoFila*19);
 	cbEvolucionUsuarioConectado->setHabilitado(true);
 	this->agregarComponentePanel(cbEvolucionUsuarioConectado);
 
 	cbUsuariosRegistrados = new CheckBox("Listado de los Usuarios Registrados");
 	cbUsuariosRegistrados->setId("cbUsuariosRegistrados");
 	cbUsuariosRegistrados->setPosX(this->anchoColumna*2);
-	cbUsuariosRegistrados->setPosY(this->altoFila*13);
+	cbUsuariosRegistrados->setPosY(this->altoFila*20);
 	cbUsuariosRegistrados->setHabilitado(true);
 	this->agregarComponentePanel(cbUsuariosRegistrados);
 
 	cbUsuariosConectados = new CheckBox("Listado de los Usuarios Conectados");
 	cbUsuariosConectados->setId("cbUsuariosConectados");
 	cbUsuariosConectados->setPosX(this->anchoColumna*2);
-	cbUsuariosConectados->setPosY(this->altoFila*15);
+	cbUsuariosConectados->setPosY(this->altoFila*21);
 	cbUsuariosConectados->setHabilitado(true);
 	this->agregarComponentePanel(cbUsuariosConectados);
 
 	cbRanking = new CheckBox("Ranking");
 	cbRanking->setId("cbRanking");
 	cbRanking->setPosX(this->anchoColumna*2);
-	cbRanking->setPosY(this->altoFila*17);
+	cbRanking->setPosY(this->altoFila*22);
 	cbRanking->setHabilitado(true);
 	this->agregarComponentePanel(cbRanking);
 
 	this->mensaje = new Etiqueta("");
-	mensaje->setPosX(this->anchoColumna*1);
-	mensaje->setAncho(this->ancho-this->anchoColumna);
-	mensaje->setPosY(this->altoFila*20);
+	mensaje->setPosX(0);
+	mensaje->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
+	mensaje->setAncho(this->ancho);
+	mensaje->setPosY(this->alto - this->altoFila*2);
 	mensaje->setAlto(this->altoFila*2);
-	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	mensaje->setFondo(new Color(9,78,44));
 	mensaje->setVisible(false);
 	this->agregarElementoGrafico(this->mensaje);
 
 	Boton* btConsulta = new Boton("Consultar");
 	btConsulta->setId("btConsulta");
-	btConsulta->setPosX(this->anchoColumna*3);
-	btConsulta->setPosY(this->altoFila*23);
+	btConsulta->setPosX(this->anchoColumna*17);
+	btConsulta->setPosY(this->altoFila*18);
 	btConsulta->setHabilitado(true);
 	this->agregarComponentePanel(btConsulta);
 
-	Boton* btVolverMenuPrincipal = new Boton("Volver a Menu Principal");
+	Boton* btVolverMenuPrincipal = NULL;
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		btVolverMenuPrincipal = new Boton("Volver a Menu Ppal.");
+	} else {
+		btVolverMenuPrincipal = new Boton("Volver");
+	}
+	btVolverMenuPrincipal->setPosX(this->anchoColumna*17);
 	btVolverMenuPrincipal->setId("btVolverMenuPrincipal");
-	btVolverMenuPrincipal->setPosX(this->anchoColumna*10);
-	btVolverMenuPrincipal->setPosY(this->altoFila*23);
+	btVolverMenuPrincipal->setPosY(this->altoFila*21);
 	btVolverMenuPrincipal->setHabilitado(true);
 	this->agregarComponentePanel(btVolverMenuPrincipal);
 

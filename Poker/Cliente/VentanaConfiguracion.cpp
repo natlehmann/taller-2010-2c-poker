@@ -27,8 +27,8 @@ VentanaConfiguracion::VentanaConfiguracion(void) {
 	
 	this->altoFila = ServiciosGraficos::getAltoFilaVentanaSegundaria();
 	this->anchoColumna = ServiciosGraficos::getAnchoColVentanaSegundaria();
-	this->setAlto(this->altoFila*15);
-	this->setAncho(this->anchoColumna*19);
+	this->setAlto(this->altoFila*24);
+	this->setAncho(this->anchoColumna*20);
 
 	this->contorno->x = 0;
 	this->contorno->y = 0;
@@ -50,7 +50,14 @@ VentanaConfiguracion::VentanaConfiguracion(void) {
 	SDL_WM_SetCaption(RecursosCliente::getConfig()->get("cliente.configuracion.mensajeConfiguracion").c_str(), NULL); 
 	
 	this->fondo = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.fondo"));
-	SDL_FillRect(pantalla, contorno, this->fondo->toUint32(pantalla));
+	//SDL_FillRect(pantalla, contorno, this->fondo->toUint32(pantalla));
+
+	this->imagenFondo = new Imagen("pantallaConfiguracion.bmp");
+	this->imagenFondo->setAlto(this->getAlto());
+	this->imagenFondo->setAncho(this->getAncho());
+	this->imagenFondo->setPosX(0);
+	this->imagenFondo->setPosY(0);
+	this->agregarElementoGrafico(this->imagenFondo);
 
 	this->configurarControles();
 	this->hayCambios = true;
@@ -78,59 +85,85 @@ VentanaConfiguracion::~VentanaConfiguracion(void)
 
 void VentanaConfiguracion::configurarControles() {
 
-	Etiqueta* etiquetaIP = new Etiqueta("Direccion Ip:");
+	string estilo = RecursosCliente::getConfig()->get("cliente.configuracion.fuentes") +
+					RecursosCliente::getConfig()->get("cliente.tema.default.etiquetas.fuente.estilo") + ".ttf";
+
+	Etiqueta* etiquetaIP = new Etiqueta("Direccion IP:");
 	etiquetaIP->setPosX(this->anchoColumna*2);
 	etiquetaIP->setAncho(this->anchoColumna*5);
-	etiquetaIP->setPosY(this->altoFila*1);
-	etiquetaIP->setAlto(this->altoFila*2);
-	etiquetaIP->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
-	etiquetaIP->getFuente()->setTamanio(14);
+	etiquetaIP->setPosY(this->altoFila*11);
+	etiquetaIP->setAlto(this->altoFila*1);
+	etiquetaIP->setFondo(NULL);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		etiquetaIP->setFuente(new Fuente("255,255,255", 18, estilo));
+	}
 	this->agregarElementoGrafico(etiquetaIP);
+
 
 	textboxIP = new TextBox("localhost");
 	textboxIP->setPosX(this->anchoColumna*7);
 	textboxIP->setAncho(this->anchoColumna*10);
-	textboxIP->setPosY(this->altoFila*1);
-	textboxIP->setAlto(this->altoFila*2);
+	textboxIP->setPosY(this->altoFila*11);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		textboxIP->setAlto(this->altoFila*1);
+	} else {
+		textboxIP->setAlto((int)(this->altoFila*1.5));
+	}
 	textboxIP->setHabilitado(true);
 	this->agregarComponentePanel(textboxIP);
+
 
 	Etiqueta* etiquetaPuerto = new Etiqueta("Puerto:");
 	etiquetaPuerto->setPosX(this->anchoColumna*2);
 	etiquetaPuerto->setAncho(this->anchoColumna*5);
-	etiquetaPuerto->setPosY(this->altoFila*5);
-	etiquetaPuerto->setAlto(this->altoFila*2);
-	etiquetaPuerto->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etiquetaPuerto->setPosY(this->altoFila*13);
+	etiquetaPuerto->setAlto(this->altoFila*1);
+	etiquetaPuerto->setFondo(NULL);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		etiquetaPuerto->setFuente(new Fuente("255,255,255", 18, estilo));
+	}
 	this->agregarElementoGrafico(etiquetaPuerto);
+
 
 	textboxPuerto = new TextBox("5000");
 	textboxPuerto->setPosX(this->anchoColumna*7);
 	textboxPuerto->setAncho(this->anchoColumna*10);
-	textboxPuerto->setPosY(this->altoFila*5);
-	textboxPuerto->setAlto(this->altoFila*2);
+	textboxPuerto->setPosY(this->altoFila*13);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		textboxPuerto->setAlto(this->altoFila*1);
+	} else {
+		textboxPuerto->setAlto((int)(this->altoFila*1.5));
+	}
 	textboxPuerto->setHabilitado(true);
 	this->agregarComponentePanel(textboxPuerto);
 
+
 	Boton* btConectar = new Boton("Conectar");
 	btConectar->setId("btConectar");
-	btConectar->setPosX(this->anchoColumna*4);
-	btConectar->setPosY(this->altoFila*11);
+	btConectar->setPosX(this->anchoColumna*7);
+	btConectar->setPosY(this->altoFila*15);
 	btConectar->setHabilitado(true);
 	this->agregarComponentePanel(btConectar);
 	
-	Boton* btCancel = new Boton("Cancel");
+
+	Boton* btCancel = new Boton("Cancelar");
 	btCancel->setId("btCancel");
-	btCancel->setPosX(this->anchoColumna*12);
-	btCancel->setPosY(this->altoFila*11);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		btCancel->setPosX(this->anchoColumna*11);
+	} else {
+		btCancel->setPosX(this->anchoColumna*13);
+	}
+	btCancel->setPosY(this->altoFila*15);
 	btCancel->setHabilitado(true);
 	this->agregarComponentePanel(btCancel);
 
 	mensaje = new Etiqueta("");
-	mensaje->setPosX(this->anchoColumna*1);
-	mensaje->setAncho(this->ancho-this->anchoColumna);
-	mensaje->setPosY(this->altoFila*8);
+	mensaje->setPosX(0);
+	mensaje->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
+	mensaje->setAncho(this->ancho);
+	mensaje->setPosY(this->alto - this->altoFila*2);
 	mensaje->setAlto(this->altoFila*2);
-	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	mensaje->setFondo(new Color(9,78,44));
 	mensaje->setVisible(false);
 	agregarElementoGrafico(this->mensaje);
 

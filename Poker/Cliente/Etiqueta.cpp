@@ -136,10 +136,6 @@ void Etiqueta::setFondo(Color* color){
 	if (this->fondo != NULL) {
 		delete(this->fondo);
 	}
-	//if (color != NULL)
-	//	this->fondo = new Color(color->getRed(), color->getGreen(), color->getBlue());
-	//else
-	//	this->fondo = color;
 	this->fondo = color;
 	this->hayCambios = true;
 }

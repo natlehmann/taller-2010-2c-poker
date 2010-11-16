@@ -1,6 +1,7 @@
 #include "VentanaBase.h"
 
 VentanaBase::VentanaBase(void) {
+	this->imagenFondo = NULL;
 }
 
 VentanaBase::~VentanaBase(void)

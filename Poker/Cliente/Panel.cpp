@@ -65,13 +65,12 @@ void Panel::dibujarSobreSup(SDL_Surface* superficie){
 
 	//dibuja el panel
 	SDL_Rect* offsetBorde = this->getContornoConOffset();
-	SDL_FillRect(superficie, offsetBorde, this->borde->toUint32(superficie));
-	SDL_Rect* offset = new SDL_Rect();
-	offset->x = offsetBorde->x + 1;
-	offset->y = offsetBorde->y + 1;
-	offset->w = offsetBorde->w - 2;
-	offset->h = offsetBorde->h - 2;
-	SDL_FillRect(superficie, offset, this->fondo->toUint32(superficie));
+	if (this->fondo != NULL) {
+		SDL_FillRect(superficie, offsetBorde, this->fondo->toUint32(superficie));
+	}
+	if (this->borde != NULL) {
+		ServiciosGraficos::dibujarContorno(superficie, offsetBorde, this->borde);
+	}
 
 
 	for (int i=0; i < MAX_CANT_COMPONENTES; i++) {
@@ -80,8 +79,6 @@ void Panel::dibujarSobreSup(SDL_Surface* superficie){
 			this->componentes[i]->dibujar(superficie);
 		}
 	}
-
-	delete(offset);
 }
 
 void Panel::configurar()
@@ -150,6 +147,14 @@ void Panel::setFondo(Color* color){
 		delete(this->fondo);
 	}
 	this->fondo = color;
+	this->hayCambios = true;
+}
+
+void Panel::setBorde(Color* color){
+	if (this->borde != NULL) {
+		delete(this->borde);
+	}
+	this->borde = color;
 	this->hayCambios = true;
 }
 

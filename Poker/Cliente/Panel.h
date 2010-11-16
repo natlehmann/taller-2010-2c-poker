@@ -52,5 +52,6 @@ public:
 
 	void setFondo(Color* color);
 	Color* getFondo();
+	void setBorde(Color* color);
 };
 #endif //_PANEL_H__

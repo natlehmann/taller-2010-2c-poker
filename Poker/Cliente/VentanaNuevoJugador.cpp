@@ -27,8 +27,8 @@ VentanaNuevoJugador::VentanaNuevoJugador(void) {
 	
 	this->altoFila = ServiciosGraficos::getAltoFilaVentanaSegundaria();
 	this->anchoColumna = ServiciosGraficos::getAnchoColVentanaSegundaria();
-	this->setAlto(this->altoFila*26);
-	this->setAncho(this->anchoColumna*20);
+	this->setAlto(this->altoFila*31);
+	this->setAncho(this->anchoColumna*25);
 
 	this->contorno->x = 0;
 	this->contorno->y = 0;
@@ -50,7 +50,13 @@ VentanaNuevoJugador::VentanaNuevoJugador(void) {
 	SDL_WM_SetCaption(RecursosCliente::getConfig()->get("cliente.configuracion.mensajeNuevoJugador").c_str(), NULL); 
 	
 	this->fondo = new Color(RecursosCliente::getConfig()->get("cliente.tema.default.menu.fondo"));
-	SDL_FillRect(pantalla, contorno, this->fondo->toUint32(pantalla));
+	
+	this->imagenFondo = new Imagen("pantallaLogin.bmp");
+	this->imagenFondo->setAlto(this->getAlto());
+	this->imagenFondo->setAncho(this->getAncho());
+	this->imagenFondo->setPosX(0);
+	this->imagenFondo->setPosY(0);
+	this->agregarElementoGrafico(this->imagenFondo);
 
 	this->configurarControles();
 	this->hayCambios = true;
@@ -78,6 +84,10 @@ VentanaNuevoJugador::~VentanaNuevoJugador(void)
 
 void VentanaNuevoJugador::configurarControles() {
 
+	string estilo = RecursosCliente::getConfig()->get("cliente.configuracion.fuentes") +
+					RecursosCliente::getConfig()->get("cliente.tema.default.etiquetas.fuente.estilo") + ".ttf";
+
+	/*
 	Panel* pnFecha = new Panel();
 	pnFecha->setPosX(this->anchoColumna*1);
 	pnFecha->setAncho(this->anchoColumna*18);
@@ -85,133 +95,196 @@ void VentanaNuevoJugador::configurarControles() {
 	pnFecha->setAlto(this->altoFila*19);
 	pnFecha->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
 	this->agregarElementoGrafico(pnFecha);
+	*/
 	
-	Etiqueta* etTitPnFecha = new Etiqueta(" Datos del Usuario ");
-	etTitPnFecha->setPosX(this->anchoColumna*2);
-	etTitPnFecha->setAncho(this->anchoColumna*7);
-	etTitPnFecha->setPosY(this->altoFila*0);
+	Etiqueta* etTitPnFecha = new Etiqueta("Registracion de nuevo usuario");
+	if (ServiciosGraficos::getAnchoVentana() > ANCHO_LIMITE_MINIMO_CORRECCION) {
+		etTitPnFecha->setPosX(this->anchoColumna*13);
+	} else {
+		etTitPnFecha->setPosX(this->anchoColumna*12);
+	}
+	etTitPnFecha->setAncho(this->anchoColumna*9);
+	etTitPnFecha->setPosY((int)(this->altoFila*12.5));
 	etTitPnFecha->setAlto(this->altoFila*2);
-	etTitPnFecha->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etTitPnFecha->setFondo(NULL);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		etTitPnFecha->setFuente(new Fuente("9,78,44", 18, estilo));
+	} else {
+		etTitPnFecha->setFuente(new Fuente("9,78,44", 13, estilo));
+	}
 	this->agregarElementoGrafico(etTitPnFecha);
 
 	Etiqueta* etNombre = new Etiqueta("Nombre:");
 	etNombre->setPosX(this->anchoColumna*2);
-	etNombre->setAncho(this->anchoColumna*6);
-	etNombre->setPosY(this->altoFila*2);
-	etNombre->setAlto(this->altoFila*2);
-	etNombre->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etNombre->setAncho(this->anchoColumna*4);
+	etNombre->setPosY(this->altoFila*16);
+	etNombre->setAlto(this->altoFila*1);
+	etNombre->setFondo(NULL);
 	this->agregarElementoGrafico(etNombre);
 
 	txNombre = new TextBox("");
-	txNombre->setPosX(this->anchoColumna*8);
-	txNombre->setAncho(this->anchoColumna*10);
-	txNombre->setPosY(this->altoFila*2);
-	txNombre->setAlto(this->altoFila*2);
+	txNombre->setPosX(this->anchoColumna*6);
+	txNombre->setAncho(this->anchoColumna*6);
+	txNombre->setPosY(this->altoFila*16);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		txNombre->setAlto(this->altoFila*1);
+	} else {
+		txNombre->setAlto((int)(this->altoFila*1.5));
+	}
 	txNombre->setHabilitado(true);
 	this->agregarComponentePanel(txNombre);
 
+
 	Etiqueta* etApellido = new Etiqueta("Apellido:");
 	etApellido->setPosX(this->anchoColumna*2);
-	etApellido->setAncho(this->anchoColumna*6);
-	etApellido->setPosY(this->altoFila*5);
-	etApellido->setAlto(this->altoFila*2);
-	etApellido->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etApellido->setAncho(this->anchoColumna*4);
+	etApellido->setPosY(this->altoFila*18);
+	etApellido->setAlto(this->altoFila*1);
+	etApellido->setFondo(NULL);
 	this->agregarElementoGrafico(etApellido);
 
+
 	txApellido = new TextBox("");
-	txApellido->setPosX(this->anchoColumna*8);
-	txApellido->setAncho(this->anchoColumna*10);
-	txApellido->setPosY(this->altoFila*5);
-	txApellido->setAlto(this->altoFila*2);
+	txApellido->setPosX(this->anchoColumna*6);
+	txApellido->setAncho(this->anchoColumna*6);
+	txApellido->setPosY(this->altoFila*18);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		txApellido->setAlto(this->altoFila*1);
+	} else {
+		txApellido->setAlto((int)(this->altoFila*1.5));
+	}
 	txApellido->setHabilitado(true);
 	this->agregarComponentePanel(txApellido);
 
+
+	Etiqueta* etImagen = NULL;
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		etImagen = new Etiqueta("Ruta Imagen:");
+	} else {
+		etImagen = new Etiqueta("Imagen:");
+	}
+	etImagen->setPosX(this->anchoColumna*2);
+	etImagen->setAncho(this->anchoColumna*4);
+	etImagen->setPosY(this->altoFila*20);
+	etImagen->setAlto(this->altoFila*1);
+	etImagen->setFondo(NULL);
+	this->agregarElementoGrafico(etImagen);
+
+	txImagen = new TextBox("");
+	txImagen->setPosX(this->anchoColumna*6);
+	txImagen->setAncho(this->anchoColumna*6);
+	txImagen->setPosY(this->altoFila*20);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		txImagen->setAlto(this->altoFila*1);
+	} else {
+		txImagen->setAlto((int)(this->altoFila*1.5));
+	}
+	txImagen->setHabilitado(true);
+	this->agregarComponentePanel(txImagen);
+
+
 	Etiqueta* etUsuario = new Etiqueta("Usuario:");
-	etUsuario->setPosX(this->anchoColumna*2);
-	etUsuario->setAncho(this->anchoColumna*6);
-	etUsuario->setPosY(this->altoFila*8);
-	etUsuario->setAlto(this->altoFila*2);
-	etUsuario->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etUsuario->setPosX(this->anchoColumna*13);
+	etUsuario->setAncho(this->anchoColumna*4);
+	etUsuario->setPosY(this->altoFila*16);
+	etUsuario->setAlto(this->altoFila*1);
+	etUsuario->setFondo(NULL);
 	this->agregarElementoGrafico(etUsuario);
 
+
 	txUsuario = new TextBox("");
-	txUsuario->setPosX(this->anchoColumna*8);
-	txUsuario->setAncho(this->anchoColumna*10);
-	txUsuario->setPosY(this->altoFila*8);
-	txUsuario->setAlto(this->altoFila*2);
+	txUsuario->setPosX(this->anchoColumna*17);
+	txUsuario->setAncho(this->anchoColumna*6);
+	txUsuario->setPosY(this->altoFila*16);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		txUsuario->setAlto(this->altoFila*1);
+	} else {
+		txUsuario->setAlto((int)(this->altoFila*1.5));
+	}
 	txUsuario->setHabilitado(true);
 	this->agregarComponentePanel(txUsuario);
 
+
 	Etiqueta* etPassword = new Etiqueta("Password:");
-	etPassword->setPosX(this->anchoColumna*2);
-	etPassword->setAncho(this->anchoColumna*6);
-	etPassword->setPosY(this->altoFila*11);
-	etPassword->setAlto(this->altoFila*2);
-	etPassword->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	etPassword->setPosX(this->anchoColumna*13);
+	etPassword->setAncho(this->anchoColumna*4);
+	etPassword->setPosY(this->altoFila*18);
+	etPassword->setAlto(this->altoFila*1);
+	etPassword->setFondo(NULL);
 	this->agregarElementoGrafico(etPassword);
 
+
 	txPassword = new TextBox("");
-	txPassword->setPosX(this->anchoColumna*8);
-	txPassword->setAncho(this->anchoColumna*10);
-	txPassword->setPosY(this->altoFila*11);
-	txPassword->setAlto(this->altoFila*2);
+	txPassword->setPosX(this->anchoColumna*17);
+	txPassword->setAncho(this->anchoColumna*6);
+	txPassword->setPosY(this->altoFila*18);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		txPassword->setAlto(this->altoFila*1);
+	} else {
+		txPassword->setAlto((int)(this->altoFila*1.5));
+	}
 	txPassword->setHabilitado(true);
 	txPassword->setTipoPassword(true);
 	this->agregarComponentePanel(txPassword);
 
-	Etiqueta* etConfPassword = new Etiqueta("C. Password:");
-	etConfPassword->setPosX(this->anchoColumna*2);
-	etConfPassword->setAncho(this->anchoColumna*6);
-	etConfPassword->setPosY(this->altoFila*14);
-	etConfPassword->setAlto(this->altoFila*2);
-	etConfPassword->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	
+	Etiqueta* etConfPassword = NULL;
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		etConfPassword = new Etiqueta("Confirmar pw:");
+	} else {
+		etConfPassword = new Etiqueta("Confirmar:");
+	}
+	etConfPassword->setPosX(this->anchoColumna*13);
+	etConfPassword->setAncho(this->anchoColumna*4);
+	etConfPassword->setPosY(this->altoFila*20);
+	etConfPassword->setAlto(this->altoFila*1);
+	etConfPassword->setFondo(NULL);
 	this->agregarElementoGrafico(etConfPassword);
 
+
 	txConfirmPassword = new TextBox("");
-	txConfirmPassword->setPosX(this->anchoColumna*8);
-	txConfirmPassword->setAncho(this->anchoColumna*10);
-	txConfirmPassword->setPosY(this->altoFila*14);
-	txConfirmPassword->setAlto(this->altoFila*2);
+	txConfirmPassword->setPosX(this->anchoColumna*17);
+	txConfirmPassword->setAncho(this->anchoColumna*6);
+	txConfirmPassword->setPosY(this->altoFila*20);
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		txConfirmPassword->setAlto(this->altoFila*1);
+	} else {
+		txConfirmPassword->setAlto((int)(this->altoFila*1.5));
+	}
 	txConfirmPassword->setHabilitado(true);
 	txConfirmPassword->setTipoPassword(true);
 	this->agregarComponentePanel(txConfirmPassword);
 
-	Etiqueta* etImagen = new Etiqueta("Imagen Jugador:");
-	etImagen->setPosX(this->anchoColumna*2);
-	etImagen->setAncho(this->anchoColumna*6);
-	etImagen->setPosY(this->altoFila*17);
-	etImagen->setAlto(this->altoFila*2);
-	etImagen->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
-	this->agregarElementoGrafico(etImagen);
-
-	txImagen = new TextBox("");
-	txImagen->setPosX(this->anchoColumna*8);
-	txImagen->setAncho(this->anchoColumna*10);
-	txImagen->setPosY(this->altoFila*17);
-	txImagen->setAlto(this->altoFila*2);
-	txImagen->setHabilitado(true);
-	this->agregarComponentePanel(txImagen);
-
 	Boton* btGuardar = new Boton("Guardar");
 	btGuardar->setId("btGuardar");
-	btGuardar->setPosX(this->anchoColumna*5);
-	btGuardar->setPosY(this->altoFila*23);
+	if (ServiciosGraficos::getAnchoVentana() > ANCHO_LIMITE_MINIMO_CORRECCION) {
+		btGuardar->setPosX(this->anchoColumna*17);
+	} else {
+		btGuardar->setPosX(this->anchoColumna*15);
+	}
+	btGuardar->setPosY(this->altoFila*22);
 	btGuardar->setHabilitado(true);
 	this->agregarComponentePanel(btGuardar);
 
+
 	Boton* btCancel = new Boton("Salir");
 	btCancel->setId("btCancel");
-	btCancel->setPosX(this->anchoColumna*11);
-	btCancel->setPosY(this->altoFila*23);
+	if (ServiciosGraficos::getAnchoVentana() > ANCHO_LIMITE_MINIMO_CORRECCION) {
+		btCancel->setPosX(this->anchoColumna*21);
+	} else {
+		btCancel->setPosX(this->anchoColumna*20);
+	}
+	btCancel->setPosY(this->altoFila*22);
 	btCancel->setHabilitado(true);
 	this->agregarComponentePanel(btCancel);
 
 	mensaje = new Etiqueta("");
-	mensaje->setPosX(this->anchoColumna*1);
-	mensaje->setAncho(this->ancho-this->anchoColumna);
-	mensaje->setPosY(this->altoFila*20);
+	mensaje->setPosX(0);
+	mensaje->setAlineacionHorizontal(ALINEACION_HORIZ_CENTRO);
+	mensaje->setAncho(this->ancho);
+	mensaje->setPosY(this->alto - this->altoFila*2);
 	mensaje->setAlto(this->altoFila*2);
-	mensaje->setFondo(new Color(fondo->getRed(), fondo->getGreen(), fondo->getBlue()));
+	mensaje->setFondo(new Color(9,78,44));
 	mensaje->setVisible(false);
 	this->agregarElementoGrafico(mensaje);
 
