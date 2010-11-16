@@ -104,8 +104,24 @@ bool OpUIClienteSolicitarEstadistica::ejecutarAccion(Ventana* ventana)
 						this->archivo = tipoDeEstadistica + "-" + fecha + ".txt";
 						string pathCompleto = pathOrigen + this->archivo;
 						ofstream* archivo = new ofstream(pathCompleto.c_str(), ios::out | ios::app);
+						
 						if (archivo->is_open())
-							*(archivo) << this->estadistica << endl;
+						{
+							unsigned int saltoDeLinea = estadistica.find_first_of("*");
+							if (estadistica.length() > 0)
+							{
+							  unsigned int saltoDeLinea;
+								string lineaRecortada = estadistica;
+								string linea;
+								while(lineaRecortada.length()>0)
+								{
+									saltoDeLinea = lineaRecortada.find('*');
+									linea = lineaRecortada.substr(0,saltoDeLinea);
+									lineaRecortada = lineaRecortada.substr(linea.length()+1, lineaRecortada.length());
+									*(archivo) << linea << endl;
+								}
+							}
+						}
 
 						archivo->close();
 						delete(archivo);
