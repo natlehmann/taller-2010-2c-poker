@@ -20,7 +20,20 @@ private:
 	static const int valorParDoble = 2;
 	static const int valorPar = 1;
 
+	bool escaleraColor;
+	bool poker;
+	bool full;
+	bool color;
+	bool escalera;
+	bool pierna;
+	bool parDoble;
+	bool par;
+
 public:
+	static const double valorJugadaPromedio;
+	static const double valorParPromedio;
+	static const double valorParDoblePromedio;
+
 	Jugada(void);
 	Jugada(vector<CartaModelo*> cartas);
 	virtual ~Jugada(void);
@@ -33,17 +46,26 @@ public:
 
 	double getValorJugada();
 
+	bool isEscaleraColor();
+	bool isPoker();
+	bool isFull();
+	bool isColor();
+	bool isEscalera();
+	bool isPierna();
+	bool isParDoble();
+	bool isPar();
+
 private:
 	static bool compararCartas(CartaModelo* carta1, CartaModelo* carta2);
 	double calcularValorJugada(int, int=0, int=0, int=0, int=0, int=0);
 
-	double isPoker();
-	double isFull();
-	double isColor(bool& escaleraColor);
-	double isEscalera(vector<CartaModelo*>& cartas);
-	double isPierna();
-	double isParDoble();
-	double isPar();
+	double getPoker();
+	double getFull();
+	double getColor(bool& escaleraColor);
+	double getEscalera(vector<CartaModelo*>& cartas);
+	double getPierna();
+	double getParDoble();
+	double getPar();
 	double getCartaMasAlta();
 
 };

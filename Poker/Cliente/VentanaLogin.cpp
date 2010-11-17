@@ -104,7 +104,7 @@ void VentanaLogin::configurarControles() {
 	this->agregarElementoGrafico(etUsuario);
 
 
-	txUsuario = new TextBox("poddo");
+	txUsuario = new TextBox("");
 	txUsuario->setPosX(this->anchoColumna*7);
 	txUsuario->setAncho(this->anchoColumna*10);
 	txUsuario->setPosY(this->altoFila*13);
@@ -129,7 +129,7 @@ void VentanaLogin::configurarControles() {
 	this->agregarElementoGrafico(etPassword);
 
 
-	txPassword = new TextBox("123");
+	txPassword = new TextBox("");
 	txPassword->setPosX(this->anchoColumna*7);
 	txPassword->setAncho(this->anchoColumna*10);
 	txPassword->setPosY(this->altoFila*15);

@@ -3,8 +3,20 @@
 #include "PokerException.h"
 #include <algorithm>
 
+const double Jugada::valorJugadaPromedio = 16555871931;
+const double Jugada::valorParPromedio = 10648766731;
+const double Jugada::valorParDoblePromedio = 21050744227;
+
 Jugada::Jugada()
 {
+	this->escaleraColor = false;
+	this->poker = false;
+	this->full = false;
+	this->color = false;
+	this->escalera = false;
+	this->pierna = false;
+	this->parDoble = false;
+	this->par = false;
 }
 
 Jugada::Jugada(vector<CartaModelo*> cartas)
@@ -53,44 +65,52 @@ double Jugada::getValorJugada()
 
 	double valorColor = 0;
 	bool escaleraColor = false;
-	double valorJugada = isColor(escaleraColor);
+	double valorJugada = getColor(escaleraColor);
 	if (escaleraColor) {
+		this->escaleraColor = true;
 		return valorJugada;
 	} else {
 		valorColor = valorJugada;
 	}
 
-	valorJugada = isPoker();
+	valorJugada = getPoker();
 	if (valorJugada) {
+		this->poker = true;
 		return valorJugada;
 	}
 
-	valorJugada = isFull();
+	valorJugada = getFull();
 	if (valorJugada) {
+		this->full = true;
 		return valorJugada;
 	}
 
 	if (valorColor) {
+		this->color = true;
 		return valorColor;
 	}
 
-	valorJugada = isEscalera(this->cartas);
+	valorJugada = getEscalera(this->cartas);
 	if (valorJugada) {
+		this->escalera = true;
 		return valorJugada;
 	}
 
-	valorJugada = isPierna();
+	valorJugada = getPierna();
 	if (valorJugada) {
+		this->pierna = true;
 		return valorJugada;
 	}
 
-	valorJugada = isParDoble();
+	valorJugada = getParDoble();
 	if (valorJugada) {
+		this->parDoble = true;
 		return valorJugada;
 	}
 
-	valorJugada = isPar();
+	valorJugada = getPar();
 	if (valorJugada) {
+		this->par = true;
 		return valorJugada;
 	}
 
@@ -102,7 +122,7 @@ bool Jugada::compararCartas(CartaModelo* carta1, CartaModelo* carta2)
 	return (carta1->getValorNumerico() < carta2->getValorNumerico());
 }
 
-double Jugada::isPoker()
+double Jugada::getPoker()
 {
 	int cartaDelPoker = 0;
 	int cartaMasAlta = this->cartas.back()->getValorNumerico();
@@ -128,7 +148,7 @@ double Jugada::isPoker()
 	return 0;
 }
 
-double Jugada::isFull()
+double Jugada::getFull()
 {
 	int cartaDeLaPierna = 0;
 	int cartasConsecutivas = 1;
@@ -168,7 +188,7 @@ double Jugada::isFull()
 	return 0;
 }
 
-double Jugada::isColor(bool& escaleraColor)
+double Jugada::getColor(bool& escaleraColor)
 {
 	vector<CartaModelo*> cartasColor;
 	string palos[4] = {"Corazon", "Pica", "Trebol", "Diamante"};
@@ -182,7 +202,7 @@ double Jugada::isColor(bool& escaleraColor)
 			}
 		}
 		if (cartasColor.size() > 4) {
-			double valorEscalera = isEscalera(cartasColor);
+			double valorEscalera = getEscalera(cartasColor);
 			if (valorEscalera) {
 				escaleraColor = true;
 				return valorEscalera + calcularValorJugada(valorColor);
@@ -203,7 +223,7 @@ double Jugada::isColor(bool& escaleraColor)
 	return 0;
 }
 
-double Jugada::isEscalera(vector<CartaModelo*>& vectorCartas)
+double Jugada::getEscalera(vector<CartaModelo*>& vectorCartas)
 {
 	bool escalera = false;
 	int cartaMasAlta = 0;
@@ -240,7 +260,7 @@ double Jugada::isEscalera(vector<CartaModelo*>& vectorCartas)
 	return 0;
 }
 
-double Jugada::isPierna()
+double Jugada::getPierna()
 {
 	int cartaDeLaPierna = 0;
 	int cartaMasAlta = this->cartas.at(this->cartas.size()-1)->getValorNumerico();
@@ -270,7 +290,7 @@ double Jugada::isPierna()
 	return 0;
 }
 
-double Jugada::isParDoble()
+double Jugada::getParDoble()
 {
 	int cartaParAlto = 0;
 	int cartaParBajo = 0;
@@ -307,7 +327,7 @@ double Jugada::isParDoble()
 	return 0;
 }
 
-double Jugada::isPar()
+double Jugada::getPar()
 {
 	int cartaPar = 0;
 	int cartaMasAlta = this->cartas.at(this->cartas.size()-1)->getValorNumerico();
@@ -364,4 +384,36 @@ double Jugada::calcularValorJugada(int valorJuego, int valorCarta1, int valorCar
 			  (double)valorCarta3 *   10000 +
 			   (double)valorCarta4 *    100 +
 			    (double)valorCarta5;
+}
+
+bool Jugada::isEscaleraColor() {
+	return this->escaleraColor;
+}
+
+bool Jugada::isPoker() {
+	return this->poker;
+}
+
+bool Jugada::isFull() {
+	return this->full;
+}
+
+bool Jugada::isColor() {
+	return this->color;
+}
+
+bool Jugada::isEscalera() {
+	return this->escalera;
+}
+
+bool Jugada::isPierna() {
+	return this->pierna;
+}
+
+bool Jugada::isParDoble() {
+	return this->parDoble;
+}
+
+bool Jugada::isPar() {
+	return this->par;
 }
