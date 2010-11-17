@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string.h>
 #include <list>
+#include <set>
 #include "Panel.h"
 #include "Mesa.h"
 #include "Ventana.h"
@@ -38,6 +39,8 @@ private:
 	SDL_Surface* superficie;
 	SDL_Rect* offset;
 	SDL_Rect* contorno;
+
+	set<string> nombresJugadores;
 
 
 protected:
@@ -76,6 +79,9 @@ public:
 	virtual void borrarElemento(ElementoGrafico* elemento);
 
 	virtual void mostrarMensaje(string mensaje);
+
+	virtual void registrarNombreJugador(string nombre);
+	void limpiarFotosJugadores();
 
 	/**
 	* Fuerza el redibujo de todos los elementos de la ventana que se intersecten con el elemento

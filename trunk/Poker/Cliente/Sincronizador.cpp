@@ -73,3 +73,12 @@ void Sincronizador::registrarVentana(Ventana* ventana){
 	this->ventana = ventana;
 }
 
+void Sincronizador::limpiar() {
+	this->ventanaAuxiliar->limpiarFotosJugadores();
+	if (this->ventanaAuxiliar != NULL) {
+		delete (this->ventanaAuxiliar);
+		this->ventanaAuxiliar = NULL;
+		this->superficie = NULL;
+	}
+}
+

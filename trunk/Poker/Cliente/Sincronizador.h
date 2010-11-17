@@ -40,6 +40,8 @@ public:
 
 	void registrarVentana(Ventana* ventana);
 
+	void limpiar();
+
 };
 
 #endif //_SINCRONIZADOR_H__

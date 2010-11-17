@@ -74,6 +74,7 @@ public:
 	virtual void forzarRefresh(ElementoGrafico* elemento) {};
 	virtual int PushEvent(SDL_Event *event) { return 0; };
 	virtual void merge(SDL_Surface* superficie) {};
+	virtual void registrarNombreJugador(string nombre){};
 
 };
 

@@ -71,6 +71,16 @@ void VentanaAuxiliar::limpiar() {
 	this->panelComando = NULL;
 }
 
+void VentanaAuxiliar::limpiarFotosJugadores() {
+	// limpieza de las imagenes de los jugadores, para que se refresquen la proxima vez que levante
+	string path = RecursosCliente::getConfig()->get("cliente.configuracion.imagenes.path");
+	for(set<string>::iterator it = this->nombresJugadores.begin(); it != this->nombresJugadores.end(); it++) {
+		string instruccion = string("del ") + path + (*it) + ".bmp";
+		system(instruccion.c_str());
+	}
+	this->nombresJugadores.clear();
+}
+
 
 void VentanaAuxiliar::borrarElemento(ElementoGrafico* elemento){
 	if (this->mesa != NULL && this->mesa->getFondo() != NULL) {
@@ -279,4 +289,8 @@ void VentanaAuxiliar::mostrarMensaje(string mensaje){
 		this->mensaje->setTexto(mensaje);
 		this->mensaje->setVisible(true);
 	}
+}
+
+void VentanaAuxiliar::registrarNombreJugador(string nombre){
+	this->nombresJugadores.insert(nombre);
 }

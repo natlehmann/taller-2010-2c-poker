@@ -43,6 +43,9 @@ public:
 
 
 	virtual void mostrarMensaje(string mensaje) = 0;
+
+	virtual void registrarNombreJugador(string nombre) = 0;
+
 	/**
 	* Fuerza el redibujo de todos los elementos de la ventana que se intersecten con el elemento
 	* recibido por parametro.
