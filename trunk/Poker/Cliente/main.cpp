@@ -131,6 +131,7 @@ int main (int argc, char** argv)
 						}
 
 						UICliente::finalizarSDL();
+						Sincronizador::getInstancia()->limpiar();
 
 						delete(operacion);
 						operacion = NULL;

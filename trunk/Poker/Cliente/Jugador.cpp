@@ -162,6 +162,10 @@ void Jugador::setNombre(string nombre){
 		}
 		this->etiquetaNombre->setMensaje(nombre);
 		this->hayCambios = true;
+
+		if (!MensajesUtil::esVacio(nombre)) {
+			this->ventana->registrarNombreJugador(nombre);
+		}
 	}
 }
 
