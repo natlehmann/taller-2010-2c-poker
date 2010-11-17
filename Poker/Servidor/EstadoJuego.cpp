@@ -262,7 +262,7 @@ void EstadoJuego::agregarPanelBotones(DomTree* arbol, bool habilitados, bool pue
 	} else {
 
 		boton2->agregarAtributo("operacion", "OpUIClienteIgualarApuesta");
-		if (puedeSubirApuesta) {
+		if (puedeSubirApuesta || !habilitados) {
 			boton2->setTexto("Igualar");
 		} else {
 			boton2->setTexto("All In");
