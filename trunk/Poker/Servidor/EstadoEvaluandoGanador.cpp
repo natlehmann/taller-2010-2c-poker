@@ -47,7 +47,7 @@ string EstadoEvaluandoGanador::getEscenarioJuego(int idJugador){
 	this->agregarBote(arbol);
 	this->agregarJugadores(arbol, idJugador);
 	this->agregarCartasComunitarias(arbol);
-	this->agregarPanelBotones(arbol, false);
+	this->agregarPanelBotones(arbol, false, false);
 
 	list<string> nombresGanadores = ContextoJuego::getInstancia()->getNombresGanadores();
 	int cantidadGanadores = nombresGanadores.size();

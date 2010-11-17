@@ -115,7 +115,7 @@ void VentanaAdministracion::configurarControles() {
 	etFichas->setAncho(this->anchoColumna*4);
 	etFichas->setPosY((int)(this->altoFila*12.5));
 	etFichas->setAlto(this->altoFila*2);
-	etFichas->setFondo(NULL);
+	etFichas->setFondo(new Color(183,210,90));
 	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
 		etFichas->setFuente(new Fuente("9,78,44", 16, estilo));
 	} else {
@@ -224,7 +224,12 @@ void VentanaAdministracion::configurarControles() {
 	this->agregarComponentePanel(txRutaImagen);
 
 
-	Boton* btCargar = new Boton("Cargar Imagen");
+	Boton* btCargar = NULL;
+	if (ServiciosGraficos::getAnchoVentana() >= ANCHO_LIMITE_CORRECCION) {
+		btCargar = new Boton("Cargar Imagen");
+	} else {
+		btCargar = new Boton("Cargar");
+	}
 	btCargar->setId("btCargar");
 	btCargar->setPosX(this->anchoColumna*18);
 	btCargar->setPosY(this->altoFila*18);
