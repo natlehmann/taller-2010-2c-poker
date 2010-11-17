@@ -472,7 +472,7 @@ void ContextoJuego::finalizarRonda()
 		jugador->setApuesta(0);		
 		dao.actualizarFichas(jugador->getNombre(), jugador->getFichas());
 
-		if (jugador->isJugandoRonda() && jugador->getFichas() == 0) {
+		if (jugador->isJugandoRonda() && jugador->getFichas() <= this->mesa->getSmallBlind() * 2) {
 			jugador->setJugandoRonda(false);
 			jugador->setCarta1(NULL);
 			jugador->setCarta2(NULL);
@@ -568,7 +568,15 @@ void ContextoJuego::quitarJugador(int idCliente){
 }
 
 int ContextoJuego::getCantidadJugadoresActivos(){
-	return this->admJugadores->getCantidadJugadoresActivos();
+	//return this->admJugadores->getCantidadJugadoresActivos();
+	int jugadoresActivos = 0;
+	for (int i = 0; i < MAX_CANTIDAD_JUGADORES; i++) {
+		JugadorModelo* jugador = this->admJugadores->getJugadores()[i];
+		if (jugador->isActivo() && jugador->getFichas() > this->mesa->getSmallBlind() * 2) {
+			jugadoresActivos++;
+		}
+	}
+	return jugadoresActivos;
 }
 
 bool ContextoJuego::isTurnoJugador(int idJugador){

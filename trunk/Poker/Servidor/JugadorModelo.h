@@ -6,9 +6,6 @@
 #include "TimerServidor.h"
 
 #define NOMBRE_IMAGEN ""
-#define NIVEL_DE_CONFIANZA 0.70
-#define APUESTA_PATRON 20
-#define NIVEL_DE_CONFIANZA_SUBIR 0.5
 
 using namespace std;
 
@@ -91,7 +88,8 @@ public:
 	void apostar(int fichas);
 	void incrementarFichas(int cantidad);
 
-	bool subeApuesta(double azar, double confianzaEnJugada, int &fichas);
+	void tomarDecision(double confianza);
+	bool subeApuesta(double confianzaEnJugada, int &fichas);
 
 	void resetTimer();
 	int getSegundosTurno();
