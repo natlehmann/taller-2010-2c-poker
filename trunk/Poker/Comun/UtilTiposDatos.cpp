@@ -50,6 +50,22 @@ bool UtilTiposDatos::esEntero(string numero)
 	return true;
 }
 
+bool UtilTiposDatos::esEnteroPositivo(string numero) 
+{
+	if (numero.size() < 1) {
+		return false;
+	}
+	if (numero.size() == 1) {
+		return esDigito(numero[0]);
+	}
+	for (unsigned int i = 0; i < numero.size(); i++) {
+		if (!esDigito(numero[i])) {
+			return false;
+		}
+	}
+	return true;
+}
+
 int UtilTiposDatos::getEntero(string valor)
 {
 	int resul = -1;

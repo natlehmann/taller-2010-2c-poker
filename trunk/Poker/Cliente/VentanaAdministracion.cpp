@@ -439,11 +439,11 @@ bool VentanaAdministracion::ejecutarEvento(string controlId){
 	bool finalizar = false;
 	if (MensajesUtil::sonIguales(controlId, "btComprar"))
 	{
-		if (txCantComprar->getTexto().length() == 0 || !UtilTiposDatos::esEntero(txCantComprar->getTexto()))
+		if (txCantComprar->getTexto().length() == 0 || !UtilTiposDatos::esEnteroPositivo(txCantComprar->getTexto()))
 		{
 			if (txCantComprar->getTexto().length() == 0)
 				mostrarMensaje("Complete la cantidad de fichas e intente nuevamente.");
-			else if (!UtilTiposDatos::esEntero(txCantComprar->getTexto()))
+			else if (!UtilTiposDatos::esEnteroPositivo(txCantComprar->getTexto()))
 				mostrarMensaje("Cantidad invalida, corriga e intente nuevamente.");			
 			
 			lanzarEvento(100);

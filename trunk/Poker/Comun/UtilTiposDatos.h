@@ -25,6 +25,8 @@ public:
 
 	static bool esEntero(string numero);
 
+	static bool esEnteroPositivo(string numero);
+
 	static int getEntero(string numero);
 
 	static bool esDouble(string numero);
