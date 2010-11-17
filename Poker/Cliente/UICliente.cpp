@@ -15,6 +15,7 @@
 #include "DomTreeFactory.h"
 #include "Timer.h"
 #include "Planificador.h"
+#include "Ejecutor.h"
 #include <fstream>
 #include <cstdlib>
 
@@ -160,6 +161,10 @@ void UICliente::finalizarSDL()
 			SDL_WaitThread(UICliente::threadRefresh,NULL);
 		}
 		//SDL_KillThread(UICliente::threadRefresh);
+	}
+
+	if (Ejecutor::isEnEjecucion()) {
+		SDL_WaitThread(Ejecutor::getThread(), NULL);
 	}
 
 	SDL_Quit();

@@ -9,6 +9,7 @@
 #include "FabricaOperacionesCliente.h"
 #include "ServiciosGraficos.h"
 #include "Ejecutor.h"
+#include "Jugador.h"
 #include <typeinfo.h>
 #include <cstdlib>
 
@@ -87,6 +88,14 @@ VentanaImpl::~VentanaImpl(void)
 
 	delete (this->offset);
 	delete (this->contorno);
+
+	// limpieza de las imagenes de los jugadores, para que se refresquen la proxima vez que levante
+	string path = RecursosCliente::getConfig()->get("cliente.configuracion.imagenes.path");
+	for(set<string>::iterator it = this->nombresJugadores.begin(); it != this->nombresJugadores.end(); it++) {
+		string instruccion = string("del ") + path + (*it) + ".bmp";
+		system(instruccion.c_str());
+	}
+	this->nombresJugadores.clear();
 
 	SDL_DestroyMutex(this->eventLock);
 	eventLock = NULL;
@@ -538,4 +547,8 @@ void VentanaImpl::mostrarMensaje(string mensaje){
 		this->mensaje->setTexto(mensaje);
 		this->mensaje->setVisible(true);
 	}
+}
+
+void VentanaImpl::registrarNombreJugador(string nombre){
+	this->nombresJugadores.insert(nombre);
 }

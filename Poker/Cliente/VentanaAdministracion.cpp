@@ -110,7 +110,11 @@ void VentanaAdministracion::configurarControles() {
 	this->agregarElementoGrafico(etNombre);
 
 
-	etFichas = new Etiqueta("Fichas: " + MensajesUtil::intToString(this->cantFichas));
+	if (this->cantFichas >= 0) {
+		etFichas = new Etiqueta("Fichas: " + MensajesUtil::intToString(this->cantFichas));
+	} else {
+		etFichas = new Etiqueta("Fichas: ");
+	}
 	etFichas->setPosX(this->anchoColumna*18);
 	etFichas->setAncho(this->anchoColumna*4);
 	etFichas->setPosY((int)(this->altoFila*12.5));
