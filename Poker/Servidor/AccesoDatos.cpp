@@ -358,13 +358,11 @@ bool AccesoDatos::consultarCantFichas(string usuario)
 	string sql = "SELECT cantFichas FROM jugadores WHERE usuario = '" + usuario + "';";
 	return this->ejecutar(sql);
 }
-
 bool AccesoDatos::actualizarCantFichas(string usuario, int cantFichas)
 {
 	string sql = "UPDATE jugadores SET cantFichas = " + UtilTiposDatos::enteroAString(cantFichas) + " WHERE usuario = '" + usuario +  "';";
 	return this->ejecutarNonQuery(sql);
 }
-
 int AccesoDatos::grabarInicioSesion(string usuario, string esObservador, string esVirtual)
 {
 	int resul = -1;
@@ -372,6 +370,7 @@ int AccesoDatos::grabarInicioSesion(string usuario, string esObservador, string 
 	string horaInicio = this->getHoraActual();
 
 	// Primero se cierra las sesiones del usuario que podrian haber quedado abiertas por alguna razon
+	//if (this->validarUltimaSesionCerrada(usuario))
 	if (this->cerrarSesionesAnteriores(usuario))
 	{
 		string sql = "INSERT INTO sesion (usuario, fechaInicio, horaInicio, fechaFin, horaFin, observador, virtual) VALUES ('";
@@ -418,7 +417,12 @@ bool AccesoDatos::grabarFinSesion(int idSesion)
 	
 	return this->ejecutarNonQuery(sql);
 }
-
+bool AccesoDatos::consultarUltimaSesion(string usuario)
+{
+	string sql = "SELECT * FROM sesion WHERE usuario = '" + usuario + 
+				 "' and id = (SELECT MAX(id) FROM sesion WHERE usuario = '" + usuario + "')";
+	return this->ejecutar(sql);
+}
 bool AccesoDatos::validarCantFichasCompradasHoy(string usuario, int cantFichasAComprar)
 {
 	bool resul = false;
@@ -437,7 +441,25 @@ bool AccesoDatos::validarCantFichasCompradasHoy(string usuario, int cantFichasAC
 
 	return resul;
 }
+bool AccesoDatos::validarUltimaSesionCerrada(string usuario)
+{
+	bool resul = false;
+	
+	if (this->consultarUltimaSesion(usuario))
+	{
+		while (sqlite3_step(resultado)==SQLITE_ROW)
+		{
+			string fecha = string(reinterpret_cast<const char*>(sqlite3_column_text(resultado, 4)));
+			string hora = string(reinterpret_cast<const char*>(sqlite3_column_text(resultado, 5)));
+			
+			// Se valida que las fechas de cierre de sesion esten completas
+			if (fecha.length() > 0 && hora.length() > 0)
+				resul = true;
+		}		
+	}
 
+	return resul;
+}
 bool AccesoDatos::registrarCompraFichas(string usuario, int cantFichasCompradas)
 {
 	string fechaActual = this->getFechaActual();

@@ -36,19 +36,29 @@ bool OpLogin::ejecutarAccion(Socket* socket)
 		// El jugador ingresado existe en la BD --> Se valida password
 		if (MensajesUtil::sonIguales(jugador->getPassword(), password))
 		{
-			sesion = ad.grabarInicioSesion(usuario, esObservador, esVirtual);
-			
-			if (sesion > 0)
-			{	
-				// OK	--> Se da respuesta OK al cliente
-				respuesta = "OK";
-				logueado = true;
-			}
-			else
-			{
-				respuesta = "Se ha producido un error al intentar iniciar sesion: " + ad.getMensajeError();
-				ok = false;
-			}
+			//if (ad.validarUltimaSesionCerrada(usuario))
+			//{
+				sesion = ad.grabarInicioSesion(usuario, esObservador, esVirtual);
+				
+				if (sesion > 0)
+				{	
+					// OK	--> Se da respuesta OK al cliente
+					respuesta = "OK";
+					logueado = true;
+				}
+				else
+				{
+					respuesta = "Se ha producido un error al intentar iniciar sesion: " + ad.getMensajeError();
+					ok = false;
+				}
+
+			//}
+			//else
+			//{
+			//	respuesta = "El usuaro ya esta logueado.";
+			//	ok = false;
+			//}
+
 		}
 		else
 		{
