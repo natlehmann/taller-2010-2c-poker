@@ -103,6 +103,8 @@ class AccesoDatos
 		// Graba el inicio de sesion devolviendo el idSesion 
 		int grabarInicioSesion(string usuario, string esObservador, string esVirtual);
 		bool grabarFinSesion(int idSesion);
+		bool consultarUltimaSesion(string usuario);
+		bool validarUltimaSesionCerrada(string usuario);
 		/*********************************************************************************************************/
 
 		/************************** Metodos y funciones para obtener datos ESTADISTICOS *****************************/
