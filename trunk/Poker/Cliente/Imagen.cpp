@@ -4,6 +4,7 @@
 #include "ServiciosGraficos.h"
 #include "OperacionUICliente.h"
 #include "FabricaOperacionesCliente.h"
+#include "MensajesUtil.h"
 #include <fstream>
 
 
@@ -32,13 +33,19 @@ Imagen::Imagen(string nombre, bool solicitarImagen) {
 
 	this->nombreSinPath = nombre;
 
-	ifstream archivoExiste(this->nombre.c_str());
-	if (!archivoExiste.good() || solicitarImagen){
+	string jugDefault = RecursosCliente::getConfig()->get("cliente.tema.default.jugador.imagen.default");
+	string jugAusente = RecursosCliente::getConfig()->get("cliente.tema.default.jugador.ausente.imagen");
 
-		FabricaOperacionesCliente fab;
-		OperacionUICliente* operacion = fab.newOperacion("OpUIClienteSolicitarArchivo", nombre);
-		operacion->ejecutarAccion(NULL);
-		delete(operacion);
+	if (!MensajesUtil::sonIguales(nombre, jugDefault) && !MensajesUtil::sonIguales(nombre, jugAusente)){
+
+		ifstream archivoExiste(this->nombre.c_str());
+		if (!archivoExiste.good() || solicitarImagen){
+
+			FabricaOperacionesCliente fab;
+			OperacionUICliente* operacion = fab.newOperacion("OpUIClienteSolicitarArchivo", nombre);
+			operacion->ejecutarAccion(NULL);
+			delete(operacion);
+		}
 	}
 
 }
